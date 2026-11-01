@@ -9,8 +9,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Word Rush">
-<link rel="icon" type="image/png" href="icon.png">
-<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" type="image/png" href="icon.png?v=17">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=17">
 <style>html,body{margin:0;padding:0;height:100%;background:#1e1838}*,*::before,*::after{box-sizing:border-box}</style>
 <script>(function(){var s=document.createElement('script');s.src='https://telegram.org/js/telegram-web-app.js';s.async=true;s.onload=function(){window.dispatchEvent(new Event('tg-ready'))};document.head.appendChild(s);})();</script>
 <title>Word Rush</title>
@@ -543,6 +543,23 @@ label.btn{cursor:pointer}
 
 .tag3d.fork.q span{background:#2a1d4e;font:900 24px/1 var(--display);padding:8px 16px;letter-spacing:.06em;box-shadow:0 0 18px rgba(176,138,255,.6),0 4px 0 #1e1838}
 
+/* ---- v17: hints under the question card, compact English bubbles, cat ring ---- */
+#hint{top:120px;bottom:auto;left:50%;right:auto;transform:translateX(-50%);max-width:min(84%,330px);font:800 14px/1.25 var(--body);padding:7px 14px;border-radius:999px;background:rgba(30,24,56,.9);border:2px solid rgba(255,255,255,.18);letter-spacing:.01em}
+
+.tag3d.say{background:none;border:0;height:auto;box-shadow:none;padding:0;border-radius:0;place-items:initial}
+.tag3d.say span{font:900 13px/1.15 var(--body);padding:5px 11px;border-radius:14px 14px 14px 4px;white-space:nowrap}
+#vdown{font-size:0}
+#catRing{position:absolute;left:0;top:0;width:70px;height:70px;margin:-35px 0 0 -35px;z-index:6;pointer-events:none;display:grid;place-items:center;will-change:transform}
+#catRing svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+#catRing .cr-bg{fill:none;stroke:rgba(30,24,56,.55);stroke-width:9}
+#catRing .cr-fg{fill:none;stroke:#ff7ab8;stroke-width:7;stroke-linecap:round;stroke-dasharray:201;stroke-dashoffset:201;transition:stroke-dashoffset .08s linear;filter:drop-shadow(0 0 6px rgba(255,122,184,.9))}
+#catRing b{position:relative;font:900 15px/1 var(--display);color:#fff;-webkit-text-stroke:3px #3a1060;paint-order:stroke fill;animation:crPulse .32s ease-in-out infinite alternate}
+#catRing.hit b{animation:crHit .14s ease-out}
+@keyframes crPulse{from{transform:scale(.92)}to{transform:scale(1.08)}}
+@keyframes crHit{from{transform:scale(1.35)}to{transform:scale(1)}}
+.hardrun #qSay{display:none!important}
+.song-up{flex:none;height:34px;padding:0 10px;border-radius:12px;border:2.5px solid var(--ink);background:var(--sun);font:800 12px/1 var(--body);box-shadow:0 2px 0 var(--ink);color:var(--ink)}
+
 #perf{position:absolute;left:8px;right:8px;bottom:92px;z-index:9;font:700 10.5px/1.35 ui-monospace,Menlo,monospace;color:#fff;background:rgba(20,10,40,.8);border:2px solid rgba(255,255,255,.25);border-radius:10px;padding:6px 8px;pointer-events:none;white-space:pre-wrap;max-height:30vh;overflow:hidden}
 #perf b{color:#ffc93a}
 @media (prefers-reduced-motion:reduce){#qcard,#toast,.slot.enter,#banner.show .bn-in,.pill.bump,#lines{animation:none}.slot,.btn{transition:none}}
@@ -581,7 +598,8 @@ label.btn{cursor:pointer}
   <div id="splatLayer"></div><div id="shadowfx"></div>
   <div id="duel" hidden><div class="dl-top"><div id="duelHP"></div><div id="duelWord"></div><div class="dl-timer"><i id="duelTimer"></i></div></div><button class="dz dz-up"></button><button class="dz dz-left"></button><button class="dz dz-right"></button><button class="dz dz-down"></button></div>
   <div id="relicPop" hidden></div>
-  <div id="vdown" hidden><svg width="30" height="34" viewBox="0 0 30 34" aria-hidden="true"><path d="M15 3v24M5 18l10 11 10-11" fill="none" stroke="#c77dff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>свайп вниз</div>
+  <div id="vdown" hidden><svg width="30" height="34" viewBox="0 0 30 34" aria-hidden="true"><path d="M15 3v24M5 18l10 11 10-11" fill="none" stroke="#c77dff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div id="catRing" hidden><svg viewBox="0 0 80 80" aria-hidden="true"><circle class="cr-bg" cx="40" cy="40" r="32"/><circle id="crFill" class="cr-fg" cx="40" cy="40" r="32"/></svg><b>TAP!</b></div>
   <div id="stunUI" hidden><b>ТАПАЙ ПО БОССУ!</b><div class="stb"><i id="stunFill"></i></div><span id="stunHits">ударов: 0</span></div>
   <button id="btnSword" class="sword-btn" hidden aria-label="Удар мечом"><i><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M24.5 3.5 27.6 4.4 28.5 7.5 13.6 22.4 9.6 18.4z" fill="#d8ffcc" stroke="#9dff6a" stroke-width="1.6" stroke-linejoin="round"/><path d="M7.2 16.2 15.8 24.8M9.8 22.2 5.2 26.8" stroke="#ffd23a" stroke-width="3" stroke-linecap="round"/><circle cx="4.6" cy="27.4" r="2.1" fill="#ffd23a"/></svg></i></button>
   <div id="banner" hidden><div class="bn-in"><span class="bn-k" id="bnK"></span><b id="bnT"></b><span class="bn-s" id="bnS"></span></div></div>
@@ -759,7 +777,7 @@ label.btn{cursor:pointer}
         <div class="set-row"><span>Озвучка карточек</span><button id="setSay" class="toggle" aria-pressed="true">Вкл</button></div>
         <div class="set-row"><span>Вибрация</span><button id="setVibe" class="toggle" aria-pressed="true">Вкл</button></div>
                 <div class="set-row"><span>Время на ответ</span><div class="seg" id="setPace"><button data-pace="1">Обычное</button><button data-pace="1.35">Больше</button></div></div>
-        <div class="set-row"><span>Режим ХАРД<small class="set-sub">Быстрее, меньше времени на ответ, больше ловушек · конфеты ×2</small></span><button id="setHard" class="toggle" aria-pressed="false">Выкл</button></div>
+        <div class="set-row"><span>Режим ХАРД<small class="set-sub">Как Dark Souls: сердца не лечатся, волки меняются местами, после гибели конфеты остаются на дороге · конфеты ×2</small></span><button id="setHard" class="toggle" aria-pressed="false">Выкл</button></div>
         <div class="divider"></div>
         <h3>Игровые элементы</h3>
         <p class="note">Если забег кажется перегруженным — отключи лишнее. Изменения действуют со следующего забега.</p>
@@ -853,30 +871,30 @@ const W = {}; WORDS.forEach(w => W[w.id] = w);
 const POS = {n:'noun · сущ.', v:'verb · глаг.', adj:'adj · прил.'};
 /* ================= v11 CONTENT: chapters, relics, shop, quests, enemy lines ================= */
 const WORDS_CITY = [
- {id:'device',en:'device',ipa:'/dɪˈvaɪs/',pos:'n',ru:'устройство',ex:'This ___ can track your sleep.',col:'a mobile device',not:[]},
- {id:'software',en:'software',ipa:'/ˈsɒftweə/',pos:'n',ru:'программное обеспечение',ex:'You need new ___ to edit videos.',col:'install software',not:[]},
- {id:'update',en:'update',ipa:'/ˈʌpdeɪt/',pos:'n',ru:'обновление',ex:'The phone downloaded an ___ overnight.',col:'a software update',not:[]},
- {id:'download',en:'download',ipa:'/ˌdaʊnˈləʊd/',pos:'v',ru:'скачивать',ex:'You can ___ the app for free.',col:'download a file',not:[]},
- {id:'upload',en:'upload',ipa:'/ˌʌpˈləʊd/',pos:'v',ru:'загружать в сеть',ex:'She will ___ the photos tonight.',col:'upload a video',not:[]},
- {id:'battery',en:'battery',ipa:'/ˈbætri/',pos:'n',ru:'аккумулятор',ex:'My ___ is almost dead.',col:'a flat battery',not:[]},
- {id:'password',en:'password',ipa:'/ˈpɑːswɜːd/',pos:'n',ru:'пароль',ex:'Never share your ___ with anyone.',col:'a strong password',not:[]},
- {id:'account',en:'account',ipa:'/əˈkaʊnt/',pos:'n',ru:'учётная запись',ex:'Create an ___ to save your progress.',col:'log in to an account',not:[]},
- {id:'network',en:'network',ipa:'/ˈnetwɜːk/',pos:'n',ru:'сеть',ex:'The office ___ is down again.',col:'a wireless network',not:[]},
- {id:'wireless',en:'wireless',ipa:'/ˈwaɪələs/',pos:'adj',ru:'беспроводной',ex:'These ___ headphones are very light.',col:'a wireless connection',not:[]},
- {id:'browser',en:'browser',ipa:'/ˈbraʊzə/',pos:'n',ru:'браузер',ex:'Open the link in your ___.',col:'a web browser',not:[]},
- {id:'delete',en:'delete',ipa:'/dɪˈliːt/',pos:'v',ru:'удалять',ex:'Don’t ___ the file by mistake.',col:'delete a message',not:[]},
- {id:'install',en:'install',ipa:'/ɪnˈstɔːl/',pos:'v',ru:'устанавливать',ex:'It takes a minute to ___ the game.',col:'install an app',not:[]},
- {id:'charge',en:'charge',ipa:'/tʃɑːdʒ/',pos:'v',ru:'заряжать',ex:'I need to ___ my laptop.',col:'charge a phone',not:[]},
- {id:'digital',en:'digital',ipa:'/ˈdɪdʒɪtl/',pos:'adj',ru:'цифровой',ex:'We keep all our photos in ___ form.',col:'a digital camera',not:[]},
- {id:'virtual',en:'virtual',ipa:'/ˈvɜːtʃuəl/',pos:'adj',ru:'виртуальный',ex:'They met in a ___ classroom.',col:'virtual reality',not:[]},
- {id:'data',en:'data',ipa:'/ˈdeɪtə/',pos:'n',ru:'данные',ex:'The app collects ___ about your steps.',col:'personal data',not:[]},
- {id:'storage',en:'storage',ipa:'/ˈstɔːrɪdʒ/',pos:'n',ru:'хранилище, память',ex:'The phone has 128 GB of ___.',col:'cloud storage',not:[]},
- {id:'keyboard',en:'keyboard',ipa:'/ˈkiːbɔːd/',pos:'n',ru:'клавиатура',ex:'This ___ is too loud for the office.',col:'a wireless keyboard',not:[]},
- {id:'signal',en:'signal',ipa:'/ˈsɪɡnəl/',pos:'n',ru:'сигнал',ex:'There is no ___ in the mountains.',col:'a weak signal',not:[]},
- {id:'settings',en:'settings',ipa:'/ˈsetɪŋz/',pos:'n',ru:'настройки',ex:'Change the language in the ___.',col:'privacy settings',not:[]},
- {id:'crash',en:'crash',ipa:'/kræʃ/',pos:'v',ru:'зависать, «падать»',ex:'My computer can ___ if I open too many tabs.',col:'the system crashed',not:[]},
- {id:'backup',en:'backup',ipa:'/ˈbækʌp/',pos:'n',ru:'резервная копия',ex:'Always make a ___ of important files.',col:'make a backup',not:[]},
- {id:'screen',en:'screen',ipa:'/skriːn/',pos:'n',ru:'экран',ex:'The ___ on my phone is cracked.',col:'a touch screen',not:[]}
+ {id:'encryption',en:'encryption',ipa:'/ɪnˈkrɪpʃn/',pos:'n',ru:'шифрование',ex:'Strong ___ keeps your messages private.',col:'end-to-end encryption',not:[]},
+ {id:'bandwidth',en:'bandwidth',ipa:'/ˈbændwɪdθ/',pos:'n',ru:'пропускная способность',ex:'Streaming 4K video needs a lot of ___.',col:'high bandwidth',not:[]},
+ {id:'latency',en:'latency',ipa:'/ˈleɪtənsi/',pos:'n',ru:'задержка отклика',ex:'Gamers hate high ___ in online matches.',col:'low latency',not:['delay']},
+ {id:'firmware',en:'firmware',ipa:'/ˈfɜːmweə/',pos:'n',ru:'прошивка, встроенное ПО',ex:'Update the router’s ___ to fix the bug.',col:'a firmware update',not:[]},
+ {id:'algorithm',en:'algorithm',ipa:'/ˈælɡərɪðəm/',pos:'n',ru:'алгоритм',ex:'The ___ decides which videos you see next.',col:'a search algorithm',not:[]},
+ {id:'interface',en:'interface',ipa:'/ˈɪntəfeɪs/',pos:'n',ru:'интерфейс',ex:'The new app has a clean, simple ___.',col:'a user interface',not:[]},
+ {id:'compatible',en:'compatible',ipa:'/kəmˈpætəbl/',pos:'adj',ru:'совместимый',ex:'This charger is not ___ with my laptop.',col:'compatible with',not:[]},
+ {id:'obsolete',en:'obsolete',ipa:'/ˈɒbsəliːt/',pos:'adj',ru:'устаревший',ex:'Floppy disks became ___ years ago.',col:'become obsolete',not:[]},
+ {id:'malfunction',en:'malfunction',ipa:'/mælˈfʌŋkʃn/',pos:'n',ru:'неисправность, сбой',ex:'A sensor ___ stopped the whole line.',col:'a technical malfunction',not:['glitch']},
+ {id:'vulnerability',en:'vulnerability',ipa:'/ˌvʌlnərəˈbɪləti/',pos:'n',ru:'уязвимость',ex:'Hackers used a ___ in the old software.',col:'a security vulnerability',not:[]},
+ {id:'authentication',en:'authentication',ipa:'/ɔːˌθentɪˈkeɪʃn/',pos:'n',ru:'проверка подлинности',ex:'Two-factor ___ makes your account safer.',col:'two-factor authentication',not:[]},
+ {id:'breach',en:'breach',ipa:'/briːtʃ/',pos:'n',ru:'утечка, взлом',ex:'The data ___ exposed millions of emails.',col:'a data breach',not:[]},
+ {id:'deploy',en:'deploy',ipa:'/dɪˈplɔɪ/',pos:'v',ru:'развёртывать, запускать',ex:'The team will ___ the new version tonight.',col:'deploy an update',not:[]},
+ {id:'troubleshoot',en:'troubleshoot',ipa:'/ˈtrʌblʃuːt/',pos:'v',ru:'искать и устранять неполадки',ex:'Restart first, then ___ the network.',col:'troubleshoot a problem',not:[]},
+ {id:'streamline',en:'streamline',ipa:'/ˈstriːmlaɪn/',pos:'v',ru:'упрощать, оптимизировать',ex:'Automation helped ___ the whole process.',col:'streamline a process',not:[]},
+ {id:'automate',en:'automate',ipa:'/ˈɔːtəmeɪt/',pos:'v',ru:'автоматизировать',ex:'We ___ boring tasks with simple scripts.',col:'automate a task',not:[]},
+ {id:'seamless',en:'seamless',ipa:'/ˈsiːmləs/',pos:'adj',ru:'бесшовный, плавный',ex:'The switch between my devices is ___.',col:'a seamless experience',not:[]},
+ {id:'emulate',en:'emulate',ipa:'/ˈemjuleɪt/',pos:'v',ru:'эмулировать, имитировать',ex:'This app can ___ an old game console.',col:'emulate a device',not:[]},
+ {id:'redundant',en:'redundant',ipa:'/rɪˈdʌndənt/',pos:'adj',ru:'избыточный, резервный',ex:'The servers keep ___ copies of the data.',col:'redundant systems',not:[]},
+ {id:'glitch',en:'glitch',ipa:'/ɡlɪtʃ/',pos:'n',ru:'сбой, глюк',ex:'A small ___ froze the game for a second.',col:'a minor glitch',not:['malfunction']},
+ {id:'scalable',en:'scalable',ipa:'/ˈskeɪləbl/',pos:'adj',ru:'масштабируемый',ex:'The startup needs a ___ cloud system.',col:'a scalable solution',not:[]},
+ {id:'outage',en:'outage',ipa:'/ˈaʊtɪdʒ/',pos:'n',ru:'отключение, перебой',ex:'A power ___ shut down the servers.',col:'a power outage',not:[]},
+ {id:'intuitive',en:'intuitive',ipa:'/ɪnˈtjuːɪtɪv/',pos:'adj',ru:'интуитивно понятный',ex:'Kids find touch screens very ___.',col:'an intuitive design',not:[]},
+ {id:'peripheral',en:'peripheral',ipa:'/pəˈrɪfərəl/',pos:'n',ru:'периферийное устройство',ex:'A mouse is a common computer ___.',col:'computer peripherals',not:[]}
 ];
 const WORDS_PORT = [
  {id:'luggage',en:'luggage',ipa:'/ˈlʌɡɪdʒ/',pos:'n',ru:'багаж',ex:'How much ___ can I take on the plane?',col:'hand luggage',not:[]},
@@ -1071,14 +1089,15 @@ const QUEST_POOL = [
 
 /* enemy lines (English with a small Russian subtitle) */
 const LINES = {
-  wolfSpawn:[['Grr… do you know me?', 'Грр… узнаёшь меня?'], ['This word is mine!', 'Это слово моё!'], ['Guess fast, little hero!', 'Угадывай быстрее, малыш!'], ['You forgot me, didn’t you?', 'Ты ведь меня забыла?']],
-  wolfDie:[['Nooo!', 'Неет!'], ['Not fair!', 'Нечестно!'], ['I’ll be back…', 'Я ещё вернусь…'], ['You remembered!', 'Ты вспомнила!']],
-  wolfWin:[['Ha! Wrong word!', 'Ха! Не то слово!'], ['Too slow!', 'Слишком медленно!'], ['Try again… if you can!', 'Попробуй ещё… если сможешь!']],
-  vampSpawn:[['Your candies smell sweet…', 'Твои конфеты так пахнут…'], ['Choose wisely, mortal.', 'Выбирай мудро, смертная.']],
-  vampSteal:[['Mine now!', 'Теперь моё!'], ['Delicious!', 'Вкуснятина!']],
-  vampDie:[['Impossible!', 'Невозможно!'], ['You… remembered…', 'Ты… вспомнила…']],
-  catSpit:[['Pthoo!', 'Тьфу!'], ['Meow! No peeking!', 'Мяу! Не подглядывай!'], ['Purr… guess blind!', 'Мурр… угадывай вслепую!']],
-  duel:[['Let us duel, word-hunter!', 'Сразимся, охотница за словами!'], ['Parry this!', 'Отрази это!'], ['Faster, faster!', 'Быстрее, быстрее!']]
+  wolfSpawn:[['Know me?'], ['This word is mine!'], ['Guess fast!'], ['Forgot me?']],
+  wolfDie:[['Nooo!'], ['Not fair!'], ['I’ll be back…'], ['You remembered!']],
+  wolfWin:[['Wrong word!'], ['Too slow!'], ['Ha-ha!']],
+  vampSpawn:[['Sweet candies…'], ['Choose wisely.']],
+  vampSteal:[['Mine now!'], ['Delicious!']],
+  vampDie:[['Impossible!'], ['You… remembered…']],
+  catSpit:[['Catch!'], ['Meow!'], ['Jump, hero!']],
+  catBite:[['Gotcha!'], ['Nom nom!'], ['Mine!']],
+  duel:[['Duel me!'], ['Parry this!'], ['Faster!']]
 };
 const pickLine = k => LINES[k][ri(LINES[k].length)];
 
@@ -1159,7 +1178,7 @@ const curCh = () => CHAPTERS.find(c => c.id === S.chapter) || CHAPTERS[0];
 const chIds = ch => (CH_WORDS[(ch || curCh()).id] || []).filter(id => W[id]);
 const chList = ch => chIds(ch).map(id => W[id]);
 const chUnlocked = ch => !ch.after || !!S.exam[ch.after];
-const hardMul = () => S.hard ? 1.15 : 1;
+const hardMul = () => S.hard ? 1.15 * ((typeof G !== 'undefined' && G.hardBoost) || 1) : 1;
 
 /* ---------- saving: local copy + private cloud copy for this viewer + file / code export ---------- */
 const CLOUD = {ref:null, ok:false, status:'local', at:0, timer:0, busy:false, again:false, dl:null};
@@ -1258,7 +1277,7 @@ function questEvent(id, v){
   for (const q of S.daily.q) {
     if (q.id !== id || q.done) continue;
     q.p = MAX_Q[id] ? Math.max(q.p, v) : q.p + (v == null ? 1 : v);
-    if (q.p >= q.n) { q.p = q.n; q.done = true; const tpl = QUEST_POOL.find(p => p.id === id); if (G.mode === 'run' || G.mode === 'boss') popText('Задание выполнено!', hero.g.position.x, 3.2, 0, 'pup'); else toast('Задание выполнено!', tpl.t.replace('{n}', q.n), 'good'); sfx.pup(); }
+    if (q.p >= q.n) { q.p = q.n; q.done = true; const tpl = QUEST_POOL.find(p => p.id === id); if (G.mode === 'run' || G.mode === 'boss') popText('Quest done!', hero.g.position.x, 3.2, 0, 'pup'); else toast('Задание выполнено!', tpl.t.replace('{n}', q.n), 'good'); sfx.pup(); }
   }
 }
 function claimQuest(i){
@@ -1460,7 +1479,7 @@ function homeExtras(){
   $('#btnExam').hidden = !examReady();
   ensureDaily(); const qr = questsReady(), qb = $('#qBadge'); qb.hidden = !qr; qb.textContent = qr;
   if (ch.custom && L.length < 4) { $('#btnStart').disabled = true; $('#startTitle').textContent = 'Добавь свои слова'; $('#startSub').textContent = 'Нужно хотя бы 4 слова — открой «Мои слова»'; }
-  if (S.hard) $('#homeNote').textContent = 'Режим ХАРД: быстрее, меньше времени, больше ловушек, конфеты ×2. ' + $('#homeNote').textContent;
+  if (S.hard) $('#homeNote').textContent = 'ХАРД: сердца не лечатся, волки меняются местами, погибнешь — конфеты останутся на дороге. ' + $('#homeNote').textContent;
   if (examReady()) $('#homeNote').textContent = 'Все слова главы изучены — сдай экзамен у ворот, чтобы открыть следующую главу. ' + $('#homeNote').textContent;
 }
 /* ================= v14 TELEGRAM MINI APP: full height, no swipe-to-close, native haptics, saves in Telegram's cloud ================= */
@@ -1987,7 +2006,7 @@ function foldLoop(buf, loopLen, rmsT, peak){
   const rms = Math.sqrt(ss / N), k = mx > 0 ? Math.min(rmsT / Math.max(1e-6, rms), peak / mx) : 1; for (let i = 0; i < N; i++) out[i] *= k;
   return {data:out, sr};
 }
-async function renderMusic(){
+async function renderMusic0(){
   const song = curSong(), id = song.id;
   if (MUS.cache[id] && MUS.rawTense) {
     if (MUS.rawId !== id) { MUS.raw = MUS.cache[id]; MUS.rawId = id; MUS.ab = MUS.abCache[id] || null; }
@@ -2013,7 +2032,7 @@ async function renderMusic(){
 }
 function musicBuffers(a){
   const mkb = r => { const b = a.createBuffer(1, r.data.length, r.sr); b.getChannelData(0).set(r.data); return b; };
-  if (!MUS.ab && MUS.raw) { MUS.ab = MUS.raw.map(mkb); MUS.abCache[MUS.rawId] = MUS.ab; }
+  if (!MUS.ab && MUS.raw && MUS.raw !== 'custom') { MUS.ab = MUS.raw.map(mkb); MUS.abCache[MUS.rawId] = MUS.ab; }
   if (!MUS.abTense && MUS.rawTense) MUS.abTense = MUS.rawTense.map(mkb);
 }
 function musicOn(){ return !S.muted && S.music !== false; }
@@ -2021,6 +2040,7 @@ function musicPlay(mode){
   MUS.want = mode;
   if (!musicOn()) return;
   const a = audio(); if (!a) return;
+  if (curSong().id === 'custom') { if (!MUS.customAB || ((mode === 'boss' || mode === 'tense') && !MUS.rawTense)) { renderMusic(); if (G.mode === 'settings') renderSongs(); return; } musicBuffers(a); if (musicPlayCustom(mode, a)) return; }
   if (!MUS.raw || (mode === 'boss' || mode === 'tense' ? !MUS.rawTense : MUS.rawId !== curSong().id)) { renderMusic(); if (G.mode === 'settings') renderSongs(); return; }
   musicBuffers(a);
   if (MUS.mode === mode && MUS.bus) return;
@@ -2028,10 +2048,10 @@ function musicPlay(mode){
   const list = (mode === 'boss' || mode === 'tense') ? (MUS.abTense || MUS.ab) : MUS.ab; if (!list) return;
   const t0 = a.currentTime + 0.06, bus = a.createGain(); bus.gain.setValueAtTime(0.0001, t0); bus.gain.linearRampToValueAtTime(MUS.duck ? MUSIC_VOL * 0.2 : MUSIC_VOL, t0 + 1.1); bus.connect(a.destination);
   MUS.srcs = list.map((b, i) => { const s = a.createBufferSource(); s.buffer = b; s.loop = true; const g = a.createGain(); g.gain.value = mode === 'boss' ? 1 : mode === 'tense' ? TENSE_MIX[i] : mode === 'preview' ? LAYER_MIX[3][i] : LAYER_MIX[clamp(MUS.stage, 0, 3)][i]; s.connect(g); g.connect(bus); s.start(t0); return {s, g}; });
-  MUS.bus = bus; MUS.mode = mode;
+  MUS.bus = bus; MUS.mode = mode; MUS.custom = false; setMediaMeta();
 }
 function musicStage(n){
-  MUS.stage = n; if (MUS.mode !== 'run' || !AC) return;
+  MUS.stage = n; if (MUS.mode !== 'run' || !AC || MUS.custom) return;
   const t = AC.currentTime; MUS.srcs.forEach((x, i) => { x.g.gain.cancelScheduledValues(t); x.g.gain.setTargetAtTime(LAYER_MIX[clamp(n, 0, 3)][i], t, 0.6); });
 }
 function musicDuck(on){
@@ -2039,6 +2059,7 @@ function musicDuck(on){
   const t = AC.currentTime; MUS.bus.gain.cancelScheduledValues(t); MUS.bus.gain.setTargetAtTime(on ? MUSIC_VOL * 0.2 : MUSIC_VOL, t, 0.15);
 }
 function musicStop(fade, keepWant){
+  rememberCustomPos();
   if (!keepWant) MUS.want = null;
   const bus = MUS.bus, srcs = MUS.srcs; MUS.bus = null; MUS.srcs = []; MUS.mode = null;
   if (!bus || !AC) return;
@@ -2048,7 +2069,7 @@ function musicStop(fade, keepWant){
 }
 document.addEventListener('visibilitychange', () => { if (MUS.bus) musicDuck(document.hidden || G.paused); });
 
-function autoSay(text){ if (S.autoSay !== false) speak(text); }
+function autoSay(text){ if (S.autoSay !== false && !(S.hard && (G.mode === 'run' || G.mode === 'boss'))) speak(text); }
 function speak(text){
   if (S.muted || !('speechSynthesis' in window)) return;
   try { const u = new SpeechSynthesisUtterance(text); u.lang = voice ? voice.lang : 'en-GB'; if (voice) u.voice = voice; u.rate = 0.9; u.onstart = () => { if (window.__mark) window.__mark('речь: начало', 0); }; u.onend = () => { if (window.__mark) window.__mark('речь: конец', 0); }; u.onerror = () => { if (window.__mark) window.__mark('речь: ошибка', 0); }; const ss = window.speechSynthesis; if (ss.speaking || ss.pending) ss.cancel(); ss.speak(u); } catch(e) {}
@@ -2166,7 +2187,7 @@ async function loadGLB(loader, name){
 }
 async function loadAssets(setProgress){
   const loader = new T.GLTFLoader();
-  const files = [['hero3', 1.27], ['vamp3', 1.24], ['cat3', 0.23], ['wolf', 0.74], ['wba', 1.26], ['props', 0.36]];
+  const files = [['hero3', 1.27], ['vamp3', 1.24], ['cat4', 0.9], ['wolf', 0.74], ['wba', 1.26], ['props', 0.36]];
   const total = files.reduce((a, f) => a + f[1], 0); let done = 0; const got = {};
   for (const [name, w] of files) {
     setProgress((done + w * 0.15) / total);
@@ -2174,13 +2195,13 @@ async function loadAssets(setProgress){
     document.querySelectorAll('script').forEach(s => { if (s.text.length > 50000 && s.text.slice(0, 40).indexOf('WR_GLB') >= 0) s.remove(); });
     done += w; setProgress(done / total);
   }
-  A.heroGL = got.hero3; A.wolfGL = got.wolf; A.vampGL = got.vamp3; A.catGL = got.cat3;
+  A.heroGL = got.hero3; A.wolfGL = got.wolf; A.vampGL = got.vamp3; A.catGL = got.cat4; got.cat4.animations = animClips('cat4', true);
   indexNodes(got.wba.scene, A.wba); indexNodes(got.props.scene, A.props);
   [A.wba, A.props].forEach(set => Object.keys(set).forEach(k => prepNode(set[k])));
-  prepNode(got.wolf.scene); prepNode(got.hero3.scene); prepNode(got.vamp3.scene); prepNode(got.cat3.scene);
+  prepNode(got.wolf.scene); prepNode(got.hero3.scene); prepNode(got.vamp3.scene); prepNode(got.cat4.scene);
   const defs = {mummy:[1.7,0], skeleton:[1.7,0], zombie:[1.75,0], witchcat:[1.45,0], jack:[1.25,0], ghost1:[1.5,0.35], ghost2:[1.5,0.35], bat:[0.85,1.05]};
   Object.keys(defs).forEach(k => { const n = A.wba[k]; if (!n) throw new Error('model ' + k); const s = sizeOf(n); A.enemy[k] = {node:n, s:defs[k][0] / s.y, fl:defs[k][1], h:defs[k][0]}; });
-  Object.keys(A.enemy).forEach(k => addOutlines(A.enemy[k].node)); addOutlines(got.wolf.scene); addOutlines(got.hero3.scene); addOutlines(got.vamp3.scene); addOutlines(got.cat3.scene); addOutlines(A.wba.plant); addOutlines(A.wba.witch);
+  Object.keys(A.enemy).forEach(k => addOutlines(A.enemy[k].node)); addOutlines(got.wolf.scene); addOutlines(got.hero3.scene); addOutlines(got.vamp3.scene); addOutlines(got.cat4.scene); addOutlines(A.wba.plant); addOutlines(A.wba.witch);
   A.ok = true;
 }
 
@@ -2896,7 +2917,7 @@ function bounceHero(o, u){
   sfx.boing(); haptic(HAP.pup); burst(o.position.x, 0.9, o.position.z, 0xff7aa8, 10, 5);
   const L = u.lane, ws = Math.max(6, G.ws);
   for (let k = 0; k < 9; k++) { const t = 0.12 + k * 0.095, y = 16 * t - 17 * t * t; spawnCoin(LANES[L], -ws * t, y + 0.95); }
-  popText('Батут!', LANES[L], 2.4, 0, 'pup');
+  popText('Boing!', LANES[L], 2.4, 0, 'pup');
 }
 
 function buildSceneryGLB(){
@@ -3462,7 +3483,7 @@ function updateObstacles(sdt){
       if (hitLog || hitRock || hitPump || hitBats) {
         if (G.shadowT > 0) { u.hit = true; }
         else if (G.dashT > 0) smashObstacle(o, 'dash');
-        else if (G.shieldT > 0) { G.shieldT = 0; smashObstacle(o, 'shield'); popText('Щит!', hx, 1.6, 0, 'good'); }
+        else if (G.shieldT > 0) { G.shieldT = 0; smashObstacle(o, 'shield'); popText('Shield!', hx, 1.6, 0, 'good'); }
         else {
           u.hit = true; G.combo = 0; renderCombo(); G.coinsRun = Math.max(0, G.coinsRun - 5); renderCoins();
           hero.hurt = 0.3; G.freeze = 0.05; shake(0.22); sfx.bump(); hurtFx(); haptic(HAP.bump);
@@ -3542,13 +3563,13 @@ function batsArm(o, u){
     u.taps.push(addTap({r:95, pos:out => { if (!b.userData.alive || u.state === 'done' || u.state === 'dive') return false; out.set(o.position.x + b.position.x, o.position.y + b.position.y + 0.2, o.position.z + b.position.z); return true; }, tap:() => batTap(o, u, b)}));
     $('#toast').hidden = true; u.tag = getTag('×' + u.left, 'bat'); u.tag.big = true;
     showTag(u.tag, out => { if (u.state === 'done' || u.state === 'dive' || !b.userData.alive) return false; out.set(o.position.x + b.position.x, o.position.y + b.position.y + 1.25, o.position.z); return true; }, 0);
-    if (!G.batTapHinted) { G.batTapHinted = true; hint('Летучая мышь! Тапни по ней ' + u.need + ' ' + timesRu(u.need), 2800); }
+    if (!G.batTapHinted) { G.batTapHinted = true; hint('Tap the bat ×' + u.need, 2400); }
   } else {
     u.parts.forEach(b => u.taps.push(addTap({slash:true, r:62, live:() => (u.state === 'in' || u.state === 'hover') && b.userData.alive,
       pos:out => { out.set(o.position.x + b.position.x, o.position.y + b.position.y + 0.15, o.position.z + b.position.z); return true; }, hit:() => batSlash(o, u, b)})));
     $('#toast').hidden = true; u.tag = getTag('Проведи линию!', 'bat slash'); u.tag.big = true;
     showTag(u.tag, out => { if (u.state === 'done' || u.state === 'dive') return false; out.set(o.position.x, o.position.y + 3.6, o.position.z); return true; }, 0);
-    if (!G.batSlashHinted) { G.batSlashHinted = true; hint('Стая мышей! Проведи пальцем линию через всех', 2800); }
+    if (!G.batSlashHinted) { G.batSlashHinted = true; hint('Swipe through the bats!', 2400); }
   }
 }
 function batTap(o, u, b){
@@ -3574,7 +3595,7 @@ function batsKill(o, u, why){
   u.parts.forEach(b => { if (b.userData.alive) { b.userData.alive = false; burst(o.position.x + b.position.x, o.position.y + b.position.y, o.position.z, 0xc77dff, 6, 4); } });
   const gain = why === 'sword' ? 2 : 4; G.coinsRun += gain; renderCoins();
   flyCoins(o.position.x + (u.mode === 'tap' ? u.parts[0].position.x : 0), 2.4, o.position.z, 3);
-  popText(why === 'slash' ? 'Разрезал! +' + gain : 'Бац! +' + gain, o.position.x + (u.mode === 'tap' ? u.parts[0].position.x : 0), 3.2, o.position.z, 'gain');
+  popText(why === 'slash' ? 'Slash! +' + gain : 'Bonk! +' + gain, o.position.x + (u.mode === 'tap' ? u.parts[0].position.x : 0), 3.2, o.position.z, 'gain');
   sfx.smash(); haptic(HAP.good); shake(0.12);
 }
 function batsHitHero(o, u){
@@ -3582,7 +3603,7 @@ function batsHitHero(o, u){
   const hx = hero.g.position.x;
   if (G.shadowT > 0) return;
   if (G.dashT > 0) { batsKill(o, u, 'sword'); return; }
-  if (G.shieldT > 0) { G.shieldT = 0; batsKill(o, u, 'sword'); popText('Щит!', hx, 1.6, 0, 'good'); return; }
+  if (G.shieldT > 0) { G.shieldT = 0; batsKill(o, u, 'sword'); popText('Shield!', hx, 1.6, 0, 'good'); return; }
   G.combo = 0; renderCombo(); G.coinsRun = Math.max(0, G.coinsRun - 5); renderCoins();
   hero.hurt = 0.3; G.freeze = 0.05; shake(0.22); sfx.bump(); hurtFx(); haptic(HAP.bump);
   burst(hx, 1.6, 0, 0xc77dff, 12, 5); toast('Мыши налетели!', 'Комбо сброшено, −5 конфет', 'bad');
@@ -3670,7 +3691,7 @@ function vampOff(){
 function vampSteal(){
   const n = Math.min(G.coinsRun, 15); G.coinsRun -= n; renderCoins();
   const p = V.g.position;
-  popText(n ? 'Вампир украл ' + n + '!' : 'Вампир хохочет!', p.x, 3.2, p.z, 'vamp'); if (n) { flyCoinsOut(p.x, 2.2, p.z, Math.min(6, 2 + (n / 4 | 0))); bumpEl(coinPill); }
+  popText(n ? 'Stolen −' + n : 'Ha-ha-ha!', p.x, 3.2, p.z, 'vamp'); if (n) { flyCoinsOut(p.x, 2.2, p.z, Math.min(6, 2 + (n / 4 | 0))); bumpEl(coinPill); }
   haptic(HAP.bad); flashFx('rgba(120,40,160,.45)');
 }
 function updateVamp(sdt){
@@ -3680,7 +3701,7 @@ function updateVamp(sdt){
   if (V.mode === 'duel') { updateVampDuel(sdt); return; }
   if (V.mode === 'road') {
     g.position.z += G.ws * sdt; V.inner.scale.y = 2.6 * (1 + Math.sin(G.clock * 2.2) * 0.012);
-    if (!V.sfxDone && g.position.z > -16) { V.sfxDone = true; sfx.vamp(); if (V.seen === 1) hint('Кто это лежит у дороги?..', 2400); else if (V.seen === 3) hint('Опять он… Кажется, он идёт за тобой', 2400); }
+    if (!V.sfxDone && g.position.z > -16) { V.sfxDone = true; sfx.vamp(); if (V.seen === 1) hint('Who’s that?..', 2200); else if (V.seen === 3) hint('He’s back…', 2200); }
     if (g.position.z > 14) vampOff();
   } else if (V.mode === 'exit') {
     V.ex += sdt; const k = V.ex;
@@ -3718,9 +3739,10 @@ function flyCoinsOut(x, y, z, n){
 /* ================= CAT: hops onto a monster and hides its answer until shooed ================= */
 const CAT = {g:null, inner:null, mode:'off', e:null, q:null, lane:-1, taps:0, tap:null, t:0};
 function buildCat(){
-  const n = A.catGL && A.catGL.scene; if (!n) return;
-  const g = new T.Group(), inner = new T.Group(); inner.scale.setScalar(0.95); inner.add(n); g.add(inner);
-  Object.assign(CAT, {g, inner});
+  if (!A.catGL) return;
+  const rig = catRigClone(), g = new T.Group(), inner = new T.Group(); inner.scale.setScalar(0.95); inner.add(rig.g); g.add(inner);
+  Object.assign(CAT, {g, inner, rig});
+  buildBiteCat();
 }
 function catJump(q, lane){
   if (!CAT.g || CAT.mode !== 'off') return;
@@ -3728,15 +3750,15 @@ function catJump(q, lane){
   CAT.mode = 'jump'; CAT.e = e; CAT.q = q; CAT.lane = lane; CAT.taps = 0; CAT.t = 0;
   const side = LANES[lane] >= 0 ? 1 : -1; CAT.from = new T.Vector3(side * 4.4, 0, 1.5); CAT.to = new T.Vector3(0, e.plaqueY - 0.5, 0);
   CAT.g.position.copy(CAT.from); CAT.g.position.x -= e.g.position.x; CAT.g.scale.setScalar(1); CAT.g.rotation.set(0, 0, 0); e.g.add(CAT.g);
-  CAT.from.copy(CAT.g.position);
+  CAT.from.copy(CAT.g.position); if (CAT.rig) CAT.rig.play('Leap', 1.6, true, 1.0);
   sfx.meow();
 }
 function catLand(){
-  const e = CAT.e, q = CAT.q; CAT.mode = 'on'; e.catH = 0.95;
+  const e = CAT.e, q = CAT.q; CAT.mode = 'on'; e.catH = 0.95; if (CAT.rig) CAT.rig.play('Bite', 0.7, false, 0, 0.15);
   if (e.tag) { CAT.saved = e.tag.sp.textContent; e.tag.sp.textContent = '???'; e.tag.el.classList.add('cat'); }
   if (q === G.current && G.phase === 'question') { const s = slots[CAT.lane]; s.firstChild.textContent = '??? — кот'; s.classList.add('cat'); }
   CAT.tap = addTap({r:90, pos:out => { if (CAT.mode !== 'on') return false; CAT.g.getWorldPosition(out); out.y += 0.55; return true; }, tap:catTap});
-  if (!G.catHinted) { G.catHinted = true; hint('Кот спрятал ответ! Тапни по нему 3 раза', 2600); }
+  if (!G.catHinted) { G.catHinted = true; hint('The cat hid it! Tap ×3', 2400); }
 }
 function catTap(){
   if (CAT.mode !== 'on') return;
@@ -3752,12 +3774,13 @@ function catLeave(scared){
   if (q && q.options && CAT.lane >= 0) { const s = slots[CAT.lane]; s.classList.remove('cat'); if (q === G.current && G.phase === 'question') s.firstChild.textContent = q.options[CAT.lane]; }
   CAT.saved = null;
   const p = new T.Vector3(); CAT.g.getWorldPosition(p); if (CAT.g.parent) CAT.g.parent.remove(CAT.g); CAT.g.position.copy(p); scene.add(CAT.g);
-  CAT.mode = 'leave'; CAT.t = 0; CAT.vx = (p.x >= 0 ? 1 : -1) * 6; CAT.vy = 6.5;
-  if (scared) { questEvent('cat'); popText('Мяу!', p.x, p.y + 1.4, p.z, 'pup'); G.coinsRun += 1; renderCoins(); sfx.meow2(); }
+  CAT.mode = 'leave'; CAT.t = 0; CAT.vx = (p.x >= 0 ? 1 : -1) * 6; CAT.vy = 6.5; if (CAT.rig) CAT.rig.play('Leap', 1.4, true, 1.6);
+  if (scared) { questEvent('cat'); popText('Meow!', p.x, p.y + 1.4, p.z, 'pup'); G.coinsRun += 1; renderCoins(); sfx.meow2(); }
 }
 function catOff(){ if (!CAT.g) return; if (CAT.tap) { removeTap(CAT.tap); CAT.tap = null; } if (CAT.g.parent) CAT.g.parent.remove(CAT.g); if (CAT.e) CAT.e.catH = 0; slots.forEach(s => s.classList.remove('cat')); CAT.mode = 'off'; CAT.e = null; CAT.q = null; CAT.lane = -1; CAT.saved = null; }
 function updateCat(sdt){
   if (!CAT.g || CAT.mode === 'off') return;
+  if (CAT.rig) CAT.rig.mixer.update(sdt);
   if (CAT.mode === 'spit') { CAT.t += sdt; updateCatSpit(sdt); return; }
   CAT.t += sdt; const t = CAT.t, inn = CAT.inner;
   if (CAT.mode === 'jump') {
@@ -3780,7 +3803,7 @@ const swordBtn = $('#btnSword');
 function renderSword(){ swordBtn.style.setProperty('--p', clamp(G.sword || 0, 0, 1).toFixed(3)); const r = (G.sword || 0) >= 1; if (swordBtn.classList.contains('ready') !== r) { swordBtn.classList.toggle('ready', r); if (r) bumpEl(swordBtn, 'pop'); } }
 function chargeSword(fast){
   const was = G.sword >= 1; G.sword = Math.min(1, (G.sword || 0) + (fast ? 0.4 : 0.34) + 0.06 * (S.up.sword || 0)); renderSword();
-  if (!was && G.sword >= 1) { sfx.pup(); if (!G.swordHinted) { G.swordHinted = true; hint('Меч заряжен! Жми кнопку меча или свайп вниз', 2600); } }
+  if (!was && G.sword >= 1) { sfx.pup(); if (!G.swordHinted) { G.swordHinted = true; hint('Sword ready!', 2000); } }
 }
 function useSword(){
   if (!inPlay()) return;
@@ -3793,7 +3816,7 @@ function useSword(){
   obstacles.forEach(o => { const u = o.userData; if (u.hit || o.position.z < -36) return; if (u.kind === 'bats') batsKill(o, u, 'sword'); else smashObstacle(o, 'sword'); n++; });
   if (CAT.mode === 'on' || CAT.mode === 'jump') { catLeave(true); n++; }
   if (G.mode === 'boss' && G.boss && !G.boss.dead && G.phase !== 'intro') { G.bossHP = Math.max(0, G.bossHP - 1); G.boss.flinch = 0.35; burst(0, 3.6, -21, 0x9dff6a, 18, 7); renderBoss(); if (G.bossHP <= 0) bossDefeat(); n++; }
-  popText(n ? 'Удар мечом!' : 'Взмах!', hx, 2.7, 0, 'sword');
+  popText(n ? 'Slash!' : 'Swish!', hx, 2.7, 0, 'sword');
 }
 swordBtn.addEventListener('click', e => { e.stopPropagation(); useSword(); });
 
@@ -3836,12 +3859,13 @@ function updatePickups(sdt){
   }
 }
 /* power-ups: at most one active at a time, a minimum gap between drops, weighted kinds */
-function pupDue(st){ if (Object.keys(PUPS).some(k => G[k + 'T'] > 0) || pickups.length) return false; const lp = G.branch && G.branch.kind === 'long'; if (G.time - (G.lastPup || -99) < (lp ? 9 : ECON.pupGap)) return false; return Math.random() < (lp ? 0.7 : ECON.pupBase + ECON.pupStage * G.stage); }
-function pickPup(){ const w = ECON.pupW, ks = Object.keys(PUPS).filter(k => !(G[k + 'T'] > 0)); if (!ks.length) return null; let s = 0; ks.forEach(k => { s += w[k] || 1; }); let r = Math.random() * s; for (const k of ks) { r -= w[k] || 1; if (r <= 0) return k; } return ks[0]; }
+function pupDue(st){ if (Object.keys(PUPS).some(k => G[k + 'T'] > 0) || pickups.length) return false; const lp = G.branch && G.branch.kind === 'long'; if (G.time - (G.lastPup || -99) < (lp ? 9 : ECON.pupGap)) return false; return Math.random() < (lp ? 0.7 : ECON.pupBase + ECON.pupStage * G.stage) * (S.hard ? 0.4 : 1); }
+function pickPup(){ if (S.hard) return G.x2T > 0 ? null : 'x2'; const w = ECON.pupW, ks = Object.keys(PUPS).filter(k => !(G[k + 'T'] > 0)); if (!ks.length) return null; let s = 0; ks.forEach(k => { s += w[k] || 1; }); let r = Math.random() * s; for (const k of ks) { r -= w[k] || 1; if (r <= 0) return k; } return ks[0]; }
 function activatePup(kind, p){
+  if (kind === 'soul') { soulGet(p); return; }
   if (G.econ) G.econ.pups++;
   G[kind + 'T'] = PUPS[kind].dur; sfx.pup(); haptic(HAP.pup); burst(p.x, 1.3, p.z, new T.Color(PUPS[kind].color).getHex(), 14, 5);
-  popText(PUPS[kind].name + '!', p.x, 2.2, p.z, 'pup'); flashFx('rgba(255,255,255,.35)');
+  popText(({magnet:'Magnet!', shield:'Shield!', x2:'Candy ×2!'})[kind] || 'Bonus!', p.x, 2.2, p.z, 'pup'); flashFx('rgba(255,255,255,.35)');
 }
 /* shield bubble that follows the hero */
 const bubble = M(ico(1.25, 1), mat(0x7ff3ff, {basic:true, opacity:0.2})); bubble.visible = false; scene.add(bubble);
@@ -3850,7 +3874,7 @@ const bubble = M(ico(1.25, 1), mat(0x7ff3ff, {basic:true, opacity:0.2})); bubble
 const G = {
   mode:'home', paused:false, phase:'idle', time:0, clock:0, freeze:0, slow:0, shake:0,
   ws:0, speedNow:10, lane:1, heroY:0, vy:0, runPh:0,
-  hearts:3, combo:0, bestCombo:0, coinsRun:0, res:{}, answered:0, correctN:0,
+  hearts:3, combo:0, bestCombo:0, coinsRun:0, hardBoost:1, wrongRow:0, soulSpawned:false, soulDone:false, res:{}, answered:0, correctN:0,
   queue:[], qIndex:0, current:null, nextSpawn:0, resolveT:0, finishT:0,
   plan:null, newIds:[], proj:null, boss:null, bossHP:0, bossMax:14, bossPool:[], bossPtr:0, retryQ:[], bossCount:0, introT:0, deadT:0,
   lastCoinSfx:0, logHinted:false, batHinted:false, pumpHinted:false,
@@ -3928,7 +3952,7 @@ const tagsEl = $('#tags'), tagPool = [], liveTags = [];
 function getTag(text, cls){
   let t = tagPool.pop();
   if (!t) { const el = document.createElement('div'); el.className = 'tag3d'; const sp = document.createElement('span'); el.appendChild(sp); tagsEl.appendChild(el); t = {el, sp}; }
-  t.el.className = 'tag3d' + (text.length > 16 ? ' long' : '') + (cls ? ' ' + cls : ''); t.sp.textContent = text; t.shown = false; t.big = false; t.hurry = false; t.sayTok = null; t.el.style.display = 'none'; return t;
+  t.el.className = 'tag3d' + (text.length > 16 ? ' long' : '') + (cls ? ' ' + cls : ''); t.sp.textContent = text; t.shown = false; t.big = false; t.hurry = false; t.sayTok = null; t.isSay = false; t.el.style.display = 'none'; return t;
 }
 function freeTag(t){ if (!t || tagPool.indexOf(t) >= 0) return; t.el.style.display = 'none'; const i = liveTags.indexOf(t); if (i >= 0) liveTags.splice(i, 1); tagPool.push(t); }
 function showTag(t, anchor, delay){
@@ -3945,6 +3969,7 @@ function updateTags(){
     _sv.set(_ta.x, _ta.y, _ta.z).applyMatrix4(camera.matrixWorldInverse); const depth = Math.max(1, -_sv.z);
     const lanePx = stageRect.h / (2 * Math.tan(camera.fov * Math.PI / 360) * depth) * 2.2;
     const s = t.big ? clamp(15 / depth, 0.62, 1.1) : Math.min(clamp(15 / depth, 0.42, 1.15), lanePx * 1.05 / 150);
+    if (t.isSay) sayClamp(p, s);
     t.el.style.transform = 'translate3d(' + (p[0] - 75).toFixed(1) + 'px,' + (p[1] - 4).toFixed(1) + 'px,0) translateY(-100%) scale(' + s.toFixed(3) + ')';
     t.el.style.opacity = G.hideTags && !t.big ? '0' : t.alpha == null ? '1' : t.alpha.toFixed(2);
   }
@@ -3998,7 +4023,7 @@ function renderPups(){
 
 /* ================= CONTROLS ================= */
 const inPlay = () => (G.mode === 'run' || G.mode === 'boss') && !G.paused;
-function setLane(i){ i = clamp(i, 0, 2); if (i === G.lane || G.phase === 'turn') return; if (G.current && G.current.lockLane && G.phase === 'question') { sfx.bump(); haptic(HAP.lane); return; } if (G.forkUntil > G.time && (i === 1 || Math.abs(i - G.lane) > 1)) { sfx.bump(); haptic(HAP.lane); popText('Стена!', hero.g.position.x, 2.4, 0, 'bad'); return; } G.lane = i; haptic(HAP.lane); if (G.current && G.phase === 'question') G.current.lastMove = G.time; railActive(); }
+function setLane(i){ i = clamp(i, 0, 2); if (i === G.lane || G.phase === 'turn') return; if (G.current && G.current.lockLane && G.phase === 'question') { sfx.bump(); haptic(HAP.lane); return; } if (G.forkUntil > G.time && (i === 1 || Math.abs(i - G.lane) > 1)) { sfx.bump(); haptic(HAP.lane); popText('Wall!', hero.g.position.x, 2.4, 0, 'bad'); return; } G.lane = i; haptic(HAP.lane); if (G.current && G.phase === 'question') G.current.lastMove = G.time; railActive(); }
 function moveLane(d){ setLane(G.lane + d); }
 function jump(){ if (G.slideT > 0) G.slideT = 0; if (G.heroY <= 0.001 && G.vy <= 0) { G.vy = 10.5; sfx.jump(); haptic(HAP.tap); } }
 function slide(){ if (G.mode !== 'run') return; if (G.heroY > 0.05) G.vy = Math.min(G.vy, -18); if (G.slideT <= 0) { sfx.slide(); haptic(HAP.tap); } G.slideT = 0.78; }
@@ -4229,7 +4254,7 @@ function startBuild(q){
   const pad = $('#buildPad');
   pad.innerHTML = '<div class="bp-word">' + q.target.split('').map(() => '<i></i>').join('') + '</div><div class="bp-tiles">' + letters.map(l => '<button class="bp-t" data-l="' + l + '">' + l + '</button>').join('') + '</div>';
   pad.hidden = false; $('#rail').hidden = true; G.buildQ = q; updateBuildTag(q);
-  if (!G.buildHinted) { G.buildHinted = true; hint('Буквоед! Нажимай буквы по порядку, пока он не добежал', 2600); }
+  if (!G.buildHinted) { G.buildHinted = true; hint('Spell it! Tap the letters', 2400); }
 }
 function updateBuildTag(q){ const e = q.ents[1]; if (e && e.tag) e.tag.sp.textContent = q.target.split('').map((c, i) => i < q.pos ? c : '_').join(' '); }
 function buildTap(btn){
@@ -4246,7 +4271,7 @@ $('#buildPad').addEventListener('click', e => { const b = e.target.closest('.bp-
 /* ---------- enemy lines ---------- */
 function sayAt(getPos, key, ms){
   if (!opt('lines')) return;
-  const L = pickLine(key), t = getTag(L[0] + '\n' + L[1], 'say'), tok = {}; t.big = true; t.sayTok = tok;
+  const L = pickLine(key), t = getTag(L[0], 'say'), tok = {}; t.big = true; t.sayTok = tok; t.isSay = true;
   showTag(t, out => { if (!getPos(out)) return false; out.y += 0.95; return true; }, 0);
   later((ms || 1900) / 1000, () => { if (t.sayTok === tok) freeTag(t); });
 }
@@ -4334,23 +4359,23 @@ function rivalResolve(q, ok){
   if (!q.best || t < q.best - 0.02) {
     const hadBest = !!q.best; s.best = Math.round(t * 100) / 100;
     if (hadBest) { G.shadowLoss = 0; GH.want = -0.6; S.st.shadowWins++; G.coinsRun += 3; renderCoins(); G.shadowE = Math.min(1, (G.shadowE || 0) + 0.34); renderShadowBtn(); questEvent('shadow');
-      popText('Обгон тени! ' + t.toFixed(1) + ' с', hero.g.position.x - 1, 2.9, -1, 'vamp'); sfx.pup(); }
-  } else { G.shadowLoss++; GH.want = 1.8; popText('Тень быстрее: ' + q.best.toFixed(1) + ' с', hero.g.position.x - 1, 2.6, -1, 'vamp'); }
+      popText('Beat the shadow! ' + t.toFixed(1) + 's', hero.g.position.x - 1, 2.9, -1, 'vamp'); sfx.pup(); }
+  } else { G.shadowLoss++; GH.want = 1.8; popText('Shadow: ' + q.best.toFixed(1) + 's', hero.g.position.x - 1, 2.6, -1, 'vamp'); }
 }
 
 /* ---------- shadow world: on demand, pass through traps, answers hidden until the last moment, double reward ---------- */
 PALS.shadow = {sky:['#05030f','#1a0e3a','#3a1a6a','#5a2a8a','#7a4aa8'], fog:'#2a1a4a', fogN:16, fogF:72, hemiS:'#b0a0ff', hemiG:'#100820', hemiI:0.78, sun:'#c0a0ff', sunI:0.5, grass:'#5a4a8a', path:'#b0a0d8', curve:0.0009, cloud:'#4a3a7a', ember:'#d0b0ff', hillFar:'#24164a', hillNear:'#140a30', orb:'#e0d0ff', orbY:14, orbS:20};
 (p => { p.c = {}; PAL_COLS.forEach(f => { p.c[f] = new T.Color(p[f]); }); p.skyC = p.sky.map(s => new T.Color(s)); })(PALS.shadow);
 const shadowBtn = $('#btnShadow');
-function renderShadowBtn(){ shadowBtn.style.setProperty('--p', clamp(G.shadowE || 0, 0, 1).toFixed(3)); shadowBtn.classList.toggle('ready', (G.shadowE || 0) >= 1 && !(G.shadowT > 0)); shadowBtn.classList.toggle('on', G.shadowT > 0); if ((G.shadowE || 0) >= 1 && !(G.shadowT > 0) && !G.shadowReadyHint && G.mode === 'run' && opt('shadow')) { G.shadowReadyHint = true; hint('Мир теней готов! Проведи двумя пальцами сверху вниз', 3200); } }
+function renderShadowBtn(){ shadowBtn.style.setProperty('--p', clamp(G.shadowE || 0, 0, 1).toFixed(3)); shadowBtn.classList.toggle('ready', (G.shadowE || 0) >= 1 && !(G.shadowT > 0)); shadowBtn.classList.toggle('on', G.shadowT > 0); if ((G.shadowE || 0) >= 1 && !(G.shadowT > 0) && !G.shadowReadyHint && G.mode === 'run' && opt('shadow')) { G.shadowReadyHint = true; hint('Shadow ready: two fingers ↓', 2800); } }
 let heroOutlines = null;
 function shadowOn(){
   if (!inPlay() || G.shadowT > 0 || !opt('shadow') || G.mode !== 'run') return;
-  if ((G.shadowE || 0) < 1) { bumpEl(shadowBtn, 'nope'); sfx.tap(); if (!G.shadowHinted2) { G.shadowHinted2 = true; hint('Мир теней заряжается от верных ответов и обгонов тени', 2400); } return; }
-  G.shadowE = 0; G.shadowT = 12 + 3 * (S.up.shadow || 0); setPal('shadow'); heroGhostly(true); $('#shadowfx').classList.add('on');
+  if ((G.shadowE || 0) < 1) { bumpEl(shadowBtn, 'nope'); sfx.tap(); if (!G.shadowHinted2) { G.shadowHinted2 = true; hint('Right answers charge the shadow', 2200); } return; }
+  G.shadowE = 0; G.shadowT = (12 + 3 * (S.up.shadow || 0)) * (S.hard ? 0.6 : 1); setPal('shadow'); heroGhostly(true); $('#shadowfx').classList.add('on');
   tone(300, 90, .6, 'sawtooth', .05); tone(600, 1200, .4, 'sine', .04, .1); haptic(HAP.dash); flashFx('rgba(120,80,220,.55)'); questEvent('shadowworld');
-  popText('Мир теней!', hero.g.position.x, 2.8, 0, 'vamp');
-  if (!G.shadowHinted) { G.shadowHinted = true; hint('Ты призрак! Ловушки проходишь насквозь, подписи появятся в последний момент, награда ×2', 3000); }
+  popText('Shadow world!', hero.g.position.x, 2.8, 0, 'vamp');
+  if (!G.shadowHinted) { G.shadowHinted = true; hint('Ghost mode! Traps can’t hurt', 2600); }
   renderShadowBtn();
 }
 function shadowOff(instant){
@@ -4383,7 +4408,7 @@ function forkArm(o, u){
     const short = lane === u.short, t = getTag(short ? 'КОРОТКИЙ\nловушки · конфеты ×2' : 'ДЛИННЫЙ\nбезопасно · бонус', 'fork ' + (short ? 'bad' : 'good')); t.big = true;
     showTag(t, out => { if (u.chosen || o.position.z > -2) return false; out.set(dir * 1.55, 3.6, o.position.z); return true; }, 0); u.tags.push(t);
   });
-  if (!G.forkHinted) { G.forkHinted = true; hint('Развилка! Выбери левую или правую полосу — посередине стена', 2800); }
+  if (!G.forkHinted) { G.forkHinted = true; hint('Wall ahead! Left or right', 2400); }
 }
 function forkChoose(o, u){
   u.chosen = true; u.tags.forEach(freeTag); u.tags = [];
@@ -4395,11 +4420,11 @@ function forkChoose(o, u){
     spawnObstacle(kind, lane, -13); spawnObstacle('rock', lane, -22);
     for (let k = 0; k < 14; k++) spawnCoin(LANES[lane], -4 - k * 1.5, k % 2 ? 1.0 : 0.95);
     G.forkDouble = G.time + (u.len + 4) / Math.max(6, G.ws); G.sprintEnd -= 1.0;
-    popText('Короткий путь!', LANES[lane], 2.6, -2, 'dash');
+    popText('Shortcut!', LANES[lane], 2.6, -2, 'dash');
   } else {
     for (let k = 0; k < 8; k++) spawnCoin(LANES[lane], -5 - k * 2.6);
     const pk = pickPup(); if (pk && !Object.keys(PUPS).some(x => G[x + 'T'] > 0)) { spawnPickup(pk, lane, -17); G.lastPup = G.time; }
-    G.sprintEnd += 1.6; popText('Длинный путь', LANES[lane], 2.6, -2, 'good');
+    G.sprintEnd += 1.6; popText('Long way', LANES[lane], 2.6, -2, 'good');
   }
 }
 function updateFork(o, u){
@@ -4419,7 +4444,7 @@ function updateSecret(o, u, sdt){
   u.ring.rotation.z += sdt * 1.5; u.ring.scale.setScalar(1 + Math.sin(G.clock * 4) * 0.04);
   if (!u.passed && o.position.z > -0.3) {
     u.passed = true; u.hit = true; G.archPending = true; sfx.pup(); flashFx('rgba(255,226,122,.5)');
-    hint('Таинственная арка! Ответь верно на следующий вопрос — откроется сундук', 3000);
+    hint('Mystery arch! Answer right', 2600);
   }
 }
 function spawnSecretArch(){ spawnObstacle('secret', 1, SPAWN_Z - 6); }
@@ -4438,7 +4463,7 @@ const splats = [];
 function catSpitEvent(){
   if (!CAT.g || CAT.mode !== 'off') return;
   CAT.mode = 'spit'; CAT.t = 0; CAT.spitDone = false; CAT.side = Math.random() < 0.5 ? -1 : 1;
-  CAT.g.position.set(CAT.side * 4.25, 1.15, -15); CAT.g.rotation.set(0, -CAT.side * 0.5, 0); CAT.g.scale.setScalar(0.001); CAT.inner.rotation.set(0, 0, 0); scene.add(CAT.g);
+  CAT.g.position.set(CAT.side * 4.25, 1.15, -15); CAT.g.rotation.set(0, -CAT.side * 0.5, 0); CAT.g.scale.setScalar(0.001); CAT.inner.rotation.set(0, 0, 0); scene.add(CAT.g); if (CAT.rig) CAT.rig.play('Leap', 1.0, true, 0.2);
   sayAt(out => { if (CAT.mode !== 'spit') return false; CAT.g.getWorldPosition(out); return true; }, 'catSpit', 1700);
 }
 function updateCatSpit(sdt){
@@ -4447,8 +4472,8 @@ function updateCatSpit(sdt){
   CAT.inner.scale.set(0.95, 0.95 * (1 + Math.sin(t * 14) * 0.05), 0.95);
   if (!CAT.spitDone && t > 0.7) {
     CAT.spitDone = true; CAT.inner.scale.set(1.15, 0.8, 1.15);
-    if (Math.random() < 0.35 && G.phase === 'gap') { spawnObstacle('yarn', ri(3), -18); tone(500, 300, .2, 'triangle', .05); if (!G.yarnHinted) { G.yarnHinted = true; hint('Кот бросил клубок — перепрыгни или уйди с полосы', 2600); } }
-    else { CAT.ball = {t:0, from:g.position.clone().add(new T.Vector3(0, 0.7, 0))}; spitBall.visible = true; tone(800, 200, .18, 'sawtooth', .05); }
+    if (G.phase === 'gap') { spawnObstacle('yarn', ri(3), -18); tone(500, 300, .2, 'triangle', .05); if (!G.yarnHinted) { G.yarnHinted = true; hint('Yarn! Jump or dodge', 2200); } }
+
   }
   if (CAT.ball) {
     const b = CAT.ball; b.t += sdt / 0.45; const k = Math.min(1, b.t);
@@ -4465,7 +4490,7 @@ function addSplat(){
   el.innerHTML = '<span>свайп!</span>'; $('#splatLayer').appendChild(el);
   const s = {el, x, y, r:size * 0.42, hits:0, born:G.clock}; splats.push(s);
   sfx.bump(); haptic(HAP.bump); shake(0.12);
-  if (!G.splatHinted) { G.splatHinted = true; hint('Кот заплевал экран! Смахни пятно свайпом', 2600); }
+  if (!G.splatHinted) { G.splatHinted = true; hint('Swipe the splat!', 2200); }
 }
 function wipeSplat(s){ const i = splats.indexOf(s); if (i < 0) return; splats.splice(i, 1); s.el.classList.add('gone'); setTimeout(() => s.el.remove(), 300); tone(1200, 600, .1, 'triangle', .04); haptic(HAP.tap); questEvent('cat'); }
 function splatAt(px, py){ return splats.find(s => Math.hypot(s.x - px, s.y - py) < s.r); }
@@ -4516,14 +4541,14 @@ function duelResolve(ok, dir){
     if (b) b.classList.add('good'); d.hp--; d.flinch = 0.35; heroSpin();
     const vp = V.g.position; slashFx(vp.x, 2.0, vp.z + 0.6, 1.6, dir === 'left' ? 2.4 : dir === 'right' ? 0.3 : dir === 'down' ? -1.2 : 1.2, dir === 'left'); waveFx(vp.x, 2.0, vp.z + 0.5);
     burst(vp.x, 2, vp.z, 0xc77dff, 14, 6); sfx.slash(); sfx.hit(); haptic(HAP.good); shake(0.2); G.combo++; G.bestCombo = Math.max(G.bestCombo, G.combo); renderCombo();
-    popText('Парирование!', vp.x, 3.4, vp.z, 'sword');
+    popText('Parry!', vp.x, 3.4, vp.z, 'sword');
     if (d.hp <= 0) { renderDuelHP(); later(0.45, duelWin); return; }
   } else {
     if (b) b.classList.add('bad'); if (cb) cb.classList.add('good');
     d.fails++; vampAnim('Catch', 0.08, true, 2.2); later(0.9, () => { if (V.mode === 'duel') vampAnim('Cast', 0.2, false, 1); });
     const n = Math.min(G.coinsRun, 10); G.coinsRun -= n; renderCoins(); hero.hurt = 0.45; hurtFx(); sfx.bad(); haptic(HAP.bad); G.combo = 0; renderCombo();
     if (S.hard) loseHeart();
-    popText(n ? 'Укус! −' + n : 'Укус!', hero.g.position.x, 2.6, 0, 'bad');
+    popText(n ? 'Bite! −' + n : 'Bite!', hero.g.position.x, 2.6, 0, 'bad');
     toast(r.w.en + ' — ' + r.w.ru, '', 'bad');
     if (d.fails >= d.maxFails || G.hearts <= 0) { renderDuelHP(); later(0.5, duelLose); return; }
   }
@@ -4566,7 +4591,7 @@ function sprintExtras(sch, st, first, t0){
   if (forkOk) { sch.splice(1); sch.push({at:t0 + 0.3, fn:spawnFork}); sch.extra = 1.4; }
   if (opt('arch') && !G.archDone && G.stage >= 1 && Math.random() < 0.22) { G.archDone = true; sch.push({at:t0 + (forkOk ? 1.6 : 0.15), fn:spawnSecretArch}); sch.extra = (sch.extra || 0) + 0.5; }
   if (A.ok && opt('cat') && CAT.g && CAT.mode === 'off' && G.stage >= (S.hard ? 1 : 2) && Math.random() < (S.hard ? 0.32 : 0.22)) sch.push({at:t0 + 0.35, fn:catSpitEvent});
-  if (opt('ghost') && G.shadowLoss >= 3 && !forkOk) { sch.push({at:t0 + 0.7, fn:() => { spawnObstacle('rock', G.lane, SPAWN_Z); popText('Тень ошибок!', hero.g.position.x, 2.6, -2, 'bad'); }}); }
+  if (opt('ghost') && G.shadowLoss >= 3 && !forkOk) { sch.push({at:t0 + 0.7, fn:() => { spawnObstacle('rock', G.lane, SPAWN_Z); popText('Shadow mistake!', hero.g.position.x, 2.6, -2, 'bad'); }}); }
 }
 function applyUpgrades(){ PUPS.magnet.dur = ECON.magnet + 3 * (S.up.magnet || 0); PUPS.shield.dur = ECON.shield + 3 * (S.up.shield || 0); PUPS.x2.dur = ECON.x2; }
 
@@ -4577,13 +4602,13 @@ function onResolve(q, ok, fast, chosen){
   if (ok) {
     questEvent('correct'); questEvent('combo', G.combo); G.shadowE = Math.min(1, (G.shadowE || 0) + 0.15); renderShadowBtn();
     const target = q.ents[chosen]; if (target && !target.vamp) strikeFx(target, chosen, q.grp.position.z);
-    if (q.shadowQ || G.shadowT > 0) { const b = 6 * (S.hard ? 2 : 1); G.coinsRun += b; popText('Тень ×2 · +' + b, LANES[chosen], 3.2, q.grp.position.z, 'vamp'); }
+    if (q.shadowQ || G.shadowT > 0) { const b = 6 * (S.hard ? 2 : 1); G.coinsRun += b; popText('Shadow ×2 · +' + b, LANES[chosen], 3.2, q.grp.position.z, 'vamp'); }
     if (G.forkDouble > G.time) { G.coinsRun += 5; }
     if (target && !target.vamp && Math.random() < 0.4) sayAt(entPos(q, target), 'wolfDie', 1300);
     if (G.archPending) { G.archPending = false; openChest(); }
   } else {
     const target = q.ents[chosen]; if (target && !target.vamp && Math.random() < 0.6) sayAt(entPos(q, target), 'wolfWin', 1500);
-    if (G.archPending) { G.archPending = false; popText('Арка закрылась…', hero.g.position.x, 2.6, 0, 'vamp'); }
+    if (G.archPending) { G.archPending = false; popText('Arch closed…', hero.g.position.x, 2.6, 0, 'vamp'); }
   }
   G.hideTags = false; $('#rail').classList.remove('shadowed'); $('#qGhost').hidden = true;
 }
@@ -4691,7 +4716,7 @@ function armJunction(J){
       const t = getTag(s < 0 ? '←  ?' : '?  →', 'fork q'); t.big = true;
       showTag(t, out => { if (!TR.J || TR.J !== J || u.turned || TR.turn) return false; out.set(s * 4.6, 4.9, J.position.z - 4.4); return out.z < -3; }, 0); u.tags.push(t);
     });
-    hint('Развилка! Сверни влево или вправо — что за поворотом, неизвестно', 3400);
+    hint('Pick a path!', 2600);
   } else { const t = getTag(u.cornerSide < 0 ? '← ПОВОРОТ' : 'ПОВОРОТ →', 'fork good'); t.big = true; showTag(t, out => { if (TR.J !== J || TR.turn) return false; out.set(u.cornerSide * 4.6, 4.9, J.position.z - 4.4); return out.z < -3; }, 0); u.tags.push(t); }
 }
 function sceneryCut(it){
@@ -4715,7 +4740,7 @@ function startTurn(){
   if (V.mode === 'road') vampOff(); if (CAT.mode !== 'off' && CAT.mode !== 'spit') catOff();
   TR.turn = {side, th:side < 0 ? -Math.PI / 2 : Math.PI / 2, t:0, dur:0.9, ws0:Math.max(G.ws, G.speedNow * 0.9), heroRot:0};
   G.phase = 'turn'; G.ws = 0; G.lane = 1; railActive(); sfx.slide(); haptic(HAP.lane);
-  popText(u.kind === 'fork' ? (side === u.tunnelSide ? 'В туннель!' : 'Длинный путь!') : 'Поворот!', hero.g.position.x, 2.6, -1, side === u.tunnelSide && u.kind === 'fork' ? 'dash' : 'good');
+  popText(u.kind === 'fork' ? (side === u.tunnelSide ? 'Tunnel!' : 'Long way!') : 'Turn!', hero.g.position.x, 2.6, -1, side === u.tunnelSide && u.kind === 'fork' ? 'dash' : 'good');
 }
 function updateTurn(sdt){
   const t = TR.turn; t.t += sdt;
@@ -4911,6 +4936,286 @@ const SPIN_SPEED = 2.05, SPIN_T = ((ATTACK.n - 1) / ATTACK.fps) / SPIN_SPEED;
 function addSpin(h){ if (!h || !h.mixer) return; try { h.act.Spin = h.mixer.clipAction(clipFromData(ATTACK, 'Spin')); } catch(e) { console.error('spin', e); } }
 function heroSpin(){ if (!hero) return; hero.atk = SPIN_T; hero.spinNext = true; hero.atkOn = false; }
 
+/* ================= v17 CAT: rigged cat. Two mistakes in a row → it leaps onto the heroine and bites her shoulder.
+   She sways and drifts between lanes until the player taps the cat fast enough to fill the ring. ================= */
+function animClips(name, flat){
+  const AN = window.WR_ANIM && window.WR_ANIM[name]; if (!AN) return [];
+  return Object.keys(AN.clips).map(k => {
+    const D = AN.clips[k], n = D.n, fps = D.fps;
+    const dec = s => { const b = atob(s), u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u.buffer; };
+    const q = new Int16Array(dec(D.q)), p = new Float32Array(dec(D.p)), times = new Float32Array(n); for (let i = 0; i < n; i++) times[i] = i / fps;
+    if (flat) { let ax = 0; for (let c = 1; c < 3; c++) if (Math.abs(p[c]) > Math.abs(p[ax])) ax = c; for (let i = 1; i < n; i++) for (let c = 0; c < 3; c++) if (c !== ax) p[i * 3 + c] = p[c]; }
+    const tracks = AN.bones.map((nm, bi) => { const v = new Float32Array(n * 4), o = bi * n * 4; for (let i = 0; i < n * 4; i++) v[i] = q[o + i] / 32767; return new T.QuaternionKeyframeTrack(nm + '.quaternion', times, v); });
+    tracks.push(new T.VectorKeyframeTrack('mixamorigHips.position', times, p));
+    return new T.AnimationClip(k, (n - 1) / fps, tracks);
+  });
+}
+/* a posed, animated copy of the cat; feet at y = 0, about 1 unit tall */
+function catRigClone(){
+  const o = T.SkeletonUtils.clone(A.catGL.scene); o.position.y = 0.5;
+  const g = new T.Group(); g.add(o);
+  const mixer = new T.AnimationMixer(o), act = {};
+  (A.catGL.animations || []).forEach(c => { act[c.name] = mixer.clipAction(c); });
+  const play = (name, speed, once, from, fade) => { const a = act[name]; if (!a) return; const prev = g.userData.cur; a.reset(); a.enabled = true; a.setEffectiveWeight(1); a.setEffectiveTimeScale(speed || 1); a.setLoop(once ? T.LoopOnce : T.LoopRepeat, Infinity); a.clampWhenFinished = !!once; if (from) a.time = from; if (prev && prev !== a && fade) prev.crossFadeTo(a, fade, false); else if (prev && prev !== a) prev.stop(); a.play(); g.userData.cur = a; };
+  return {g, mixer, act, play};
+}
+const CAT_BITE_S = 0.9;
+const BITE = {on:false, rig:null, mode:'off', t:0, fill:0, need:14, tap:null, nextDrift:0, side:1, from:new T.Vector3(), to:new T.Vector3(), ringEl:null, fillEl:null, punch:0};
+function buildBiteCat(){
+  if (!A.catGL || BITE.rig) return;
+  BITE.rig = catRigClone(); BITE.rig.g.scale.setScalar(CAT_BITE_S);
+  BITE.ringEl = $('#catRing'); BITE.fillEl = $('#crFill');
+}
+function catMistake(ok){
+  if (ok) { G.wrongRow = 0; return; }
+  G.wrongRow = (G.wrongRow || 0) + 1;
+  if (G.wrongRow >= 2) { G.wrongRow = 0; later(0.45, catBiteStart); }
+}
+function heroShoulderLocal(out){
+  const m = hero && hero.model; if (!m) return out.set(0.3, 1.55, 0);
+  if (!BITE.bones) { BITE.bones = []; m.traverse(o => { if (o.isBone && /(Left|Right)Shoulder$/.test(o.name)) BITE.bones.push(o); }); }
+  let best = null, bx = -1e9; const v = new T.Vector3();
+  BITE.bones.forEach(b => { b.getWorldPosition(v); hero.g.worldToLocal(v); const sx = v.x * BITE.side; if (sx > bx) { bx = sx; best = v.clone(); } });
+  return best ? out.copy(best) : out.set(0.3 * BITE.side, 1.55, 0);
+}
+function catBiteStart(){
+  if (!A.ok || !BITE.rig || !opt('cat') || BITE.mode !== 'off' || G.mode !== 'run' || G.hearts <= 0 || G.phase === 'turn' || G.shadowT > 0 || G.paused) return;
+  if (CAT.mode !== 'off') catLeave(false);
+  const r = BITE.rig; BITE.side = Math.random() < 0.5 ? -1 : 1; BITE.mode = 'leap'; BITE.t = 0; BITE.fill = 0; BITE.punch = 0;
+  BITE.need = S.hard ? 20 : 14; BITE.maxT = S.hard ? 22 : 14;
+  BITE.from.set(BITE.side * 3.6, 0, -9); r.g.position.copy(BITE.from); r.g.rotation.set(0, -BITE.side * 0.6, 0); r.g.scale.setScalar(CAT_BITE_S); scene.add(r.g);
+  r.play('Leap', 1.7, true, 0.9);
+  sfx.meow(); sayAt(out => { if (BITE.mode !== 'leap') return false; r.g.getWorldPosition(out); out.y += 0.6; return true; }, 'catBite', 1200);
+}
+function catBiteLand(){
+  const r = BITE.rig; BITE.mode = 'bite'; BITE.t = 0; BITE.nextDrift = 0.7;
+  hero.g.attach(r.g); r.play('Bite', 1.15, false, 0.6, 0.15);
+  sfx.bump(); haptic(HAP.bad); shake(0.25);
+  popText('Bite!', hero.g.position.x, 2.7, 0, 'bad');
+  BITE.tap = addTap({r:130, pos:out => { if (BITE.mode !== 'bite') return false; r.g.getWorldPosition(out); out.y += 0.45; return true; }, tap:biteTap});
+  BITE.ringEl.hidden = false; renderBiteRing();
+  if (!G.biteHinted) { G.biteHinted = true; hint('Tap the cat fast!', 2600); }
+}
+function biteTap(){
+  if (BITE.mode !== 'bite') return;
+  BITE.fill = Math.min(1, BITE.fill + 1 / BITE.need); BITE.punch = 0.14; renderBiteRing();
+  BITE.ringEl.classList.remove('hit'); void BITE.ringEl.offsetWidth; BITE.ringEl.classList.add('hit');
+  tone(700 + BITE.fill * 900, 0, .05, 'triangle', .05); haptic(HAP.tap);
+  if (BITE.fill >= 1) catBiteEnd(true);
+}
+function renderBiteRing(){ if (BITE.fillEl) BITE.fillEl.style.strokeDashoffset = (201 * (1 - BITE.fill)).toFixed(1); }
+function catBiteEnd(scared){
+  if (BITE.mode !== 'bite' && BITE.mode !== 'leap') return;
+  const r = BITE.rig; if (BITE.tap) { removeTap(BITE.tap); BITE.tap = null; }
+  BITE.ringEl.hidden = true; scene.attach(r.g);
+  BITE.mode = 'leave'; BITE.t = 0; BITE.vx = BITE.side * 7; BITE.vy = 7.5; r.play('Leap', 1.4, true, 1.6);
+  if (hero.inner) hero.inner.rotation.z = 0;
+  if (scared) { const p = r.g.position; popText('Meow!', p.x, p.y + 1.2, p.z, 'pup'); sfx.meow2(); questEvent('cat'); burst(p.x, p.y + 0.6, p.z, 0xffc4e6, 10, 6); }
+}
+function biteOff(){
+  if (!BITE.rig) return; if (BITE.tap) { removeTap(BITE.tap); BITE.tap = null; }
+  if (BITE.rig.g.parent) BITE.rig.g.parent.remove(BITE.rig.g);
+  BITE.mode = 'off'; if (BITE.ringEl) BITE.ringEl.hidden = true; if (hero && hero.inner) hero.inner.rotation.z = 0;
+}
+const _bv = new T.Vector3();
+function updateBite(sdt){
+  if (!BITE.rig || BITE.mode === 'off') return;
+  const r = BITE.rig; BITE.t += sdt; r.mixer.update(sdt);
+  if (BITE.mode === 'leap') {
+    hero.g.updateMatrixWorld(true); heroShoulderLocal(_bv); hero.g.localToWorld(_bv);
+    const k = Math.min(1, BITE.t / 0.62), e = k * k * (3 - 2 * k);
+    r.g.position.lerpVectors(BITE.from, _bv, e); r.g.position.y += Math.sin(k * Math.PI) * 2.2 - 0.62 * CAT_BITE_S * e;
+    r.g.rotation.y = -BITE.side * (0.6 + e * 0.97);
+    if (k >= 1) catBiteLand();
+  } else if (BITE.mode === 'leave') {
+    BITE.vy -= 24 * sdt; r.g.position.x += BITE.vx * sdt; r.g.position.y += BITE.vy * sdt; r.g.position.z += G.ws * sdt * 0.6; r.g.rotation.z += sdt * 10 * BITE.side;
+    if (BITE.t > 1.1 || r.g.position.y < -3) biteOff();
+  }
+}
+/* after the hero has been placed this frame: glue the cat to her shoulder, sway her, drift her between lanes */
+function postHeroBite(sdt){
+  if (BITE.mode !== 'bite' || !hero.inner) return;
+  const r = BITE.rig, t = BITE.t;
+  heroShoulderLocal(_bv); r.g.position.set(_bv.x + BITE.side * 0.3, _bv.y - 0.5, _bv.z + 0.26);
+  r.g.rotation.set(0, -BITE.side * Math.PI * 0.62, BITE.side * 0.25);
+  const pk = BITE.punch > 0 ? (BITE.punch -= sdt, BITE.punch / 0.14) : 0; r.g.scale.setScalar(CAT_BITE_S * (1 - 0.12 * pk));
+  hero.inner.rotation.z = Math.sin(t * 5.2) * 0.2 + Math.sin(t * 2.3) * 0.08;
+  BITE.fill = Math.max(0, BITE.fill - sdt * (S.hard ? 0.24 : 0.17)); renderBiteRing();
+  if (G.phase !== 'turn' && G.mode === 'run' && !G.paused) {
+    BITE.nextDrift -= sdt;
+    if (BITE.nextDrift <= 0) {
+      BITE.nextDrift = (S.hard ? 0.75 : 0.95) + Math.random() * 0.5;
+      const d = G.lane === 0 ? 1 : G.lane === 2 ? -1 : (Math.random() < 0.5 ? -1 : 1), lm = G.current && G.current.lastMove;
+      setLane(G.lane + d); if (G.current && lm != null) G.current.lastMove = lm;
+    }
+  }
+  if (BITE.ringEl && !BITE.ringEl.hidden) { r.g.getWorldPosition(_bv); _bv.y += 1.05; const p = screenOf(_bv.x, _bv.y, _bv.z); BITE.ringEl.style.transform = 'translate(' + p[0].toFixed(0) + 'px,' + p[1].toFixed(0) + 'px)'; }
+  if (t > BITE.maxT) catBiteEnd(false);
+}
+/* ================= v17 HARD ("souls" mode): no healing, wolves swap lanes, a death drops the run's candies on the road ================= */
+function hardMistake(){ if (!S.hard) return; G.hardBoost = Math.min(1.25, (G.hardBoost || 1) * 1.035); G.speedNow *= 1.035; }
+function hardFrame(sdt){
+  const q = G.current;
+  if (G.phase === 'question' && q && !q.swapDone && q.ents && q.options && q.ents.length === 3 && q.type !== 'build' && !q.lockLane && G.answered >= 2) {
+    if ((G.time - q.spawn) / q.T > 0.4) {
+      q.swapDone = true;
+      if (!q.ents.some(e => e.vamp || e.detached) && !(q.catLane >= 0) && CAT.mode === 'off' && Math.random() < 0.55) laneSwap(q);
+    }
+  }
+}
+function laneSwap(q){
+  const a = Math.random() < 0.6 ? q.correct : ri(3); let b = ri(2); if (b >= a) b++;
+  [q.ents[a], q.ents[b]] = [q.ents[b], q.ents[a]]; [q.options[a], q.options[b]] = [q.options[b], q.options[a]];
+  if (q.correct === a) q.correct = b; else if (q.correct === b) q.correct = a;
+  [a, b].forEach(i => { const e = q.ents[i], x0 = e.g.position.x, x1 = LANES[i]; let t = 0; G.anims.push(dt => { t += dt / 0.45; const k = Math.min(1, t), s = k * k * (3 - 2 * k); e.g.position.x = x0 + (x1 - x0) * s; return k < 1; }); });
+  if (q === G.current && G.phase === 'question') [a, b].forEach(i => { const s = slots[i]; if (s && s.firstChild) s.firstChild.textContent = q.options[i]; bumpEl(s, 'pop'); });
+  sfx.toss(); haptic(HAP.lane); popText('Swap!', 0, 3.2, q.grp.position.z, 'bad');
+}
+/* ---- the candy bag left where the heroine fell ---- */
+const soulMat = (() => {
+  const t = canvasTex(128, 128, x => {
+    const gr = x.createRadialGradient(64, 64, 8, 64, 64, 62); gr.addColorStop(0, 'rgba(255,190,240,1)'); gr.addColorStop(0.55, 'rgba(200,90,255,.75)'); gr.addColorStop(1, 'rgba(120,40,200,0)');
+    x.fillStyle = gr; x.beginPath(); x.arc(64, 64, 62, 0, Math.PI * 2); x.fill();
+    x.lineJoin = 'round'; x.lineWidth = 6; x.strokeStyle = '#1e1838'; x.fillStyle = '#ff7ab8';
+    x.beginPath(); x.moveTo(44, 50); x.quadraticCurveTo(30, 96, 46, 104); x.lineTo(82, 104); x.quadraticCurveTo(98, 96, 84, 50); x.closePath(); x.fill(); x.stroke();
+    x.fillStyle = '#ffd23a'; x.beginPath(); x.moveTo(46, 50); x.lineTo(82, 50); x.lineTo(76, 36); x.lineTo(64, 44); x.lineTo(52, 36); x.closePath(); x.fill(); x.stroke();
+    x.fillStyle = '#fff'; x.beginPath(); x.arc(64, 80, 11, 0, Math.PI * 2); x.fill(); x.stroke(); x.strokeStyle = '#ff5fa8'; x.lineWidth = 4; x.beginPath(); x.arc(64, 80, 5, 0, Math.PI * 1.5); x.stroke();
+  });
+  const m = curvify(new T.MeshBasicMaterial({map:t, transparent:true, alphaTest:0.05, depthWrite:false})); m.fog = false; return m;
+})();
+const soulBeamMat = curvify(new T.MeshBasicMaterial({color:0xd27aff, transparent:true, opacity:0.32, blending:T.AdditiveBlending, depthWrite:false}));
+function spawnSoul(){
+  const g = new T.Group(), icon = M(plane(1.5, 1.5), soulMat, 0, 1.4, 0); g.add(icon);
+  const ring = M(tor(0.8, 0.06, 6, 28), glowRingMat, 0, 1.4, 0); g.add(ring);
+  const beam = new T.Mesh(new T.CylinderGeometry(0.16, 0.5, 9, 10, 1, true), soulBeamMat); beam.position.y = 4.5; g.add(beam);
+  const lane = ri(3); g.position.set(LANES[lane], 0, -70); g.userData = {kind:'soul', icon, ring, age:0, lane}; scene.add(g); pickups.push(g);
+  G.soulSpawned = true; sfx.appear(); hint('Your candies! Grab them', 2600);
+}
+function soulGet(p){
+  const n = (S.soul && S.soul.coins) || 0; G.coinsRun += n; renderCoins(); bumpEl(coinPill);
+  S.soul = null; G.soulDone = true; save();
+  popText('Candies back! +' + n, p.x, 2.6, p.z, 'gain'); flyCoins(p.x, 1.4, p.z, 7); burst(p.x, 1.4, p.z, 0xd27aff, 22, 7); sfx.win(); haptic(HAP.pup); flashFx('rgba(220,140,255,.4)');
+}
+function soulFrame(sdt){
+  if (!S.hard || !S.soul || G.soulDone || S.soul.ch !== curCh().id) return;
+  if (!G.soulSpawned) { if (G.phase === 'gap' && G.answered >= Math.max(1, S.soul.at - 1) && !pickups.length) spawnSoul(); return; }
+  if (!pickups.some(g => g.userData.kind === 'soul')) { G.soulDone = true; S.soul = null; save(); popText('Lost forever…', hero.g.position.x, 2.8, 0, 'bad'); sfx.bad(); }
+}
+function soulOnEnd(kind, outcome){
+  G.soulNote = '';
+  if (!S.hard || kind !== 'run') return false;
+  if (outcome === 'fail' && G.coinsRun > 0) {
+    const old = S.soul && S.soul.ch === curCh().id && !G.soulDone ? S.soul : null;
+    S.soul = {ch:curCh().id, coins:G.coinsRun, at:G.answered};
+    G.soulNote = 'Конфеты остались на месте гибели: ' + G.coinsRun + (old ? ' (прошлый мешок с ' + old.coins + ' пропал навсегда)' : '') + '. Добеги до них в следующем забеге этой главы на харде — погибнешь раньше, и они исчезнут.';
+    return true;
+  }
+  return false;
+}
+/* ================= v17 OWN TRACK: any audio file from the phone becomes the run music; tunnel/duel/boss muffle it and add a heartbeat ================= */
+const IDB = {db:null};
+function idbOpen(){ return new Promise((res, rej) => { if (IDB.db) return res(IDB.db); if (!window.indexedDB) return rej(new Error('no idb')); const r = indexedDB.open('wordrush', 1); r.onupgradeneeded = () => { r.result.createObjectStore('kv'); }; r.onsuccess = () => { IDB.db = r.result; res(IDB.db); }; r.onerror = () => rej(r.error); }); }
+async function idbSet(k, v){ const db = await idbOpen(); return new Promise((res, rej) => { const tx = db.transaction('kv', 'readwrite'); tx.objectStore('kv').put(v, k); tx.oncomplete = () => res(); tx.onerror = () => rej(tx.error); tx.onabort = () => rej(tx.error); }); }
+async function idbGet(k){ const db = await idbOpen(); return new Promise((res, rej) => { const tx = db.transaction('kv', 'readonly'), rq = tx.objectStore('kv').get(k); rq.onsuccess = () => res(rq.result); rq.onerror = () => rej(rq.error); }); }
+function decodeAudio(a, buf){ return new Promise((res, rej) => { try { const p = a.decodeAudioData(buf, res, rej); if (p && p.then) p.then(res, rej); } catch(e) { rej(e); } }); }
+const CUSTOM_SONG = {id:'custom', name:'Свой трек', sub:'файл с телефона', custom:true};
+function customGain(b){ const d = b.getChannelData(0); let ss = 0, n = 0; for (let i = 0; i < d.length; i += 97) { ss += d[i] * d[i]; n++; } const rms = Math.sqrt(ss / Math.max(1, n)); return clamp(0.12 / Math.max(1e-4, rms), 0.08, 1.6); }
+async function renderMusic(){
+  if (curSong().id !== 'custom') return renderMusic0();
+  if (MUS.rendering) return;
+  const a = audio(); if (!a) return;
+  MUS.rendering = true;
+  try {
+    if (!MUS.customAB) { const rec = await idbGet('track'); if (!rec || !rec.buf) throw new Error('no track'); MUS.customAB = await decodeAudio(a, rec.buf.slice(0)); MUS.customG = customGain(MUS.customAB); }
+    const OC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+    if (!MUS.rawTense && OC) { const ts = 60 / TENSE.bpm / 4, tl = 128 * ts, tb = []; for (let L = 0; L < 4; L++) tb.push(foldLoop(await offlineRender(OC, tl + 1.5, MUS_SR, I => TENSE.write(I, ts, L)), tl, TENSE.rms[L], TENSE.peak[L])); MUS.rawTense = tb; }
+    MUS.raw = 'custom'; MUS.rawId = 'custom'; MUS.ab = null;
+  } catch(e) {
+    console.error('custom track', e); MUS.rendering = false;
+    S.song = 'lofi'; save(); MUS.raw = null; MUS.rawId = null; toast('Свой трек не открылся', 'Включила «Лоу-фай». Загрузи файл ещё раз в Настройках', 'bad');
+    if (G.mode === 'settings') renderSongs(); if (MUS.want) { const w = MUS.want; MUS.want = null; musicPlay(w); } return;
+  }
+  MUS.rendering = false; if (G.mode === 'settings') renderSongs();
+  if (MUS.want) { const w = MUS.want; MUS.want = null; musicPlay(w); }
+}
+function musicPlayCustom(mode, a){
+  if (!MUS.customAB) return false;
+  if (MUS.mode === mode && MUS.bus) return true;
+  musicStop(0.35, true);
+  const t0 = a.currentTime + 0.06, bus = a.createGain(); bus.gain.setValueAtTime(0.0001, t0); bus.gain.linearRampToValueAtTime(MUS.duck ? MUSIC_VOL * 0.2 : MUSIC_VOL, t0 + 1.1); bus.connect(a.destination);
+  const tense = mode === 'tense' || mode === 'boss', s = a.createBufferSource(); s.buffer = MUS.customAB; s.loop = true;
+  const g = a.createGain(); g.gain.value = (MUS.customG || 0.5) * (tense ? 0.8 : 1);
+  if (tense) { const f = a.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 820; f.Q.value = 0.8; s.connect(f); f.connect(g); } else s.connect(g);
+  g.connect(bus); const off = (MUS.customPos || 0) % MUS.customAB.duration; s.start(t0, off); MUS.customT0 = t0 - off;
+  const srcs = [{s, g}];
+  if (tense && MUS.abTense) [1, 2].forEach(i => { const x = a.createBufferSource(); x.buffer = MUS.abTense[i]; x.loop = true; const xg = a.createGain(); xg.gain.value = TENSE_MIX[i] * 0.85; x.connect(xg); xg.connect(bus); x.start(t0); srcs.push({s:x, g:xg}); });
+  MUS.srcs = srcs; MUS.bus = bus; MUS.mode = mode; MUS.custom = true; setMediaMeta(); return true;
+}
+function rememberCustomPos(){ if (MUS.custom && AC && MUS.customAB && MUS.customT0 != null) MUS.customPos = Math.max(0, AC.currentTime - MUS.customT0); }
+async function loadCustomFile(file){
+  if (!file) return;
+  if (file.size > 40e6) { toast('Файл слишком большой', 'До 40 МБ — например, mp3 или m4a', 'bad'); return; }
+  const a = audio(); if (!a) { toast('Звук выключен', 'Включи «Звук», чтобы загрузить трек', 'bad'); return; }
+  toast('Загружаю трек…', file.name, 'good');
+  try {
+    const buf = await file.arrayBuffer(), ab = await decodeAudio(a, buf.slice(0));
+    await idbSet('track', {buf, name:file.name, at:Date.now()}).catch(e => console.error('idb', e));
+    MUS.customAB = ab; MUS.customG = customGain(ab); MUS.customPos = 0;
+    S.customName = file.name.replace(/\.[a-z0-9]{2,4}$/i, '').slice(0, 40); S.song = 'custom'; save();
+    musicStop(0.2); MUS.raw = null; MUS.rawId = null; MUS.ab = null;
+    toast('Трек загружен', S.customName + ' · ' + Math.round(ab.duration) + ' с', 'good');
+    songPreview('custom');
+  } catch(e) { console.error(e); toast('Не удалось прочитать файл', 'Попробуй mp3 или m4a', 'bad'); }
+  renderSongs();
+}
+/* lock-screen / Now Playing card: title and the game icon */
+function setMediaMeta(){
+  try {
+    if (!('mediaSession' in navigator) || !window.MediaMetadata) return;
+    const md = navigator.mediaSession.metadata; if (md && md.title === 'Word Rush' && md.album === 'v17') return;
+    navigator.mediaSession.metadata = new MediaMetadata({title:'Word Rush', artist:'English runner · B1–B2', album:'v17', artwork:[{src:'icon-512.png?v=17', sizes:'512x512', type:'image/png'}, {src:'icon.png?v=17', sizes:'256x256', type:'image/png'}]});
+  } catch(e) {}
+}
+/* ================= v17 UI: short English hints under the question card; speech bubbles stay on screen and above the answers ================= */
+const SAY = {top:0};
+function placeHint(){
+  const el = $('#hint'); if (el.hidden) return;
+  const ar = appEl.getBoundingClientRect(), hud = $('#hud');
+  const top = hud.hidden ? ar.height * 0.16 : hud.getBoundingClientRect().bottom - ar.top + 10;
+  el.style.top = Math.round(top) + 'px';
+}
+function sayClamp(p, s){
+  const half = 75 * s + 6;
+  p[0] = clamp(p[0], stageRect.x + half, stageRect.x + stageRect.w - half);
+  p[1] = clamp(p[1], SAY.top + 34 * s, stageRect.y + stageRect.h * 0.56);
+}
+let v17fc = 0;
+function v17Frame(sdt, dt){
+  v17fc++;
+  if (!$('#hint').hidden) placeHint();
+  if ((v17fc & 7) === 0) { const hud = $('#hud'); SAY.top = hud.hidden ? stageRect.y + 60 : hud.getBoundingClientRect().bottom - appEl.getBoundingClientRect().top + 4; }
+  updateBite(sdt);
+  if (S.hard && G.mode === 'run') hardFrame(sdt);
+  if (G.mode === 'run') soulFrame(sdt);
+}
+function postHero17(sdt, dt){ postHeroBite(sdt); }
+
+SONGS.push(CUSTOM_SONG);
+function renderSongs(){
+  renderSongs0();
+  const row = document.querySelector('#songList [data-song="custom"]'); if (!row) return;
+  const sm = row.querySelector('small'); if (sm) sm.textContent = S.customName || 'загрузи mp3 или m4a с телефона';
+  const up = document.createElement('button'); up.className = 'song-up'; up.setAttribute('data-up', '1'); up.textContent = S.customName ? 'Сменить' : 'Загрузить'; row.insertBefore(up, row.querySelector('.song-play'));
+}
+function bindV17(){
+  const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'audio/*,.mp3,.m4a,.aac,.wav,.ogg,.flac'; inp.hidden = true; inp.id = 'songFile'; document.body.appendChild(inp);
+  inp.addEventListener('change', () => { const f = inp.files && inp.files[0]; inp.value = ''; if (f) loadCustomFile(f); });
+  $('#songList').addEventListener('click', e => {
+    const up = e.target.closest('[data-up]'), row = e.target.closest('[data-song="custom"]');
+    if (up || (row && !S.customName)) { e.stopPropagation(); audio(); inp.click(); }
+  }, true);
+}
+
 /* ================= v12 FEATURES: toggles, songs, tutorial, title kata, vampire strike, boss stun, ghost hero ================= */
 const OPT_DEF = {ghost:false, shadow:true, vamp:true, cat:true, bats:true, traps:true, fork:true, arch:true, lines:true, fx:true, hints:true};
 const OPTS = [
@@ -4938,11 +5243,11 @@ function optDefaults(){
 optDefaults();
 const opt = k => !S.opt || S.opt[k] !== false;
 S.perfDiag = false; /* the stutter overlay never starts on by itself */
-LINES.vampRoad = [['I see you…', 'Я тебя вижу…'], ['Run, run… I will catch up.', 'Беги, беги… я догоню.'], ['Sweet candies…', 'Сладкие конфетки…']];
-LINES.bossStun = [['My head… spins…', 'Голова… кружится…'], ['No! Not the sword!', 'Нет! Только не меч!']];
+LINES.vampRoad = [['I see you…'], ['Run, run…'], ['Sweet candies…']];
+LINES.bossStun = [['My head…'], ['Not the sword!']];
 
 /* ---------- settings: songs and feature toggles ---------- */
-function renderSongs(){
+function renderSongs0(){
   const el = $('#songList'); if (!el) return;
   el.innerHTML = SONGS.map(s => { const on = s.id === S.song, playing = MUS.mode === 'preview' && MUS.prevId === s.id, wait = MUS.want === 'preview' && MUS.prevId === s.id && !playing;
     return '<div class="song' + (on ? ' on' : '') + '" data-song="' + s.id + '"><i class="radio"></i><b>' + esc(s.name) + '<small>' + esc(s.sub) + '</small></b><button class="song-play' + (playing ? ' on' : '') + '" data-play="' + s.id + '" aria-label="' + (playing ? 'Остановить' : 'Послушать') + ' «' + esc(s.name) + '»">' + (wait ? '…' : playing ? '■' : '▶') + '</button></div>'; }).join('');
@@ -5001,7 +5306,7 @@ function snapCharacters(){
   try {
     if (A.wolfGL) { const w = posed(A.wolfGL.scene, A.wolfGL.animations, 'Walk', 0.35); w.scale.setScalar(1.3); SNAP.img.wolf = shot(w, -0.5); }
     if (A.vampGL) SNAP.img.vamp = shot(posed(A.vampGL.scene, A.vampGL.animations, 'Cast', 0.7), Math.PI / 2 - 0.45);
-    if (A.catGL) SNAP.img.cat = shot(T.SkeletonUtils.clone(A.catGL.scene), -0.55);
+    if (A.catGL) { const c = posed(A.catGL.scene, A.catGL.animations, 'Bite', 1.1); c.position.y = 0.5; SNAP.img.cat = shot(c, -0.55); }
     if (A.wba && A.wba.witch) SNAP.img.boss = shot(A.wba.witch.clone(), -0.35);
     if (A.heroGL) {
       const clips = A.heroGL.animations.slice(); if (hero && hero.act && hero.act.Spin) clips.push(hero.act.Spin.getClip());
@@ -5018,7 +5323,7 @@ const TUT2 = [
   {k:'Управление', c:'#17b3bf', t:'Всё — свайпами', d:'<b>← →</b> сменить полосу · <b>↑</b> прыжок · <b>↓</b> удар мечом с разворотом. Летучих мышей <b>тапай</b> или рассекай свайпом.', art:'swipe'},
   {k:'Героиня', c:'#52ff2e', t:'Меч и разворот', d:'Быстрые верные ответы заряжают меч. Полный заряд — <b>свайп вниз</b> или кнопка: удар с разворотом сносит всё впереди.', art:'char', who:'hero', name:'ЭТО ТЫ'},
   {k:'Мини-босс', c:'#c77dff', t:'Вампир', d:'Лежит на склепе у дороги и следит. Потом встаёт <b>вместо волка</b>: если верное слово у него — встань на его полосу и <b>свайпни вниз</b>. Позже вызовет на дуэль.', art:'char', who:'vamp', name:'ВАМПИР'},
-  {k:'Хулиган', c:'#ff7ab8', t:'Кот', d:'Запрыгивает на тропу и <b>плюётся на экран</b> — смахни пятно свайпом. Бросил клубок — <b>перепрыгни</b>.', art:'char', who:'cat', name:'КОТ'},
+  {k:'Хулиган', c:'#ff7ab8', t:'Кот', d:'Ошибёшься <b>два раза подряд</b> — кот прыгнет на плечо и укусит: героиню будет мотать с полосы на полосу. <b>Быстро тапай по коту</b>, пока круг не заполнится. Ещё он прячет ответы и бросает клубки.', art:'char', who:'cat', name:'КОТ'},
   {k:'Поворот', c:'#ff8a5a', t:'Развилка', d:'Ближе к концу дорога уходит <b>влево и вправо</b>. За одним поворотом — туннель с ловушками и двойными конфетами, за другим — длинный спокойный путь. Где что — <b>загадка</b>.', art:'fork'},
   {k:'Сила', c:'#b08aff', t:'Мир теней', d:'Верные ответы заряжают призрака слева. Заряжен — <b>проведи двумя пальцами вниз</b>: станешь призраком, ловушки не страшны, награда ×2.', art:'two', who:'ghost'},
   {k:'Босс', c:'#ff5a6a', t:'Пожиратель слов', d:'Открывается, когда изучишь все слова главы. Задаёт <b>предложения с пропуском</b>. Серия верных ответов — он <b>оглушён</b>: тапай по нему!', art:'char', who:'boss', name:'БОСС'},
@@ -5113,11 +5418,11 @@ function vampStrikeTry(){
   const v = vampTarget(); if (!v || G.lane !== v.i) return false;
   const q = v.q; if (q.vampStruck) return true;
   const z = q.grp.position.z;
-  if (z < -22) { popText('Ближе!', LANES[v.i], 2.6, -2, 'vamp'); return true; }
+  if (z < -22) { popText('Closer!', LANES[v.i], 2.6, -2, 'vamp'); return true; }
   q.vampStruck = true; q.lockLane = true; q.lastMove = G.time;
   heroSpin(); sfx.slash(); haptic(HAP.dash); shake(0.25);
   const x = LANES[v.i]; slashFx(x, 2.1, z + 0.9, 1.9, -1.45, false); waveFx(x, 1.6, z, 0xc77dff); burst(x, 1.9, z, 0xc77dff, 16, 7); flashFx('rgba(150,80,230,.45)');
-  vampAnim('Catch', 0.08, true, 1.5); popText('Удар!', x, 3.4, z, 'vamp');
+  vampAnim('Catch', 0.08, true, 1.5); popText('Hit!', x, 3.4, z, 'vamp');
   $('#vdown').hidden = true; return true;
 }
 const vdownEl = $('#vdown');
@@ -5128,11 +5433,11 @@ function updateVdown(){
 }
 
 /* ---------- boss: sentence questions, stun after a streak, tap to hit ---------- */
-const stunNeed = () => S.hard ? 5 : 4;
+const stunNeed = () => S.hard ? (G.bossHP > G.bossMax * 0.64 ? 99 : 5) : 4;
 function bossStreakPop(ok){
-  if (!ok) { if ((G.bossStreak || 0) >= 2) popText('Серия сброшена', 0, 5.4, -19, 'bad'); G.bossStreak = 0; return; }
+  if (!ok) { if ((G.bossStreak || 0) >= 2) popText('Streak lost', 0, 5.4, -19, 'bad'); G.bossStreak = 0; return; }
   G.bossStreak = (G.bossStreak || 0) + 1;
-  popText(G.bossStreak >= stunNeed() ? 'Босс шатается!' : 'Серия ' + G.bossStreak + ' / ' + stunNeed(), 0, 5.4, -19, G.bossStreak >= stunNeed() ? 'dash' : 'gain');
+  popText(G.bossStreak >= stunNeed() ? 'Boss is dizzy!' : 'Streak ' + G.bossStreak + (stunNeed() > 50 ? '' : ' / ' + stunNeed()), 0, 5.4, -19, G.bossStreak >= stunNeed() ? 'dash' : 'gain');
 }
 function startStun(){
   const b = G.boss; if (!b || b.dead) return false;
@@ -5149,7 +5454,7 @@ function renderStun(){ $('#stunFill').style.transform = 'scaleX(' + clamp(G.stun
 function bossTap(px, py){
   if (G.phase !== 'stun' || !G.boss) return;
   const b = G.boss, p = screenOf(0, b.top * 0.5, b.z), d = Math.hypot(p[0] - px, p[1] - py), R = Math.max(stageRect.w * 0.46, 160);
-  if (d > R) { popText('Мимо!', hero.g.position.x, 2.6, hero.g.position.z - 1, 'bad'); return; }
+  if (d > R) { popText('Miss!', hero.g.position.x, 2.6, hero.g.position.z - 1, 'bad'); return; }
   bossHit();
 }
 function bossHit(){
@@ -5160,7 +5465,7 @@ function bossHit(){
   const sx = (Math.random() - 0.5) * 2.4, sy = b.top * (0.35 + Math.random() * 0.4);
   slashFx(sx, sy, b.z + 2.2, 2.6 + Math.random(), (Math.random() - 0.5) * 2.4, Math.random() < 0.5); burst(sx, sy, b.z + 1.5, G.stunHits % 2 ? 0xffe14a : 0xffffff, 8, 7);
   sfx.slash(); if (G.stunHits % 2) sfx.hit(); haptic(HAP.tap); shake(0.12); renderStun();
-  if (dmg > 0) popText('−' + Math.round(dmg * 10), sx, sy + 1.2, b.z + 1.5, 'sword'); else if (G.stunHits % 3 === 0) popText('Он приходит в себя…', 0, b.top + 1, b.z, 'vamp');
+  if (dmg > 0) popText('−' + Math.round(dmg * 10), sx, sy + 1.2, b.z + 1.5, 'sword'); else if (G.stunHits % 3 === 0) popText('He’s waking up…', 0, b.top + 1, b.z, 'vamp');
   if (G.bossHP <= 0) { endStun(true); bossDefeat(); }
 }
 function endStun(dead){
@@ -5218,7 +5523,7 @@ function v12Frame(sdt, dt){
   if (G.mode === 'run') updateVdown(); else if (!vdownEl.hidden) vdownEl.hidden = true;
   if (vSlab) vSlab.visible = V.mode === 'road';
   if (V.mode === 'road') updateVampRoad(sdt);
-  musicMood();
+  musicMood(); v17Frame(sdt, dt);
 }
 
 G.anims = [];
@@ -5253,7 +5558,7 @@ function clearPlay(){
   endBuild(); clearSplats(); if (G.shadowT > 0) shadowOff(true); G.duel = null; $('#duel').hidden = true; G.forkUntil = 0; resetJunction(); dropAnims(); trailHist.length = 0; $('#stunUI').hidden = true; $('#vdown').hidden = true; if (G.boss && G.boss.stun) G.boss.stun = false;
   if (G.current) { releaseQuestion(G.current); if (G.current.orbs) G.current.orbs.forEach(o => { freeTag(o.tag); scene.remove(o.g); disposeTree(o.g); }); }
   G.current = null; if (G.nextQ) { releaseQuestion(G.nextQ); G.nextQ = null; }
-  clearCoins(); catOff(); if (V.mode !== 'off') vampOff();
+  clearCoins(); catOff(); biteOff(); if (V.mode !== 'off') vampOff();
   obstacles.splice(0).forEach(o => { if (o.userData.kind === 'bats') batsDisarm(o.userData); if (o.userData.tags) o.userData.tags.forEach(freeTag); scene.remove(o); }); tapT.length = 0;
   pickups.splice(0).forEach(o => scene.remove(o));
   if (G.proj) { scene.remove(G.proj.m); G.proj = null; }
@@ -5262,12 +5567,12 @@ function clearPlay(){
 }
 function resetPlay(){
   clearPlay();
-  Object.assign(G, {defeated:false, paused:false, hearts:3, combo:0, bestCombo:0, coinsRun:0, res:{}, answered:0, correctN:0, qIndex:0, lane:1, heroY:0, vy:0, freeze:0, slow:0, phase:'gap', proj:null, retryQ:[], bossCount:0,
+  Object.assign(G, {defeated:false, paused:false, hearts:3, combo:0, bestCombo:0, coinsRun:0, hardBoost:1, wrongRow:0, soulSpawned:false, soulDone:false, res:{}, answered:0, correctN:0, qIndex:0, lane:1, heroY:0, vy:0, freeze:0, slow:0, phase:'gap', proj:null, retryQ:[], bossCount:0,
     stage:0, slideT:0, dashT:0, shieldT:0, magnetT:0, x2T:0, sched:[], sprintEnd:0, pendingDash:false, coinStreak:0, sword:0, batAlt:false, shadowE:0, shadowT:0, shadowLoss:0, archPending:false, archDone:false, duel:null, duelDone:false, forkUntil:0, forkDouble:0, revived:false, hideTags:false, buildQ:null, anims:[], econ:{track:0, ans:0, pupSpawn:0, pups:0}, lastPup:-99, forkDone:false, junctionDone:false, branch:null, shadowReadyHint:false, bossStreak:0, heroZT:0, stunT:0});
   hero.atk = 0; hero.hurt = 0;
   renderHearts(); renderCoins(); renderCombo(); railClear(); renderPups(); renderSword(); renderShadowBtn(); GH.want = 1; GH.lead = 1;
 }
-function showPlayHud(boss){ showScreen(null); tgPlaying(true); $('#hud').hidden = false; $('#rail').hidden = false; $('#pups').hidden = false; swordBtn.hidden = false; shadowBtn.hidden = !!boss || !opt('shadow'); $('#hardPill').hidden = !S.hard; $('#bossBar').hidden = !boss; }
+function showPlayHud(boss){ showScreen(null); tgPlaying(true); $('#hud').hidden = false; $('#rail').hidden = false; $('#pups').hidden = false; swordBtn.hidden = false; shadowBtn.hidden = !!boss || !opt('shadow'); $('#hardPill').hidden = !S.hard; appEl.classList.toggle('hardrun', !!S.hard); $('#bossBar').hidden = !boss; }
 function startRun(newIds, reviewIds){
   newIds.forEach(id => { const s = S.words[id]; s.seen = true; s.box = 0; s.due = now(); });
   save();
@@ -5277,7 +5582,7 @@ function startRun(newIds, reviewIds){
   V.seen = 0; V.ready = false; V.laneN = 0;
   startSprint(true); musicStage(0); musicPlay('run');
   banner('Уровень 1 из ' + STAGES.length, STAGES[0].name, 'Вперёд!', STAGES[0].color); sfx.stage();
-  if (S.runs < 2) hint('Свайп влево/вправо — полоса · вверх — прыжок · вниз или кнопка меча — удар. Ответ можно выбрать кнопкой внизу.', 5600);
+  if (S.runs < 2) hint('Swipe ← → to move · ↑ jump', 4200);
 }
 function stageUp(n){
   G.stage = n; const st = STAGES[n]; G.speedNow = st.speed * hardMul(); questEvent('level', n + 1);
@@ -5289,10 +5594,10 @@ function spawnHazard(kind, at){
   if (kind === 'spikes' && G.stage >= 4 && Math.random() < 0.4) { const free = ri(3); [0, 1, 2].filter(l => l !== free).forEach(l => spawnObstacle('spikes', l, SPAWN_Z)); lane = free; }
   else if (kind === 'rock' && G.stage >= 1 && Math.random() < 0.4) { const free = ri(3); [0, 1, 2].filter(l => l !== free).forEach(l => spawnObstacle('rock', l, SPAWN_Z)); lane = free; }
   else spawnObstacle(kind, lane, kind === 'bats' ? -30 : SPAWN_Z);
-  if (kind === 'log') { coinArcOverLog(SPAWN_Z); if (!G.logHinted && S.runs < 3) { G.logHinted = true; hint('Бревно! Свайп вверх — прыжок', 2600); } }
-  if (kind === 'pumpkin' && !G.pumpHinted) { G.pumpHinted = true; hint('Тыква катится на тебя — уйди с полосы или перепрыгни', 2800); }
-  if (kind === 'spikes' && !G.spikeHinted) { G.spikeHinted = true; hint('Ледяные шипы! Перепрыгни или уйди с полосы', 2800); }
-  if (kind === 'bounce' && !G.bounceHinted) { G.bounceHinted = true; hint('Гриб-батут! Забеги на него — взлетишь за конфетами', 2800); }
+  if (kind === 'log') { coinArcOverLog(SPAWN_Z); if (!G.logHinted && S.runs < 3) { G.logHinted = true; hint('Log! Swipe ↑', 2200); } }
+  if (kind === 'pumpkin' && !G.pumpHinted) { G.pumpHinted = true; hint('Pumpkin! Dodge or jump', 2400); }
+  if (kind === 'spikes' && !G.spikeHinted) { G.spikeHinted = true; hint('Spikes! Jump!', 2200); }
+  if (kind === 'bounce' && !G.bounceHinted) { G.bounceHinted = true; hint('Mushroom! Bounce up', 2200); }
   return lane;
 }
 /* a sprint between questions: coins, hazards and power-ups arrive from the fog on a small timeline */
@@ -5312,7 +5617,7 @@ function startSprint(first){
 }
 function startDash(){
   G.dashT = 2.6; sfx.dash(); haptic(HAP.dash); $('#lines').classList.add('on'); shake(0.25);
-  popText('Огненный рывок!', hero.g.position.x, 2.6, 0, 'dash'); flashFx('rgba(255,140,60,.5)');
+  popText('Fire dash!', hero.g.position.x, 2.6, 0, 'dash'); flashFx('rgba(255,140,60,.5)');
 }
 function prepNextQ(){
   if (G.nextQ || G.qIndex >= G.queue.length) return;
@@ -5337,18 +5642,18 @@ function spawnRunQ(){
   q.ents.forEach((e, i) => { e.g.visible = true; e.age = -i * 0.07; e.face = 0; e.g.rotation.y = 0; showTag(e.tag, entAnchor(q, e), 120 + i * 70); });
   G.current = q; G.phase = 'question'; openQ(q); sfx.appear();
   const hasV = q.ents.some(e => e.vamp);
-  if (hasV && V.laneN === 1) hint('Вампир среди волков! Если верное слово у него — встань на его полосу и свайпни вниз', 3800);
+  if (hasV && V.laneN === 1) hint('Vampire! His lane + swipe ↓', 3000);
   q.catLane = (A.ok && opt('cat') && CAT.g && !hasV && q.type !== 'build' && G.answered >= 3 && Math.random() < (S.hard ? 0.5 : 0.35)) ? ri(3) : -1;
   onSpawnQ(q);
 }
-function comboHeal(){ if (G.combo % (S.hard ? 8 : 5) === 0 && G.hearts < 3) { G.hearts++; renderHearts(); hint('Комбо ×' + G.combo + ' — сердце восстановлено', 1800); } }
+function comboHeal(){ if (!S.hard && G.combo % 5 === 0 && G.hearts < 3) { G.hearts++; renderHearts(); hint('Combo ×' + G.combo + ' · +1 ♥', 1800); } }
 function record(id, ok, fast){
   const r = G.res[id] || (G.res[id] = {wrong:false, firstFast:null, n:0, ok:0});
   r.n++; if (ok) r.ok++; else r.wrong = true;
   if (r.firstFast === null) r.firstFast = ok && fast;
 }
 function loseHeart(){ G.hearts--; renderHearts(); const h = $('#hearts').children[G.hearts]; if (h) bumpEl(h, 'lost'); hurtFx();
-  if (G.hearts <= 0 && S.potions > 0 && !G.revived) { S.potions--; G.revived = true; G.hearts = 1; renderHearts(); toast('Запасное сердце!', 'Зелий осталось: ' + S.potions, 'good'); sfx.pup(); save(); } }
+  if (G.hearts <= 0 && S.potions > 0 && !G.revived && !S.hard) { S.potions--; G.revived = true; G.hearts = 1; renderHearts(); toast('Запасное сердце!', 'Зелий осталось: ' + S.potions, 'good'); sfx.pup(); save(); } }
 function resolveRun(){
   const q = G.current, w = q.w, chosen = q.type === 'build' ? 1 : G.lane, ok = q.type === 'build' ? !!q.built : chosen === q.correct; endBuild();
   const fast = (q.lastMove - q.spawn) <= q.T * 0.62;
@@ -5356,8 +5661,9 @@ function resolveRun(){
   q.ents.forEach((e, i) => { e.fleeDir = i === 0 ? -1 : i === 2 ? 1 : (Math.random() < .5 ? -1 : 1); e.fate = 'flee'; });
   const target = q.ents[chosen]; const tz = q.grp.position.z;
   if (CAT.mode === 'on' || CAT.mode === 'jump') catLeave(false);
+  catMistake(ok); if (!ok) hardMistake();
   const vampE = q.ents.find(e => e.vamp);
-  if (vampE) { if (ok && vampE === target) { if (q.vampStruck) { vampExit('die'); G.coinsRun += 20; popText('Вампир повержен! +20', LANES[chosen], 3.4, tz, 'vamp'); } else { vampExit('steal'); toast('Вампир увернулся!', 'Верное слово было у него — нужен свайп вниз', 'bad'); } } else vampExit(ok ? 'flee' : 'steal'); }
+  if (vampE) { if (ok && vampE === target) { if (q.vampStruck) { vampExit('die'); G.coinsRun += 20; popText('Vampire down! +20', LANES[chosen], 3.4, tz, 'vamp'); } else { vampExit('steal'); toast('Вампир увернулся!', 'Верное слово было у него — нужен свайп вниз', 'bad'); } } else vampExit(ok ? 'flee' : 'steal'); }
   if (ok) {
     G.combo++; G.bestCombo = Math.max(G.bestCombo, G.combo); G.correctN++; comboHeal();
     const mult = Math.min(ECON.comboCap, 1 + Math.floor(G.combo / 5) * ECON.comboStep) * (G.x2T > 0 ? 2 : 1) * (S.hard ? 2 : 1); const gain = Math.round((q.item.corrupt ? ECON.ansCorrupt : ECON.ans) * mult); G.coinsRun += gain; G.econ.ans += gain;
@@ -5581,7 +5887,7 @@ function endRun(outcome){
   let n = 0, ok = 0; for (const id in G.res) { n += G.res[id].n; ok += G.res[id].ok; }
   const acc = n ? ok / n : 0;
   const changes = applyResults(); G.practiceIds = [];
-  S.coins += G.coinsRun; S.runs++; S.st.runs++; if (kind === 'run' && outcome === 'done') questEvent('run'); S.bestCombo = Math.max(S.bestCombo, G.bestCombo);
+  S.coins += soulOnEnd(kind, outcome) ? 0 : G.coinsRun; S.runs++; S.st.runs++; if (kind === 'run' && outcome === 'done') questEvent('run'); S.bestCombo = Math.max(S.bestCombo, G.bestCombo);
   if (kind === 'run' && n >= 4) S.lastAcc = acc;
   if (kind === 'run') S.sessions++;
   if (kind === 'boss' && outcome === 'win') { S.bossBeaten = true; S.bossWins[curCh().id] = true; }
@@ -5608,6 +5914,7 @@ function endRun(outcome){
   const notes = [];
   if (outcome === 'fail' || outcome === 'quit') notes.push('Прогресс по словам, на которые уже был ответ, сохранён.');
   if (kind === 'run') notes.push('Уровень ' + lvl + ' из ' + STAGES.length + ' — ' + STAGES[G.stage].name + (lvlRec && lvl > 1 ? ' · новый рекорд!' : '') + '.');
+  if (G.soulNote) notes.unshift(G.soulNote);
   notes.push('Быстрый верный ответ поднимает карточку на уровень, медленный — оставляет на месте, ошибка возвращает на Бронзу I.');
   $('#resNote').textContent = notes.join(' ');
   showScreen('scrResults');
@@ -5730,7 +6037,7 @@ function update(dt){
   updateVamp(sdt); updateCat(sdt); updateSlashes(sdt); updateDust(sdt, dt); updateWaves(sdt); updateSwordTrail(); updateGhost(sdt); updateSplats(); v12Frame(sdt, dt);
   if (G.anims.length) runAnims(sdt);
   if (G.mode === 'run' || G.mode === 'boss') { updateShadow(sdt, G.current); if (!G.paused) statTime(dt); }
-  updateHero(sdt, dt); updateParts(sdt); updateCamera(dt); updateTags();
+  updateHero(sdt, dt); postHero17(sdt, dt); updateParts(sdt); updateCamera(dt); updateTags();
   if (playing) renderPups();
 }
 let baseFov = 60, fovNow = 60, runFov = 70;
@@ -5827,8 +6134,8 @@ function endBoot(){
   else buildSceneryProc();
   setPal('dusk', 'day', true); prewarm(); setTimeout(renderMusic, 400); window.__bootDone = true; if (TG.ok) tgCloudInit(); else cloudInit(); if (G.mode === 'home') renderHome(); loadEl.classList.add('out'); setTimeout(() => { loadEl.hidden = true; }, 600);
 }
-if (/debug/.test(location.search)) window.__WR = {G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
-bindMeta(); bindV12(); goHome();
+if (/debug/.test(location.search)) window.__WR = {hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
+bindMeta(); bindV12(); bindV17(); goHome();
 requestAnimationFrame(frame);
 if (HAS_GLB) loadAssets(setProg).then(endBoot).catch(e => { console.error('assets', e); A.ok = false; endBoot(); });
 else endBoot();
