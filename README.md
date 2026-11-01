@@ -2,6 +2,8 @@
 
 3D-раннер для изучения английских слов уровня B1–B2. Работает в браузере на телефоне и как Telegram Mini App.
 
+**Играть:** https://sugero205.github.io/WordRushEnglishBro_bot/ · **Бот:** [@WordRushEnglishBro_bot](https://t.me/WordRushEnglishBro_bot)
+
 Перед каждым забегом — 10 карточек слов и быстрая проверка. Потом слова выходят на тропу монстрами: нужно встать на полосу с верным переводом. В игре 5 глав (126 слов), можно добавлять свои слова, есть боссы, экзамены у ворот глав, магазин, задания дня и режим ХАРД.
 
 ## Что в репозитории
@@ -18,7 +20,7 @@
 ## Публикация на GitHub Pages
 
 Settings → Pages → Build and deployment → Source: **Deploy from a branch** → Branch: **main**, папка **/ (root)** → Save.
-Через 1–2 минуты игра откроется по ссылке `https://<логин>.github.io/<репозиторий>/`.
+Через 1–2 минуты игра откроется по ссылке `https://sugero205.github.io/WordRushEnglishBro_bot/`.
 
 ## Подключение к Telegram-боту (@BotFather)
 
@@ -33,7 +35,7 @@ Settings → Pages → Build and deployment → Source: **Deploy from a branch**
 
    > 3D-раннер для английских слов B1–B2: карточки, забеги, боссы и свои слова.
 
-6. Необязательно — прямая ссылка на игру: `/newapp` → бот → название `Word Rush` → описание → фото `promo/cover-640x360.png` → GIF можно пропустить (`/empty`) → ссылка на игру → короткое имя, например `play`. Ссылка будет вида `t.me/<бот>/play`.
+6. Необязательно — прямая ссылка на игру: `/newapp` → бот → название `Word Rush` → описание → фото `promo/cover-640x360.png` → GIF можно пропустить (`/empty`) → ссылка на игру → короткое имя, например `play`. Ссылка будет вида `t.me/WordRushEnglishBro_bot/play`.
 
 ## Сохранение прогресса
 
