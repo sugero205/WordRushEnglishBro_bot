@@ -450,6 +450,99 @@ label.btn{cursor:pointer}
 #stunUI span{font:800 12px/1 var(--body);color:#fff;text-shadow:0 1px 0 var(--ink),0 0 4px var(--ink)}
 #btnShadow.ready::after{content:'';position:absolute;left:50%;top:-30px;width:26px;height:24px;transform:translateX(-50%);background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 24'%3E%3Cpath d='M7 2v14M19 2v14M2 12l5 6 5-6M14 12l5 6 5-6' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");animation:vdBob .6s ease-in-out infinite alternate;filter:drop-shadow(0 1px 0 #1e1838)}
 
+/* v16 tutorial — motion-design cards */
+#scrTut{background:#1e1838}
+#scrTut{--tc:#ffc93a;background:radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,var(--tc) 38%,#2a1d5e) 0%,#1e1838 58%,#120d24 100%);transition:background .5s}
+.tut-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.tut-bg i{position:absolute;border-radius:50%;filter:blur(2px);opacity:.55;animation:tbFloat 9s ease-in-out infinite alternate}
+.tut-bg i:nth-child(1){width:120px;height:120px;left:-30px;top:12%;background:color-mix(in srgb,var(--tc) 60%,transparent)}
+.tut-bg i:nth-child(2){width:70px;height:70px;right:8%;top:6%;background:#ff7ab866;animation-duration:7s}
+.tut-bg i:nth-child(3){width:160px;height:160px;right:-60px;bottom:18%;background:#17b3bf55;animation-duration:11s}
+.tut-bg i:nth-child(4){width:40px;height:40px;left:14%;bottom:12%;background:#ffc93a77;animation-duration:6s}
+.tut-bg i:nth-child(5){width:14px;height:14px;left:52%;top:20%;background:#fff;opacity:.8;animation-duration:5s}
+@keyframes tbFloat{from{transform:translate(0,0) scale(1)}to{transform:translate(18px,-26px) scale(1.15)}}
+#scrTut .col{gap:12px;position:relative}
+.tut-top{display:flex;justify-content:space-between;align-items:center}
+#tutK{font:900 12px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;color:#1e1838;background:var(--tc);border:2.5px solid #1e1838;border-radius:99px;padding:7px 12px;box-shadow:0 3px 0 #1e1838}
+#tutSkip{font:800 13px/1 var(--body);color:#fff;background:none;border:none;opacity:.8;padding:8px}
+#tutDots{display:flex;gap:5px}
+#tutDots i{flex:1;height:6px;border-radius:99px;background:rgba(255,255,255,.18);overflow:hidden;position:relative}
+#tutDots i.done{background:rgba(255,255,255,.7)}
+#tutDots i.on::after{content:'';position:absolute;inset:0;background:var(--tc);transform-origin:left;animation:tdFill .6s cubic-bezier(.2,.8,.3,1) forwards}
+@keyframes tdFill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+#tutCard{--tc:#ffc93a;position:relative;background:#fff8e4;border:4px solid #1e1838;border-radius:28px;box-shadow:0 8px 0 #1e1838,0 18px 40px rgba(0,0,0,.35);padding:12px 14px 18px;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+#tutCard.in{animation:tcIn .55s cubic-bezier(.2,1.4,.4,1)}
+#tutCard.back{animation:tcBack .5s cubic-bezier(.2,1.4,.4,1)}
+@keyframes tcIn{from{transform:translateX(60px) rotate(4deg) scale(.92);opacity:0}to{transform:none;opacity:1}}
+@keyframes tcBack{from{transform:translateX(-60px) rotate(-4deg) scale(.92);opacity:0}to{transform:none;opacity:1}}
+#tutArt{border:3px solid #1e1838;border-radius:20px;overflow:hidden;background:none;padding:0}
+#tutT{font:900 clamp(24px,7vw,32px)/1.02 var(--display);margin:4px 0 0;color:#1e1838;text-transform:uppercase;letter-spacing:-.01em;animation:ttIn .5s .15s cubic-bezier(.2,1.4,.4,1) backwards}
+@keyframes ttIn{from{transform:translateY(14px) skewY(4deg);opacity:0}to{transform:none;opacity:1}}
+#tutD{font:650 15px/1.45 var(--body);margin:0;color:#3a3358;animation:ttIn .5s .25s ease-out backwards}
+#tutD b{font-weight:900;color:#1e1838;background:linear-gradient(transparent 55%,color-mix(in srgb,var(--tc) 70%,transparent) 55%);padding:0 2px}
+/* stage */
+.ts{background:#3a2a6e}
+.ts{position:relative;height:clamp(190px,46vw,236px);background:radial-gradient(circle at 50% 58%,color-mix(in srgb,var(--tc) 55%,#fff) 0%,color-mix(in srgb,var(--tc) 35%,#2a1d5e) 62%,#1e1838 100%);overflow:hidden}
+.ts-rays{position:absolute;left:50%;top:58%;width:520px;height:520px;margin:-260px 0 0 -260px;background:repeating-conic-gradient(rgba(255,255,255,.16) 0 9deg,transparent 9deg 22deg);animation:tsSpin 16s linear infinite;border-radius:50%}
+@keyframes tsSpin{to{transform:rotate(360deg)}}
+.ts-ring{position:absolute;left:50%;top:60%;width:150px;height:150px;margin:-75px 0 0 -75px;border:4px solid rgba(255,255,255,.55);border-radius:50%;animation:tsRing 1.8s ease-out infinite}
+@keyframes tsRing{from{transform:scale(.6);opacity:.9}to{transform:scale(1.6);opacity:0}}
+.ts-fig{position:absolute;left:50%;bottom:-4px;width:min(78%,250px);aspect-ratio:1;transform:translateX(-50%);animation:tsBob 2.4s ease-in-out 1.3s infinite alternate}
+@keyframes tsBob{from{transform:translateX(-50%) translateY(0)}to{transform:translateX(-50%) translateY(-8px)}}
+.ts-fig img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 0 rgba(30,24,56,.35))}
+.ts-sil{filter:brightness(0) drop-shadow(0 0 10px rgba(255,255,255,.7))!important;animation:silIn .45s cubic-bezier(.2,1.6,.4,1) both,silOut .35s .95s ease-in forwards}
+@keyframes silIn{from{transform:scale(.4) rotate(-12deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes silOut{to{opacity:0;transform:scale(1.08)}}
+.ts-col{clip-path:circle(0% at 50% 55%);animation:colIn .55s .95s cubic-bezier(.3,1.2,.4,1) forwards}
+@keyframes colIn{to{clip-path:circle(75% at 50% 55%)}}
+.ts-who{position:absolute;left:50%;top:14%;transform:translateX(-50%);font:900 64px/1 var(--display);color:#fff;-webkit-text-stroke:4px #1e1838;paint-order:stroke fill;text-shadow:0 5px 0 #1e1838;animation:whoIn .4s .2s cubic-bezier(.2,1.8,.4,1) backwards,whoOut .25s 1s ease-in forwards;z-index:2}
+.ts-who.on{animation:whoIn .4s .2s cubic-bezier(.2,1.8,.4,1) backwards}
+@keyframes whoIn{from{transform:translateX(-50%) scale(0) rotate(-20deg)}to{transform:translateX(-50%) scale(1)}}
+@keyframes whoOut{to{transform:translateX(-50%) scale(1.6);opacity:0}}
+.ts-name{position:absolute;right:12px;top:12px;z-index:3;font:900 15px/1 var(--display);letter-spacing:.04em;background:var(--tc);color:#1e1838;border:3px solid #1e1838;border-radius:12px;padding:7px 10px;box-shadow:0 4px 0 #1e1838;transform:rotate(6deg);animation:nameIn .45s 1.15s cubic-bezier(.2,1.8,.4,1) backwards}
+@keyframes nameIn{from{transform:rotate(30deg) scale(0)}to{transform:rotate(6deg) scale(1)}}
+.ts-spark{position:absolute;width:14px;height:14px;background:#fff;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);animation:spk 1.4s ease-in-out infinite;opacity:0}
+.ts-spark.s1{left:18%;top:30%;animation-delay:1.1s}.ts-spark.s2{right:22%;top:46%;animation-delay:1.5s;width:10px;height:10px}.ts-spark.s3{left:30%;bottom:16%;animation-delay:1.9s}
+@keyframes spk{0%,100%{opacity:0;transform:scale(.3) rotate(0)}50%{opacity:1;transform:scale(1.2) rotate(90deg)}}
+/* swipe demo */
+.ph{position:absolute;left:50%;top:50%;width:118px;height:178px;margin:-89px 0 0 -59px;background:#1e1838;border:4px solid #fff;border-radius:22px;box-shadow:0 6px 0 rgba(0,0,0,.3);overflow:hidden}
+.ph-lanes{position:absolute;inset:14px 12px;display:flex;gap:5px}
+.ph-lanes i{flex:1;border-radius:6px;background:rgba(255,255,255,.12)}
+.ph .fg{position:absolute;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 0 0 6px rgba(255,255,255,.25);left:46px;top:76px;animation:fgMove 4.8s ease-in-out infinite}
+@keyframes fgMove{0%{transform:translate(0,0);opacity:0}5%{opacity:1}18%{transform:translate(-34px,0);opacity:1}24%{opacity:0;transform:translate(-34px,0)}26%{transform:translate(0,0);opacity:0}30%{opacity:1}43%{transform:translate(34px,0);opacity:1}49%{opacity:0;transform:translate(34px,0)}51%{transform:translate(0,20px);opacity:0}55%{opacity:1}68%{transform:translate(0,-36px);opacity:1}74%{opacity:0;transform:translate(0,-36px)}76%{transform:translate(0,-20px);opacity:0}80%{opacity:1}93%{transform:translate(0,30px);opacity:1}100%{opacity:0;transform:translate(0,30px)}}
+.ph .lb{position:absolute;font:900 30px/1 var(--display);color:var(--tc);-webkit-text-stroke:2px #1e1838;paint-order:stroke fill;opacity:0;animation:lbShow 4.8s infinite}
+.ph .l1{left:10px;top:70px}.ph .l2{right:10px;top:70px;animation-delay:1.2s}.ph .l3{left:47px;top:12px;animation-delay:2.4s}.ph .l4{left:47px;bottom:10px;animation-delay:3.6s}
+@keyframes lbShow{0%,4%{opacity:0;transform:scale(.4)}10%,20%{opacity:1;transform:scale(1.15)}26%,100%{opacity:0;transform:scale(1)}}
+/* fork */
+.fk-road{position:absolute;left:50%;bottom:0;width:70px;height:62%;margin-left:-35px;background:#e8d4b0;border-left:4px solid #1e1838;border-right:4px solid #1e1838}
+.fk-wall{position:absolute;left:8%;right:8%;top:22%;height:26%;background:linear-gradient(#5a4a6e,#2a2234);border:4px solid #1e1838;border-radius:10px}
+.fk-arm{position:absolute;top:36%;width:38%;height:38px;background:#e8d4b0;border-top:4px solid #1e1838;border-bottom:4px solid #1e1838;display:grid;place-items:center}
+.fk-arm.l{left:0;animation:armL 1.6s ease-in-out infinite}.fk-arm.r{right:0;animation:armR 1.6s ease-in-out infinite}
+.fk-arm span{font:900 34px/1 var(--display);color:#fff;-webkit-text-stroke:3px #1e1838;paint-order:stroke fill;animation:qShake 1.2s ease-in-out infinite}
+.fk-arm.r span{animation-delay:.6s}
+@keyframes armL{50%{transform:translateX(-6px)}}@keyframes armR{50%{transform:translateX(6px)}}
+@keyframes qShake{0%,100%{transform:rotate(-10deg) scale(1)}50%{transform:rotate(10deg) scale(1.2)}}
+.fk-fog{position:absolute;inset:0;background:radial-gradient(circle at 0% 45%,rgba(26,15,42,.7),transparent 30%),radial-gradient(circle at 100% 45%,rgba(26,15,42,.7),transparent 30%);animation:fog 3s ease-in-out infinite alternate}
+@keyframes fog{to{opacity:.5}}
+/* two-finger */
+.tw-ghost{position:absolute;left:50%;bottom:-6px;width:min(70%,220px);transform:translateX(-50%);opacity:.95;animation:tsBob 2s ease-in-out infinite alternate}
+.tw-f{position:absolute;top:18%;width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 0 0 7px rgba(255,255,255,.25),0 0 22px #b08aff;animation:twDown 1.8s cubic-bezier(.5,0,.3,1) infinite}
+.tw-f.a{left:34%}.tw-f.b{left:calc(34% + 46px);animation-delay:.06s}
+@keyframes twDown{0%{transform:translateY(0);opacity:0}12%{opacity:1}70%{transform:translateY(110px);opacity:1}100%{transform:translateY(120px);opacity:0}}
+/* settings */
+.st-panel{position:absolute;left:50%;top:50%;width:76%;transform:translate(-50%,-50%) rotate(-3deg);background:#fff8e4;border:3px solid #1e1838;border-radius:16px;box-shadow:0 6px 0 #1e1838;padding:8px 12px;display:flex;flex-direction:column;gap:6px}
+.st-row{display:flex;justify-content:space-between;align-items:center;font:800 13px/1 var(--body);color:#1e1838}
+.st-row em{font-style:normal;font-weight:900;color:#7a3ac8}
+.tg{width:40px;height:22px;border-radius:99px;border:2.5px solid #1e1838;background:#17b3bf;position:relative}
+.tg::after{content:'';position:absolute;top:2px;left:20px;width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid #1e1838;animation:tgFlip 2.4s ease-in-out infinite}
+.tg.t1::after{animation-delay:.6s}.tg.t2::after{animation-delay:1.2s}
+@keyframes tgFlip{0%,40%{left:20px}50%,90%{left:2px}100%{left:20px}}
+.tg{animation:tgBg 2.4s ease-in-out infinite}.tg.t1{animation-delay:.6s}.tg.t2{animation-delay:1.2s}
+@keyframes tgBg{0%,40%{background:#17b3bf}50%,90%{background:#fff}100%{background:#17b3bf}}
+@media (prefers-reduced-motion: reduce){#scrTut *{animation-duration:.01s!important;animation-iteration-count:1!important}.ts-sil{opacity:0}.ts-col{clip-path:none}}
+
+.tag3d.fork.q span{background:#2a1d4e;font:900 24px/1 var(--display);padding:8px 16px;letter-spacing:.06em;box-shadow:0 0 18px rgba(176,138,255,.6),0 4px 0 #1e1838}
+
 #perf{position:absolute;left:8px;right:8px;bottom:92px;z-index:9;font:700 10.5px/1.35 ui-monospace,Menlo,monospace;color:#fff;background:rgba(20,10,40,.8);border:2px solid rgba(255,255,255,.25);border-radius:10px;padding:6px 8px;pointer-events:none;white-space:pre-wrap;max-height:30vh;overflow:hidden}
 #perf b{color:#ffc93a}
 @media (prefers-reduced-motion:reduce){#qcard,#toast,.slot.enter,#banner.show .bn-in,.pill.bump,#lines{animation:none}.slot,.btn{transition:none}}
@@ -648,12 +741,11 @@ label.btn{cursor:pointer}
   </div></section>
 
   <!-- TUTORIAL -->
-  <section id="scrTut" class="screen veil" hidden><div class="col center">
-    <div class="camp-head"><span class="eyebrow ink-text" id="tutK">Обучение</span></div>
-    <div id="tutDots" class="dots"></div>
+  <section id="scrTut" class="screen" hidden><div class="tut-bg"><i></i><i></i><i></i><i></i><i></i></div><div class="col center">
+    <div class="tut-top"><span id="tutK">01</span><button id="tutSkip">Пропустить ›</button></div>
+    <div id="tutDots"></div>
     <div id="tutCard"><div id="tutArt"></div><h2 id="tutT"></h2><p id="tutD"></p></div>
     <div class="row2"><button id="tutPrev" class="btn btn-alt">Назад</button><button id="tutNext" class="btn">Дальше</button></div>
-    <button id="tutSkip" class="link-btn ink-text">Пропустить</button>
   </div></section>
 
   <!-- SETTINGS -->
@@ -1604,7 +1696,7 @@ const BOSS_SONG = {
 };
 function musInstruments(ctx, out, noise){
   const env = (g, t, a, peak, d, end) => { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + a + d); };
-  return Object.assign(musExtra(ctx, out, noise), {
+  return Object.assign(musExtra(ctx, out, noise), musExtra2(ctx, out, noise), {
     bass(t, m, dur, v){
       const o = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain();
       o.type = 'sawtooth'; o.frequency.value = mhz(m); f.type = 'lowpass'; f.Q.value = 5; f.frequency.setValueAtTime(1300, t); f.frequency.exponentialRampToValueAtTime(260, t + dur);
@@ -1781,6 +1873,103 @@ const SONGS = [
 ];
 const curSong = () => SONGS.find(s => s.id === S.song) || SONGS[0];
 MUS.cache = {}; MUS.abCache = {}; MUS.rawId = null;
+/* ---------- v16 music: warm lo-fi as the main theme, a tense layer for the tunnel / vampire duel / boss, an original drift-phonk ---------- */
+const MUS_SR = 24000;
+function musExtra2(ctx, out, noise){
+  const env = (g, t, a, peak, d) => { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + a + d); };
+  const osc = (type, f, t, end, dst, det) => { const o = ctx.createOscillator(); o.type = type; o.frequency.value = f; if (det) o.detune.value = det; o.connect(dst); o.start(t); o.stop(end); return o; };
+  const nz = (t, dur, dst) => { const s = ctx.createBufferSource(); s.buffer = noise; s.connect(dst); s.start(t, Math.random() * 0.5); s.stop(t + dur); return s; };
+  const shp = ctx.createWaveShaper(); const cv = new Float32Array(256); for (let i = 0; i < 256; i++) { const x = i / 127.5 - 1; cv[i] = Math.tanh(x * 2.2); } shp.curve = cv; shp.connect(out);
+  return {
+    cowbell(t, m, dur, v){
+      const f = mhz(m), bp = ctx.createBiquadFilter(), g = ctx.createGain(); bp.type = 'bandpass'; bp.frequency.value = f * 1.4; bp.Q.value = 1.3;
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + 0.004); g.gain.exponentialRampToValueAtTime(v * 0.3, t + 0.07); g.gain.exponentialRampToValueAtTime(0.0001, t + Math.max(0.14, dur));
+      bp.connect(g); g.connect(out); [1, 1.48].forEach(r => osc('square', f * r, t, t + dur + 0.15, bp));
+    },
+    b808(t, m, dur, v, glide){
+      const o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'sine'; o.frequency.setValueAtTime(mhz(m) * 2.2, t); o.frequency.exponentialRampToValueAtTime(mhz(m), t + 0.05);
+      if (glide) o.frequency.exponentialRampToValueAtTime(mhz(m + glide), t + dur * 0.85);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + 0.008); g.gain.setValueAtTime(v * 0.8, t + dur * 0.6); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); g.connect(shp); o.start(t); o.stop(t + dur + 0.05);
+    },
+    clap(t, v){
+      const bp = ctx.createBiquadFilter(), g = ctx.createGain(); bp.type = 'bandpass'; bp.frequency.value = 1300; bp.Q.value = 0.9; bp.connect(g); g.connect(out);
+      g.gain.setValueAtTime(0.0001, t); [0, 0.011, 0.022].forEach(d => { g.gain.setValueAtTime(v, t + d); g.gain.exponentialRampToValueAtTime(v * 0.25, t + d + 0.009); });
+      g.gain.setValueAtTime(v * 0.7, t + 0.031); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.2); nz(t, 0.22, bp);
+    },
+    bell(t, m, dur, v){
+      [[1, 1], [2.76, 0.28], [5.4, 0.1]].forEach(([r, a]) => { const g = ctx.createGain(); env(g, t, 0.004, v * a, Math.max(0.3, dur) / (r > 1 ? r * 0.6 : 1)); g.connect(out); osc('sine', mhz(m) * r, t, t + dur + 0.6, g); });
+    },
+    drone(t, ms, dur, v){
+      const f = ctx.createBiquadFilter(), g = ctx.createGain(), lfo = ctx.createOscillator(), lg = ctx.createGain(); f.type = 'lowpass'; f.frequency.value = 520; f.Q.value = 2;
+      lfo.frequency.value = 0.18; lg.gain.value = 260; lfo.connect(lg); lg.connect(f.frequency); lfo.start(t); lfo.stop(t + dur + 0.5);
+      g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(v, t + 0.6); g.gain.setValueAtTime(v, t + dur - 0.3); g.gain.linearRampToValueAtTime(0.0001, t + dur + 0.4);
+      f.connect(g); g.connect(out); ms.forEach(m => [-9, 9].forEach(d => osc('sawtooth', mhz(m), t, t + dur + 0.5, f, d)));
+    },
+    riser(t, dur, v){
+      const bp = ctx.createBiquadFilter(), g = ctx.createGain(); bp.type = 'bandpass'; bp.Q.value = 3; bp.frequency.setValueAtTime(300, t); bp.frequency.exponentialRampToValueAtTime(6500, t + dur);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + dur * 0.95); g.gain.linearRampToValueAtTime(0.0001, t + dur + 0.02); bp.connect(g); g.connect(out);
+      for (let k = 0; k < dur; k += 0.95) nz(t + k, 1.0, bp);
+    },
+    vox(t, m, dur, v){
+      const f1 = ctx.createBiquadFilter(), f2 = ctx.createBiquadFilter(), g = ctx.createGain(); f1.type = f2.type = 'bandpass'; f1.frequency.value = 700; f2.frequency.value = 1150; f1.Q.value = f2.Q.value = 6;
+      g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(v, t + 0.05); g.gain.setValueAtTime(v * 0.8, t + dur - 0.08); g.gain.linearRampToValueAtTime(0.0001, t + dur);
+      f1.connect(g); f2.connect(g); g.connect(out); [-6, 6].forEach(d => { const o = osc('sawtooth', mhz(m), t, t + dur + 0.05, f1, d); o.connect(f2); });
+    }
+  };
+}
+/* warm lo-fi: jazzy 7th/9th chords, swung drums, vinyl crackle, soft bell melody */
+function writeLofiWarm(I, st, L){
+  const R = [41, 40, 38, 36, 41, 40, 38, 43];
+  const C = [[57,60,64,67],[55,59,62,64],[57,60,62,65],[55,59,60,64],[57,60,64,67],[55,59,62,64],[57,60,62,65],[53,59,62,65]];
+  const sw = st * 0.32, at = (t0, s) => t0 + s * st + (s % 4 === 2 ? sw : 0);
+  for (let b = 0; b < 8; b++) {
+    const t0 = b * 16 * st, r = R[b], c = C[b];
+    if (L === 0) { I.sub(t0, r, st * 7, 0.78); I.sub(at(t0, 10), r + (b % 2 ? 7 : 0), st * 5.5, 0.6); I.kick(t0, 0.55); I.kick(at(t0, 6), 0.32); I.kick(t0 + 10 * st, 0.48); if (b === 0) I.bed(128 * st, 0.014); }
+    else if (L === 1) { I.rhodes(t0, c, st * 7, 0.065); I.rhodes(at(t0, 6), [c[1], c[3]], st * 1.6, 0.04); I.rhodes(t0 + 10 * st, c, st * 5.5, 0.055); if (b % 2) I.rhodes(at(t0, 14), [c[2] + 12], st * 1.8, 0.035); }
+    else if (L === 2) { for (let s = 0; s < 16; s += 2) I.hat(at(t0, s), s % 4 === 0 ? 0.12 : 0.085, s === 14 && b % 4 === 3); [4, 12].forEach(s => I.rim(t0 + s * st, 0.3)); I.rim(at(t0, 14), 0.1); if (b % 2) I.shaker(at(t0, 7), 0.12); }
+    else if (L === 3) { if (b !== 3 && b !== 6) phrase(b, c, (s, n, m) => I.bell(at(t0, s), m + 12, n * st * 1.2, 0.07)); }
+  }
+}
+/* tense layer: half-time heartbeat, 808 slides, ticking hats, eerie music-box line, risers */
+function writeTense(I, st, L){
+  const R = [33, 34, 33, 31, 33, 34, 36, 32];
+  const MB = [[81, 82, 84, 76], [81, 80, 76, 75], [84, 82, 81, 76], [75, 76, 81, 80]];
+  for (let b = 0; b < 8; b++) {
+    const t0 = b * 16 * st, r = R[b];
+    if (L === 0) { I.drone(t0, [r + 24, r + 31, r + 25], 16 * st, 0.045); I.b808(t0, r, st * 7, 0.75, b % 2 ? -2 : 0); I.b808(t0 + 10 * st, r, st * 5, 0.6, 0); }
+    else if (L === 1) { [0, 3, 8, 11].forEach((s, i) => I.kick(t0 + s * st, i % 2 ? 0.55 : 0.85)); I.clap(t0 + 8 * st, 0.5); }
+    else if (L === 2) { for (let s = 0; s < 16; s++) I.hat(t0 + s * st, s % 4 === 0 ? 0.22 : 0.12, false); if (b % 2) for (let k = 0; k < 6; k++) I.hat(t0 + (13 + k * 0.5) * st, 0.08 + k * 0.03, false); if (b === 3 || b === 7) I.riser(t0, 16 * st, 0.07); }
+    else if (L === 3) { const ph = MB[b % 4]; [[0, 3], [4, 2], [8, 5], [14, 2]].forEach(([s, n], i) => I.bell(t0 + s * st, ph[i], n * st * 1.4, 0.075)); }
+  }
+}
+/* original drift-phonk: cowbell riff, sliding 808, half-time clap, dark vox pad */
+function writePhonk(I, st, L){
+  const R = [30, 30, 26, 28, 30, 30, 26, 28];
+  const RIFF = [[[0, 78], [3, 78], [6, 81], [8, 78], [10, 83], [11, 81], [14, 76]], [[0, 78], [3, 78], [6, 81], [8, 85], [10, 83], [12, 81], [14, 78]]];
+  for (let b = 0; b < 8; b++) {
+    const t0 = b * 16 * st, r = R[b];
+    if (L === 0) { I.b808(t0, r, st * 6, 0.85, 0); I.b808(t0 + 6 * st, r, st * 4, 0.7, b % 2 ? 5 : -2); I.b808(t0 + 10 * st, r + (b % 4 === 3 ? 3 : 0), st * 6, 0.75, 0); [0, 6, 10].forEach(s => I.kick(t0 + s * st, 0.95)); }
+    else if (L === 1) { RIFF[b % 2].forEach(([s, m]) => I.cowbell(t0 + s * st, m - (b % 4 === 2 ? 4 : 0), st * 1.6, 0.16)); }
+    else if (L === 2) { [4, 12].forEach(s => I.clap(t0 + s * st, 0.55)); for (let s = 0; s < 16; s += 2) I.hat(t0 + s * st, 0.18, false); if (b % 2) for (let k = 0; k < 4; k++) I.hat(t0 + (14 + k * 0.5) * st, 0.14, false); }
+    else if (L === 3) { if (b % 2 === 0) { I.drone(t0, [r + 24, r + 27, r + 31], 32 * st, 0.035); I.vox(t0, r + 36, st * 3, 0.06); I.vox(t0 + 8 * st, r + 39, st * 2, 0.05); } }
+  }
+}
+const TENSE = {bpm:80, rms:[0.06, 0.05, 0.03, 0.03], peak:[0.75, 0.6, 0.5, 0.3], write:writeTense};
+const TENSE_MIX = [1, 1, 0.9, 0.8];
+(function(){
+  const i = SONGS.findIndex(s => s.id === 'lofi'); if (i >= 0) SONGS.splice(i, 1);
+  SONGS.unshift({id:'lofi', name:'Лоу-фай', sub:'тёплый, главный · 76 BPM', bpm:76, rms:[0.06, 0.04, 0.02, 0.026], peak:[0.72, 0.42, 0.55, 0.3], write:writeLofiWarm},
+    {id:'phonk', name:'Дрифт-фонк', sub:'фонк · 130 BPM', bpm:130, rms:[0.066, 0.036, 0.03, 0.026], peak:[0.78, 0.42, 0.55, 0.28], write:writePhonk});
+})();
+/* the run switches to the tense layer in the tunnel and the vampire duel; the boss always uses it */
+function musicMood(){
+  if (G.mode !== 'run' || !musicOn() || G.paused) return;
+  const want = (G.phase === 'duel' || (G.branch && G.branch.kind === 'tunnel')) ? 'tense' : 'run';
+  if (MUS.mode === want || MUS.want === want) return;
+  if (!MUS.mode && !MUS.want) return;
+  musicPlay(want);
+}
 function offlineRender(OC, len, sr, write){
   let ctx; try { ctx = new OC(1, len * sr | 0, sr); } catch(e) { sr = 44100; ctx = new OC(1, len * sr | 0, sr); }
   const out = ctx.createGain(); out.connect(ctx.destination);
@@ -1800,7 +1989,7 @@ function foldLoop(buf, loopLen, rmsT, peak){
 }
 async function renderMusic(){
   const song = curSong(), id = song.id;
-  if (MUS.cache[id] && MUS.rawBoss) {
+  if (MUS.cache[id] && MUS.rawTense) {
     if (MUS.rawId !== id) { MUS.raw = MUS.cache[id]; MUS.rawId = id; MUS.ab = MUS.abCache[id] || null; }
     if (MUS.want && !MUS.rendering) { const w = MUS.want; MUS.want = null; musicPlay(w); }
     return;
@@ -1811,11 +2000,11 @@ async function renderMusic(){
   try {
     if (!MUS.cache[id]) {
       const st = 60 / song.bpm / 4, loop = 128 * st, bufs = [];
-      for (let L = 0; L < 4; L++) bufs.push(foldLoop(await offlineRender(OC, loop + 1.5, 32000, I => song.write(I, st, L)), loop, song.rms[L], song.peak[L]));
+      for (let L = 0; L < 4; L++) bufs.push(foldLoop(await offlineRender(OC, loop + 1.5, MUS_SR, I => song.write(I, st, L)), loop, song.rms[L], song.peak[L]));
       MUS.cache[id] = bufs;
     }
     MUS.raw = MUS.cache[id]; MUS.rawId = id; MUS.ab = MUS.abCache[id] || null;
-    if (!MUS.rawBoss) { const sb = 60 / BOSS_SONG.bpm / 4, lb = 128 * sb; MUS.rawBoss = foldLoop(await offlineRender(OC, lb + 1.5, 32000, I => writeBoss(I, sb)), lb, 0.085, 0.9); }
+    if (!MUS.rawTense) { const ts = 60 / TENSE.bpm / 4, tl = 128 * ts, tb = []; for (let L = 0; L < 4; L++) tb.push(foldLoop(await offlineRender(OC, tl + 1.5, MUS_SR, I => TENSE.write(I, ts, L)), tl, TENSE.rms[L], TENSE.peak[L])); MUS.rawTense = tb; }
   } catch(e) { console.error('music', e); }
   MUS.rendering = false; if (window.__mark) window.__mark('музыка готова: ' + id, performance.now() - t0);
   if (curSong().id !== id) { renderMusic(); return; }
@@ -1825,20 +2014,20 @@ async function renderMusic(){
 function musicBuffers(a){
   const mkb = r => { const b = a.createBuffer(1, r.data.length, r.sr); b.getChannelData(0).set(r.data); return b; };
   if (!MUS.ab && MUS.raw) { MUS.ab = MUS.raw.map(mkb); MUS.abCache[MUS.rawId] = MUS.ab; }
-  if (!MUS.abBoss && MUS.rawBoss) MUS.abBoss = mkb(MUS.rawBoss);
+  if (!MUS.abTense && MUS.rawTense) MUS.abTense = MUS.rawTense.map(mkb);
 }
 function musicOn(){ return !S.muted && S.music !== false; }
 function musicPlay(mode){
   MUS.want = mode;
   if (!musicOn()) return;
   const a = audio(); if (!a) return;
-  if (!MUS.raw || (mode === 'boss' ? !MUS.rawBoss : MUS.rawId !== curSong().id)) { renderMusic(); if (G.mode === 'settings') renderSongs(); return; }
+  if (!MUS.raw || (mode === 'boss' || mode === 'tense' ? !MUS.rawTense : MUS.rawId !== curSong().id)) { renderMusic(); if (G.mode === 'settings') renderSongs(); return; }
   musicBuffers(a);
   if (MUS.mode === mode && MUS.bus) return;
   musicStop(0.35, true);
-  const list = mode === 'boss' ? (MUS.abBoss ? [MUS.abBoss] : MUS.ab) : MUS.ab; if (!list) return;
+  const list = (mode === 'boss' || mode === 'tense') ? (MUS.abTense || MUS.ab) : MUS.ab; if (!list) return;
   const t0 = a.currentTime + 0.06, bus = a.createGain(); bus.gain.setValueAtTime(0.0001, t0); bus.gain.linearRampToValueAtTime(MUS.duck ? MUSIC_VOL * 0.2 : MUSIC_VOL, t0 + 1.1); bus.connect(a.destination);
-  MUS.srcs = list.map((b, i) => { const s = a.createBufferSource(); s.buffer = b; s.loop = true; const g = a.createGain(); g.gain.value = mode === 'boss' ? 1 : mode === 'preview' ? LAYER_MIX[3][i] : LAYER_MIX[clamp(MUS.stage, 0, 3)][i]; s.connect(g); g.connect(bus); s.start(t0); return {s, g}; });
+  MUS.srcs = list.map((b, i) => { const s = a.createBufferSource(); s.buffer = b; s.loop = true; const g = a.createGain(); g.gain.value = mode === 'boss' ? 1 : mode === 'tense' ? TENSE_MIX[i] : mode === 'preview' ? LAYER_MIX[3][i] : LAYER_MIX[clamp(MUS.stage, 0, 3)][i]; s.connect(g); g.connect(bus); s.start(t0); return {s, g}; });
   MUS.bus = bus; MUS.mode = mode;
 }
 function musicStage(n){
@@ -2958,7 +3147,7 @@ function animGreenSword(h, t){
 }
 
 /* ---- GLB hero ---- */
-const HERO_S = 1.95, HERO_LIFT = {Run:0.08, Idle:0.08, Jump:0.08, Attack:0.075, Dance:0.08};
+const HERO_S = 1.95, HERO_LIFT = {Run:0.08, Idle:0.08, Jump:0.08, Attack:0.075, Dance:0.08, Spin:0.08};
 function buildHeroGLB(){
   const model = A.heroGL.scene, g = new T.Group(), inner = new T.Group();
   inner.rotation.y = Math.PI; inner.scale.setScalar(HERO_S); inner.add(model); g.add(inner);
@@ -2986,7 +3175,7 @@ function fadeHero(h, name, dur, once, speed){
 function animHeroGLB(h, sdt, dt, playing){
   if (h.hurt > 0 && !h.hurtOn) { h.hurtOn = true; fadeHero(h, 'Hit', 0.05, true, 1.1); }
   else if (h.hurt <= 0) h.hurtOn = false;
-  if (h.atk > 0 && !h.atkOn && !h.hurtOn) { h.atkOn = true; fadeHero(h, 'Attack', 0.05, true, 1.5); }
+  if (h.atk > 0 && !h.atkOn && !h.hurtOn) { h.atkOn = true; const sp = h.spinNext && h.act.Spin; h.spinNext = false; fadeHero(h, sp ? 'Spin' : 'Attack', sp ? 0.06 : 0.05, true, sp ? SPIN_SPEED : 1.5); }
   else if (h.atk <= 0) h.atkOn = false;
   if (G.slideT > 0 && !h.slideOn && !h.hurtOn) { h.slideOn = true; fadeHero(h, 'Slide', 0.06, true, 1.05); }
   else if (G.slideT <= 0) h.slideOn = false;
@@ -3597,7 +3786,7 @@ function useSword(){
   if (!inPlay()) return;
   if (vampStrikeTry()) return;
   if ((G.sword || 0) < 1) { bumpEl(swordBtn, 'nope'); sfx.tap(); return; }
-  G.sword = 0; renderSword(); hero.atk = 0.5; questEvent('sword'); sfx.slash(); haptic(HAP.dash); shake(0.22);
+  G.sword = 0; renderSword(); heroSpin(); questEvent('sword'); sfx.slash(); haptic(HAP.dash); shake(0.22);
   const hx = hero.g.position.x, hy = G.heroY;
   slashFx(hx, 1.35 + hy, -1.4, 1.5, 0.5); setTimeout(() => slashFx(hx, 1.5 + hy, -2.2, 2.3, -0.4, true), 70);
   let n = 0;
@@ -4084,7 +4273,7 @@ function strikeFx(target, lane, tz){
   waveFx(x, y, tz, (SHOP.trail.find(t => t.id === S.equip.trail) || SHOP.trail[0]).c);
   burst(x, y, tz, 0xffffff, 8, 8);
   if (target.tag && opt('fx')) shardsFx(target.tag.sp.textContent, x, target.g.position.y + target.plaqueY + 0.2, tz);
-  fovNow -= 3.2; hero.atk = 0.5;
+  fovNow -= 3.2; heroSpin();
 }
 const TRAIL_N = 16, trailPos = new Float32Array(TRAIL_N * 2 * 3), trailCol = new Float32Array(TRAIL_N * 2 * 3), trailHist = [];
 const trailGeo = new T.BufferGeometry(); trailGeo.setAttribute('position', new T.BufferAttribute(trailPos, 3)); trailGeo.setAttribute('color', new T.BufferAttribute(trailCol, 3));
@@ -4324,7 +4513,7 @@ function duelResolve(ok, dir){
   const t = G.time - r.t0; record(r.w.id, ok, t < r.T * 0.6); statAnswer(r.w.id, ok); G.answered++;
   const b = dir ? $('#duel .dz-' + dir) : null, cb = $('#duel .dz-' + r.correct);
   if (ok) {
-    if (b) b.classList.add('good'); d.hp--; d.flinch = 0.35; hero.atk = 0.55;
+    if (b) b.classList.add('good'); d.hp--; d.flinch = 0.35; heroSpin();
     const vp = V.g.position; slashFx(vp.x, 2.0, vp.z + 0.6, 1.6, dir === 'left' ? 2.4 : dir === 'right' ? 0.3 : dir === 'down' ? -1.2 : 1.2, dir === 'left'); waveFx(vp.x, 2.0, vp.z + 0.5);
     burst(vp.x, 2, vp.z, 0xc77dff, 14, 6); sfx.slash(); sfx.hit(); haptic(HAP.good); shake(0.2); G.combo++; G.bestCombo = Math.max(G.bestCombo, G.combo); renderCombo();
     popText('Парирование!', vp.x, 3.4, vp.z, 'sword');
@@ -4451,6 +4640,7 @@ function buildTurnKit(){
   gb.add(tor(4.9, 0.32, 6, 20, Math.PI), [0x8ad06a, 0x5aa04a], [0, 5.2, 0], [0, Math.PI / 2, 0]);
   for (let i = 0; i <= 8; i++) { const a = Math.PI * i / 8; gb.add(sph(0.36, 7, 5), [0xffd23a, 0xff7ab8, 0x8ad0ff, 0xffffff][i % 4], [0.2, 5.2 + Math.sin(a) * 4.9, Math.cos(a) * 4.9]); }
   K.gate = gb.build('flowerGate');
+  buildSpookKit(K);
   /* tunnel segment: floor, walls, vaulted ceiling, rib; lamps are a separate unlit mesh */
   const sb = KB(), ST = [0x2e2638, 0x564866];
   sb.add(box(10.6, 0.1, SEG_L), 0x2a2230, [0, -0.04, 0]);
@@ -4478,10 +4668,12 @@ function makeJunction(kind, tunnelSide, cornerSide){
   if (kind === 'fork') {
     sides.forEach(s => {
       const tun = s === tunnelSide;
-      const sg = new T.Mesh((tun ? K.signT : K.signL)[s < 0 ? 0 : 1].geometry, KIT_MAT); sg.position.set(s * 4.4, 0, -4.4); g.add(sg);
-      const deco = new T.Mesh((tun ? K.portal : K.gate).geometry, KIT_MAT); deco.position.set(s * 11.5, 0, 0); deco.rotation.y = s < 0 ? Math.PI : 0; g.add(deco);
+      const sg = new T.Mesh(K.signN[s < 0 ? 0 : 1].geometry, KIT_MAT); sg.position.set(s * 4.4, 0, -4.4); g.add(sg);
+      const gate = new T.Mesh(K.mgate.geometry, KIT_MAT); gate.position.set(s * 11.5, 0, 0); gate.rotation.y = s < 0 ? Math.PI : 0; g.add(gate);
+      const fog = new T.Mesh(K.fogG, K.fogM); fog.position.set(s * 11.2, 3.3, 0); fog.rotation.y = Math.PI / 2; g.add(fog);
+      spookProps(g, s); signDeco(g, s);
     });
-  } else { const sg = new T.Mesh(K.signL[cornerSide < 0 ? 0 : 1].geometry, KIT_MAT); sg.position.set(cornerSide * 4.4, 0, -4.4); g.add(sg); }
+  } else { const sg = new T.Mesh(K.signN[cornerSide < 0 ? 0 : 1].geometry, KIT_MAT); sg.position.set(cornerSide * 4.4, 0, -4.4); g.add(sg); }
   g.userData = {kind, tunnelSide, sides, cornerSide, turned:false, tags:[]};
   return g;
 }
@@ -4496,10 +4688,10 @@ function armJunction(J){
   const u = J.userData; u.armed = true;
   if (u.kind === 'fork') {
     u.sides.forEach(s => {
-      const tun = s === u.tunnelSide, t = getTag(tun ? (s < 0 ? '← ТУННЕЛЬ' : 'ТУННЕЛЬ →') + '\nкороче · ловушки · конфеты ×2' : (s < 0 ? '← ДЛИННЫЙ ПУТЬ' : 'ДЛИННЫЙ ПУТЬ →') + '\nбезопасно · бонусы', 'fork ' + (tun ? 'bad' : 'good')); t.big = true;
+      const t = getTag(s < 0 ? '←  ?' : '?  →', 'fork q'); t.big = true;
       showTag(t, out => { if (!TR.J || TR.J !== J || u.turned || TR.turn) return false; out.set(s * 4.6, 4.9, J.position.z - 4.4); return out.z < -3; }, 0); u.tags.push(t);
     });
-    hint('Развилка! Встань на левую или правую полосу, чтобы свернуть', 3400);
+    hint('Развилка! Сверни влево или вправо — что за поворотом, неизвестно', 3400);
   } else { const t = getTag(u.cornerSide < 0 ? '← ПОВОРОТ' : 'ПОВОРОТ →', 'fork good'); t.big = true; showTag(t, out => { if (TR.J !== J || TR.turn) return false; out.set(u.cornerSide * 4.6, 4.9, J.position.z - 4.4); return out.z < -3; }, 0); u.tags.push(t); }
 }
 function sceneryCut(it){
@@ -4507,7 +4699,7 @@ function sceneryCut(it){
   const ax = Math.abs(it.x); if (ax < 3.5) return false;
   const u = J.userData, s = it.x < 0 ? -1 : 1, dz = it.z - J.position.z;
   if (u.sides.indexOf(s) < 0) return false;
-  if (u.kind === 'fork' && s === u.tunnelSide) return dz > -19 && dz < 19;
+  if (u.kind === 'fork') return dz > -19 && dz < 19;
   return dz > -8 && dz < 7;
 }
 function startTurn(){
@@ -4549,6 +4741,7 @@ function enterBranch(kind, side){
   const dur = clamp((rem - 1.5) * 8, 16, base);
   G.branch = {kind, side, until:G.time + dur};
   const [pal, set] = branchLook(G.branch); if (!(G.shadowT > 0)) setPal(pal, set); else setTo = set;
+  spawnReveal(kind);
   if (kind === 'tunnel') { startTunnel(); banner('Туннель', 'Короткий путь', 'Ловушки чаще · конфеты ×2', '#ff8a5a'); }
   else banner('Длинный путь', 'Безопасная дорога', 'Без ловушек · больше бонусов', '#5fd68a');
   questEvent('fork'); haptic(HAP.stage);
@@ -4559,7 +4752,7 @@ function exitBranch(){
   if (b) banner('Снова на тропе', STAGES[G.stage].name, 'Уровень ' + (G.stage + 1) + ' из ' + STAGES.length, STAGES[G.stage].color);
 }
 function startTunnel(){
-  const z0 = (TR.J ? TR.J.position.z : 0) - 11.5;
+  const z0 = TR.reveal ? TR.reveal.position.z - 1.6 : -28;
   TR.segs.forEach((s, i) => { s.z = z0 - SEG_L / 2 - i * SEG_L; s.on = true; });
   TR.segOn = true; TR.segIM.visible = TR.lampIM.visible = true; tunnelMatrices();
 }
@@ -4597,11 +4790,13 @@ function updateJunction(sdt, move){
   }
   if (G.branch && G.branch.kind === 'tunnel' && branchEnding() && TR.segOn) stopTunnel(false);
   updateTunnel(move);
+  if (TR.reveal) { TR.reveal.position.z += move; if (TR.reveal.position.z > 40) { scene.remove(TR.reveal); TR.reveal = null; } }
 }
 function resetJunction(){
   if (TR.turn) TR.turn = null; scene.rotation.y = 0;
   if (TR.J) { TR.J.userData.tags.forEach(freeTag); scene.remove(TR.J); TR.J = null; }
   G.branch = null; stopTunnel(true);
+  if (TR.reveal) { scene.remove(TR.reveal); TR.reveal = null; }
 }
 /* sprint hook: the junction comes once per run, in the second half, and the branch ends with an automatic corner */
 function junctionExtras(sch, t0){
@@ -4638,6 +4833,84 @@ function homeDance(h, dt){
   HK.rot += (-0.16 + Math.sin(G.clock * 0.45) * 0.1 - HK.rot) * Math.min(1, dt * 3); HK.y = 0; HK.z = 0; HK.trail = false;
 }
 
+/* ---------- v16 fork look: two identical mystery gates, random spooky props; what is behind is revealed only after the turn ---------- */
+function buildSpookKit(K){
+  const ST = [0x2a2234, 0x5a4a6e];
+  const gb = KB();
+  [-5.3, 5.3].forEach(z => { gb.add(box(1.5, 6.6, 1.5, 1, 3, 1), ST, [0, 3.3, z]); gb.add(cone(0.9, 1.6, 4), [0x3a3048, 0x6a5a80], [0, 7.4, z], [0, Math.PI / 4, 0]); });
+  gb.add(box(1.7, 1.3, 12.2, 1, 1, 4), ST, [0, 7.0, 0]);
+  gb.add(tor(4.6, 0.36, 6, 18, Math.PI), [0x4a3a5a, 0x7a6a90], [-0.3, 2.2, 0], [0, Math.PI / 2, 0]);
+  for (let i = -2; i <= 2; i++) gb.add(cone(0.22, 1.1, 4), 0x3a3048, [0, 8.15, i * 2.2]);
+  [-3.2, -1.2, 1.4, 3.4].forEach((z, i) => gb.add(box(0.08, 1.2 + (i % 2) * 0.8, 0.08), 0x6a6a7a, [-0.5, 6.1 - (i % 2) * 0.4, z]));
+  gb.add(box(0.6, 1.0, 0.6), [0x5a4a3a, 0x8a6a4a], [-0.9, 5.6, -4.1]); gb.add(box(0.6, 1.0, 0.6), [0x5a4a3a, 0x8a6a4a], [-0.9, 5.6, 4.1]);
+  K.mgate = gb.build('mysteryGate');
+  K.fogG = new T.PlaneGeometry(9.2, 6.6, 1, 4);
+  K.fogM = curvify(new T.MeshBasicMaterial({color:0x1a0f2a, transparent:true, opacity:0.62, side:T.DoubleSide, depthWrite:false}));
+  const mkSign = dir => { const b = KB(); b.add(box(0.22, 2.6, 0.22), 0x5a3a2a, [0, 1.3, 0]); b.add(box(3.0, 1.15, 0.18), [0x7a5034, 0xa8784c], [dir * 0.4, 2.7, 0]); b.add(cone(0.8, 0.95, 3), [0x7a5034, 0xa8784c], [dir * 2.2, 2.7, 0], [0, 0, -dir * Math.PI / 2]); b.add(box(0.1, 0.5, 0.2), 0x3a2418, [dir * 0.9, 2.7, 0.1], [0, 0, 0.5]); b.add(box(0.1, 0.4, 0.2), 0x3a2418, [-dir * 0.4, 2.8, 0.1], [0, 0, -0.4]); return b.build('jSignN'); };
+  K.signN = [mkSign(-1), mkSign(1)];
+  /* props */
+  const bone = [0xd8ccb0, 0xf4ecd8], P = {};
+  const sk = KB(); [[0, 0.32, 0, 0.42], [0.62, 0.26, 0.2, 0.34], [-0.55, 0.24, 0.25, 0.32], [0.1, 0.78, 0.1, 0.36]].forEach(([x, y, z, r]) => { sk.add(sph(r, 9, 7), bone, [x, y, z]); sk.add(box(r * 1.1, r * 0.5, r * 0.8), bone, [x, y - r * 0.75, z + r * 0.3]); sk.add(sph(r * 0.28, 6, 5), 0x1a1020, [x - r * 0.38, y + r * 0.05, z + r * 0.82]); sk.add(sph(r * 0.28, 6, 5), 0x1a1020, [x + r * 0.38, y + r * 0.05, z + r * 0.82]); });
+  P.skulls = sk.build('pSkulls');
+  const tr = KB(); tr.add(cyl(0.12, 0.3, 3.6, 6), [0x2a1a20, 0x4a2e30], [0, 1.8, 0]);
+  [[0.7, 2.6, 0.6], [-0.8, 2.2, -0.7], [0.5, 3.2, -1.0], [-0.4, 3.0, 0.9]].forEach(([x, y, rz]) => tr.add(cyl(0.04, 0.09, 1.5, 5), 0x3a2228, [x * 0.5, y, 0], [0, 0, rz]));
+  P.tree = tr.build('pTree');
+  const bu = KB(); bu.add(sph(1.0, 9, 7), [0x14201a, 0x2a3a2a], [0, 0.75, 0], [0, 0, 0], [1.3, 0.85, 1]); bu.add(sph(0.7, 8, 6), [0x14201a, 0x2a3a2a], [0.9, 0.5, 0.2]);
+  P.bush = bu.build('pBush');
+  const la = KB(); la.add(cyl(0.07, 0.09, 2.6, 6), 0x2a2228, [0, 1.3, 0]); la.add(box(0.5, 0.6, 0.5), [0x3a3040, 0x5a4a6a], [0, 2.85, 0]); la.add(cone(0.38, 0.35, 4), 0x2a2228, [0, 3.32, 0], [0, Math.PI / 4, 0]);
+  P.lantern = la.build('pLantern');
+  const cr = KB(); cr.add(sph(0.22, 7, 5), 0x14101c, [0, 0.25, 0], [0, 0, 0], [1, 0.9, 1.4]); cr.add(sph(0.13, 6, 5), 0x14101c, [0, 0.45, 0.22]); cr.add(cone(0.06, 0.2, 4), 0xd8a030, [0, 0.43, 0.38], [Math.PI / 2, 0, 0]); cr.add(box(0.5, 0.04, 0.22), 0x14101c, [0, 0.3, -0.05], [0, 0, 0.3]);
+  P.crow = cr.build('pCrow');
+  const cf = KB(); cf.add(box(0.9, 0.45, 2.1), [0x3a2420, 0x5a3a2a], [0, 0.22, 0]); cf.add(box(0.12, 0.05, 0.9), 0xc8b090, [0, 0.47, 0.2]); cf.add(box(0.5, 0.05, 0.12), 0xc8b090, [0, 0.47, 0.4]);
+  P.coffin = cf.build('pCoffin');
+  K.props = P;
+  K.eyeG = new T.SphereGeometry(0.09, 6, 5);
+  K.flameG = new T.ConeGeometry(0.14, 0.34, 5);
+}
+const SPOOK_KINDS = ['skulls', 'tree', 'eyes', 'lantern', 'crows', 'coffin'];
+function spookProps(g, s){
+  const K = TR.kit, P = K.props, pool = shuffle(SPOOK_KINDS.slice()), n = 3 + ri(2);
+  const spots = shuffle([[7.6, 5.0], [9.5, -5.2], [14.6, 5.4], [16.2, -5.0], [6.6, -5.0], [19, 5.2]]);
+  for (let i = 0; i < n; i++) {
+    const kind = pool[i % pool.length], [ax, z] = spots[i], x = s * ax, grp = new T.Group(); grp.position.set(x, 0, z); grp.rotation.y = Math.random() * Math.PI * 2;
+    if (kind === 'skulls') grp.add(new T.Mesh(P.skulls.geometry, KIT_MAT));
+    else if (kind === 'tree') { grp.add(new T.Mesh(P.tree.geometry, KIT_MAT)); grp.scale.setScalar(1.2 + Math.random() * 0.5); }
+    else if (kind === 'eyes') { grp.add(new T.Mesh(P.bush.geometry, KIT_MAT)); const em = mat(Math.random() < 0.5 ? 0xff3a3a : 0xffe03a, {basic:true}); for (let k = 0; k < 3; k++) { const ex = -0.6 + k * 0.55, ey = 0.7 + (k % 2) * 0.35; [-0.11, 0.11].forEach(d => { const e = new T.Mesh(K.eyeG, em); e.position.set(ex + d, ey, 1.05); grp.add(e); }); } grp.rotation.y = s < 0 ? Math.PI / 2 : -Math.PI / 2; }
+    else if (kind === 'lantern') { grp.add(new T.Mesh(P.lantern.geometry, KIT_MAT)); const f = new T.Mesh(K.flameG, mat(Math.random() < 0.5 ? 0x7aff8a : 0xb07aff, {basic:true})); f.position.y = 2.85; grp.add(f); }
+    else if (kind === 'crows') { for (let k = 0; k < 3; k++) { const c = new T.Mesh(P.crow.geometry, KIT_MAT); c.position.set((k - 1) * 0.9, 0, (k % 2) * 0.4); c.rotation.y = Math.random() * 2; grp.add(c); } grp.position.set(s * (6 + i * 3), 4.9, -5.6); grp.rotation.y = 0; }
+    else if (kind === 'coffin') { const c = new T.Mesh(P.coffin.geometry, KIT_MAT); c.rotation.z = 0.25; grp.add(c); }
+    g.add(grp);
+  }
+}
+function signDeco(g, s){
+  const K = TR.kit, P = K.props, pool = shuffle(['skull', 'crow', 'eyes', 'flame', 'eyes2']).slice(0, 2 + ri(2));
+  pool.forEach(kind => {
+    if (kind === 'skull') { const m = new T.Mesh(P.skulls.geometry, KIT_MAT); m.scale.setScalar(0.45); m.position.set(s * 4.4, 3.3, -4.4); g.add(m); }
+    else if (kind === 'crow') { const m = new T.Mesh(P.crow.geometry, KIT_MAT); m.scale.setScalar(1.3); m.position.set(s * (4.4 + (Math.random() - 0.5) * 2), 3.35, -4.3); m.rotation.y = Math.random() * 3; g.add(m); }
+    else if (kind === 'eyes' || kind === 'eyes2') { const em = mat([0xff3a3a, 0xffe03a, 0x7aff8a][ri(3)], {basic:true}), x0 = s * (kind === 'eyes' ? 2.2 : 7.5) + (Math.random() - 0.5) * 1.5, y0 = 3.2 + Math.random() * 1.0; [-0.16, 0.16].forEach(d => { const e = new T.Mesh(K.eyeG, em); e.scale.setScalar(1.3); e.position.set(x0 + d, y0, -4.62); g.add(e); }); }
+    else if (kind === 'flame') { const m = new T.Mesh(P.lantern.geometry, KIT_MAT); m.position.set(s * 6.2, 0, -4.2); g.add(m); const f = new T.Mesh(K.flameG, mat([0x7aff8a, 0xb07aff, 0xff5a3a][ri(3)], {basic:true})); f.position.set(s * 6.2, 2.85, -4.2); g.add(f); }
+  });
+}
+function spawnReveal(kind){
+  const K = TR.kit; if (!K) return;
+  if (TR.reveal) { scene.remove(TR.reveal); TR.reveal = null; }
+  const m = new T.Mesh((kind === 'tunnel' ? K.portal : K.gate).geometry, KIT_MAT); m.rotation.y = Math.PI / 2; m.position.set(0, 0, -30); scene.add(m); TR.reveal = m;
+}
+
+/* ================= v16 SPIN STRIKE: Mixamo "Sword And Shield Attack" on the hero, in place, exactly one turn ================= */
+const ATTACK = {"fps":30,"n":53,"bones":["mixamorigHips","mixamorigLeftUpLeg","mixamorigLeftLeg","mixamorigLeftFoot","mixamorigLeftToeBase","mixamorigLeftToe_End","mixamorigRightUpLeg","mixamorigRightLeg","mixamorigRightFoot","mixamorigRightToeBase","mixamorigRightToe_End","mixamorigSpine","mixamorigSpine1","mixamorigSpine2","mixamorigLeftShoulder","mixamorigLeftArm","mixamorigLeftForeArm","mixamorigLeftHand","mixamorigLeftHandIndex1","mixamorigLeftHandIndex2","mixamorigLeftHandIndex3","mixamorigLeftHandIndex4","mixamorigLeftHandThumb1","mixamorigLeftHandThumb2","mixamorigLeftHandThumb3","mixamorigLeftHandThumb4","mixamorigNeck","mixamorigHead","mixamorigHeadTop_End","mixamorigRightShoulder","mixamorigRightArm","mixamorigRightForeArm","mixamorigRightHand","mixamorigRightHandIndex1","mixamorigRightHandIndex2","mixamorigRightHandIndex3","mixamorigRightHandIndex4","mixamorigRightHandThumb1","mixamorigRightHandThumb2","mixamorigRightHandThumb3","mixamorigRightHandThumb4"],"q":"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","p":"nwa6vqRHhj47ASXCnwa6vqRHhj5+Ih7Cnwa6vqRHhj4KShfCnwa6vqRHhj7rvBHCnwa6vqRHhj6BnA7Cnwa6vqRHhj7qpQ3Cnwa6vqRHhj7qZQ3Cnwa6vqRHhj5ToA3Cnwa6vqRHhj6z1Q7Cnwa6vqRHhj4RyBDCnwa6vqRHhj4RKhLCnwa6vqRHhj6BoxLCnwa6vqRHhj6ZsBLCnwa6vqRHhj4bNRLCnwa6vqRHhj57hhHCnwa6vqRHhj5gmxDCnwa6vqRHhj4LXg/Cnwa6vqRHhj4fRQ3Cnwa6vqRHhj7NAgrCnwa6vqRHhj5JNQbCnwa6vqRHhj4cYgLCnwa6vqRHhj6ceP3Bnwa6vqRHhj5/jPfBnwa6vqRHhj435/HBnwa6vqRHhj5MaezBnwa6vqRHhj5zCOnBnwa6vqRHhj6LLefBnwa6vqRHhj7BJebBnwa6vqRHhj7D+OXBnwa6vqRHhj7CquXBnwa6vqRHhj4kwuTBnwa6vqRHhj5fkOLBnwa6vqRHhj4rYN/Bnwa6vqRHhj5779vBnwa6vqRHhj5BDNnBnwa6vqRHhj4XntfBnwa6vqRHhj5bgtfBnwa6vqRHhj5RQ9nBnwa6vqRHhj6Met7Bnwa6vqRHhj64x+XBnwa6vqRHhj6K/O3Bnwa6vqRHhj4sxPbBnwa6vqRHhj5wXADCnwa6vqRHhj5jxATCnwa6vqRHhj4eKAjCnwa6vqRHhj5OFwvCnwa6vqRHhj7IsA3Cnwa6vqRHhj6lExDCnwa6vqRHhj6zaBLCnwa6vqRHhj75vBTCnwa6vqRHhj4iGxfCnwa6vqRHhj7UcRnCnwa6vqRHhj4QvRvC"};
+function clipFromData(D, name){
+  const n = D.n, fps = D.fps;
+  const dec = s => { const b = atob(s), u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u.buffer; };
+  const q = new Int16Array(dec(D.q)), p = new Float32Array(dec(D.p)), times = new Float32Array(n); for (let i = 0; i < n; i++) times[i] = i / fps;
+  const tracks = D.bones.map((nm, bi) => { const v = new Float32Array(n * 4), o = bi * n * 4; for (let i = 0; i < n * 4; i++) v[i] = q[o + i] / 32767; return new T.QuaternionKeyframeTrack(nm + '.quaternion', times, v); });
+  tracks.push(new T.VectorKeyframeTrack('mixamorigHips.position', times, p));
+  return new T.AnimationClip(name, (n - 1) / fps, tracks);
+}
+const SPIN_SPEED = 2.05, SPIN_T = ((ATTACK.n - 1) / ATTACK.fps) / SPIN_SPEED;
+function addSpin(h){ if (!h || !h.mixer) return; try { h.act.Spin = h.mixer.clipAction(clipFromData(ATTACK, 'Spin')); } catch(e) { console.error('spin', e); } }
+function heroSpin(){ if (!hero) return; hero.atk = SPIN_T; hero.spinNext = true; hero.atkOn = false; }
+
 /* ================= v12 FEATURES: toggles, songs, tutorial, title kata, vampire strike, boss stun, ghost hero ================= */
 const OPT_DEF = {ghost:false, shadow:true, vamp:true, cat:true, bats:true, traps:true, fork:true, arch:true, lines:true, fx:true, hints:true};
 const OPTS = [
@@ -4660,6 +4933,7 @@ function optDefaults(){
   if (!SONGS.some(s => s.id === S.song)) S.song = 'candy';
   if (typeof S.tut !== 'number') S.tut = 0;
   if ((S.optV || 0) < 2) { S.opt.ghost = false; S.optV = 2; }
+  if ((S.optV || 0) < 3) { S.song = 'lofi'; S.optV = 3; }
 }
 optDefaults();
 const opt = k => !S.opt || S.opt[k] !== false;
@@ -4702,39 +4976,76 @@ function bindV12(){
   (function(){ let sx = null; const c = $('#tutCard'); c.addEventListener('pointerdown', e => { sx = e.clientX; }); c.addEventListener('pointerup', e => { if (sx == null) return; const dx = e.clientX - sx; sx = null; if (Math.abs(dx) > 50) tutStep(dx < 0 ? 1 : -1); }); })();
 }
 
-/* ---------- tutorial cards ---------- */
-const TS = 'stroke="#1e1838" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"';
-const lane3 = (hl) => '<path d="M70 150 100 40M130 150 115 40M190 150 145 40M250 150 175 40" fill="none" stroke="#c9b48a" stroke-width="3"/>' + (hl != null ? '<path d="' + ['M70 150 100 40 115 40 130 150z', 'M130 150 115 40 145 40 190 150z', 'M190 150 145 40 175 40 250 150z'][hl] + '" fill="rgba(141,229,154,.55)"/>' : '');
-const arrowSvg = (x, y, r, c) => '<g transform="translate(' + x + ' ' + y + ') rotate(' + r + ')"><path d="M0 -18v30M-10 2 0 14 10 2" fill="none" stroke="' + (c || '#1e1838') + '" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></g>';
-const heroSvg = (x, y, s) => '<g transform="translate(' + x + ' ' + y + ') scale(' + (s || 1) + ')"><rect x="-13" y="-6" width="26" height="30" rx="8" fill="#2a2438" ' + TS + '/><circle cx="0" cy="-16" r="13" fill="#fff" ' + TS + '/><path d="M-11 -24l3 -7 5 6M11 -24l-3 -7 -5 6" fill="#fff" ' + TS + '/><path d="M14 4l18 -22" stroke="#52ff2e" stroke-width="6" stroke-linecap="round"/></g>';
-const TUT = [
-  {t:'Слова стали монстрами', d:'Перед каждым забегом — <b>10 карточек</b> и быстрая проверка. На тропе волки несут варианты перевода: <b>встань на полосу с верным ответом</b>, пока они не добежали.',
-   svg:'<svg viewBox="0 0 320 170">' + lane3(1) + '<g transform="translate(132 46)"><rect x="-30" y="-16" width="60" height="22" rx="8" fill="#fff" ' + TS + '/><text x="0" y="0" font-size="11" font-weight="800" text-anchor="middle" fill="#1e1838">среда</text></g><g transform="translate(88 50)"><rect x="-28" y="-16" width="56" height="22" rx="8" fill="#fff" ' + TS + '/><text x="0" y="0" font-size="11" font-weight="800" text-anchor="middle" fill="#1e1838">угроза</text></g><g transform="translate(190 50)"><rect x="-28" y="-16" width="56" height="22" rx="8" fill="#fff" ' + TS + '/><text x="0" y="0" font-size="11" font-weight="800" text-anchor="middle" fill="#1e1838">запас</text></g>' + heroSvg(158, 128, 1.1) + '</svg>'},
-  {t:'Управление', d:'Свайп <b>влево / вправо</b> — сменить полосу. Свайп <b>вверх</b> — прыжок через бревно. Свайп <b>вниз</b> — удар мечом. Летучих мышей — тапай или рассекай свайпом.',
-   svg:'<svg viewBox="0 0 320 170"><rect x="110" y="20" width="100" height="140" rx="18" fill="#fff" ' + TS + '/>' + arrowSvg(160, 52, 180) + arrowSvg(160, 128, 0) + arrowSvg(132, 90, 90) + arrowSvg(188, 90, -90) + '<circle cx="160" cy="90" r="9" fill="#ffc93a" ' + TS + '/><text x="58" y="94" font-size="13" font-weight="800" text-anchor="middle" fill="#1e1838">полоса</text><text x="262" y="94" font-size="13" font-weight="800" text-anchor="middle" fill="#1e1838">полоса</text></svg>'},
-  {t:'Меч', d:'Быстрые верные ответы заряжают меч. Когда кнопка меча светится — <b>свайп вниз</b> или кнопка: удар сносит всё впереди. Каждый верный ответ — удар по волку.',
-   svg:'<svg viewBox="0 0 320 170"><circle cx="160" cy="88" r="56" fill="#fff" ' + TS + '/><circle cx="160" cy="88" r="46" fill="none" stroke="#52ff2e" stroke-width="8" stroke-dasharray="230 300" transform="rotate(-90 160 88)"/><path d="M130 118 186 62" stroke="#1e1838" stroke-width="13" stroke-linecap="round"/><path d="M130 118 186 62" stroke="#52ff2e" stroke-width="7" stroke-linecap="round"/><path d="M124 108 140 124" stroke="#1e1838" stroke-width="6" stroke-linecap="round"/></svg>'},
-  {t:'Вампир', d:'Он лежит на склепе у дороги и следит за тобой. Потом занимает место волка: <b>если верное слово у вампира — встань на его полосу и свайпни вниз</b>. Не ударишь — увернётся и стащит конфеты. Позже он вызовет на дуэль.',
-   svg:'<svg viewBox="0 0 320 170"><rect x="92" y="112" width="136" height="38" rx="6" fill="#5a4a70" ' + TS + '/><rect x="84" y="104" width="152" height="12" rx="4" fill="#7a6a96" ' + TS + '/><g transform="translate(160 66)"><path d="M-30 30 0 -34 30 30z" fill="#2a1030" ' + TS + '/><circle cx="0" cy="-30" r="15" fill="#f0e6ff" ' + TS + '/><path d="M-15 -36q15 -14 30 0" fill="#1e1838"/></g>' + arrowSvg(250, 70, 0, '#c77dff') + '<text x="250" y="110" font-size="13" font-weight="900" text-anchor="middle" fill="#7a3ac8">свайп</text></svg>'},
-  {t:'Кот, развилки и арки', d:'Кот плюётся на экран — <b>смахни пятно</b>. На развилке выбирай: короткий путь с ловушками и двойными конфетами или длинный безопасный. Прошла <b>арку</b> — ответь верно и открой сундук с реликвией.',
-   svg:'<svg viewBox="0 0 320 170"><circle cx="78" cy="82" r="40" fill="#6a2a8a" opacity=".85"/><text x="78" y="87" font-size="12" font-weight="900" text-anchor="middle" fill="#fff">свайп!</text><path d="M150 150 182 70 214 150" fill="none" ' + TS + '/><path d="M182 70v-30" ' + TS + '/><rect x="140" y="30" width="40" height="16" rx="4" fill="#ff5a6a" ' + TS + '/><rect x="184" y="30" width="40" height="16" rx="4" fill="#5fd68a" ' + TS + '/><path d="M246 150v-70a26 26 0 0 1 52 0v70" fill="none" stroke="#ffd23a" stroke-width="8"/><path d="M246 150v-70a26 26 0 0 1 52 0v70" fill="none" ' + TS + '/></svg>'},
-  {t:'Тень и Мир теней', d:'Рядом бежит <b>тень</b> — твоё лучшее время для этого слова. Обгони её! Верные ответы заряжают <b>Мир теней</b>: когда призрак слева светится, <b>проведи двумя пальцами сверху вниз</b>. Ты станешь призраком: ловушки не страшны, награда ×2.',
-   svg:'<svg viewBox="0 0 320 170"><rect x="110" y="16" width="100" height="144" rx="18" fill="#2a1a4a" ' + TS + '/><circle cx="142" cy="46" r="11" fill="#fff" ' + TS + '/><circle cx="178" cy="46" r="11" fill="#fff" ' + TS + '/><path d="M142 62v52M178 62v52" stroke="#d8c8ff" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 10"/>' + arrowSvg(142, 128, 0, '#fff') + arrowSvg(178, 128, 0, '#fff') + '<path d="M44 140V86a22 22 0 0 1 44 0v54l-7-5-7 5-8-5-7 5-8-5z" fill="#d8c8ff" opacity=".8" ' + TS + '/><path d="M236 140V86a22 22 0 0 1 44 0v54l-7-5-7 5-8-5-7 5-8-5z" fill="#9a8aff" opacity=".5"/></svg>'},
-  {t:'Главы, экзамен и босс', d:'Изучишь все слова главы — откроются <b>босс</b> и <b>экзамен у ворот</b>. Босс задаёт предложения с пропуском. После серии верных ответов он <b>оглушён</b>: героиня подбегает — <b>тапай по боссу</b>, чтобы бить мечом.',
-   svg:'<svg viewBox="0 0 320 170"><path d="M120 150c0-60 20-110 40-110s40 50 40 110z" fill="#4a7a3a" ' + TS + '/><circle cx="146" cy="78" r="9" fill="#fff" ' + TS + '/><circle cx="174" cy="78" r="9" fill="#fff" ' + TS + '/><path d="M146 30l6 8M160 24v10M174 30l-6 8" stroke="#ffd23a" stroke-width="5" stroke-linecap="round"/><g transform="translate(236 104)"><circle r="20" fill="#ffc93a" opacity=".5"/><circle r="9" fill="#fff" ' + TS + '/></g><text x="236" y="146" font-size="13" font-weight="900" text-anchor="middle" fill="#1e1838">тап-тап!</text></svg>'},
-  {t:'Настрой под себя', d:'Если забег кажется перегруженным, в <b>Настройках → Игровые элементы</b> можно отключить кота, мышей, развилки, тень и другое. Там же — <b>5 мелодий</b>, режим ХАРД и это обучение.',
-   svg:'<svg viewBox="0 0 320 170"><rect x="70" y="22" width="180" height="128" rx="16" fill="#fff" ' + TS + '/>' + [0, 1, 2].map(i => '<rect x="88" y="' + (40 + i * 36) + '" width="80" height="12" rx="6" fill="#d8d0e8"/><rect x="190" y="' + (34 + i * 36) + '" width="42" height="24" rx="12" fill="' + (i === 1 ? '#fff' : '#17b3bf') + '" ' + TS + '/><circle cx="' + (i === 1 ? 202 : 220) + '" cy="' + (46 + i * 36) + '" r="8" fill="#fff" ' + TS + '/>').join('') + '</svg>'}
-];
-let tut = {i:0, after:null, back:'home'};
-function openTut(after){ tut = {i:0, after:after || null, back:G.mode}; G.mode = 'tut'; showScreen('scrTut'); renderTut(); }
-function renderTut(){
-  const c = TUT[tut.i];
-  $('#tutK').textContent = 'Обучение · ' + (tut.i + 1) + ' / ' + TUT.length; $('#tutArt').innerHTML = c.svg; $('#tutT').textContent = c.t; $('#tutD').innerHTML = c.d;
-  $('#tutDots').innerHTML = TUT.map((_, i) => '<i class="' + (i <= tut.i ? 'on' : '') + '"></i>').join('');
-  $('#tutPrev').disabled = tut.i === 0; $('#tutNext').textContent = tut.i === TUT.length - 1 ? (tut.after ? 'Играть!' : 'Понятно') : 'Дальше';
-  const card = $('#tutCard'); card.classList.remove('in'); void card.offsetWidth; card.classList.add('in');
+/* ---------- v16 tutorial: motion-design cards with real in-game renders (silhouette → reveal) ---------- */
+const SNAP = {done:false, img:{}};
+function snapCharacters(){
+  if (SNAP.done || !A.ok) return; SNAP.done = true;
+  const S0 = 360, rt = new T.WebGLRenderTarget(S0, S0), sc = new T.Scene(), cam = new T.PerspectiveCamera(26, 1, 0.1, 200);
+  sc.add(new T.HemisphereLight(0xfff4ec, 0x6a5a9a, 1.05)); const dl = new T.DirectionalLight(0xffffff, 0.8); dl.position.set(3, 6, 7); sc.add(dl);
+  const prevC = new T.Color(); renderer.getClearColor(prevC); const prevA = renderer.getClearAlpha(), cu = curveU.value, asp = ASP_U.value, ou = OUT_U.value;
+  curveU.value = 0; ASP_U.value = 1; OUT_U.value = 0.016;
+  const cv = document.createElement('canvas'); cv.width = cv.height = S0; const cx = cv.getContext('2d'), px = new Uint8Array(S0 * S0 * 4);
+  const shot = (obj, rotY, fit) => {
+    const holder = new T.Group(); holder.add(obj); holder.rotation.y = rotY; sc.add(holder); holder.updateMatrixWorld(true);
+    let bb = new T.Box3(), nb = 0; holder.traverse(o => { if (o.isBone) { bb.expandByPoint(o.getWorldPosition(new T.Vector3())); nb++; } });
+    if (nb < 3) bb = new T.Box3().setFromObject(holder); else { const s0 = bb.getSize(new T.Vector3()), m = Math.max(s0.x, s0.y, s0.z); bb.expandByVector(new T.Vector3(m * 0.16, m * 0.1, m * 0.16)); }
+    const c = bb.getCenter(new T.Vector3()), sz = bb.getSize(new T.Vector3());
+    const h = Math.max(sz.y, Math.max(sz.x, sz.z) * 0.95) * (fit || 1), d = h / 2 / Math.tan(cam.fov * Math.PI / 360) * 1.16;
+    cam.position.set(c.x + d * 0.16, c.y + h * 0.06, c.z + d); cam.lookAt(c); cam.updateMatrixWorld();
+    renderer.setRenderTarget(rt); renderer.setClearColor(0x000000, 0); renderer.clear(); renderer.render(sc, cam);
+    renderer.readRenderTargetPixels(rt, 0, 0, S0, S0, px); sc.remove(holder);
+    const img = cx.createImageData(S0, S0); for (let y = 0; y < S0; y++) img.data.set(px.subarray((S0 - 1 - y) * S0 * 4, (S0 - y) * S0 * 4), y * S0 * 4);
+    cx.putImageData(img, 0, 0); return cv.toDataURL('image/png');
+  };
+  const posed = (src, clips, name, t) => { const o = T.SkeletonUtils.clone(src); const clip = clips && clips.find(c => c.name === name); if (clip) { const mx = new T.AnimationMixer(o); mx.clipAction(clip).play(); mx.update(t); } return o; };
+  try {
+    if (A.wolfGL) { const w = posed(A.wolfGL.scene, A.wolfGL.animations, 'Walk', 0.35); w.scale.setScalar(1.3); SNAP.img.wolf = shot(w, -0.5); }
+    if (A.vampGL) SNAP.img.vamp = shot(posed(A.vampGL.scene, A.vampGL.animations, 'Cast', 0.7), Math.PI / 2 - 0.45);
+    if (A.catGL) SNAP.img.cat = shot(T.SkeletonUtils.clone(A.catGL.scene), -0.55);
+    if (A.wba && A.wba.witch) SNAP.img.boss = shot(A.wba.witch.clone(), -0.35);
+    if (A.heroGL) {
+      const clips = A.heroGL.animations.slice(); if (hero && hero.act && hero.act.Spin) clips.push(hero.act.Spin.getClip());
+      SNAP.img.hero = shot(posed(A.heroGL.scene, clips, 'Spin', 0.08), -0.3);
+      const gh = posed(A.heroGL.scene, A.heroGL.animations, 'Idle', 0.4);
+      gh.traverse(o => { if (!o.isMesh) return; if (isSwordPart(o)) return; if (o.userData.isOutline) { o.material = o.isSkinnedMesh ? GHOST_RIM_K : GHOST_RIM_S; return; } if (/face/i.test(o.name || '')) { o.visible = false; return; } o.material = o.isSkinnedMesh ? HERO_GHOST : HERO_GHOST_S; });
+      SNAP.img.ghost = shot(gh, -0.3);
+    }
+  } catch(e) { console.error('snap', e); }
+  renderer.setRenderTarget(null); renderer.setClearColor(prevC, prevA); curveU.value = cu; ASP_U.value = asp; OUT_U.value = ou; rt.dispose();
 }
-function tutStep(d){ if (d > 0 && tut.i === TUT.length - 1) { tutDone(); return; } tut.i = clamp(tut.i + d, 0, TUT.length - 1); renderTut(); }
+const TUT2 = [
+  {k:'Правила', c:'#ffc93a', t:'Слова стали монстрами', d:'Перед забегом — <b>10 карточек</b> и быстрая проверка. На тропе волки несут переводы: <b>встань на полосу с верным</b>, пока они не добежали.', art:'char', who:'wolf', name:'ВОЛК'},
+  {k:'Управление', c:'#17b3bf', t:'Всё — свайпами', d:'<b>← →</b> сменить полосу · <b>↑</b> прыжок · <b>↓</b> удар мечом с разворотом. Летучих мышей <b>тапай</b> или рассекай свайпом.', art:'swipe'},
+  {k:'Героиня', c:'#52ff2e', t:'Меч и разворот', d:'Быстрые верные ответы заряжают меч. Полный заряд — <b>свайп вниз</b> или кнопка: удар с разворотом сносит всё впереди.', art:'char', who:'hero', name:'ЭТО ТЫ'},
+  {k:'Мини-босс', c:'#c77dff', t:'Вампир', d:'Лежит на склепе у дороги и следит. Потом встаёт <b>вместо волка</b>: если верное слово у него — встань на его полосу и <b>свайпни вниз</b>. Позже вызовет на дуэль.', art:'char', who:'vamp', name:'ВАМПИР'},
+  {k:'Хулиган', c:'#ff7ab8', t:'Кот', d:'Запрыгивает на тропу и <b>плюётся на экран</b> — смахни пятно свайпом. Бросил клубок — <b>перепрыгни</b>.', art:'char', who:'cat', name:'КОТ'},
+  {k:'Поворот', c:'#ff8a5a', t:'Развилка', d:'Ближе к концу дорога уходит <b>влево и вправо</b>. За одним поворотом — туннель с ловушками и двойными конфетами, за другим — длинный спокойный путь. Где что — <b>загадка</b>.', art:'fork'},
+  {k:'Сила', c:'#b08aff', t:'Мир теней', d:'Верные ответы заряжают призрака слева. Заряжен — <b>проведи двумя пальцами вниз</b>: станешь призраком, ловушки не страшны, награда ×2.', art:'two', who:'ghost'},
+  {k:'Босс', c:'#ff5a6a', t:'Пожиратель слов', d:'Открывается, когда изучишь все слова главы. Задаёт <b>предложения с пропуском</b>. Серия верных ответов — он <b>оглушён</b>: тапай по нему!', art:'char', who:'boss', name:'БОСС'},
+  {k:'Настройки', c:'#5fd6ff', t:'Под себя', d:'Лишнее выключается в <b>Настройках → Игровые элементы</b>. Там же — мелодии, режим ХАРД и это обучение.', art:'settings'}
+];
+function tutStage(c){
+  const im = SNAP.img[c.who];
+  if (c.art === 'char' && im) return '<div class="ts ts-char"><div class="ts-rays"></div><div class="ts-ring"></div><div class="ts-who">?</div><div class="ts-fig"><img class="ts-sil" src="' + im + '" alt=""><img class="ts-col" src="' + im + '" alt=""></div><span class="ts-name">' + c.name + '</span><i class="ts-spark s1"></i><i class="ts-spark s2"></i><i class="ts-spark s3"></i></div>';
+  if (c.art === 'char') return '<div class="ts ts-char"><div class="ts-rays"></div><div class="ts-who on">?</div><span class="ts-name">' + c.name + '</span></div>';
+  if (c.art === 'swipe') return '<div class="ts ts-swipe"><div class="ts-rays"></div><div class="ph"><div class="ph-lanes"><i></i><i></i><i></i></div><b class="fg"></b><span class="lb l1">←</span><span class="lb l2">→</span><span class="lb l3">↑</span><span class="lb l4">↓</span></div></div>';
+  if (c.art === 'fork') return '<div class="ts ts-fork"><div class="ts-rays"></div><div class="fk-road"></div><div class="fk-wall"></div><div class="fk-arm l"><span>?</span></div><div class="fk-arm r"><span>?</span></div><div class="fk-fog"></div></div>';
+  if (c.art === 'two') return '<div class="ts ts-two"><div class="ts-rays"></div>' + (im ? '<img class="tw-ghost" src="' + im + '" alt="">' : '') + '<b class="tw-f a"></b><b class="tw-f b"></b></div>';
+  return '<div class="ts ts-set"><div class="ts-rays"></div><div class="st-panel">' + ['Кот', 'Мыши', 'Тень'].map((n, i) => '<div class="st-row"><span>' + n + '</span><i class="tg t' + i + '"></i></div>').join('') + '<div class="st-row"><span>Мелодия</span><em>Лоу-фай ♪</em></div></div></div>';
+}
+function renderTut(){
+  if (!SNAP.done) snapCharacters();
+  const c = TUT2[tut.i], card = $('#tutCard');
+  $('#tutK').textContent = String(tut.i + 1).padStart(2, '0') + ' / ' + String(TUT2.length).padStart(2, '0') + ' · ' + c.k;
+  $('#tutDots').innerHTML = TUT2.map((_, i) => '<i class="' + (i < tut.i ? 'done' : i === tut.i ? 'on' : '') + '"></i>').join('');
+  card.style.setProperty('--tc', c.c); $('#scrTut').style.setProperty('--tc', c.c);
+  $('#tutArt').innerHTML = tutStage(c); $('#tutT').textContent = c.t; $('#tutD').innerHTML = c.d;
+  $('#tutPrev').disabled = tut.i === 0; $('#tutNext').textContent = tut.i === TUT2.length - 1 ? (tut.after ? 'Играть!' : 'Понятно') : 'Дальше';
+  card.classList.remove('in', 'back'); void card.offsetWidth; card.classList.add(tut.dir < 0 ? 'back' : 'in');
+}
+function tutStep(d){ if (d > 0 && tut.i === TUT2.length - 1) { tutDone(); return; } tut.dir = d; tut.i = clamp(tut.i + d, 0, TUT2.length - 1); renderTut(); }
+let tut = {i:0, after:null, back:'home', dir:1};
+function openTut(after){ tut = {i:0, after:after || null, back:G.mode, dir:1}; G.mode = 'tut'; showScreen('scrTut'); renderTut(); }
 function tutDone(){
   S.tut = 1; save(); const a = tut.after; tut.after = null;
   if (a) a(); else if (tut.back === 'settings') { G.mode = 'settings'; showScreen('scrSettings'); renderSettings(); } else goHome();
@@ -4804,7 +5115,7 @@ function vampStrikeTry(){
   const z = q.grp.position.z;
   if (z < -22) { popText('Ближе!', LANES[v.i], 2.6, -2, 'vamp'); return true; }
   q.vampStruck = true; q.lockLane = true; q.lastMove = G.time;
-  hero.atk = 0.5; if (hero.mixer) fadeHero(hero, 'Attack', 0.04, true, 1.6); sfx.slash(); haptic(HAP.dash); shake(0.25);
+  heroSpin(); sfx.slash(); haptic(HAP.dash); shake(0.25);
   const x = LANES[v.i]; slashFx(x, 2.1, z + 0.9, 1.9, -1.45, false); waveFx(x, 1.6, z, 0xc77dff); burst(x, 1.9, z, 0xc77dff, 16, 7); flashFx('rgba(150,80,230,.45)');
   vampAnim('Catch', 0.08, true, 1.5); popText('Удар!', x, 3.4, z, 'vamp');
   $('#vdown').hidden = true; return true;
@@ -4907,6 +5218,7 @@ function v12Frame(sdt, dt){
   if (G.mode === 'run') updateVdown(); else if (!vdownEl.hidden) vdownEl.hidden = true;
   if (vSlab) vSlab.visible = V.mode === 'road';
   if (V.mode === 'road') updateVampRoad(sdt);
+  musicMood();
 }
 
 G.anims = [];
@@ -5511,11 +5823,11 @@ Object.keys(sfx).forEach(k => { sfx[k] = timed('звук ' + k, sfx[k]); });
 const loadEl = $('#loading'), loadTxt = $('#loadTxt'), loadBar = $('#loadBar');
 function setProg(p){ const v = Math.round(clamp(p, 0, 1) * 100); loadTxt.textContent = 'Загружаю лес… ' + v + '%'; loadBar.style.width = v + '%'; }
 function endBoot(){
-  if (A.ok) { try { scene.remove(hero.g); hero = buildHeroGLB(); addDance(hero); hero.g.rotation.y = Math.PI; scene.add(hero.g); buildSceneryKit(); buildVamp(); buildCat(); buildGhost(); applySkins(); buildTurnKit(); } catch (e) { console.error(e); A.ok = false; buildSceneryProc(); } }
+  if (A.ok) { try { scene.remove(hero.g); hero = buildHeroGLB(); addDance(hero); addSpin(hero); hero.g.rotation.y = Math.PI; scene.add(hero.g); buildSceneryKit(); buildVamp(); buildCat(); buildGhost(); applySkins(); buildTurnKit(); } catch (e) { console.error(e); A.ok = false; buildSceneryProc(); } }
   else buildSceneryProc();
   setPal('dusk', 'day', true); prewarm(); setTimeout(renderMusic, 400); window.__bootDone = true; if (TG.ok) tgCloudInit(); else cloudInit(); if (G.mode === 'home') renderHome(); loadEl.classList.add('out'); setTimeout(() => { loadEl.hidden = true; }, 600);
 }
-if (/debug/.test(location.search)) window.__WR = {G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
+if (/debug/.test(location.search)) window.__WR = {G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
 bindMeta(); bindV12(); goHome();
 requestAnimationFrame(frame);
 if (HAS_GLB) loadAssets(setProg).then(endBoot).catch(e => { console.error('assets', e); A.ok = false; endBoot(); });
