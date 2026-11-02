@@ -603,6 +603,12 @@ label.btn{cursor:pointer}
 #scrTry .try-info .btn{width:100%}
 #scrTry .try-arrow{flex:none;width:44px;height:44px;border-radius:50%;border:2.5px solid var(--ink);background:var(--sun);font:900 22px/1 var(--body);box-shadow:0 3px 0 var(--ink);color:var(--ink)}
 #scrTry .try-hint{position:absolute;left:0;right:0;bottom:214px;text-align:center;font:800 12px/1 var(--body);color:#fff;opacity:.85;pointer-events:none;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+/* ---- v17 chapter levels ---- */
+.ch-medal{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:5px}
+.medal{display:inline-block;font:900 11px/1 var(--body);padding:4px 9px;border-radius:999px;border:2px solid var(--ink);background:var(--m);color:var(--ink);vertical-align:middle;box-shadow:0 2px 0 var(--ink);letter-spacing:.02em}
+.medal.m2{background:linear-gradient(135deg,#fff3a8,#ffd23a 55%,#e8a820)}
+.medal.m1{background:linear-gradient(135deg,#f4f8ff,#c8d2e0 55%,#9aa6b8)}
+.lv-next{font:700 11px/1.25 var(--body);color:var(--muted)}
 
 #perf{position:absolute;left:8px;right:8px;bottom:92px;z-index:9;font:700 10.5px/1.35 ui-monospace,Menlo,monospace;color:#fff;background:rgba(20,10,40,.8);border:2px solid rgba(255,255,255,.25);border-radius:10px;padding:6px 8px;pointer-events:none;white-space:pre-wrap;max-height:30vh;overflow:hidden}
 #perf b{color:#ffc93a}
@@ -665,7 +671,7 @@ label.btn{cursor:pointer}
       <div class="spacer"></div>
       <div class="panel">
         <div class="ch-head">
-          <div><span class="eyebrow" id="chEyebrow">Глава 1 · Environment</span><h2 id="chName">Лес забытых слов</h2></div>
+          <div><span class="eyebrow" id="chEyebrow">Глава 1 · Environment</span><h2 id="chName">Сладкий лес</h2><div id="chMedal" class="ch-medal"></div></div>
           <span class="pill"><svg class="candy-ico" viewBox="0 0 32 18" width="26" height="15" aria-hidden="true"><path d="M8 9 1.5 2.5v13zM24 9l6.5-6.5v13z" fill="#ffb3d6" stroke="#1e1838" stroke-width="2" stroke-linejoin="round"/><ellipse cx="16" cy="9" rx="8.6" ry="7.2" fill="#ff5fa8" stroke="#1e1838" stroke-width="2"/><path d="M12.5 4.6c2.2 2.4 2.2 6.4 0 8.8M17.2 3.4c2.4 3 2.4 8.2 0 11.2" stroke="#fff" stroke-width="1.7" fill="none" opacity=".75"/></svg><span id="homeCoins">0</span></span>
         </div>
         <div id="wordmap" class="wordmap" aria-label="Карточки главы"></div>
@@ -1036,6 +1042,9 @@ const CH_WORDS = {forest:WORDS.map(w => w.id), city:WORDS_CITY.map(w => w.id), p
 WORDS.forEach(w => { w.ch = 'forest'; });
 [[WORDS_CITY, 'city'], [WORDS_PORT, 'port'], [WORDS_TOWER, 'tower'], [WORDS_SHOP, 'workshop']].forEach(([list, ch]) => list.forEach(w => { w.ch = ch; WORDS.push(w); W[w.id] = w; }));
 POS.adv = 'adverb · нареч.'; POS.phr = 'phrase · фраза';
+const LV_WORDS = [{"id":"l1_sustainability","en":"sustainability","ipa":"/səˌsteɪnəˈbɪləti/","pos":"n","ru":"устойчивое развитие","ex":"The city plan focuses on long-term ___.","col":"environmental sustainability","not":[],"ch":"forest","lv":1},{"id":"l1_deforestation","en":"deforestation","ipa":"/diːˌfɒrɪˈsteɪʃn/","pos":"n","ru":"вырубка лесов","ex":"Illegal ___ destroys animal homes.","col":"stop deforestation","not":[],"ch":"forest","lv":1},{"id":"l1_biodiversity","en":"biodiversity","ipa":"/ˌbaɪəʊdaɪˈvɜːsəti/","pos":"n","ru":"биоразнообразие","ex":"Coral reefs are rich in ___.","col":"protect biodiversity","not":[],"ch":"forest","lv":1},{"id":"l1_emissions","en":"emissions","ipa":"/iˈmɪʃnz/","pos":"n","ru":"выбросы","ex":"Factories must cut their carbon ___.","col":"carbon emissions","not":[],"ch":"forest","lv":1},{"id":"l1_contaminate","en":"contaminate","ipa":"/kənˈtæmɪneɪt/","pos":"v","ru":"загрязнять, заражать","ex":"Oil can ___ drinking water.","col":"contaminate water","not":[],"ch":"forest","lv":1},{"id":"l1_deplete","en":"deplete","ipa":"/dɪˈpliːt/","pos":"v","ru":"истощать","ex":"Overfishing will ___ the ocean.","col":"deplete resources","not":[],"ch":"forest","lv":1},{"id":"l1_landfill","en":"landfill","ipa":"/ˈlændfɪl/","pos":"n","ru":"свалка","ex":"Most plastic ends up in a ___.","col":"a landfill site","not":[],"ch":"forest","lv":1},{"id":"l1_carbon_footprint","en":"carbon footprint","ipa":"/ˈkɑːbən ˈfʊtprɪnt/","pos":"phr","ru":"углеродный след","ex":"Flying less reduces your ___.","col":"reduce your carbon footprint","not":[],"ch":"forest","lv":1},{"id":"l1_phase_out","en":"phase out","ipa":"/feɪz aʊt/","pos":"phr","ru":"поэтапно отказываться","ex":"The country will ___ coal by 2030.","col":"phase out fossil fuels","not":[],"ch":"forest","lv":1},{"id":"l1_cut_down_on","en":"cut down on","ipa":"/kʌt daʊn ɒn/","pos":"phr","ru":"сокращать (потребление)","ex":"We should ___ plastic bags.","col":"cut down on waste","not":[],"ch":"forest","lv":1},{"id":"l1_erosion","en":"erosion","ipa":"/ɪˈrəʊʒn/","pos":"n","ru":"эрозия","ex":"Tree roots stop soil ___.","col":"soil erosion","not":[],"ch":"forest","lv":1},{"id":"l1_toxic","en":"toxic","ipa":"/ˈtɒksɪk/","pos":"adj","ru":"токсичный","ex":"The river is full of ___ waste.","col":"toxic chemicals","not":[],"ch":"forest","lv":1},{"id":"l1_compost","en":"compost","ipa":"/ˈkɒmpɒst/","pos":"n","ru":"компост","ex":"We turn food scraps into ___.","col":"make compost","not":[],"ch":"forest","lv":1},{"id":"l1_run_out_of","en":"run out of","ipa":"/rʌn aʊt ɒv/","pos":"phr","ru":"исчерпать запас","ex":"One day we may ___ clean water.","col":"run out of resources","not":[],"ch":"forest","lv":1},{"id":"l1_wildfire","en":"wildfire","ipa":"/ˈwaɪldfaɪə/","pos":"n","ru":"лесной пожар","ex":"A huge ___ burned for weeks.","col":"fight a wildfire","not":[],"ch":"forest","lv":1},{"id":"l1_poaching","en":"poaching","ipa":"/ˈpəʊtʃɪŋ/","pos":"n","ru":"браконьерство","ex":"Elephants suffer from ___.","col":"illegal poaching","not":[],"ch":"forest","lv":1},{"id":"l2_mitigate","en":"mitigate","ipa":"/ˈmɪtɪɡeɪt/","pos":"v","ru":"смягчать последствия","ex":"New laws aim to ___ climate change.","col":"mitigate the impact","not":[],"ch":"forest","lv":2},{"id":"l2_degradation","en":"degradation","ipa":"/ˌdeɡrəˈdeɪʃn/","pos":"n","ru":"деградация, ухудшение","ex":"Land ___ is getting worse.","col":"environmental degradation","not":[],"ch":"forest","lv":2},{"id":"l2_irreversible","en":"irreversible","ipa":"/ˌɪrɪˈvɜːsəbl/","pos":"adj","ru":"необратимый","ex":"Some damage to the reef is ___.","col":"irreversible damage","not":[],"ch":"forest","lv":2},{"id":"l2_resilient","en":"resilient","ipa":"/rɪˈzɪliənt/","pos":"adj","ru":"устойчивый, жизнестойкий","ex":"Mangroves make the coast more ___.","col":"resilient to floods","not":[],"ch":"forest","lv":2},{"id":"l2_scarcity","en":"scarcity","ipa":"/ˈskeəsəti/","pos":"n","ru":"нехватка, дефицит","ex":"Water ___ affects millions.","col":"water scarcity","not":[],"ch":"forest","lv":2},{"id":"l2_offset","en":"offset","ipa":"/ˈɒfset/","pos":"v","ru":"компенсировать","ex":"Plant trees to ___ your flights.","col":"offset emissions","not":[],"ch":"forest","lv":2},{"id":"l2_pristine","en":"pristine","ipa":"/ˈprɪstiːn/","pos":"adj","ru":"нетронутый, первозданный","ex":"They found a ___ beach.","col":"pristine nature","not":[],"ch":"forest","lv":2},{"id":"l2_exacerbate","en":"exacerbate","ipa":"/ɪɡˈzæsəbeɪt/","pos":"v","ru":"усугублять","ex":"Heat waves ___ the drought.","col":"exacerbate the problem","not":[],"ch":"forest","lv":2},{"id":"l2_greenwashing","en":"greenwashing","ipa":"/ˈɡriːnwɒʃɪŋ/","pos":"n","ru":"гринвошинг, фальшивая «экологичность»","ex":"Fake eco labels are pure ___.","col":"accuse of greenwashing","not":[],"ch":"forest","lv":2},{"id":"l2_at_stake","en":"at stake","ipa":"/ət steɪk/","pos":"phr","ru":"на кону","ex":"The future of the forest is ___.","col":"a lot is at stake","not":[],"ch":"forest","lv":2},{"id":"l2_tip_of_the_iceberg","en":"tip of the iceberg","ipa":"/tɪp əv ði ˈaɪsbɜːɡ/","pos":"phr","ru":"верхушка айсберга","ex":"These floods are just the ___.","col":"only the tip of the iceberg","not":[],"ch":"forest","lv":2},{"id":"l2_a_drop_in_the_ocean","en":"a drop in the ocean","ipa":"/ə drɒp ɪn ði ˈəʊʃn/","pos":"phr","ru":"капля в море","ex":"One recycled bottle is ___.","col":"just a drop in the ocean","not":[],"ch":"forest","lv":2},{"id":"l2_go_green","en":"go green","ipa":"/ɡəʊ ɡriːn/","pos":"phr","ru":"перейти на экологичный образ жизни","ex":"Our school decided to ___.","col":"go green at home","not":[],"ch":"forest","lv":2},{"id":"l2_in_the_long_run","en":"in the long run","ipa":"/ɪn ðə lɒŋ rʌn/","pos":"phr","ru":"в долгосрочной перспективе","ex":"Solar panels save money ___.","col":"pay off in the long run","not":[],"ch":"forest","lv":2},{"id":"l2_conservationist","en":"conservationist","ipa":"/ˌkɒnsəˈveɪʃənɪst/","pos":"n","ru":"защитник природы","ex":"The ___ studied wolves for years.","col":"a wildlife conservationist","not":[],"ch":"forest","lv":2},{"id":"l2_depletion","en":"depletion","ipa":"/dɪˈpliːʃn/","pos":"n","ru":"истощение","ex":"Ozone ___ is slowly reversing.","col":"resource depletion","not":[],"ch":"forest","lv":2},{"id":"l1_cybersecurity","en":"cybersecurity","ipa":"/ˌsaɪbəsɪˈkjʊərəti/","pos":"n","ru":"кибербезопасность","ex":"Banks spend a lot on ___.","col":"improve cybersecurity","not":[],"ch":"city","lv":1},{"id":"l1_bottleneck","en":"bottleneck","ipa":"/ˈbɒtlnek/","pos":"n","ru":"узкое место","ex":"The old disk is the main ___.","col":"a performance bottleneck","not":[],"ch":"city","lv":1},{"id":"l1_workaround","en":"workaround","ipa":"/ˈwɜːkəraʊnd/","pos":"n","ru":"обходное решение","ex":"We found a ___ for the bug.","col":"a temporary workaround","not":[],"ch":"city","lv":1},{"id":"l1_roll_out","en":"roll out","ipa":"/rəʊl aʊt/","pos":"phr","ru":"внедрять, выпускать","ex":"They will ___ the update next week.","col":"roll out a feature","not":[],"ch":"city","lv":1},{"id":"l1_back_up","en":"back up","ipa":"/bæk ʌp/","pos":"phr","ru":"делать резервную копию","ex":"Always ___ your files.","col":"back up your data","not":[],"ch":"city","lv":1},{"id":"l1_shut_down","en":"shut down","ipa":"/ʃʌt daʊn/","pos":"phr","ru":"выключать, отключать","ex":"The server will ___ at midnight.","col":"shut down the system","not":[],"ch":"city","lv":1},{"id":"l1_debug","en":"debug","ipa":"/diːˈbʌɡ/","pos":"v","ru":"отлаживать","ex":"It took hours to ___ the code.","col":"debug a program","not":[],"ch":"city","lv":1},{"id":"l1_cutting_edge","en":"cutting-edge","ipa":"/ˌkʌtɪŋ ˈedʒ/","pos":"adj","ru":"передовой","ex":"The lab uses ___ technology.","col":"cutting-edge research","not":[],"ch":"city","lv":1},{"id":"l1_user_friendly","en":"user-friendly","ipa":"/ˌjuːzə ˈfrendli/","pos":"adj","ru":"удобный для пользователя","ex":"The new app is very ___.","col":"a user-friendly design","not":[],"ch":"city","lv":1},{"id":"l1_obsolescence","en":"obsolescence","ipa":"/ˌɒbsəˈlesns/","pos":"n","ru":"устаревание","ex":"Planned ___ makes phones die early.","col":"planned obsolescence","not":[],"ch":"city","lv":1},{"id":"l1_surveillance","en":"surveillance","ipa":"/səˈveɪləns/","pos":"n","ru":"наблюдение, слежка","ex":"Cameras increase ___ in cities.","col":"video surveillance","not":[],"ch":"city","lv":1},{"id":"l1_breakthrough","en":"breakthrough","ipa":"/ˈbreɪkθruː/","pos":"n","ru":"прорыв","ex":"It was a ___ in battery design.","col":"a major breakthrough","not":[],"ch":"city","lv":1},{"id":"l1_patch","en":"patch","ipa":"/pætʃ/","pos":"n","ru":"исправление, «заплатка»","ex":"Install the security ___ now.","col":"a security patch","not":[],"ch":"city","lv":1},{"id":"l1_wearable","en":"wearable","ipa":"/ˈweərəbl/","pos":"n","ru":"носимое устройство","ex":"A smart watch is a popular ___.","col":"fitness wearables","not":[],"ch":"city","lv":1},{"id":"l1_crowdfunding","en":"crowdfunding","ipa":"/ˈkraʊdfʌndɪŋ/","pos":"n","ru":"краудфандинг","ex":"The game was made with ___.","col":"a crowdfunding campaign","not":[],"ch":"city","lv":1},{"id":"l1_tamper_with","en":"tamper with","ipa":"/ˈtæmpə wɪð/","pos":"phr","ru":"вмешиваться, взламывать","ex":"Someone tried to ___ the lock.","col":"tamper with evidence","not":[],"ch":"city","lv":1},{"id":"l2_disruptive","en":"disruptive","ipa":"/dɪsˈrʌptɪv/","pos":"adj","ru":"прорывной, меняющий рынок","ex":"Streaming was a ___ technology.","col":"disruptive innovation","not":[],"ch":"city","lv":2},{"id":"l2_proprietary","en":"proprietary","ipa":"/prəˈpraɪətri/","pos":"adj","ru":"проприетарный, закрытый","ex":"The company uses ___ software.","col":"proprietary code","not":[],"ch":"city","lv":2},{"id":"l2_ubiquitous","en":"ubiquitous","ipa":"/juːˈbɪkwɪtəs/","pos":"adj","ru":"повсеместный","ex":"Smartphones are now ___.","col":"ubiquitous technology","not":[],"ch":"city","lv":2},{"id":"l2_leverage","en":"leverage","ipa":"/ˈliːvərɪdʒ/","pos":"v","ru":"использовать с выгодой","ex":"We can ___ AI to save time.","col":"leverage data","not":[],"ch":"city","lv":2},{"id":"l2_augment","en":"augment","ipa":"/ɔːɡˈment/","pos":"v","ru":"дополнять, расширять","ex":"AR glasses ___ what you see.","col":"augment reality","not":[],"ch":"city","lv":2},{"id":"l2_open_source","en":"open-source","ipa":"/ˌəʊpən ˈsɔːs/","pos":"adj","ru":"с открытым кодом","ex":"Linux is an ___ system.","col":"open-source software","not":[],"ch":"city","lv":2},{"id":"l2_brute_force","en":"brute force","ipa":"/bruːt fɔːs/","pos":"phr","ru":"перебор, грубая сила","ex":"Hackers used a ___ attack.","col":"a brute force attack","not":[],"ch":"city","lv":2},{"id":"l2_under_the_hood","en":"under the hood","ipa":"/ˈʌndə ðə hʊd/","pos":"phr","ru":"«под капотом», внутри","ex":"Let’s look at what’s ___.","col":"what happens under the hood","not":[],"ch":"city","lv":2},{"id":"l2_in_the_cloud","en":"in the cloud","ipa":"/ɪn ðə klaʊd/","pos":"phr","ru":"в облаке","ex":"All my photos are stored ___.","col":"store files in the cloud","not":[],"ch":"city","lv":2},{"id":"l2_state_of_the_art","en":"state-of-the-art","ipa":"/ˌsteɪt əv ði ˈɑːt/","pos":"adj","ru":"самый современный","ex":"The hospital has ___ scanners.","col":"state-of-the-art equipment","not":[],"ch":"city","lv":2},{"id":"l2_back_to_square_one","en":"back to square one","ipa":"/bæk tə skweər wʌn/","pos":"phr","ru":"снова с нуля","ex":"The crash sent us ___.","col":"go back to square one","not":[],"ch":"city","lv":2},{"id":"l2_interoperability","en":"interoperability","ipa":"/ˌɪntərˌɒpərəˈbɪləti/","pos":"n","ru":"совместимость систем","ex":"Standards improve ___ between apps.","col":"data interoperability","not":[],"ch":"city","lv":2},{"id":"l2_deprecate","en":"deprecate","ipa":"/ˈdeprəkeɪt/","pos":"v","ru":"объявлять устаревшим","ex":"They will ___ the old API.","col":"deprecate a feature","not":[],"ch":"city","lv":2},{"id":"l2_cutting_corners","en":"cutting corners","ipa":"/ˈkʌtɪŋ ˈkɔːnəz/","pos":"phr","ru":"халтура, экономия на качестве","ex":"Bugs appear when the team keeps ___.","col":"stop cutting corners","not":[],"ch":"city","lv":2},{"id":"l2_bandwagon","en":"bandwagon","ipa":"/ˈbændwæɡən/","pos":"n","ru":"модное течение","ex":"Every company jumped on the AI ___.","col":"jump on the bandwagon","not":[],"ch":"city","lv":2},{"id":"l2_scalability","en":"scalability","ipa":"/ˌskeɪləˈbɪləti/","pos":"n","ru":"масштабируемость","ex":"The startup worried about ___.","col":"improve scalability","not":[],"ch":"city","lv":2},{"id":"l1_layover","en":"layover","ipa":"/ˈleɪəʊvə/","pos":"n","ru":"пересадка, стыковка","ex":"We had a six-hour ___ in Dubai.","col":"a long layover","not":[],"ch":"port","lv":1},{"id":"l1_jet_lag","en":"jet lag","ipa":"/ˈdʒet læɡ/","pos":"n","ru":"джетлаг, смена часовых поясов","ex":"I still have terrible ___.","col":"suffer from jet lag","not":[],"ch":"port","lv":1},{"id":"l1_check_in","en":"check in","ipa":"/tʃek ɪn/","pos":"phr","ru":"регистрироваться","ex":"You can ___ online.","col":"check in at the hotel","not":[],"ch":"port","lv":1},{"id":"l1_set_off","en":"set off","ipa":"/set ɒf/","pos":"phr","ru":"отправляться в путь","ex":"We ___ at dawn.","col":"set off early","not":[],"ch":"port","lv":1},{"id":"l1_overbooked","en":"overbooked","ipa":"/ˌəʊvəˈbʊkt/","pos":"adj","ru":"с перебронированием","ex":"The flight was ___.","col":"an overbooked hotel","not":[],"ch":"port","lv":1},{"id":"l1_refund","en":"refund","ipa":"/ˈriːfʌnd/","pos":"n","ru":"возврат денег","ex":"I asked for a full ___.","col":"get a refund","not":[],"ch":"port","lv":1},{"id":"l1_commute","en":"commute","ipa":"/kəˈmjuːt/","pos":"v","ru":"ездить на работу","ex":"I ___ two hours a day.","col":"commute by train","not":[],"ch":"port","lv":1},{"id":"l1_hitchhike","en":"hitchhike","ipa":"/ˈhɪtʃhaɪk/","pos":"v","ru":"путешествовать автостопом","ex":"They decided to ___ across Europe.","col":"hitchhike home","not":[],"ch":"port","lv":1},{"id":"l1_picturesque","en":"picturesque","ipa":"/ˌpɪktʃəˈresk/","pos":"adj","ru":"живописный","ex":"We stayed in a ___ village.","col":"a picturesque town","not":[],"ch":"port","lv":1},{"id":"l1_backpacker","en":"backpacker","ipa":"/ˈbækpækə/","pos":"n","ru":"путешественник с рюкзаком","ex":"The hostel was full of ___s.","col":"a budget backpacker","not":[],"ch":"port","lv":1},{"id":"l1_get_around","en":"get around","ipa":"/ɡet əˈraʊnd/","pos":"phr","ru":"передвигаться","ex":"It’s easy to ___ by metro.","col":"get around the city","not":[],"ch":"port","lv":1},{"id":"l1_round_trip","en":"round trip","ipa":"/ˌraʊnd ˈtrɪp/","pos":"n","ru":"поездка туда и обратно","ex":"A ___ ticket is cheaper.","col":"a round trip flight","not":[],"ch":"port","lv":1},{"id":"l1_remote","en":"remote","ipa":"/rɪˈməʊt/","pos":"adj","ru":"отдалённый","ex":"They live in a ___ village.","col":"a remote island","not":[],"ch":"port","lv":1},{"id":"l1_exchange_rate","en":"exchange rate","ipa":"/ɪksˈtʃeɪndʒ reɪt/","pos":"n","ru":"обменный курс","ex":"Check the ___ before you go.","col":"a good exchange rate","not":[],"ch":"port","lv":1},{"id":"l1_stopover","en":"stopover","ipa":"/ˈstɒpəʊvə/","pos":"n","ru":"остановка в пути","ex":"We made a ___ in Rome.","col":"a short stopover","not":[],"ch":"port","lv":1},{"id":"l1_carry_on","en":"carry-on","ipa":"/ˈkæri ɒn/","pos":"n","ru":"ручная кладь","ex":"My ___ was too heavy.","col":"carry-on luggage","not":[],"ch":"port","lv":1},{"id":"l2_off_the_beaten_track","en":"off the beaten track","ipa":"/ɒf ðə ˈbiːtn træk/","pos":"phr","ru":"вдали от туристических троп","ex":"We found a café ___.","col":"travel off the beaten track","not":[],"ch":"port","lv":2},{"id":"l2_wanderlust","en":"wanderlust","ipa":"/ˈwɒndəlʌst/","pos":"n","ru":"страсть к путешествиям","ex":"My ___ never lets me stay home.","col":"full of wanderlust","not":[],"ch":"port","lv":2},{"id":"l2_hit_the_road","en":"hit the road","ipa":"/hɪt ðə rəʊd/","pos":"phr","ru":"отправиться в путь","ex":"It’s late, let’s ___.","col":"time to hit the road","not":[],"ch":"port","lv":2},{"id":"l2_travel_light","en":"travel light","ipa":"/ˈtrævl laɪt/","pos":"phr","ru":"путешествовать налегке","ex":"I always ___ with one bag.","col":"learn to travel light","not":[],"ch":"port","lv":2},{"id":"l2_breathtaking","en":"breathtaking","ipa":"/ˈbreθteɪkɪŋ/","pos":"adj","ru":"захватывающий дух","ex":"The view from the top was ___.","col":"a breathtaking view","not":[],"ch":"port","lv":2},{"id":"l2_secluded","en":"secluded","ipa":"/sɪˈkluːdɪd/","pos":"adj","ru":"уединённый","ex":"We swam at a ___ beach.","col":"a secluded spot","not":[],"ch":"port","lv":2},{"id":"l2_overrated","en":"overrated","ipa":"/ˌəʊvəˈreɪtɪd/","pos":"adj","ru":"переоценённый","ex":"That famous tower is ___.","col":"totally overrated","not":[],"ch":"port","lv":2},{"id":"l2_tourist_trap","en":"tourist trap","ipa":"/ˈtʊərɪst træp/","pos":"n","ru":"место, где «доят» туристов","ex":"That street is a real ___.","col":"avoid tourist traps","not":[],"ch":"port","lv":2},{"id":"l2_culture_shock","en":"culture shock","ipa":"/ˈkʌltʃə ʃɒk/","pos":"n","ru":"культурный шок","ex":"She had ___ in Tokyo.","col":"experience culture shock","not":[],"ch":"port","lv":2},{"id":"l2_red_eye","en":"red-eye","ipa":"/ˈred aɪ/","pos":"n","ru":"ночной рейс","ex":"I took the ___ to New York.","col":"catch the red-eye","not":[],"ch":"port","lv":2},{"id":"l2_en_route","en":"en route","ipa":"/ˌɒn ˈruːt/","pos":"adv","ru":"по пути","ex":"We stopped for lunch ___.","col":"en route to Paris","not":[],"ch":"port","lv":2},{"id":"l2_immerse","en":"immerse","ipa":"/ɪˈmɜːs/","pos":"v","ru":"погружаться","ex":"Try to ___ yourself in the local culture.","col":"immerse yourself","not":[],"ch":"port","lv":2},{"id":"l2_globetrotter","en":"globetrotter","ipa":"/ˈɡləʊbtrɒtə/","pos":"n","ru":"путешественник по миру","ex":"My aunt is a real ___.","col":"a seasoned globetrotter","not":[],"ch":"port","lv":2},{"id":"l2_compensation","en":"compensation","ipa":"/ˌkɒmpenˈseɪʃn/","pos":"n","ru":"компенсация","ex":"We got ___ for the delay.","col":"claim compensation","not":[],"ch":"port","lv":2},{"id":"l2_get_away_from_it_all","en":"get away from it all","ipa":"/ɡet əˈweɪ frəm ɪt ɔːl/","pos":"phr","ru":"сбежать от всего","ex":"We went to the mountains to ___.","col":"a place to get away from it all","not":[],"ch":"port","lv":2},{"id":"l2_nomadic","en":"nomadic","ipa":"/nəʊˈmædɪk/","pos":"adj","ru":"кочевой","ex":"She lives a ___ life with her laptop.","col":"a nomadic lifestyle","not":[],"ch":"port","lv":2},{"id":"l1_procrastinate","en":"procrastinate","ipa":"/prəˈkræstɪneɪt/","pos":"v","ru":"откладывать на потом","ex":"Stop trying to ___ and start now.","col":"procrastinate on homework","not":[],"ch":"tower","lv":1},{"id":"l1_workload","en":"workload","ipa":"/ˈwɜːkləʊd/","pos":"n","ru":"рабочая нагрузка","ex":"My ___ doubled this month.","col":"a heavy workload","not":[],"ch":"tower","lv":1},{"id":"l1_internship","en":"internship","ipa":"/ˈɪntɜːnʃɪp/","pos":"n","ru":"стажировка","ex":"She got a summer ___ at a bank.","col":"apply for an internship","not":[],"ch":"tower","lv":1},{"id":"l1_burnout","en":"burnout","ipa":"/ˈbɜːnaʊt/","pos":"n","ru":"выгорание","ex":"Long hours led to ___.","col":"avoid burnout","not":[],"ch":"tower","lv":1},{"id":"l1_multitask","en":"multitask","ipa":"/ˌmʌltiˈtɑːsk/","pos":"v","ru":"делать несколько дел сразу","ex":"It’s hard to ___ during exams.","col":"learn to multitask","not":[],"ch":"tower","lv":1},{"id":"l1_brainstorm","en":"brainstorm","ipa":"/ˈbreɪnstɔːm/","pos":"v","ru":"устраивать мозговой штурм","ex":"Let’s ___ ideas for the project.","col":"brainstorm solutions","not":[],"ch":"tower","lv":1},{"id":"l1_take_notes","en":"take notes","ipa":"/teɪk nəʊts/","pos":"phr","ru":"конспектировать","ex":"I always ___ during lectures.","col":"take notes in class","not":[],"ch":"tower","lv":1},{"id":"l1_catch_up_on","en":"catch up on","ipa":"/kætʃ ʌp ɒn/","pos":"phr","ru":"наверстать","ex":"I need to ___ my reading.","col":"catch up on work","not":[],"ch":"tower","lv":1},{"id":"l1_drop_out","en":"drop out","ipa":"/drɒp aʊt/","pos":"phr","ru":"бросить учёбу","ex":"He wanted to ___ of college.","col":"drop out of school","not":[],"ch":"tower","lv":1},{"id":"l1_hand_in","en":"hand in","ipa":"/hænd ɪn/","pos":"phr","ru":"сдать работу","ex":"Please ___ your essays on Friday.","col":"hand in homework","not":[],"ch":"tower","lv":1},{"id":"l1_tuition","en":"tuition","ipa":"/tjuˈɪʃn/","pos":"n","ru":"плата за обучение","ex":"University ___ keeps rising.","col":"tuition fees","not":[],"ch":"tower","lv":1},{"id":"l1_scholarship","en":"scholarship","ipa":"/ˈskɒləʃɪp/","pos":"n","ru":"стипендия, грант","ex":"She won a full ___.","col":"apply for a scholarship","not":[],"ch":"tower","lv":1},{"id":"l1_networking","en":"networking","ipa":"/ˈnetwɜːkɪŋ/","pos":"n","ru":"налаживание связей","ex":"Conferences are great for ___.","col":"professional networking","not":[],"ch":"tower","lv":1},{"id":"l1_time_management","en":"time management","ipa":"/taɪm ˈmænɪdʒmənt/","pos":"n","ru":"тайм-менеджмент","ex":"Good ___ helps you relax.","col":"improve time management","not":[],"ch":"tower","lv":1},{"id":"l1_appraisal","en":"appraisal","ipa":"/əˈpreɪzl/","pos":"n","ru":"аттестация, оценка работы","ex":"My annual ___ went well.","col":"a performance appraisal","not":[],"ch":"tower","lv":1},{"id":"l1_freelance","en":"freelance","ipa":"/ˈfriːlɑːns/","pos":"adj","ru":"внештатный, фриланс","ex":"She does ___ design work.","col":"a freelance writer","not":[],"ch":"tower","lv":1},{"id":"l2_burn_the_midnight_oil","en":"burn the midnight oil","ipa":"/bɜːn ðə ˈmɪdnaɪt ɔɪl/","pos":"phr","ru":"засиживаться допоздна за работой","ex":"Before exams I ___.","col":"burning the midnight oil","not":[],"ch":"tower","lv":2},{"id":"l2_learning_curve","en":"learning curve","ipa":"/ˈlɜːnɪŋ kɜːv/","pos":"n","ru":"кривая обучения","ex":"The new software has a steep ___.","col":"a steep learning curve","not":[],"ch":"tower","lv":2},{"id":"l2_think_outside_the_box","en":"think outside the box","ipa":"/θɪŋk aʊtˈsaɪd ðə bɒks/","pos":"phr","ru":"мыслить нестандартно","ex":"To win, you must ___.","col":"learn to think outside the box","not":[],"ch":"tower","lv":2},{"id":"l2_on_the_same_page","en":"on the same page","ipa":"/ɒn ðə seɪm peɪdʒ/","pos":"phr","ru":"на одной волне","ex":"Let’s make sure we’re ___.","col":"get everyone on the same page","not":[],"ch":"tower","lv":2},{"id":"l2_delegate","en":"delegate","ipa":"/ˈdeləɡeɪt/","pos":"v","ru":"делегировать","ex":"A good leader knows how to ___.","col":"delegate tasks","not":[],"ch":"tower","lv":2},{"id":"l2_prioritize","en":"prioritize","ipa":"/praɪˈɒrətaɪz/","pos":"v","ru":"расставлять приоритеты","ex":"You need to ___ your tasks.","col":"prioritize safety","not":[],"ch":"tower","lv":2},{"id":"l2_proficient","en":"proficient","ipa":"/prəˈfɪʃnt/","pos":"adj","ru":"владеющий в совершенстве","ex":"She is ___ in three languages.","col":"proficient in English","not":[],"ch":"tower","lv":2},{"id":"l2_meticulous","en":"meticulous","ipa":"/məˈtɪkjələs/","pos":"adj","ru":"скрупулёзный","ex":"He is ___ about details.","col":"meticulous research","not":[],"ch":"tower","lv":2},{"id":"l2_accountable","en":"accountable","ipa":"/əˈkaʊntəbl/","pos":"adj","ru":"подотчётный, ответственный","ex":"Managers are ___ for results.","col":"hold someone accountable","not":[],"ch":"tower","lv":2},{"id":"l2_get_the_hang_of","en":"get the hang of","ipa":"/ɡet ðə hæŋ əv/","pos":"phr","ru":"наловчиться","ex":"You’ll soon ___ it.","col":"get the hang of coding","not":[],"ch":"tower","lv":2},{"id":"l2_call_it_a_day","en":"call it a day","ipa":"/kɔːl ɪt ə deɪ/","pos":"phr","ru":"закончить на сегодня","ex":"We’re tired, let’s ___.","col":"time to call it a day","not":[],"ch":"tower","lv":2},{"id":"l2_up_to_speed","en":"up to speed","ipa":"/ʌp tə spiːd/","pos":"phr","ru":"в курсе дел","ex":"I’ll bring you ___ on the project.","col":"get up to speed","not":[],"ch":"tower","lv":2},{"id":"l2_peer_review","en":"peer review","ipa":"/pɪə rɪˈvjuː/","pos":"n","ru":"рецензирование","ex":"The paper passed ___.","col":"a peer review process","not":[],"ch":"tower","lv":2},{"id":"l2_curriculum","en":"curriculum","ipa":"/kəˈrɪkjələm/","pos":"n","ru":"учебная программа","ex":"Coding is now in the school ___.","col":"the national curriculum","not":[],"ch":"tower","lv":2},{"id":"l2_workaholic","en":"workaholic","ipa":"/ˌwɜːkəˈhɒlɪk/","pos":"n","ru":"трудоголик","ex":"My boss is a real ___.","col":"a total workaholic","not":[],"ch":"tower","lv":2},{"id":"l2_hands_on","en":"hands-on","ipa":"/ˌhændz ˈɒn/","pos":"adj","ru":"практический","ex":"The course is very ___.","col":"hands-on experience","not":[],"ch":"tower","lv":2},{"id":"l1_blueprint","en":"blueprint","ipa":"/ˈbluːprɪnt/","pos":"n","ru":"чертёж, план","ex":"Check the ___ before cutting.","col":"follow the blueprint","not":[],"ch":"workshop","lv":1},{"id":"l1_assemble","en":"assemble","ipa":"/əˈsembl/","pos":"v","ru":"собирать","ex":"It takes an hour to ___ the frame.","col":"assemble parts","not":[],"ch":"workshop","lv":1},{"id":"l1_calibrate","en":"calibrate","ipa":"/ˈkælɪbreɪt/","pos":"v","ru":"калибровать","ex":"You must ___ the sensor first.","col":"calibrate the scale","not":[],"ch":"workshop","lv":1},{"id":"l1_load_bearing","en":"load-bearing","ipa":"/ˈləʊd beərɪŋ/","pos":"adj","ru":"несущий","ex":"Don’t remove a ___ wall.","col":"a load-bearing beam","not":[],"ch":"workshop","lv":1},{"id":"l1_wear_and_tear","en":"wear and tear","ipa":"/weər ən teə/","pos":"phr","ru":"износ","ex":"The gears show normal ___.","col":"normal wear and tear","not":[],"ch":"workshop","lv":1},{"id":"l1_fasten","en":"fasten","ipa":"/ˈfɑːsn/","pos":"v","ru":"закреплять","ex":"___ the bolts tightly.","col":"fasten securely","not":[],"ch":"workshop","lv":1},{"id":"l1_lubricate","en":"lubricate","ipa":"/ˈluːbrɪkeɪt/","pos":"v","ru":"смазывать","ex":"___ the chain every month.","col":"lubricate moving parts","not":[],"ch":"workshop","lv":1},{"id":"l1_gear_ratio","en":"gear ratio","ipa":"/ɡɪə ˈreɪʃiəʊ/","pos":"n","ru":"передаточное отношение","ex":"A higher ___ gives more torque.","col":"change the gear ratio","not":[],"ch":"workshop","lv":1},{"id":"l1_fatigue","en":"fatigue","ipa":"/fəˈtiːɡ/","pos":"n","ru":"усталость (металла)","ex":"Metal ___ caused the crack.","col":"metal fatigue","not":[],"ch":"workshop","lv":1},{"id":"l1_welder","en":"welder","ipa":"/ˈweldə/","pos":"n","ru":"сварщик; сварочный аппарат","ex":"The ___ wore a mask.","col":"an arc welder","not":[],"ch":"workshop","lv":1},{"id":"l1_drill_bit","en":"drill bit","ipa":"/drɪl bɪt/","pos":"n","ru":"сверло","ex":"Use a thin ___ for plastic.","col":"change the drill bit","not":[],"ch":"workshop","lv":1},{"id":"l1_vise","en":"vise","ipa":"/vaɪs/","pos":"n","ru":"тиски","ex":"Clamp the part in a ___.","col":"a bench vise","not":[],"ch":"workshop","lv":1},{"id":"l1_soldering_iron","en":"soldering iron","ipa":"/ˈsəʊldərɪŋ ˈaɪən/","pos":"n","ru":"паяльник","ex":"Heat the wire with a ___.","col":"a hot soldering iron","not":[],"ch":"workshop","lv":1},{"id":"l1_chamfer","en":"chamfer","ipa":"/ˈtʃæmfə/","pos":"n","ru":"фаска","ex":"Add a small ___ to the edge.","col":"a 45° chamfer","not":[],"ch":"workshop","lv":1},{"id":"l1_gasket","en":"gasket","ipa":"/ˈɡæskɪt/","pos":"n","ru":"прокладка","ex":"Replace the leaking ___.","col":"a rubber gasket","not":[],"ch":"workshop","lv":1},{"id":"l1_flange","en":"flange","ipa":"/flændʒ/","pos":"n","ru":"фланец","ex":"Bolt the pipe to the ___.","col":"a pipe flange","not":[],"ch":"workshop","lv":1},{"id":"l2_feasibility","en":"feasibility","ipa":"/ˌfiːzəˈbɪləti/","pos":"n","ru":"осуществимость","ex":"First we test the ___ of the idea.","col":"a feasibility study","not":[],"ch":"workshop","lv":2},{"id":"l2_specification","en":"specification","ipa":"/ˌspesɪfɪˈkeɪʃn/","pos":"n","ru":"спецификация, техзадание","ex":"The motor meets the ___.","col":"technical specification","not":[],"ch":"workshop","lv":2},{"id":"l2_trial_and_error","en":"trial and error","ipa":"/ˈtraɪəl ən ˈerə/","pos":"phr","ru":"метод проб и ошибок","ex":"We found the angle by ___.","col":"learn by trial and error","not":[],"ch":"workshop","lv":2},{"id":"l2_back_to_the_drawing_board","en":"back to the drawing board","ipa":"/bæk tə ðə ˈdrɔːɪŋ bɔːd/","pos":"phr","ru":"начать проект заново","ex":"The test failed — ___.","col":"go back to the drawing board","not":[],"ch":"workshop","lv":2},{"id":"l2_reverse_engineer","en":"reverse-engineer","ipa":"/rɪˌvɜːs endʒɪˈnɪə/","pos":"v","ru":"воспроизводить по образцу","ex":"They tried to ___ the chip.","col":"reverse-engineer a device","not":[],"ch":"workshop","lv":2},{"id":"l2_deflection","en":"deflection","ipa":"/dɪˈflekʃn/","pos":"n","ru":"прогиб","ex":"The beam’s ___ was too large.","col":"maximum deflection","not":[],"ch":"workshop","lv":2},{"id":"l2_tensile_strength","en":"tensile strength","ipa":"/ˈtensaɪl streŋθ/","pos":"n","ru":"предел прочности на растяжение","ex":"Steel has high ___.","col":"high tensile strength","not":[],"ch":"workshop","lv":2},{"id":"l2_iterate","en":"iterate","ipa":"/ˈɪtəreɪt/","pos":"v","ru":"повторять итерации, дорабатывать","ex":"We ___ until the design works.","col":"iterate on a design","not":[],"ch":"workshop","lv":2},{"id":"l2_servo_motor","en":"servo motor","ipa":"/ˈsɜːvəʊ ˈməʊtə/","pos":"n","ru":"серводвигатель","ex":"A ___ moves the joint precisely.","col":"control a servo motor","not":[],"ch":"workshop","lv":2},{"id":"l2_run_like_clockwork","en":"run like clockwork","ipa":"/rʌn laɪk ˈklɒkwɜːk/","pos":"phr","ru":"работать как часы","ex":"The new line runs ___.","col":"everything ran like clockwork","not":[],"ch":"workshop","lv":2},{"id":"l2_nuts_and_bolts","en":"nuts and bolts","ipa":"/nʌts ən bəʊlts/","pos":"phr","ru":"основы, практические детали","ex":"Let’s discuss the ___ of the plan.","col":"the nuts and bolts of a project","not":[],"ch":"workshop","lv":2},{"id":"l2_benchmark","en":"benchmark","ipa":"/ˈbentʃmɑːk/","pos":"n","ru":"эталон, ориентир","ex":"This robot is the industry ___.","col":"set a benchmark","not":[],"ch":"workshop","lv":2},{"id":"l2_kinematics","en":"kinematics","ipa":"/ˌkɪnɪˈmætɪks/","pos":"n","ru":"кинематика","ex":"Robot ___ describes how joints move.","col":"inverse kinematics","not":[],"ch":"workshop","lv":2},{"id":"l2_hydraulic","en":"hydraulic","ipa":"/haɪˈdrɒlɪk/","pos":"adj","ru":"гидравлический","ex":"The press uses a ___ cylinder.","col":"a hydraulic system","not":[],"ch":"workshop","lv":2},{"id":"l2_fixture","en":"fixture","ipa":"/ˈfɪkstʃə/","pos":"n","ru":"приспособление, оснастка","ex":"The ___ holds the part during milling.","col":"a welding fixture","not":[],"ch":"workshop","lv":2},{"id":"l2_ergonomic","en":"ergonomic","ipa":"/ˌɜːɡəˈnɒmɪk/","pos":"adj","ru":"эргономичный","ex":"The handle has an ___ shape.","col":"ergonomic design","not":[],"ch":"workshop","lv":2}];
+LV_WORDS.forEach(w => { WORDS.push(w); W[w.id] = w; (CH_WORDS[w.ch] = CH_WORDS[w.ch] || []).push(w.id); });
+
 
 /* relics found in the secret arch's chest */
 const RELICS = [
@@ -1225,10 +1234,10 @@ function installCustom(){
 }
 installCustom();
 const curCh = () => CHAPTERS.find(c => c.id === S.chapter) || CHAPTERS[0];
-const chIds = ch => (CH_WORDS[(ch || curCh()).id] || []).filter(id => W[id]);
+const chIds = ch => (CH_WORDS[(ch || curCh()).id] || []).filter(id => W[id] && (W[id].lv || 0) <= chLvl(ch || curCh()));
 const chList = ch => chIds(ch).map(id => W[id]);
 const chUnlocked = ch => !ch.after || !!S.exam[ch.after];
-const hardMul = () => S.hard ? 1.15 * ((typeof G !== 'undefined' && G.hardBoost) || 1) : 1;
+const hardMul = () => (S.hard ? 1.15 * ((typeof G !== 'undefined' && G.hardBoost) || 1) : 1) * lvSpeed();
 
 /* ---------- saving: local copy + private cloud copy for this viewer + file / code export ---------- */
 const CLOUD = {ref:null, ok:false, status:'local', at:0, timer:0, busy:false, again:false, dl:null};
@@ -1434,7 +1443,7 @@ function renderMap(){
     const L = chList(ch), seen = L.filter(w => S.words[w.id].seen).length, long = L.filter(w => S.words[w.id].box >= 4).length, open = chUnlocked(ch);
     const pct = L.length ? Math.round(100 * seen / L.length) : 0, cur = ch.id === S.chapter;
     const status = !open ? 'Закрыта: сдай экзамен главы «' + esc(CHAPTERS.find(c => c.id === ch.after).name) + '»' : S.exam[ch.id] ? 'Экзамен сдан' : ch.custom ? (L.length < 4 ? 'Добавь хотя бы 4 слова' : L.length + ' слов') : seen + ' из ' + L.length + ' изучено';
-    return '<div class="map-card' + (open ? '' : ' locked') + (cur ? ' cur' : '') + '" style="--c:' + ch.color + '"><div class="mc-n">' + ch.n + '</div><div class="mc-b"><span class="eyebrow">' + esc(ch.topic) + (ch.side ? ' · дополнительная' : '') + '</span><b>' + esc(ch.name) + '</b>' +
+    return '<div class="map-card' + (open ? '' : ' locked') + (cur ? ' cur' : '') + '" style="--c:' + ch.color + '"><div class="mc-n">' + ch.n + '</div><div class="mc-b"><span class="eyebrow">' + esc(ch.topic) + (ch.side ? ' · дополнительная' : '') + '</span><b>' + esc(ch.name) + ' ' + medalHTML(ch) + '</b>' +
       '<div class="mc-bar"><i style="width:' + pct + '%"></i></div><span class="note">' + status + (long ? ' · в долгой памяти: ' + long : '') + '</span></div>' +
       (open ? '<button class="btn btn-small" data-ch="' + ch.id + '"' + (cur ? ' disabled' : '') + '>' + (cur ? 'Сейчас' : 'Выбрать') + '</button>' : '') + '</div>';
   }).join('');
@@ -3490,6 +3499,8 @@ function makeObstacle(kind, lane){
     buildSecret(g, u);
   } else if (kind === 'yarn') {
     buildYarn(g, u, lane);
+  } else if (kind === 'mob') {
+    if (!buildMob(g, u, lane)) { g.position.x = LANES[lane]; }
   } else if (kind === 'beast') {
     buildBeast(g, u);
   } else if (kind === 'pumpkin') {
@@ -3527,16 +3538,18 @@ function updateObstacles(sdt){
     else if (u.kind === 'fork') updateFork(o, u);
     else if (u.kind === 'secret') updateSecret(o, u, sdt);
     else if (u.kind === 'beast') updateBeast(o, u, sdt);
+    else if (u.kind === 'mob') updateMob(o, u, sdt);
     if (!u.hit && u.kind === 'bounce') { if (Math.abs(o.position.z) < 0.85 && Math.abs(LANES[u.lane] - hx) < 1.0 && G.heroY < 0.7) bounceHero(o, u); }
     else if (!u.hit) {
       const z = o.position.z;
       const hitLog = u.kind === 'log' && Math.abs(z) < 0.6 && G.heroY < 0.55;
       const hitRock = u.kind === 'rock' && Math.abs(z) < 0.75 && Math.abs(LANES[u.lane] - hx) < 1.0 && G.heroY < 1.0;
       const hitPump = (u.kind === 'pumpkin' || u.kind === 'yarn') && Math.abs(z) < 0.75 && Math.abs(LANES[u.lane] - hx) < 1.0 && G.heroY < 0.9;
+      const hitMob = u.kind === 'mob' && mobHits(o, u, hx);
       const hitBeast = u.kind === 'beast' && Math.abs(z) < 0.7 && G.slideT <= 0.04;
       if (u.kind === 'beast' && !u.passed && Math.abs(z) < 0.7 && G.slideT > 0.04) { u.passed = true; G.coinsRun += 2; renderCoins(); popText('Nice slide!', hx, 2.2, 0, 'gain'); }
       const hitBats = u.kind === 'spikes' && Math.abs(z) < 0.7 && Math.abs(LANES[u.lane] - hx) < 1.0 && G.heroY < 1.05 && u.up > 0.5;
-      if (hitLog || hitRock || hitPump || hitBats || hitBeast) {
+      if (hitLog || hitRock || hitPump || hitBats || hitBeast || hitMob) {
         if (G.shadowT > 0) { u.hit = true; }
         else if (G.dashT > 0) smashObstacle(o, 'dash');
         else if (G.shieldT > 0) { G.shieldT = 0; smashObstacle(o, 'shield'); popText('Shield!', hx, 1.6, 0, 'good'); }
@@ -4157,13 +4170,13 @@ function renderHome(){
   const bw = S.bossWins[curCh().id]; bb.disabled = !open; bb.textContent = bw ? 'Реванш с боссом' : 'Босс главы';
   let note = '';
   if (p.reduced) note = 'Прошлый забег — меньше 75% верных, поэтому сегодня 5 новых слов вместо 10. ';
-  if (bw) note += 'Глава пройдена: Пожиратель слов повержен.';
+  if (bw) note += 'Босс главы повержен. ';
   else if (!open) note += 'Босс откроется, когда изучишь все ' + chList().length + ' слов главы (сейчас ' + st.seen + ').';
   else note += 'Босс открыт: он соберётся из твоих самых слабых слов.';
   $('#homeNote').textContent = note;
-  homeExtras();
+  homeExtras(); renderMedal();
 }
-function goHome(){ setTimeout(() => { if (G.mode === 'home' && bossOpen()) prefetchBoss(); }, 2500); G.mode = 'home'; showScreen('scrHome'); $('#hud').hidden = true; $('#rail').hidden = true; $('#pups').hidden = true; swordBtn.hidden = true; shadowBtn.hidden = true; $('#relicPop').hidden = true; $('#stunUI').hidden = true; $('#vdown').hidden = true; clearSplats(); endBuild(); musicStop(); kataReset(); renderHome(); }
+function goHome(){ setTimeout(() => { if (G.mode !== 'home') return; prefetchWorld(); if (bossOpen()) prefetchBoss(); }, 1500); G.mode = 'home'; showScreen('scrHome'); $('#hud').hidden = true; $('#rail').hidden = true; $('#pups').hidden = true; swordBtn.hidden = true; shadowBtn.hidden = true; $('#relicPop').hidden = true; $('#stunUI').hidden = true; $('#vdown').hidden = true; clearSplats(); endBuild(); musicStop(); kataReset(); renderHome(); }
 
 /* camp */
 let camp = {ids:[], i:0};
@@ -4994,6 +5007,216 @@ const SPIN_SPEED = 2.05, SPIN_T = ((ATTACK.n - 1) / ATTACK.fps) / SPIN_SPEED;
 function addSpin(h){ if (!h || !h.mixer) return; try { h.act.Spin = h.mixer.clipAction(clipFromData(ATTACK, 'Spin')); } catch(e) { console.error('spin', e); } }
 function heroSpin(){ if (!hero) return; hero.atk = SPIN_T; hero.spinNext = true; hero.atkOn = false; }
 
+const BIO_DATA = {"bio":{"tw":[{"n":"eyetree","k":"big","h":9.5,"a":1.2281,"u":[0.34229,0.66602,0.54736,1.0]},{"n":"facetree","k":"big","h":11,"a":1.3861,"u":[0.54883,0.7041,0.75391,1.0]},{"n":"droptree","k":"big","h":8.5,"a":0.7902,"u":[0.20654,0.66016,0.34082,1.0]},{"n":"eyegate","k":"big","h":9,"a":1.1864,"u":[0.0,0.6543,0.20508,1.0]},{"n":"deadtree","k":"mid","h":4.2,"a":1.1049,"u":[0.61963,0.51172,0.69678,0.65137]},{"n":"skullhut","k":"mid","h":3.2,"a":1.4507,"u":[0.69824,0.5127,0.79883,0.65137]},{"n":"chainfence","k":"mid","h":1.6,"a":4.4118,"u":[0.14111,0.37402,0.2876,0.44043]},{"n":"spikefence","k":"mid","h":1.6,"a":2.1,"u":[0.0,0.35254,0.09229,0.44043]},{"n":"banner","k":"mid","h":3.6,"a":0.7128,"u":[0.14062,0.46777,0.20605,0.65137]},{"n":"sign","k":"mid","h":2.4,"a":0.7107,"u":[0.45312,0.49609,0.5083,0.65137]},{"n":"eyesign","k":"mid","h":3.4,"a":0.7948,"u":[0.84814,0.77637,0.93701,1.0]},{"n":"lamp","k":"mid","h":3.2,"a":0.5488,"u":[0.40771,0.49121,0.45166,0.65137]},{"n":"obelisk","k":"mid","h":2.8,"a":0.3621,"u":[0.37549,0.48145,0.40625,0.65137]},{"n":"cage","k":"small","h":2.2,"a":0.5139,"u":[0.58203,0.51074,0.61816,0.65137]},{"n":"crystal","k":"small","h":2.2,"a":0.9732,"u":[0.50977,0.50586,0.58057,0.65137]},{"n":"mush","k":"small","h":1.9,"a":1.2424,"u":[0.83105,0.55469,0.89111,0.65137]},{"n":"mush2","k":"small","h":1.9,"a":0.4839,"u":[0.80029,0.53027,0.82959,0.65137]},{"n":"barrel","k":"small","h":1.0,"a":1.093,"u":[0.09375,0.35645,0.13965,0.44043]},{"n":"chest","k":"small","h":1.0,"a":1.5435,"u":[0.89258,0.56152,0.96191,0.65137]},{"n":"eyeghost","k":"crit","h":2.4,"a":0.2702,"u":[0.75537,0.75781,0.78809,1.0]},{"n":"stalker","k":"crit","h":2.6,"a":0.4737,"u":[0.78955,0.75879,0.84668,1.0]},{"n":"eyespider","k":"mob","h":1.6,"a":0.5393,"u":[0.32715,0.47754,0.37402,0.65137]},{"n":"chomper","k":"mob","h":1.8,"a":1.2941,"u":[0.20752,0.46875,0.32568,0.65137]},{"n":"eyesnake","k":"crit","h":2.2,"a":1.338,"u":[0.0,0.44336,0.13916,0.65137]}],"cem":[{"n":"panotree","k":"big","h":8,"a":0.8502,"u":[0.10986,0.36133,0.24561,1.0]},{"n":"angel","k":"big","h":9,"a":0.6491,"u":[0.0,0.33203,0.1084,1.0]},{"n":"crypt","k":"mid","h":3.6,"a":1.2118,"u":[0.40527,0.66797,0.50586,1.0]},{"n":"fence","k":"mid","h":1.5,"a":2.4742,"u":[0.28174,0.13672,0.39893,0.32617]},{"n":"archruin","k":"mid","h":2.4,"a":1.5175,"u":[0.0,0.10352,0.08447,0.32617]},{"n":"gate","k":"mid","h":2.6,"a":1.4254,"u":[0.65186,0.73828,0.74512,1.0]},{"n":"banner","k":"mid","h":2.8,"a":0.7542,"u":[0.89502,0.76953,0.93848,1.0]},{"n":"lamp","k":"mid","h":3.0,"a":0.6718,"u":[0.7915,0.74414,0.83447,1.0]},{"n":"sign","k":"mid","h":2.4,"a":0.9365,"u":[0.83594,0.75391,0.89355,1.0]},{"n":"cross","k":"small","h":2.2,"a":0.5762,"u":[0.55371,0.70508,0.59619,1.0]},{"n":"coffin","k":"small","h":2.0,"a":0.586,"u":[0.50732,0.69336,0.55225,1.0]},{"n":"candles","k":"small","h":1.0,"a":0.8554,"u":[0.61572,0.16406,0.65039,0.32617]},{"n":"grave","k":"small","h":1.4,"a":1.0316,"u":[0.40039,0.14062,0.44824,0.32617]},{"n":"candlegrave","k":"small","h":1.4,"a":2.3053,"u":[0.44971,0.14062,0.55664,0.32617]},{"n":"hourglass","k":"small","h":1.2,"a":0.65,"u":[0.24854,0.13086,0.28027,0.32617]},{"n":"mirror","k":"small","h":1.4,"a":0.703,"u":[0.1748,0.12891,0.20947,0.32617]},{"n":"hangtree","k":"mid","h":4.5,"a":0.9278,"u":[0.24707,0.64844,0.32861,1.0]},{"n":"gravefence","k":"mid","h":1.6,"a":1.5841,"u":[0.08594,0.10547,0.17334,0.32617]},{"n":"grave2","k":"small","h":1.3,"a":0.7327,"u":[0.21094,0.12891,0.24707,0.32617]},{"n":"crystals","k":"small","h":1.4,"a":1.2105,"u":[0.55811,0.14062,0.61426,0.32617]},{"n":"ghost","k":"mob","h":1.8,"a":0.72,"u":[0.59766,0.70703,0.65039,1.0]},{"n":"kingghost","k":"mob","h":1.9,"a":0.5198,"u":[0.33008,0.6543,0.375,1.0]},{"n":"ghost3","k":"mob","h":1.8,"a":0.6692,"u":[0.74658,0.74023,0.79004,1.0]},{"n":"angelghost","k":"crit","h":2.2,"a":0.3218,"u":[0.37646,0.66016,0.40381,1.0]},{"n":"hooded","k":"crit","h":1.6,"a":0.5128,"u":[0.93994,0.77148,0.96924,1.0]}],"sw":[{"n":"deadtree","k":"big","h":7,"a":1.1546,"u":[0.0,0.69043,0.17871,1.0]},{"n":"skullshroom","k":"big","h":7.5,"a":0.9197,"u":[0.35938,0.70801,0.49365,1.0]},{"n":"dripshrooms","k":"big","h":6.5,"a":0.6074,"u":[0.49512,0.70898,0.5835,1.0]},{"n":"deadtree2","k":"big","h":6.5,"a":0.7959,"u":[0.58496,0.71289,0.69922,1.0]},{"n":"mound","k":"big","h":4,"a":1.1464,"u":[0.70068,0.7666,0.83447,1.0]},{"n":"ruin","k":"big","h":7.5,"a":1.1592,"u":[0.18018,0.69336,0.35791,1.0]},{"n":"fence","k":"mid","h":1.5,"a":1.562,"u":[0.49512,0.56934,0.5874,0.6875]},{"n":"spikefence","k":"mid","h":1.8,"a":1.529,"u":[0.25781,0.55273,0.36084,0.6875]},{"n":"gallows","k":"mid","h":2.8,"a":1.2013,"u":[0.0,0.53711,0.09033,0.6875]},{"n":"skullsign","k":"mid","h":2.2,"a":0.6849,"u":[0.15283,0.54492,0.20166,0.6875]},{"n":"bigsign","k":"mid","h":2.8,"a":1.8293,"u":[0.83594,0.83984,0.98242,1.0]},{"n":"arrowL","k":"mid","h":2.2,"a":0.7922,"u":[0.0918,0.53711,0.15137,0.6875]},{"n":"rockskull","k":"small","h":1.6,"a":1.2642,"u":[0.1084,0.43066,0.17383,0.53418]},{"n":"ribs","k":"small","h":1.8,"a":1.4602,"u":[0.89453,0.57715,0.9751,0.6875]},{"n":"shroomclump","k":"small","h":2.0,"a":1.3417,"u":[0.68018,0.57031,0.75879,0.6875]},{"n":"log","k":"small","h":1.5,"a":2.0278,"u":[0.0,0.42871,0.10693,0.53418]},{"n":"shrooms","k":"small","h":1.4,"a":1.2114,"u":[0.4209,0.56738,0.49365,0.6875]},{"n":"cattails","k":"small","h":1.8,"a":0.7786,"u":[0.20312,0.55078,0.25635,0.6875]},{"n":"skull","k":"small","h":1.0,"a":1.9146,"u":[0.2417,0.4541,0.31836,0.53418]},{"n":"lanternpost","k":"mid","h":2.8,"a":0.8478,"u":[0.3623,0.55273,0.41943,0.6875]},{"n":"jar","k":"small","h":1.1,"a":0.8291,"u":[0.8457,0.57324,0.89307,0.6875]},{"n":"barrel","k":"small","h":1.1,"a":0.7769,"u":[0.58887,0.56934,0.63477,0.6875]},{"n":"wheel","k":"small","h":1.3,"a":1.4454,"u":[0.76025,0.57129,0.84424,0.6875]},{"n":"bigshroom","k":"small","h":1.6,"a":1.3039,"u":[0.17529,0.43457,0.24023,0.53418]},{"n":"glowshroom","k":"small","h":0.9,"a":0.7403,"u":[0.31982,0.45898,0.34766,0.53418]},{"n":"hopper","k":"mob","h":1.6,"a":0.719,"u":[0.63623,0.56934,0.67871,0.6875]},{"n":"toad","k":"small","h":1.2,"a":2.2576,"u":[0.34912,0.46973,0.42188,0.53418]}],"ice":[{"n":"eyearch","k":"big","h":8.5,"a":1.5613,"u":[0.28271,0.7373,0.48779,1.0]},{"n":"spire","k":"big","h":8.5,"a":0.5925,"u":[0.0,0.68848,0.09229,1.0]},{"n":"ruinarch","k":"big","h":7.5,"a":1.2427,"u":[0.09375,0.69824,0.28125,1.0]},{"n":"pine","k":"big","h":5.5,"a":0.4979,"u":[0.48926,0.7666,0.54736,1.0]},{"n":"hangtree","k":"big","h":5,"a":1.4038,"u":[0.68701,0.79199,0.83301,1.0]},{"n":"icecastle","k":"mid","h":3.2,"a":1.3358,"u":[0.0,0.37793,0.0874,0.50879]},{"n":"fence","k":"mid","h":1.5,"a":1.4862,"u":[0.59082,0.40234,0.66992,0.50879]},{"n":"fence2","k":"mid","h":1.5,"a":2.0446,"u":[0.34961,0.39941,0.46143,0.50879]},{"n":"banner","k":"mid","h":3.0,"a":0.7214,"u":[0.86523,0.54883,0.91455,0.68555]},{"n":"bigsign","k":"mid","h":2.6,"a":1.6036,"u":[0.08154,0.52051,0.21387,0.68555]},{"n":"signpost","k":"mid","h":2.6,"a":0.858,"u":[0.21533,0.52051,0.28613,0.68555]},{"n":"warn","k":"mid","h":2.2,"a":0.7821,"u":[0.5127,0.5332,0.57227,0.68555]},{"n":"lamp","k":"mid","h":3.0,"a":0.5519,"u":[0.83447,0.82129,0.88379,1.0]},{"n":"cage","k":"mid","h":2.4,"a":0.9213,"u":[0.0,0.51172,0.08008,0.68555]},{"n":"skullbig","k":"mid","h":2.0,"a":2.3125,"u":[0.46289,0.39941,0.58936,0.50879]},{"n":"ribs","k":"small","h":1.8,"a":1.6887,"u":[0.72314,0.40527,0.81055,0.50879]},{"n":"crystals","k":"small","h":1.8,"a":1.1778,"u":[0.91602,0.55371,0.99365,0.68555]},{"n":"crystals2","k":"small","h":2.2,"a":0.7727,"u":[0.62305,0.53516,0.68115,0.68555]},{"n":"igloo","k":"small","h":1.6,"a":1.1923,"u":[0.81201,0.40723,0.87256,0.50879]},{"n":"deadtree","k":"small","h":1.8,"a":1.0078,"u":[0.08887,0.38281,0.15234,0.50879]},{"n":"eyestalk","k":"small","h":1.3,"a":0.6122,"u":[0.95264,0.41309,0.98193,0.50879]},{"n":"sword","k":"small","h":1.6,"a":1.4844,"u":[0.15381,0.38379,0.24658,0.50879]},{"n":"peng1","k":"crit","h":1.3,"a":0.704,"u":[0.24805,0.38672,0.29102,0.50879]},{"n":"peng2","k":"crit","h":1.4,"a":0.7415,"u":[0.68262,0.54199,0.73584,0.68555]},{"n":"penghat","k":"crit","h":1.6,"a":0.6323,"u":[0.57373,0.53418,0.62158,0.68555]},{"n":"pengfat","k":"crit","h":1.5,"a":0.981,"u":[0.43555,0.53125,0.51123,0.68555]},{"n":"pengstaff","k":"crit","h":1.8,"a":0.743,"u":[0.88525,0.8252,0.9502,1.0]},{"n":"pengbat","k":"crit","h":1.5,"a":1.8369,"u":[0.7373,0.54785,0.86377,0.68555]},{"n":"golem","k":"crit","h":3.0,"a":1.2785,"u":[0.54883,0.78613,0.68555,1.0]},{"n":"icespider","k":"crit","h":2.0,"a":1.8293,"u":[0.2876,0.52539,0.43408,0.68555]},{"n":"slider","k":"mob","h":1.0,"a":1.596,"u":[0.87402,0.41211,0.95117,0.50879]},{"n":"pengscarf","k":"mob","h":1.2,"a":1.2632,"u":[0.0,0.28223,0.05859,0.375]},{"n":"peng5","k":"mob","h":1.2,"a":1.0,"u":[0.29248,0.39746,0.34814,0.50879]},{"n":"pengang","k":"mob","h":1.2,"a":0.945,"u":[0.67139,0.40234,0.72168,0.50879]}]},"pano":{"tw":4.4586,"cem":4.5752,"sw":4.9822,"ice":2.8,"ice_b":2.8986}};
+/* ================= v17 CHAPTER WORLDS: one theme per chapter that grows during the run =================
+   Ch.1 Sweet forest → Twilight forest → Moon cemetery · Ch.2 Mushroom bog (deeper and darker) · Ch.3 Ice peaks with penguins.
+   Hand-drawn props from the art sheets stand along the road as billboards; a panorama strip sits on the horizon;
+   each world has its own mini-enemies that cross the road. */
+const BIO = (typeof BIO_DATA !== 'undefined') ? BIO_DATA : {bio:{}, pano:{}};
+(function addPals(){
+  const mk = (base, o) => { const p = Object.assign({}, PALS[base], o); p.c = {}; PAL_COLS.forEach(f => { p.c[f] = new T.Color(p[f]); }); p.skyC = p.sky.map(s => new T.Color(s)); return p; };
+  PALS.bog = mk('swamp', {sky:['#060d0c','#132a24','#24463a','#46683f','#7a9a58'], fog:'#38533c', fogN:13, fogF:66, hemiI:0.62, sunI:0.45, ember:'#d8ff6a'});
+  PALS.icenight = mk('ice', {sky:['#040822','#0e2262','#1e5a9a','#3cb8b0','#a2f2d8'], fog:'#36588a', fogN:20, fogF:86, hemiS:'#cfe6ff', hemiG:'#1a2450', hemiI:0.64, sun:'#b8f2ff', sunI:0.48, grass:'#d6e4ff', path:'#c4d4f0', cloud:'#8aa8e0', ember:'#b8fff0'});
+  PALS.sweet = mk('candy', {sky:['#4a2290','#c058d0','#ff86c4','#ffc2de','#fff0f6'], fogN:30, fogF:108});
+})();
+let BASE_STAGES = null;
+const K_ = (...a) => a;
+const CH_WORLD = {
+  forest:{name:'Сладкий лес', color:'#ff7ab8', wolf:[1.7, 1.7, 1.7], stages:[
+    {name:'Сахарная опушка', sub:'Камни, брёвна и конфеты', pal:'dusk', set:'candy', kinds:K_('rock', 'rock', 'log')},
+    {name:'Конфетная долина', sub:'Грибы-батуты и первые мыши', pal:'sweet', set:'candy', kinds:K_('rock', 'log', 'bounce', 'bats', 'beast')},
+    {name:'Леденцовая чаща', sub:'Тыквы катятся навстречу', pal:'candy', set:'candy', kinds:K_('rock', 'log', 'bats', 'pumpkin', 'beast')},
+    {name:'Сумеречный лес', sub:'Деревья открывают глаза', pal:'twilight', set:'forest', bio:'tw', pano:'tw', kinds:K_('rock', 'log', 'bats', 'pumpkin', 'mob', 'beast'), color:'#c9a2f2'},
+    {name:'Глазастая чаща', sub:'Кто-то ползёт через тропу', pal:'witch', set:'forest', bio:'tw', pano:'tw', kinds:K_('log', 'bats', 'mob', 'mob', 'spikes', 'beast'), color:'#b8ff7a'},
+    {name:'Лунное кладбище', sub:'Ночь · призраки на дороге', pal:'night', set:'arena', bio:'cem', pano:'cem', kinds:K_('rock', 'log', 'bats', 'mob', 'pumpkin', 'beast'), color:'#9fd8ff'},
+    {name:'Склеп ведьмы', sub:'Двойные ловушки', pal:'witch', set:'arena', bio:'cem', pano:'cem', kinds:K_('rock', 'log', 'bats', 'mob', 'spikes', 'beast'), color:'#b8ff7a'},
+    {name:'Лунный мост', sub:'Финал · максимальная скорость', pal:'astral', set:'astral', bio:'cem', pano:'cem', kinds:K_('rock', 'log', 'bats', 'mob', 'pumpkin', 'spikes', 'beast'), color:'#ffd6ff'}]},
+  city:{name:'Грибные топи', color:'#8dff6a', wolf:[1.25, 1.75, 1.15], stages:[
+    {name:'Тихая заводь', sub:'Под ногами хлюпает', pal:'swamp', set:'swamp', bio:'sw', pano:'sw', kinds:K_('rock', 'log', 'log')},
+    {name:'Грибные топи', sub:'Грибы прыгают через тропу', pal:'swamp', set:'swamp', bio:'sw', pano:'sw', kinds:K_('rock', 'log', 'bounce', 'mob', 'beast')},
+    {name:'Гнилая гать', sub:'Туман густеет', pal:'bog', set:'swamp', bio:'sw', pano:'sw', kinds:K_('log', 'bounce', 'bats', 'mob', 'beast')},
+    {name:'Черепные грибы', sub:'Батуты, мыши и шипы', pal:'bog', set:'swamp', bio:'sw', pano:'sw', kinds:K_('bounce', 'log', 'bats', 'spikes', 'mob', 'beast')},
+    {name:'Туман над трясиной', sub:'Видно только ближние волны', pal:'bog', set:'swamp', bio:'sw', pano:'sw', kinds:K_('bounce', 'log', 'bats', 'spikes', 'mob', 'beast')},
+    {name:'Ведьмин час', sub:'Болотные огни', pal:'witch', set:'swamp', bio:'sw', pano:'sw', kinds:K_('rock', 'log', 'bats', 'mob', 'spikes', 'beast')},
+    {name:'Болотные огни', sub:'Двойные ловушки', pal:'witch', set:'swamp', bio:'sw', pano:'sw', kinds:K_('rock', 'log', 'bats', 'mob', 'mob', 'spikes', 'beast')},
+    {name:'Сердце топей', sub:'Финал · максимальная скорость', pal:'bog', set:'swamp', bio:'sw', pano:'sw', kinds:K_('rock', 'log', 'bats', 'mob', 'spikes', 'bounce', 'beast')}]},
+  port:{name:'Ледяные пики', color:'#9fd8ff', wolf:[2.4, 2.5, 2.8], stages:[
+    {name:'Снежная тропа', sub:'Хрустит наст', pal:'ice', set:'ice', bio:'ice', pano:'ice_b', kinds:K_('rock', 'rock', 'log')},
+    {name:'Ледяные пики', sub:'Шипы растут из-под снега', pal:'ice', set:'ice', bio:'ice', pano:'ice_b', kinds:K_('spikes', 'rock', 'log', 'bats', 'beast')},
+    {name:'Пингвинья гора', sub:'Пингвины катятся на животах', pal:'ice', set:'ice', bio:'ice', pano:'ice', kinds:K_('spikes', 'rock', 'mob', 'mob', 'beast')},
+    {name:'Замёрзшее озеро', sub:'Скользко!', pal:'ice', set:'ice', bio:'ice', pano:'ice', kinds:K_('spikes', 'mob', 'bats', 'log', 'beast')},
+    {name:'Ледяная пасть', sub:'Темнеет', pal:'icenight', set:'ice', bio:'ice', pano:'ice_b', kinds:K_('spikes', 'mob', 'bats', 'rock', 'beast')},
+    {name:'Северное сияние', sub:'Ночь на вершине', pal:'icenight', set:'ice', bio:'ice', pano:'ice', kinds:K_('spikes', 'mob', 'mob', 'bats', 'log', 'beast')},
+    {name:'Стужа', sub:'Двойные ловушки', pal:'icenight', set:'ice', bio:'ice', pano:'ice_b', kinds:K_('spikes', 'mob', 'bats', 'rock', 'log', 'beast')},
+    {name:'Ледяной трон', sub:'Финал · максимальная скорость', pal:'icenight', set:'ice', bio:'ice', pano:'ice', kinds:K_('spikes', 'mob', 'bats', 'rock', 'log', 'beast')}]},
+  tower:{wolf:[1.7, 1.7, 1.7], stages:[
+    {name:'Закатная тропа', pal:'dusk', set:'day'}, {name:'Закатная тропа II', pal:'dusk', set:'day'}, {name:'Сумеречный лес', pal:'twilight', set:'forest'}, {name:'Сумеречная чаща', pal:'twilight', set:'forest'},
+    {name:'Ночная башня', pal:'night', set:'arena'}, {name:'Ночная башня II', pal:'night', set:'arena'}, {name:'Ведьмин час', pal:'witch', set:'arena'}, {name:'Звёздный мост', pal:'astral', set:'astral'}]},
+  workshop:{wolf:[1.7, 1.7, 1.7], stages:[
+    {name:'Закатная тропа', pal:'dusk', set:'day'}, {name:'Конфетная долина', pal:'candy', set:'candy'}, {name:'Конфетный склон', pal:'candy', set:'candy'}, {name:'Ледяные пики', pal:'ice', set:'ice'},
+    {name:'Ледяной перевал', pal:'ice', set:'ice'}, {name:'Грибные топи', pal:'swamp', set:'swamp'}, {name:'Лунное кладбище', pal:'night', set:'arena'}, {name:'Звёздный мост', pal:'astral', set:'astral'}]}
+};
+function applyChapterStages(){
+  if (!BASE_STAGES) BASE_STAGES = STAGES.map(s => Object.assign({}, s, {kinds:s.kinds.slice()}));
+  try { prefetchWorld(); } catch(e) {}
+  const W_ = CH_WORLD[curCh().id] || CH_WORLD.tower;
+  STAGES.forEach((s, i) => { const b = BASE_STAGES[i], o = W_.stages[i] || {}; Object.assign(s, b, o, {kinds:(o.kinds || b.kinds).slice(), bio:o.bio || null, pano:o.pano || null}); });
+  const wm = A.wolfGL && (() => { let m = null; A.wolfGL.scene.traverse(x => { if (x.isMesh && x.material && x.material.name === 'M_Wolf') m = x.material; }); return m; })();
+  if (wm) wm.color.setRGB(W_.wolf[0], W_.wolf[1], W_.wolf[2]);
+}
+(function renameChapters(){ for (const id in CH_WORLD) { const c = CHAPTERS.find(x => x.id === id), w = CH_WORLD[id]; if (c && w.name) { c.name = w.name; c.color = w.color; } } })();
+
+/* ---- roadside billboards ---- */
+const BIOV = {cur:null, want:null, meshes:{}, items:{}, pano:{}, panoCur:null, tex:{}, fade:0};
+const BIO_N = 46;
+function bioTex(b){ return BIOV.tex[b] || (BIOV.tex[b] = assetTex('bio_' + b + '.webp')); }
+function bioMesh(b){
+  if (BIOV.meshes[b]) return BIOV.meshes[b];
+  const geo = new T.BufferGeometry(), pos = new Float32Array(BIO_N * 12), uv = new Float32Array(BIO_N * 8), idx = new Uint16Array(BIO_N * 6);
+  for (let i = 0; i < BIO_N; i++) { const v = i * 4; idx.set([v, v + 1, v + 2, v, v + 2, v + 3], i * 6); }
+  geo.setAttribute('position', new T.BufferAttribute(pos, 3).setUsage(T.DynamicDrawUsage)); geo.setAttribute('uv', new T.BufferAttribute(uv, 2).setUsage(T.DynamicDrawUsage)); geo.setIndex(new T.BufferAttribute(idx, 1));
+  const m = curvify(new T.MeshBasicMaterial({map:bioTex(b), alphaTest:0.42, side:T.DoubleSide, transparent:false}));
+  const mesh = new T.Mesh(geo, m); mesh.frustumCulled = false; mesh.visible = false; scene.add(mesh);
+  const meta = BIO.bio[b] || [], pools = {big:[], mid:[], small:[], crit:[]}; meta.forEach((s, i) => { if (pools[s.k]) pools[s.k].push(i); });
+  const items = []; for (let i = 0; i < BIO_N; i++) { const it = {i}; bioPlace(b, it, -230 + 246 * (i + Math.random()) / BIO_N, pools, meta); items.push(it); }
+  BIOV.meshes[b] = mesh; BIOV.items[b] = {items, pools, meta}; bioWriteUV(b);
+  return mesh;
+}
+function bioPlace(b, it, z, pools, meta){
+  const r = Math.random(), kind = r < 0.2 ? 'big' : r < 0.55 ? 'mid' : r < 0.86 ? 'small' : 'crit';
+  const pool = pools[kind].length ? pools[kind] : pools.mid.length ? pools.mid : pools.small; if (!pool || !pool.length) { it.s = 0; it.z = z; return; }
+  const sp = pool[ri(pool.length)], side = Math.random() < 0.5 ? -1 : 1, d = meta[sp];
+  const xr = kind === 'big' ? [10, 19] : kind === 'mid' ? [4.7, 8.5] : kind === 'small' ? [4.3, 7] : [4.8, 7.5];
+  it.sp = sp; it.z = z; it.x = side * (xr[0] + Math.random() * (xr[1] - xr[0])); it.s = 0.85 + Math.random() * 0.3; it.flip = Math.random() < 0.5; it.h = d.h * it.s; it.w = it.h * d.a; it.uvDirty = true;
+}
+function bioWriteUV(b){
+  const B = BIOV.items[b], uv = BIOV.meshes[b].geometry.attributes.uv;
+  B.items.forEach((it, i) => { if (!it.uvDirty || it.sp == null) return; it.uvDirty = false; const u = B.meta[it.sp].u, l = it.flip ? u[2] : u[0], r = it.flip ? u[0] : u[2]; uv.array.set([l, u[1], r, u[1], r, u[3], l, u[3]], i * 8); });
+  uv.needsUpdate = true;
+}
+function bioUpdate(move){
+  const b = BIOV.cur; if (!b || !BIOV.meshes[b]) return;
+  const mesh = BIOV.meshes[b], B = BIOV.items[b], pos = mesh.geometry.attributes.position.array, tunnel = G.branch && G.branch.kind === 'tunnel';
+  mesh.visible = !tunnel && bioTex(b).wrOk === true;
+  let uvd = false;
+  for (let i = 0; i < B.items.length; i++) {
+    const it = B.items[i]; it.z += move;
+    if (it.z > 16) { bioPlace(b, it, it.z - 246, B.pools, B.meta); uvd = true; }
+    const cut = !it.s || (TR.J && sceneryCut(it)) || (it.z > -4 && Math.abs(it.x) < 5.2);
+    const hw = cut ? 0 : it.w / 2, hh = cut ? 0 : it.h, o = i * 12, y0 = -0.06, zz = it.z;
+    pos[o] = it.x - hw; pos[o + 1] = y0; pos[o + 2] = zz; pos[o + 3] = it.x + hw; pos[o + 4] = y0; pos[o + 5] = zz;
+    pos[o + 6] = it.x + hw; pos[o + 7] = y0 + hh; pos[o + 8] = zz; pos[o + 9] = it.x - hw; pos[o + 10] = y0 + hh; pos[o + 11] = zz;
+  }
+  mesh.geometry.attributes.position.needsUpdate = true; if (uvd) bioWriteUV(b);
+  /* the drawn props carry their own colours: only dim them with the light of the stage */
+  const k = clamp(0.55 + hemi.intensity * 0.6, 0.8, 1.05); mesh.material.color.setRGB(k, k, k);
+}
+const _bw = new T.Color();
+function setBiome(b, pano){
+  if (b && !BIO.bio[b]) b = null;
+  if (BIOV.cur && BIOV.meshes[BIOV.cur] && BIOV.cur !== b) BIOV.meshes[BIOV.cur].visible = false;
+  BIOV.cur = b; if (b) bioMesh(b);
+  setPano(pano);
+}
+/* ---- horizon panorama ---- */
+function setPano(k){
+  if (BIOV.panoCur === k) return;
+  if (BIOV.panoCur && BIOV.pano[BIOV.panoCur]) BIOV.pano[BIOV.panoCur].visible = false;
+  BIOV.panoCur = k; if (!k || !BIO.pano[k]) return;
+  let m = BIOV.pano[k];
+  if (!m) {
+    const asp = BIO.pano[k], Wd = asp > 4 ? 230 : 150, Hd = Wd / asp;
+    const mt = new T.MeshBasicMaterial({map:assetTex('pano_' + k + '.webp'), transparent:true, depthWrite:false, fog:false});
+    m = new T.Mesh(new T.PlaneGeometry(Wd, Hd), mt); m.position.set(0, -13.5 + Hd / 2, -138); m.renderOrder = -0.5; scene.add(m); BIOV.pano[k] = m;
+  }
+  m.visible = true;
+}
+function panoUpdate(){
+  const m = BIOV.panoCur && BIOV.pano[BIOV.panoCur]; if (!m) return;
+  const tunnel = G.branch && G.branch.kind === 'tunnel', vis = G.mode === 'run' && !tunnel;
+  m.visible = vis; if (!vis) return;
+  m.material.color.copy(scene.fog.color).lerp(_bw.set(1, 1, 1), 0.72);
+  m.position.x = camera.position.x * 0.85;
+}
+function bioFrame(){ if (G.mode !== 'run') { if (BIOV.cur && BIOV.meshes[BIOV.cur]) BIOV.meshes[BIOV.cur].visible = false; if (BIOV.panoCur && BIOV.pano[BIOV.panoCur]) BIOV.pano[BIOV.panoCur].visible = false; return; } panoUpdate(); }
+function stageWorld(st){ setBiome(st.bio, st.pano); }
+
+/* ---- mini-enemies crossing the road ---- */
+const MOBMAT = {};
+function mobMat(b){ return MOBMAT[b] || (MOBMAT[b] = curvify(new T.MeshBasicMaterial({map:bioTex(b), alphaTest:0.42, side:T.DoubleSide}))); }
+const MOB_STYLE = {ice:'slide', sw:'hop', tw:'walk', cem:'float'};
+function buildMob(g, u, lane){
+  const b = BIOV.cur || 'tw', meta = BIO.bio[b] || [], pool = meta.map((s, i) => s.k === 'mob' ? i : -1).filter(i => i >= 0);
+  const d = meta[pool.length ? pool[ri(pool.length)] : 0]; if (!d) { u.kind = 'rock'; return false; }
+  const h = d.h * 1.05, w = h * d.a, geo = new T.PlaneGeometry(w, h); geo.translate(0, h / 2, 0);
+  const uv = geo.attributes.uv; uv.setXY(0, d.u[0], d.u[3]); uv.setXY(1, d.u[2], d.u[3]); uv.setXY(2, d.u[0], d.u[1]); uv.setXY(3, d.u[2], d.u[1]); uv.needsUpdate = true;
+  const body = new T.Mesh(geo, mobMat(b)); g.add(body); addShadow(g, Math.min(0.9, w * 0.4));
+  u.body = body; u.style = MOB_STYLE[b] || 'walk'; u.dir = Math.random() < 0.5 ? -1 : 1; u.lane0 = lane; u.ph = Math.random() * 6; u.h = h;
+  if (u.style === 'slide') { u.x = -u.dir * 4.2; } else if (u.style === 'hop') { u.lane = lane; u.x = LANES[lane]; u.hopT = 0.25; } else { u.x = -u.dir * 3.6; }
+  g.position.x = u.x; body.scale.x = u.dir;
+  return true;
+}
+function mobX(u){ return u.x; }
+function updateMob(o, u, sdt){
+  if (u.hit) return; const z = o.position.z;
+  if (z > -30) {
+    if (u.style === 'slide') { u.x += u.dir * 3.1 * sdt; u.body.rotation.z = -u.dir * 0.12; }
+    else if (u.style === 'walk') { u.x += u.dir * 1.6 * sdt; u.body.position.y = Math.abs(Math.sin(u.age * 9)) * 0.08; }
+    else if (u.style === 'float') { u.x += u.dir * 2.0 * sdt; u.body.position.y = 0.35 + Math.sin(u.age * 4) * 0.25; }
+    else if (u.style === 'hop') {
+      u.hopT -= sdt;
+      if (u.hopT <= 0) { const nl = u.lane === 0 ? 1 : u.lane === 2 ? 1 : (Math.random() < 0.5 ? 0 : 2); u.from = LANES[u.lane]; u.lane = nl; u.hopT = 0.72; u.hk = 0; }
+      if (u.hk != null && u.hk < 1) { u.hk = Math.min(1, u.hk + sdt / 0.42); u.x = u.from + (LANES[u.lane] - u.from) * u.hk; u.body.position.y = Math.sin(u.hk * Math.PI) * 1.3; u.body.scale.y = 1 + Math.sin(u.hk * Math.PI) * 0.12; }
+    }
+    if (Math.abs(u.x) > 4.6) u.dir = -Math.sign(u.x), u.x = Math.sign(u.x) * 4.6, u.body.scale.x = u.dir;
+  }
+  o.position.x = u.x; u.lane = u.style === 'hop' ? u.lane : (u.x < -1.1 ? 0 : u.x > 1.1 ? 2 : 1);
+  if (!G.mobHinted && z > -24) { G.mobHinted = true; hint(u.style === 'slide' ? 'Penguins! Dodge or jump' : u.style === 'hop' ? 'Hopping shrooms! Dodge' : u.style === 'float' ? 'Ghosts! Dodge or jump' : 'Creeps! Dodge or jump', 2400); }
+}
+function mobHits(o, u, hx){ const z = o.position.z, top = (u.body ? u.body.position.y : 0); return Math.abs(z) < 0.7 && Math.abs(o.position.x - hx) < 0.95 && G.heroY < 0.85 + top * 0.5 && top < 1.0; }
+/* ================= v17 CHAPTER LEVELS: bronze → silver → gold =================
+   A level opens when every word of the current level was answered right in 3 different runs AND the chapter boss
+   was beaten on this level. Each level adds 16 harder words, a faster run, less time and a tougher boss.
+   3 failed runs in a row drop the chapter one level (words stay learned; the boss has to be beaten again). */
+const MEDAL = [{n:'Бронза', c:'#d08a4a'}, {n:'Серебро', c:'#c8d2e0'}, {n:'Золото', c:'#ffd23a'}];
+function lvState(){ S.lvl = S.lvl || {}; S.lvFail = S.lvFail || {}; S.bossLv = S.bossLv || {}; }
+function chLvl(ch){ lvState(); ch = ch || curCh(); return ch.custom ? 0 : (S.lvl[ch.id] || 0); }
+const lvSpeed = () => (G.mode === 'run' || G.mode === 'boss') ? 1 + 0.12 * chLvl() : 1;
+const lvTime = () => 1 - 0.1 * chLvl();
+function lvWordsAt(ch, lv){ return (CH_WORDS[ch.id] || []).filter(id => W[id] && (W[id].lv || 0) === lv); }
+function lvProgress(ch){
+  ch = ch || curCh(); lvState(); const lv = chLvl(ch), ids = lvWordsAt(ch, lv);
+  const done = ids.filter(id => (S.words[id].okRuns || 0) >= 3).length, boss = (S.bossLv[ch.id] == null ? -1 : S.bossLv[ch.id]) >= lv;
+  return {lv, n:ids.length, done, boss, ready:lv < 2 && !ch.custom && ids.length && done >= ids.length && boss};
+}
+function medalHTML(ch){ if (ch.custom) return ''; const lv = chLvl(ch), m = MEDAL[lv]; return '<span class="medal m' + lv + '" style="--m:' + m.c + '">' + m.n + '</span>'; }
+function renderMedal(){
+  const ch = curCh(), el = $('#chMedal'); if (!el) return;
+  if (ch.custom) { el.innerHTML = ''; return; }
+  const p = lvProgress(ch), nx = MEDAL[p.lv + 1];
+  el.innerHTML = medalHTML(ch) + (nx ? '<span class="lv-next">→ ' + nx.n + ': слова ' + p.done + '/' + p.n + ' (по 3 верных забега) · босс ' + (p.boss ? '✓' : '—') + '</span>' : '<span class="lv-next">Максимальный уровень главы</span>');
+}
+/* run outcome → promotion / demotion; returns a note for the results screen */
+function lvAfterRun(kind, outcome){
+  const ch = curCh(); if (ch.custom) return '';
+  lvState(); const id = ch.id, lv = chLvl(ch); let note = '';
+  if (kind === 'boss' && outcome === 'win') S.bossLv[id] = Math.max(S.bossLv[id] == null ? -1 : S.bossLv[id], lv);
+  if (outcome === 'fail') {
+    if (lv > 0) {
+      S.lvFail[id] = (S.lvFail[id] || 0) + 1;
+      if (S.lvFail[id] >= 3) { S.lvl[id] = lv - 1; S.lvFail[id] = 0; S.bossLv[id] = lv - 2; note = 'Три проигрыша подряд: глава опустилась до уровня «' + MEDAL[lv - 1].n + '». Слова остались выучены — победи босса, чтобы вернуть «' + MEDAL[lv].n + '».'; toast('Глава: ' + MEDAL[lv - 1].n, 'Три проигрыша подряд', 'bad'); }
+      else if (S.lvFail[id] === 2) note = 'Осторожно: ещё один проигрыш подряд — и глава вернётся на «' + MEDAL[lv - 1].n + '».';
+    }
+  } else if (outcome === 'done' || outcome === 'win') S.lvFail[id] = 0;
+  const p = lvProgress(ch);
+  if (p.ready) {
+    S.lvl[id] = lv + 1; S.lvFail[id] = 0;
+    const nw = lvWordsAt(ch, lv + 1).length;
+    note = 'Глава прокачана до уровня «' + MEDAL[lv + 1].n + '»! +' + nw + ' новых слов посложнее, забег быстрее, меньше времени на ответ, босс сильнее.';
+    setTimeout(() => { toast('Прокачка главы: ' + MEDAL[lv + 1].n + '!', '+' + nw + ' новых слов посложнее', 'good'); haptic(HAP.boss); }, 700);
+  }
+  save(); return note;
+}
 /* ================= v17 DANCING BOSSES (chapter 1: Sweet Tyrant, chapter 2: Swamp Mule) =================
    They dance through most of the fight; every few beats a stomp sends a ground wave down a lane (jump over it).
    A streak of right answers knocks them down (Fall → lying), tap to hit; they get up (Stand Up, or a jump attack later on). */
@@ -5560,10 +5783,13 @@ function v17Frame(sdt, dt){
   updateBite(sdt);
   if (S.hard && G.mode === 'run') hardFrame(sdt);
   if (G.mode === 'run') soulFrame(sdt);
+  bioFrame();
 }
 function postHero17(sdt, dt){ postHeroBite(sdt); if (!CHARM.built && hero && hero.mixer) { CHARM.built = true; buildCharm(); } updateCharm(dt); tryFrame(dt); }
 
 SONGS.push(CUSTOM_SONG);
+function mobOk(){ const b = BIOV.cur; return !!(b && BIO.bio[b] && BIO.bio[b].some(x => x.k === 'mob') && bioTex(b).wrOk); }
+function prefetchWorld(){ const w = CH_WORLD[curCh().id]; if (!w) return; const seen = {}; w.stages.forEach(st => { if (st.bio && !seen[st.bio]) { seen[st.bio] = 1; bioTex(st.bio); } if (st.pano && !seen['p' + st.pano]) { seen['p' + st.pano] = 1; assetTex('pano_' + st.pano + '.webp'); } }); }
 async function startBossLoad(){ const ch = curCh().id; if (A.ok && DBOSS[ch] && !A.dboss[DBOSS[ch].model]) { toast('Босс просыпается…', DBOSS[ch].name, 'boss'); try { await ensureDanceBoss(ch); } catch(e) { console.error('boss load', e); } } startBoss(); }
 function renderSongs(){
   renderSongs0();
@@ -5695,7 +5921,7 @@ const TUT2 = [
   {k:'Хулиган', c:'#ff7ab8', t:'Кот', d:'Ошибёшься <b>два раза подряд</b> — кот прыгнет на плечо и укусит: героиню будет мотать с полосы на полосу. <b>Быстро тапай по коту</b>, пока круг не заполнится. Ещё он прячет ответы и бросает клубки.', art:'char', who:'cat', name:'КОТ'},
   {k:'Поворот', c:'#ff8a5a', t:'Развилка', d:'Ближе к концу дорога уходит <b>влево и вправо</b>. За одним поворотом — туннель с ловушками и двойными конфетами, за другим — длинный спокойный путь. Где что — <b>загадка</b>.', art:'fork'},
   {k:'Сила', c:'#b08aff', t:'Мир теней', d:'Верные ответы заряжают призрака слева. Заряжен — <b>проведи двумя пальцами вниз</b>: станешь призраком, ловушки не страшны, награда ×2.', art:'two', who:'ghost'},
-  {k:'Босс', c:'#ff5a6a', t:'Пожиратель слов', d:'Открывается, когда изучишь все слова главы. Задаёт <b>предложения с пропуском</b>. Серия верных ответов — он <b>оглушён</b>: тапай по нему!', art:'char', who:'boss', name:'БОСС'},
+  {k:'Босс', c:'#ff5a6a', t:'Боссы глав', d:'Открываются, когда изучишь все слова главы. Танцуют и топают волнами — <b>перепрыгивай</b>. Серия верных ответов — босс падает: <b>тапай</b>! Победа над боссом и слова, угаданные в 3 забегах, прокачивают главу: бронза → серебро → золото.', art:'char', who:'boss', name:'БОСС'},
   {k:'Настройки', c:'#5fd6ff', t:'Под себя', d:'Лишнее выключается в <b>Настройках → Игровые элементы</b>. Там же — мелодии, режим ХАРД и это обучение.', art:'settings'}
 ];
 function tutStage(c){
@@ -5946,7 +6172,7 @@ function showPlayHud(boss){ showScreen(null); tgPlaying(true); $('#hud').hidden 
 function startRun(newIds, reviewIds){
   newIds.forEach(id => { const s = S.words[id]; s.seen = true; s.box = 0; s.due = now(); });
   save();
-  resetPlay(); G.mode = 'run'; setArena(false);
+  resetPlay(); G.mode = 'run'; applyChapterStages(); setArena(false); stageWorld(STAGES[0]);
   G.queue = buildQueue(newIds, reviewIds); G.speedNow = STAGES[0].speed * hardMul(); applyUpgrades(); G.perStage = clamp(Math.floor(G.queue.length / STAGES.length), 2, 4);
   showPlayHud(false); updateProgress();
   V.seen = 0; V.ready = false; V.laneN = 0;
@@ -5955,10 +6181,10 @@ function startRun(newIds, reviewIds){
   if (S.runs < 2) hint('Swipe ← → to move · ↑ jump', 4200);
 }
 function stageUp(n){
-  G.stage = n; const st = STAGES[n]; G.speedNow = st.speed * hardMul(); questEvent('level', n + 1);
+  G.stage = n; const st = STAGES[n]; G.speedNow = st.speed * hardMul(); questEvent('level', n + 1); stageWorld(st);
   if (G.branch) {} else if (G.shadowT > 0) setTo = st.set; else setPal(st.pal, st.set); musicStage(Math.min(3, n >> 1)); banner('Уровень ' + (n + 1) + ' из ' + STAGES.length, st.name, st.sub, st.color); sfx.stage(); haptic(HAP.stage); flashFx('rgba(255,255,255,.45)');
 }
-function pickKind(st, not){ const ks = st.kinds.filter(k => (k !== 'bats' || opt('bats')) && (['pumpkin', 'spikes', 'bounce', 'beast'].indexOf(k) < 0 || opt('traps'))), L = ks.length ? ks : ['rock', 'log']; let k; let guard = 0; do { k = L[ri(L.length)]; } while (k === not && ++guard < 8); return k; }
+function pickKind(st, not){ const ks = st.kinds.filter(k => (k !== 'bats' || opt('bats')) && (['pumpkin', 'spikes', 'bounce', 'beast', 'mob'].indexOf(k) < 0 || opt('traps')) && (k !== 'mob' || mobOk())), L = ks.length ? ks : ['rock', 'log']; let k; let guard = 0; do { k = L[ri(L.length)]; } while (k === not && ++guard < 8); return k; }
 function spawnHazard(kind, at){
   const st = STAGES[G.stage]; let lane = ri(3);
   if (kind === 'spikes' && G.stage >= 4 && Math.random() < 0.4) { const free = ri(3); [0, 1, 2].filter(l => l !== free).forEach(l => spawnObstacle('spikes', l, SPAWN_Z)); lane = free; }
@@ -5992,7 +6218,7 @@ function startDash(){
 function prepNextQ(){
   if (G.nextQ || G.qIndex >= G.queue.length) return;
   const item = G.queue[G.qIndex]; const q = buildQ(item);
-  q.T = S.hard ? Math.max(2.6, windowFor(q) * S.pace * 0.72) : windowFor(q) * S.pace; q.v = QUESTION_DIST / q.T;
+  q.T = S.hard ? Math.max(2.6, windowFor(q) * S.pace * 0.72) : windowFor(q) * S.pace; q.T *= lvTime(); q.v = QUESTION_DIST / q.T;
   const grp = new T.Group(); q.ents = []; const names = A.ok ? enemyNames(q.kind) : [];
   if (A.ok && vampLaneWanted(q)) names[ri(3)] = 'vamp';
   for (let i = 0; i < 3; i++) { const e = acquireEnemy(q.kind, !!item.corrupt, names[i]); e.g.position.x = LANES[i]; e.g.visible = false; grp.add(e.g); q.ents.push(e); }
@@ -6114,7 +6340,7 @@ function renderBoss(){ $('#bossFill').style.width = (100 * G.bossHP / G.bossMax)
 function startBoss(){
   resetPlay(); G.practiceIds = []; G.mode = 'boss'; setArena(true);
   const b = makeBoss(); b.g.position.set(0, 0, b.z || -22); scene.add(b.g); G.boss = b;
-  G.bossHP = G.bossMax = 20;
+  G.bossHP = G.bossMax = 20 + 5 * chLvl();
   let ids = chIds().filter(id => S.words[id].seen);
   if (ids.length < 6) ids = chIds();
   ids.sort((a, c) => S.words[a].box - S.words[c].box || S.words[c].lapses - S.words[a].lapses || Math.random() - .5);
@@ -6130,7 +6356,7 @@ function nextBossItem(){
 }
 function spawnBossQ(){
   const item = nextBossItem(); const q = buildQ(item);
-  q.T = windowFor(q) * S.pace + 0.5; q.spawn = G.time; q.lastMove = G.time; q.kind = 'boss'; q.chip = bossName() + ' · фаза ' + bossPhase();
+  q.T = (windowFor(q) * S.pace + 0.5) * lvTime(); q.spawn = G.time; q.lastMove = G.time; q.kind = 'boss'; q.chip = bossName() + ' · фаза ' + bossPhase();
   q.orbs = q.options.map((t, i) => { const o = makeOrb(t); o.start = new T.Vector3(LANES[i], 4.6, -20.4); o.end = new T.Vector3(LANES[i], 1.2, 0); o.g.position.copy(o.start); scene.add(o.g); o.tag = getTag(t, 'orb'); showTag(o.tag, out => { if (o.dead || !o.g.visible) return false; out.set(o.g.position.x, o.g.position.y + 0.55 * o.g.scale.y, o.g.position.z); o.tag.alpha = o.fade ? clamp(o.g.scale.x, 0, 1) : 1; return true; }, i * 70); return o; });
   G.boss.windT = 0.9; G.current = q; G.phase = 'question'; showQ(q); sfx.toss();
 }
@@ -6243,6 +6469,7 @@ function applyResults(){
   const out = [];
   for (const id in G.res) {
     const r = G.res[id], s = S.words[id]; if (!s || !s.seen) continue;
+    if (!r.wrong && r.ok > 0) s.okRuns = (s.okRuns || 0) + 1;
     if (!r.wrong && G.practiceIds && G.practiceIds.indexOf(id) >= 0) continue;
     const old = s.box;
     if (r.wrong) { s.box = old === 0 ? 0 : 1; s.lapses++; }
@@ -6261,6 +6488,7 @@ function endRun(outcome){
   if (kind === 'run' && n >= 4) S.lastAcc = acc;
   if (kind === 'run') S.sessions++;
   if (kind === 'boss' && outcome === 'win') { S.bossBeaten = true; S.bossWins[curCh().id] = true; }
+  G.lvNote = (kind === 'run' || kind === 'boss') ? lvAfterRun(kind, outcome) : '';
   const lvl = G.stage + 1, lvlRec = kind === 'run' && lvl > (S.bestLevel || 0); if (lvlRec) S.bestLevel = lvl;
   save();
   clearPlay(); setArena(false); musicStop(0.9);
@@ -6285,6 +6513,7 @@ function endRun(outcome){
   if (outcome === 'fail' || outcome === 'quit') notes.push('Прогресс по словам, на которые уже был ответ, сохранён.');
   if (kind === 'run') notes.push('Уровень ' + lvl + ' из ' + STAGES.length + ' — ' + STAGES[G.stage].name + (lvlRec && lvl > 1 ? ' · новый рекорд!' : '') + '.');
   if (G.soulNote) notes.unshift(G.soulNote);
+  if (G.lvNote) notes.unshift(G.lvNote);
   notes.push('Быстрый верный ответ поднимает карточку на уровень, медленный — оставляет на месте, ошибка возвращает на Бронзу I.');
   $('#resNote').textContent = notes.join(' ');
   showScreen('scrResults');
@@ -6396,7 +6625,7 @@ function update(dt){
   const move = G.ws * sdt;
   grassTex.offset.y += move / GRASS_TILE; pathTex.offset.y += move / PATH_TILE;
   if (G.mode === 'run') updateJunction(sdt, move);
-  if (A.ok) updateScenery(move); else for (const o of scenery) { o.position.z += move; if (o.position.z > 16) sceneryPlaceP(o, o.position.z - 246); }
+  if (A.ok) { updateScenery(move); bioUpdate(move); } else for (const o of scenery) { o.position.z += move; if (o.position.z > 16) sceneryPlaceP(o, o.position.z - 246); }
   updateClouds(dt); updateEmbers(move, dt, G.clock); updateIslands(move, G.clock); updateBalloons(move, G.clock);
   if (palK < 1) { palK = Math.min(1, palK + dt / 1.6); applyPal(); }
   if (A.ok && setTo !== activeSet && palK >= 0.5) { showSet(setTo); if (G.mode === 'run') flashFx('rgba(255,255,255,.6)'); }
@@ -6504,7 +6733,7 @@ function endBoot(){
   else buildSceneryProc();
   setPal('dusk', 'day', true); prewarm(); setTimeout(renderMusic, 400); window.__bootDone = true; if (TG.ok) tgCloudInit(); else cloudInit(); if (G.mode === 'home') renderHome(); loadEl.classList.add('out'); setTimeout(() => { loadEl.hidden = true; }, 600);
 }
-if (/debug/.test(location.search)) window.__WR = {startBossLoad, ensureDanceBoss, DW, giveRelic, showRelic, COLL, hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
+if (/debug/.test(location.search)) window.__WR = {BIOV, setBiome, lvProgress, lvAfterRun, chLvl, applyChapterStages, prefetchWorld, startBossLoad, ensureDanceBoss, DW, giveRelic, showRelic, COLL, hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
 bindMeta(); bindV12(); bindV17(); goHome();
 requestAnimationFrame(frame);
 if (HAS_GLB) loadAssets(setProg).then(endBoot).catch(e => { console.error('assets', e); A.ok = false; endBoot(); });
