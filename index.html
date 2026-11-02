@@ -1252,10 +1252,11 @@ const hardMul = () => (S.hard ? 1.15 * ((typeof G !== 'undefined' && G.hardBoost
 
 /* ---------- saving: local copy + private cloud copy for this viewer + file / code export ---------- */
 const CLOUD = {ref:null, ok:false, status:'local', at:0, timer:0, busy:false, again:false, dl:null};
-function stateJSON(){ return JSON.stringify(S); }
+function stateJSON(){ const words = {}; for (const id in S.words) { const w = S.words[id]; if (w.seen || w.box || w.reps || w.lapses || w.okRuns) words[id] = w; } return JSON.stringify(Object.assign({}, S, {words})); }
 function adoptState(obj){
   const f = freshState(); const out = Object.assign(f, obj); const words = {};
   Object.keys(obj.words || {}).forEach(id => { words[id] = Object.assign(blankWord(), obj.words[id]); });
+  WORDS.forEach(w => { if (!words[w.id]) words[w.id] = blankWord(); });
   out.words = words; S = out; metaDefaults(); optDefaults(); installCustom(); try { applySkins(); } catch(e) {}
   try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {}
 }
