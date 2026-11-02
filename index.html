@@ -559,6 +559,50 @@ label.btn{cursor:pointer}
 @keyframes crHit{from{transform:scale(1.35)}to{transform:scale(1)}}
 .hardrun #qSay{display:none!important}
 .song-up{flex:none;height:34px;padding:0 10px;border-radius:12px;border:2.5px solid var(--ink);background:var(--sun);font:800 12px/1 var(--body);box-shadow:0 2px 0 var(--ink);color:var(--ink)}
+/* ---- v17 collection ---- */
+.rl-ico{display:block;width:58px;height:58px;background:url(a/relics.webp) no-repeat;background-size:1000% 600%}
+.rl-ico.big{width:96px;height:96px;filter:drop-shadow(0 4px 0 rgba(30,24,56,.35))}
+.rl-ico.mid{width:56px;height:56px;flex:none}
+.rl-pack{display:flex;flex-direction:column;gap:8px}
+.rl-pack + .rl-pack{margin-top:14px}
+#rlGrid.relic-grid{display:block}
+.rl-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.rl-cell{position:relative;aspect-ratio:1;border:2.5px solid var(--ink);border-radius:14px;background:radial-gradient(circle at 50% 40%,#fff6e4,#e9d6bb);display:grid;place-items:center;padding:0;box-shadow:0 3px 0 var(--ink);cursor:pointer}
+.rl-cell .rl-ico{width:86%;height:86%}
+.rl-cell.no{background:#3a2f52}
+.rl-cell.no .rl-ico{filter:brightness(0) opacity(.45)}
+.rl-cell.no b{position:absolute;font:900 18px/1 var(--display);color:rgba(255,255,255,.55)}
+.rl-cell.nw::after{content:'NEW';position:absolute;top:-6px;right:-6px;background:#ff5fa8;color:#fff;font:900 9px/1 var(--body);padding:3px 5px;border-radius:8px;border:2px solid var(--ink)}
+.rl-cell.worn{outline:3px solid #52ff2e;outline-offset:1px}
+#btnRelics.has-new{position:relative}
+#btnRelics.has-new::after{content:'';position:absolute;top:6px;right:8px;width:12px;height:12px;border-radius:50%;background:#ff5fa8;border:2px solid var(--ink)}
+#cardView{position:absolute;inset:0;z-index:30;background:rgba(20,14,36,.72);display:flex;align-items:center;justify-content:center;padding:16px}
+#cardView .cv-in{width:min(100%,460px);background:var(--paper);border:3px solid var(--ink);border-radius:22px;box-shadow:0 6px 0 var(--ink);padding:12px;display:flex;flex-direction:column;gap:10px}
+#cardView.show .cv-in{animation:relicIn .5s cubic-bezier(.2,1.4,.4,1)}
+#cardView .cv-head{display:flex;align-items:center;gap:10px}
+#cardView .cv-head div{flex:1;display:flex;flex-direction:column;gap:2px}
+#cardView .cv-head b{font:900 18px/1.1 var(--display)}
+#cardView .cv-card{width:100%;border-radius:14px;border:2.5px solid var(--ink);display:block;background:#2a1f3a;aspect-ratio:287/244;object-fit:cover}
+/* ---- v17 skins ---- */
+.skin-row{display:grid;grid-auto-flow:column;grid-auto-columns:38%;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 12px;margin:0 -2px}
+.skin-card{scroll-snap-align:start;border:2.5px solid var(--ink);border-radius:16px;background:linear-gradient(#f1ecfb,#cfc6e6);padding:6px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;box-shadow:0 3px 0 var(--ink);color:var(--ink);cursor:pointer}
+.skin-card img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;background:#c9c6d2}
+.skin-card b{font:800 13px/1.1 var(--body);text-align:center}
+.skin-card span{font:800 12px/1 var(--body);display:flex;align-items:center;gap:4px}
+.skin-card .ci{display:inline-block;width:12px;height:12px;border-radius:50%;background:#ff5fa8;border:2px solid var(--ink)}
+.skin-card.on{background:linear-gradient(#e0fbe4,#a8e8b4)}
+.skin-card.hardonly{background:linear-gradient(#4a3466,#1e1838);color:#fff}
+.skin-card.hardonly img{filter:grayscale(.4) brightness(.8)}
+#scrTry{pointer-events:none;background:linear-gradient(180deg,rgba(20,14,36,.35),transparent 18%,transparent 62%,rgba(20,14,36,.55))}
+#scrTry .try-ui{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:max(12px,env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom,0px))}
+#tryStage{position:absolute;left:0;right:0;top:64px;bottom:200px;pointer-events:auto;touch-action:none;cursor:grab}
+#scrTry .try-top{position:relative;display:flex;justify-content:space-between;align-items:center;pointer-events:auto}
+#scrTry .try-bot{position:relative;display:flex;align-items:center;gap:10px;background:var(--paper);border:3px solid var(--ink);border-radius:22px;box-shadow:0 5px 0 var(--ink);padding:12px;pointer-events:auto;animation:pop .3s ease-out}
+#scrTry .try-info{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;min-width:0}
+#scrTry .try-info b{font:900 22px/1.1 var(--display)}
+#scrTry .try-info .btn{width:100%}
+#scrTry .try-arrow{flex:none;width:44px;height:44px;border-radius:50%;border:2.5px solid var(--ink);background:var(--sun);font:900 22px/1 var(--body);box-shadow:0 3px 0 var(--ink);color:var(--ink)}
+#scrTry .try-hint{position:absolute;left:0;right:0;bottom:214px;text-align:center;font:800 12px/1 var(--body);color:#fff;opacity:.85;pointer-events:none;text-shadow:0 1px 2px rgba(0,0,0,.6)}
 
 #perf{position:absolute;left:8px;right:8px;bottom:92px;z-index:9;font:700 10.5px/1.35 ui-monospace,Menlo,monospace;color:#fff;background:rgba(20,10,40,.8);border:2px solid rgba(255,255,255,.25);border-radius:10px;padding:6px 8px;pointer-events:none;white-space:pre-wrap;max-height:30vh;overflow:hidden}
 #perf b{color:#ffc93a}
@@ -598,6 +642,7 @@ label.btn{cursor:pointer}
   <div id="splatLayer"></div><div id="shadowfx"></div>
   <div id="duel" hidden><div class="dl-top"><div id="duelHP"></div><div id="duelWord"></div><div class="dl-timer"><i id="duelTimer"></i></div></div><button class="dz dz-up"></button><button class="dz dz-left"></button><button class="dz dz-right"></button><button class="dz dz-down"></button></div>
   <div id="relicPop" hidden></div>
+  <div id="cardView" hidden></div>
   <div id="vdown" hidden><svg width="30" height="34" viewBox="0 0 30 34" aria-hidden="true"><path d="M15 3v24M5 18l10 11 10-11" fill="none" stroke="#c77dff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
   <div id="catRing" hidden><svg viewBox="0 0 80 80" aria-hidden="true"><circle class="cr-bg" cx="40" cy="40" r="32"/><circle id="crFill" class="cr-fg" cx="40" cy="40" r="32"/></svg><b>TAP!</b></div>
   <div id="stunUI" hidden><b>ТАПАЙ ПО БОССУ!</b><div class="stb"><i id="stunFill"></i></div><span id="stunHits">ударов: 0</span></div>
@@ -710,6 +755,11 @@ label.btn{cursor:pointer}
     <div class="pack-head"><h2 class="ink-text">Магазин</h2><button id="shopClose" class="btn btn-small">Закрыть</button></div>
     <div class="panel"><div class="shop-head"><span class="eyebrow">Твои конфеты</span><span class="pill"><svg class="candy-ico" viewBox="0 0 32 18" width="26" height="15" aria-hidden="true"><path d="M8 9 1.5 2.5v13zM24 9l6.5-6.5v13z" fill="#ffb3d6" stroke="#1e1838" stroke-width="2" stroke-linejoin="round"/><ellipse cx="16" cy="9" rx="8.6" ry="7.2" fill="#ff5fa8" stroke="#1e1838" stroke-width="2"/></svg><span id="shopCoins">0</span></span></div><div id="shopList" class="shop-list"></div></div>
   </div></section>
+  <section id="scrTry" class="screen" hidden><div id="tryStage"></div><div class="try-ui">
+    <div class="try-top"><button id="tryBack" class="btn btn-small">‹ Магазин</button><span class="pill"><i class="ci-dot"></i><span id="tryCoins">0</span></span></div>
+    <span class="try-hint">← крути героиню пальцем →</span>
+    <div class="try-bot"><button class="try-arrow" data-d="-1" aria-label="Предыдущий скин">‹</button><div class="try-info"><span class="eyebrow" id="tryK"></span><b id="tryName"></b><span class="note" id="tryNote"></span><button id="tryBuy" class="btn"></button></div><button class="try-arrow" data-d="1" aria-label="Следующий скин">›</button></div>
+  </div></section>
   <!-- QUESTS -->
   <section id="scrQuests" class="screen veil" hidden><div class="col">
     <div class="pack-head"><h2 class="ink-text">Задания дня</h2><button id="qsClose" class="btn btn-small">Закрыть</button></div>
@@ -718,7 +768,7 @@ label.btn{cursor:pointer}
   <!-- RELICS -->
   <section id="scrRelics" class="screen veil" hidden><div class="col">
     <div class="pack-head"><h2 class="ink-text">Коллекция</h2><button id="rlClose" class="btn btn-small">Закрыть</button></div>
-    <div class="panel"><span class="eyebrow">Реликвии из таинственных арок · <span id="rlCount"></span></span><div id="rlGrid" class="relic-grid"></div></div>
+    <div class="panel"><span class="eyebrow">Реликвии и факты · <span id="rlCount"></span></span><p class="note">Реликвию дают за победу над боссом и изредка — над вампиром. Нажми на найденную, чтобы прочитать факт и повесить её брелоком.</p><div id="rlGrid" class="relic-grid"></div></div>
   </div></section>
   <!-- STATS -->
   <section id="scrStats" class="screen veil" hidden><div class="col">
@@ -1301,13 +1351,13 @@ let statAcc = 0;
 function statTime(dt){ statAcc += dt; if (statAcc >= 1) { S.st.sec += statAcc; statDay().sec += statAcc; statAcc = 0; } }
 
 /* ---------- relics ---------- */
-function giveRelic(prefer){
+function giveRelicOld(prefer){
   const left = RELICS.filter(r => S.relics.indexOf(r.id) < 0);
   if (!left.length) { S.coins += 60; G.coinsRun += 0; return null; }
   const r = (prefer && left.find(x => x.id === prefer)) || left[ri(left.length)];
   S.relics.push(r.id); save(); return r;
 }
-function showRelic(r){
+function showRelicOld(r){
   const el = $('#relicPop');
   if (!r) { el.innerHTML = '<div class="rp-in"><span class="eyebrow">Сундук</span><b>Все реликвии собраны!</b><span class="note">Вместо реликвии — 60 конфет</span></div>'; }
   else el.innerHTML = '<div class="rp-in"><span class="eyebrow">Новая реликвия · ' + S.relics.length + '/' + RELICS.length + '</span>' + relicSVG(r, 84) + '<b>' + esc(r.name) + '</b><i>' + esc(r.en) + '</i><span class="note">' + esc(r.d) + '</span></div>';
@@ -1333,6 +1383,7 @@ function buy(cat, id){
   save(); renderShop();
 }
 function applySkins(){
+  try { applyOutfit(); } catch(e) { console.error('outfit', e); }
   const sk = SHOP.sword.find(x => x.id === S.equip.sword) || SHOP.sword[0];
   if (hero && hero.sword) { hero.sword.bladeM.color.set(sk.blade); hero.sword.glowM.color.set(sk.glow); hero.sword.rainbow = !!sk.rainbow; if (hero.light) hero.light.color.set(sk.glow); }
   const tr = SHOP.trail.find(x => x.id === S.equip.trail) || SHOP.trail[0];
@@ -1358,7 +1409,7 @@ function renderExam(){
     $('#exSub').textContent = pass ? 'Ворота открыты!' : 'Нужно ' + need + ' верных. Повтори слова и попробуй снова.';
     let html = '';
     if (pass) {
-      if (!S.exam[ch.id]) { S.exam[ch.id] = true; S.coins += 100; const r = giveRelic(); save(); const nx = CHAPTERS.find(c => c.after === ch.id); html = '<p class="note">+100 конфет' + (r ? ' и реликвия «' + esc(r.name) + '»' : '') + '.' + (nx ? ' Открыта глава «' + esc(nx.name) + '».' : '') + '</p>'; sfx.win(); }
+      if (!S.exam[ch.id]) { S.exam[ch.id] = true; S.coins += 100; const r = null; save(); const nx = CHAPTERS.find(c => c.after === ch.id); html = '<p class="note">+100 конфет' + (r ? ' и реликвия «' + esc(r.name) + '»' : '') + '.' + (nx ? ' Открыта глава «' + esc(nx.name) + '».' : '') + '</p>'; sfx.win(); }
     } else if (E.wrong.length) html = '<p class="note">Ошибки: ' + E.wrong.map(w => '<b>' + esc(w.en) + '</b> — ' + esc(w.ru)).join(', ') + '</p>';
     $('#exOpts').innerHTML = html + '<button class="btn" id="exDone">' + (pass ? 'На карту' : 'Вернуться') + '</button>' + (pass ? '' : '<button class="btn btn-alt" id="exAgain">Ещё раз</button>');
     $('#exDone').onclick = goHome; const ag = $('#exAgain'); if (ag) ag.onclick = openExam;
@@ -1395,7 +1446,7 @@ function renderShop(){
     const sw = cat === 'sword' ? '<i class="sw" style="background:' + (it.rainbow ? 'linear-gradient(90deg,#ff5fa8,#ffd23a,#8dff6a,#5fd6ff,#9a5aff)' : it.blade) + ';box-shadow:0 0 12px ' + it.glow + '"></i>' : '<i class="sw tr" style="background:' + it.c + '"></i>';
     return '<div class="shop-it">' + sw + '<b>' + esc(it.name) + '</b><button class="btn btn-small' + (eq ? ' on' : '') + '" data-buy="' + cat + ':' + it.id + '"' + (eq ? ' disabled' : '') + '>' + (eq ? 'Надето' : own ? 'Надеть' : it.price) + '</button></div>';
   };
-  let h = '<h3>Мечи</h3>' + SHOP.sword.map(it => row('sword', it)).join('') + '<h3>Взмахи</h3>' + SHOP.trail.map(it => row('trail', it)).join('') + '<h3>Улучшения</h3>';
+  let h = skinCards() + '<h3>Мечи</h3>' + SHOP.sword.map(it => row('sword', it)).join('') + '<h3>Взмахи</h3>' + SHOP.trail.map(it => row('trail', it)).join('') + '<h3>Улучшения</h3>';
   h += SHOP.up.map(it => { const lv = S.up[it.id] || 0, max = lv >= it.prices.length; return '<div class="shop-it"><i class="sw up">' + lv + '/' + it.prices.length + '</i><b>' + esc(it.name) + '<small>' + esc(it.desc) + '</small></b><button class="btn btn-small" data-buy="up:' + it.id + '"' + (max ? ' disabled' : '') + '>' + (max ? 'Максимум' : it.prices[lv]) + '</button></div>'; }).join('');
   const P = SHOP.potion; h += '<h3>Зелья</h3><div class="shop-it"><i class="sw up">' + S.potions + '</i><b>' + esc(P.name) + '<small>' + esc(P.desc) + '</small></b><button class="btn btn-small" data-buy="potion:heart">' + P.price + '</button></div>';
   $('#shopList').innerHTML = h;
@@ -1407,7 +1458,7 @@ function renderQuests(){
     return '<div class="quest' + (q.claimed ? ' got' : '') + '"><b>' + esc(tpl.t.replace('{n}', q.n)) + '</b><div class="mc-bar"><i style="width:' + pct + '%"></i></div><div class="q-foot"><span class="note">' + q.p + ' / ' + q.n + ' · награда ' + q.r + '</span>' +
       (q.claimed ? '<span class="note">Получено</span>' : '<button class="btn btn-small" data-claim="' + i + '"' + (q.done ? '' : ' disabled') + '>Забрать</button>') + '</div></div>'; }).join('');
 }
-function renderRelics(){
+function renderRelicsOld(){
   $('#rlCount').textContent = S.relics.length + ' из ' + RELICS.length;
   $('#rlGrid').innerHTML = RELICS.map(r => { const got = S.relics.indexOf(r.id) >= 0;
     return '<div class="relic' + (got ? '' : ' no') + '">' + (got ? relicSVG(r, 52) : '<svg viewBox="0 0 64 64" width="52" height="52"><circle cx="32" cy="32" r="18" fill="rgba(30,24,56,.12)" stroke="rgba(30,24,56,.3)" stroke-width="2.6" stroke-dasharray="5 5"/><text x="32" y="38" text-anchor="middle" font-size="18" font-weight="800" fill="rgba(30,24,56,.35)">?</text></svg>') +
@@ -3198,7 +3249,7 @@ function animHeroGLB(h, sdt, dt, playing){
   else if (h.hurt <= 0) h.hurtOn = false;
   if (h.atk > 0 && !h.atkOn && !h.hurtOn) { h.atkOn = true; const sp = h.spinNext && h.act.Spin; h.spinNext = false; fadeHero(h, sp ? 'Spin' : 'Attack', sp ? 0.06 : 0.05, true, sp ? SPIN_SPEED : 1.5); }
   else if (h.atk <= 0) h.atkOn = false;
-  if (G.slideT > 0 && !h.slideOn && !h.hurtOn) { h.slideOn = true; fadeHero(h, 'Slide', 0.06, true, 1.05); }
+  if (G.slideT > 0 && !h.slideOn && !h.hurtOn) { h.slideOn = true; fadeHero(h, 'Slide', 0.07, true, SLIDE_SPEED); }
   else if (G.slideT <= 0) h.slideOn = false;
   if (G.mode === 'home') homeDance(h, dt);
   else if (!h.once) {
@@ -3329,7 +3380,7 @@ function makeBossGLB(force){
   addRing(g); addShadow(g, plant ? 3.0 : 2.6);
   return {g, torso, head, arms:[], pages, t:0, windT:0, flinch:0, laugh:0, dead:false, deadT:0, glb:true, plant, z:plant ? -23.2 : -24.6};
 }
-function makeBoss(){ return A.ok ? makeBossGLB() : makeBossProc(); }
+function makeBoss(){ const ch = curCh().id; if (A.ok && DBOSS[ch] && A.dboss[DBOSS[ch].model]) return makeDanceBoss(ch); $('#bossName').textContent = 'Пожиратель слов'; return A.ok ? makeBossGLB() : makeBossProc(); }
 
 function makeOrb(text){
   const g = new T.Group(); const ball = M(ico(0.42,0), mat(0xfff3d6)); g.add(ball);
@@ -3439,6 +3490,8 @@ function makeObstacle(kind, lane){
     buildSecret(g, u);
   } else if (kind === 'yarn') {
     buildYarn(g, u, lane);
+  } else if (kind === 'beast') {
+    buildBeast(g, u);
   } else if (kind === 'pumpkin') {
     const roll = new T.Group(); roll.position.y = 0.55; g.add(roll);
     if (A.ok) { const m = A.wba.jack.clone(); const sc = 1.1 / rockSize(A.wba.jack, 'jack'); m.scale.setScalar(sc); m.position.y = -0.55; roll.add(m); }
@@ -3473,14 +3526,17 @@ function updateObstacles(sdt){
     if (u.kind === 'spikes' || u.kind === 'bounce') updateLevelObstacle(o, u, sdt);
     else if (u.kind === 'fork') updateFork(o, u);
     else if (u.kind === 'secret') updateSecret(o, u, sdt);
+    else if (u.kind === 'beast') updateBeast(o, u, sdt);
     if (!u.hit && u.kind === 'bounce') { if (Math.abs(o.position.z) < 0.85 && Math.abs(LANES[u.lane] - hx) < 1.0 && G.heroY < 0.7) bounceHero(o, u); }
     else if (!u.hit) {
       const z = o.position.z;
       const hitLog = u.kind === 'log' && Math.abs(z) < 0.6 && G.heroY < 0.55;
       const hitRock = u.kind === 'rock' && Math.abs(z) < 0.75 && Math.abs(LANES[u.lane] - hx) < 1.0 && G.heroY < 1.0;
       const hitPump = (u.kind === 'pumpkin' || u.kind === 'yarn') && Math.abs(z) < 0.75 && Math.abs(LANES[u.lane] - hx) < 1.0 && G.heroY < 0.9;
+      const hitBeast = u.kind === 'beast' && Math.abs(z) < 0.7 && G.slideT <= 0.04;
+      if (u.kind === 'beast' && !u.passed && Math.abs(z) < 0.7 && G.slideT > 0.04) { u.passed = true; G.coinsRun += 2; renderCoins(); popText('Nice slide!', hx, 2.2, 0, 'gain'); }
       const hitBats = u.kind === 'spikes' && Math.abs(z) < 0.7 && Math.abs(LANES[u.lane] - hx) < 1.0 && G.heroY < 1.05 && u.up > 0.5;
-      if (hitLog || hitRock || hitPump || hitBats) {
+      if (hitLog || hitRock || hitPump || hitBats || hitBeast) {
         if (G.shadowT > 0) { u.hit = true; }
         else if (G.dashT > 0) smashObstacle(o, 'dash');
         else if (G.shieldT > 0) { G.shieldT = 0; smashObstacle(o, 'shield'); popText('Shield!', hx, 1.6, 0, 'good'); }
@@ -4026,7 +4082,7 @@ const inPlay = () => (G.mode === 'run' || G.mode === 'boss') && !G.paused;
 function setLane(i){ i = clamp(i, 0, 2); if (i === G.lane || G.phase === 'turn') return; if (G.current && G.current.lockLane && G.phase === 'question') { sfx.bump(); haptic(HAP.lane); return; } if (G.forkUntil > G.time && (i === 1 || Math.abs(i - G.lane) > 1)) { sfx.bump(); haptic(HAP.lane); popText('Wall!', hero.g.position.x, 2.4, 0, 'bad'); return; } G.lane = i; haptic(HAP.lane); if (G.current && G.phase === 'question') G.current.lastMove = G.time; railActive(); }
 function moveLane(d){ setLane(G.lane + d); }
 function jump(){ if (G.slideT > 0) G.slideT = 0; if (G.heroY <= 0.001 && G.vy <= 0) { G.vy = 10.5; sfx.jump(); haptic(HAP.tap); } }
-function slide(){ if (G.mode !== 'run') return; if (G.heroY > 0.05) G.vy = Math.min(G.vy, -18); if (G.slideT <= 0) { sfx.slide(); haptic(HAP.tap); } G.slideT = 0.78; }
+function slide(){ if (G.mode !== 'run' && G.mode !== 'boss') return; if (G.heroY > 0.05) G.vy = Math.min(G.vy, -18); if (G.slideT <= 0) { sfx.slide(); haptic(HAP.tap); if (hero) hero.slideOn = false; } G.slideT = SLIDE_T; }
 slots.forEach((s, i) => s.addEventListener('click', e => { e.stopPropagation(); if (inPlay()) setLane(i); }));
 let sw = null;
 window.addEventListener('pointerdown', e => {
@@ -4052,7 +4108,7 @@ window.addEventListener('pointermove', e => {
   const dx = e.clientX - sw.x, dy = e.clientY - sw.y;
   if (Math.abs(dx) > 32 && Math.abs(dx) > Math.abs(dy)) { moveLane(dx > 0 ? 1 : -1); sw.done = true; }
   else if (dy < -32 && Math.abs(dy) > Math.abs(dx)) { jump(); sw.done = true; }
-  else if (dy > 32 && Math.abs(dy) > Math.abs(dx)) { useSword(); sw.done = true; }
+  else if (dy > 32 && Math.abs(dy) > Math.abs(dx)) { downSwipe(); sw.done = true; }
 });
 window.addEventListener('pointerup', () => { if (sw && sw.slash) trailEnd(); sw = null; });
 window.addEventListener('pointercancel', () => { if (sw && sw.slash) trailEnd(); sw = null; });
@@ -4064,7 +4120,8 @@ window.addEventListener('keydown', e => {
   if (k === 'arrowleft' || k === 'a') moveLane(-1);
   else if (k === 'arrowright' || k === 'd') moveLane(1);
   else if (k === 'arrowup' || k === 'w' || k === ' ') { jump(); e.preventDefault(); }
-  else if (k === 'arrowdown' || k === 's' || k === 'f') { useSword(); e.preventDefault(); }
+  else if (k === 'arrowdown' || k === 's') { downSwipe(); e.preventDefault(); }
+  else if (k === 'f') { useSword(); e.preventDefault(); }
   else if (k === '1' || k === '2' || k === '3') setLane(+k - 1);
   else if (k === 'escape' || k === 'p') pause();
 });
@@ -4106,7 +4163,7 @@ function renderHome(){
   $('#homeNote').textContent = note;
   homeExtras();
 }
-function goHome(){ G.mode = 'home'; showScreen('scrHome'); $('#hud').hidden = true; $('#rail').hidden = true; $('#pups').hidden = true; swordBtn.hidden = true; shadowBtn.hidden = true; $('#relicPop').hidden = true; $('#stunUI').hidden = true; $('#vdown').hidden = true; clearSplats(); endBuild(); musicStop(); kataReset(); renderHome(); }
+function goHome(){ setTimeout(() => { if (G.mode === 'home' && bossOpen()) prefetchBoss(); }, 2500); G.mode = 'home'; showScreen('scrHome'); $('#hud').hidden = true; $('#rail').hidden = true; $('#pups').hidden = true; swordBtn.hidden = true; shadowBtn.hidden = true; $('#relicPop').hidden = true; $('#stunUI').hidden = true; $('#vdown').hidden = true; clearSplats(); endBuild(); musicStop(); kataReset(); renderHome(); }
 
 /* camp */
 let camp = {ids:[], i:0};
@@ -4211,7 +4268,7 @@ $('#btnStart').addEventListener('click', () => {
   if (!S.tut) openTut(go); else go();
 });
 $('#btnPack').addEventListener('click', openPack);
-$('#btnBoss').addEventListener('click', () => { if (bossOpen()) { audio(); startBoss(); } });
+$('#btnBoss').addEventListener('click', () => { if (bossOpen()) { audio(); startBossLoad(); } });
 $('#resHome').addEventListener('click', goHome);
 
 /* ================= v11 GAMEPLAY ================= */
@@ -4454,7 +4511,7 @@ function openChest(){
   g.add(ch); g.position.set(hero.g.position.x, 0, -4.5); scene.add(g);
   let t = 0; const tick = dt => { t += dt; g.position.z += G.ws * dt * 0.0; g.rotation.y = Math.sin(t * 3) * 0.3; const p = Math.min(1, t / 0.35); g.scale.setScalar(easeOutBack(p)); g.position.y = Math.sin(Math.min(1, t / 0.6) * Math.PI) * 0.8; if (t > 1.7) { scene.remove(g); return false; } return true; };
   G.anims.push(tick);
-  later(0.65, () => { burst(hero.g.position.x, 1.5, -4.5, 0xffe27a, 22, 7); burst(hero.g.position.x, 1.5, -4.5, 0xffffff, 10, 5); sfx.win(); showRelic(giveRelic()); renderCoins(); });
+  later(0.65, () => { burst(hero.g.position.x, 1.5, -4.5, 0xffe27a, 22, 7); burst(hero.g.position.x, 1.5, -4.5, 0xffffff, 10, 5); sfx.win(); G.coinsRun += 40; popText('Chest! +40', hero.g.position.x, 2.8, -4.5, 'gain'); flyCoins(hero.g.position.x, 1.5, -4.5, 6); renderCoins(); });
 }
 
 /* ---------- cat: spits hairballs onto the screen or throws a yarn ball onto the path ---------- */
@@ -4558,7 +4615,7 @@ function duelWin(){
   vampAnim('Death', 0.12, true, 1.2); V.mode = 'exit'; V.exit = 'die'; V.ex = 0; V.poof = false;
   G.coinsRun += 40; renderCoins(); sfx.win(); haptic(HAP.boss); toast('Вампир повержен!', '+40 конфет', 'good');
   sayAt(out => { if (V.mode === 'off') return false; V.g.getWorldPosition(out); out.y += 2.2; return true; }, 'vampDie', 1600);
-  later(1.3, () => { showRelic(giveRelic('fang')); });
+  if (Math.random() < 0.08) later(1.3, () => { showRelic(giveRelic()); });
   endDuel();
 }
 function duelLose(){
@@ -4691,12 +4748,13 @@ function makeJunction(kind, tunnelSide, cornerSide){
   sides.forEach(s => { const r = new T.Mesh(K.roadG, K.pathM); r.position.set(s * (3.3 + ROAD_L / 2), 0.026, 0); g.add(r); });
   const w = new T.Mesh(K.wall.geometry, KIT_MAT); w.position.set(0, 0, -5.6); g.add(w);
   if (kind === 'fork') {
+    const wallArt = ASSET.tex['forkwall.webp'] && ASSET.tex['forkwall.webp'].wrOk && Math.random() < 0.5;
+    if (wallArt) addForkWall(g);
     sides.forEach(s => {
-      const tun = s === tunnelSide;
-      const sg = new T.Mesh(K.signN[s < 0 ? 0 : 1].geometry, KIT_MAT); sg.position.set(s * 4.4, 0, -4.4); g.add(sg);
+      if (!wallArt) { const sg = new T.Mesh(K.signN[s < 0 ? 0 : 1].geometry, KIT_MAT); sg.position.set(s * 4.4, 0, -4.4); g.add(sg); }
       const gate = new T.Mesh(K.mgate.geometry, KIT_MAT); gate.position.set(s * 11.5, 0, 0); gate.rotation.y = s < 0 ? Math.PI : 0; g.add(gate);
       const fog = new T.Mesh(K.fogG, K.fogM); fog.position.set(s * 11.2, 3.3, 0); fog.rotation.y = Math.PI / 2; g.add(fog);
-      spookProps(g, s); signDeco(g, s);
+      if (!wallArt) { spookProps(g, s); signDeco(g, s); }
     });
   } else { const sg = new T.Mesh(K.signN[cornerSide < 0 ? 0 : 1].geometry, KIT_MAT); sg.position.set(cornerSide * 4.4, 0, -4.4); g.add(sg); }
   g.userData = {kind, tunnelSide, sides, cornerSide, turned:false, tags:[]};
@@ -4936,6 +4994,311 @@ const SPIN_SPEED = 2.05, SPIN_T = ((ATTACK.n - 1) / ATTACK.fps) / SPIN_SPEED;
 function addSpin(h){ if (!h || !h.mixer) return; try { h.act.Spin = h.mixer.clipAction(clipFromData(ATTACK, 'Spin')); } catch(e) { console.error('spin', e); } }
 function heroSpin(){ if (!hero) return; hero.atk = SPIN_T; hero.spinNext = true; hero.atkOn = false; }
 
+/* ================= v17 DANCING BOSSES (chapter 1: Sweet Tyrant, chapter 2: Swamp Mule) =================
+   They dance through most of the fight; every few beats a stomp sends a ground wave down a lane (jump over it).
+   A streak of right answers knocks them down (Fall → lying), tap to hit; they get up (Stand Up, or a jump attack later on). */
+const DBOSS = {
+  forest:{model:'boss1', name:'Сладкий тиран', h:6.4, intro:'Taunt', color:'#ff7ab8', wave:0xff7ab8},
+  city:{model:'boss2', name:'Болотный мул', h:7.0, intro:'Dance', color:'#8dff6a', wave:0x8dff6a}
+};
+A.dboss = {};
+function bossName(){ return (G.boss && G.boss.name) || 'Пожиратель слов'; }
+async function ensureDanceBoss(ch){
+  const d = DBOSS[ch]; if (!d || !A.ok) return null;
+  if (A.dboss[d.model]) return A.dboss[d.model];
+  const gl = await loadGLB(new T.GLTFLoader(), d.model);
+  prepNode(gl.scene); addOutlines(gl.scene); gl.clips = animClips(d.model, true);
+  A.dboss[d.model] = gl; return gl;
+}
+function prefetchBoss(){ const ch = curCh().id; if (DBOSS[ch] && !A.dboss[DBOSS[ch].model] && A.ok) ensureDanceBoss(ch).catch(e => console.error('boss', e)); }
+function makeDanceBoss(ch){
+  const d = DBOSS[ch], gl = A.dboss[d.model];
+  const rig = T.SkeletonUtils.clone(gl.scene);
+  const inner = new T.Group(); inner.scale.setScalar(d.h); inner.add(rig);
+  const g = new T.Group(), torso = new T.Group(), head = new T.Group(); torso.add(head); g.add(torso); g.add(inner);
+  addRing(g); addShadow(g, 2.8);
+  const mixer = new T.AnimationMixer(rig), act = {};
+  gl.clips.forEach(c => { act[c.name] = mixer.clipAction(c); });
+  const b = {g, torso, head, arms:[], pages:[], t:0, windT:0, flinch:0, laugh:0, dead:false, deadT:0, glb:true, dancer:true, ch, d, rig, inner, mixer, act, z:-23.5, top:d.h, name:d.name, state:'intro', st:0, beat:0, cur:null, waves:0};
+  b.play = (name, speed, once, fade) => { const a = act[name]; if (!a) return 0; const prev = b.cur; a.reset(); a.enabled = true; a.setEffectiveWeight(1); a.setEffectiveTimeScale(speed || 1); a.setLoop(once ? T.LoopOnce : T.LoopRepeat, Infinity); a.clampWhenFinished = !!once; if (prev && prev !== a) prev.crossFadeTo(a, fade == null ? 0.25 : fade, false); a.play(); b.cur = a; b.curName = name; b.st = 0; return a.getClip().duration / (speed || 1); };
+  b.introDur = b.play(d.intro, 1, d.intro !== 'Dance', 0);
+  $('#bossName').textContent = d.name;
+  return b;
+}
+function danceName(b){ return b.ch === 'city' && bossPhase() >= 2 && b.act.Dance2 ? 'Dance2' : 'Dance'; }
+/* ---- stomp waves and magic bolts ---- */
+const DW = [];
+const dwGeo = new T.TorusGeometry(1.0, 0.13, 6, 28);
+function spawnWave(lane, col){
+  const m = curvify(new T.MeshBasicMaterial({color:col || 0xff7ab8, transparent:true, opacity:0.9, blending:T.AdditiveBlending, depthWrite:false}));
+  const o = new T.Mesh(dwGeo, m); o.rotation.x = -Math.PI / 2; o.position.set(LANES[lane], 0.12, G.boss.z + 3); o.scale.set(0.9, 0.9, 0.9); scene.add(o);
+  DW.push({o, m, lane, kind:'wave', hit:false, v:13});
+  if (!G.waveHinted) { G.waveHinted = true; hint('Stomp wave! Jump ↑', 2400); }
+}
+function spawnBolt(lane){
+  const m = curvify(new T.MeshBasicMaterial({color:0xd27aff, transparent:true, opacity:0.95, blending:T.AdditiveBlending, depthWrite:false}));
+  const o = new T.Mesh(new T.IcosahedronGeometry(0.55, 1), m); o.position.set(0, 3.4, G.boss.z + 2); scene.add(o);
+  DW.push({o, m, lane, kind:'bolt', hit:false, t:0, from:o.position.clone()});
+  hint('Magic! Change lane', 1800);
+}
+function clearWaves(){ DW.splice(0).forEach(w => { scene.remove(w.o); }); }
+function waveHitHero(w){
+  w.hit = true; hero.hurt = 0.35; shake(0.3); sfx.bad(); haptic(HAP.bad);
+  G.combo = 0; renderCombo(); G.bossHP = Math.min(G.bossMax, G.bossHP + 0.5); renderBoss();
+  if (S.hard) loseHeart(); else { G.coinsRun = Math.max(0, G.coinsRun - 5); renderCoins(); }
+  popText(w.kind === 'bolt' ? 'Zap!' : 'Stomp!', hero.g.position.x, 2.6, 0, 'bad');
+  if (G.hearts <= 0 && G.phase !== 'dead') endRun('fail');
+}
+function updateWaves17(sdt){
+  for (let i = DW.length - 1; i >= 0; i--) {
+    const w = DW[i];
+    if (w.kind === 'wave') {
+      w.o.position.z += w.v * sdt; const k = clamp((w.o.position.z - (G.boss ? G.boss.z : -23)) / 24, 0, 1);
+      w.o.scale.set(0.9 + k * 0.4, 0.9 + k * 0.4, 1); w.m.opacity = 0.9 * (1 - Math.max(0, w.o.position.z - 1) / 4);
+      if (!w.hit && Math.abs(w.o.position.z - hero.g.position.z) < 0.55 && G.lane === w.lane && G.heroY < 0.45 && G.phase !== 'stun') waveHitHero(w);
+      if (w.o.position.z > 5) { scene.remove(w.o); DW.splice(i, 1); }
+    } else {
+      w.t += sdt / 1.15; const k = Math.min(1, w.t), to = new T.Vector3(LANES[w.lane], 1.4, hero.g.position.z);
+      w.o.position.lerpVectors(w.from, to, k); w.o.position.y += Math.sin(k * Math.PI) * 2.2; w.o.rotation.y += sdt * 8; w.o.scale.setScalar(1 + Math.sin(G.clock * 30) * 0.08);
+      if (k >= 1) { if (!w.hit && G.lane === w.lane && G.phase !== 'stun') waveHitHero(w); burst(w.o.position.x, 1.2, w.o.position.z, 0xd27aff, 12, 5); scene.remove(w.o); DW.splice(i, 1); }
+    }
+  }
+}
+function danceBossAnim(b, sdt){
+  b.t += sdt; b.st += sdt; b.mixer.update(sdt);
+  b.flinch = Math.max(0, b.flinch - sdt); b.windT = Math.max(0, b.windT - sdt); b.laugh = Math.max(0, b.laugh - sdt);
+  b.g.position.x = b.flinch > 0 ? Math.sin(b.t * 70) * b.flinch * 0.5 : 0;
+  if (b.stars) { b.stars.children.forEach(s => { s.userData.a += sdt * 4; s.position.set(Math.cos(s.userData.a) * 1.4, Math.sin(s.userData.a * 2) * 0.2, Math.sin(s.userData.a) * 1.0); s.rotation.y += sdt * 6; }); b.stars.position.y = b.state === 'down' || b.state === 'fall' ? 1.3 : b.top * 0.92 + 0.4; }
+  if (b.dead) {
+    if (b.state !== 'dead') { b.state = 'dead'; b.play('Fall', 0.9, true, 0.15); clearWaves(); }
+    b.deadT += sdt; if (b.deadT > 2.2) b.g.position.y = -Math.min(3, (b.deadT - 2.2) * 1.6);
+    return;
+  }
+  if (b.stun) {
+    if (b.state !== 'fall' && b.state !== 'down') { b.state = 'fall'; b.fallDur = b.play('Fall', 1.35, true, 0.12) * 0.82; clearWaves(); }
+    else if (b.state === 'fall' && b.st > b.fallDur) { b.state = 'down'; b.play('Down', 1, false, 0.3); }
+    return;
+  }
+  if (b.state === 'fall' || b.state === 'down') {
+    const jump = bossPhase() >= 2 && b.act.Rise;
+    b.state = 'rise'; b.riseJump = !!jump; b.riseDur = b.play(jump ? 'Rise' : 'StandUp', jump ? 1.15 : 1.25, true, 0.2) * 0.92; b.riseHit = false;
+    if (jump) hint('He leaps! Jump ↑', 1800);
+  }
+  if (b.state === 'rise') {
+    if (b.riseJump && !b.riseHit && b.st > b.riseDur * 0.55) { b.riseHit = true; shake(0.5); sfx.roar(); [0, 1, 2].forEach(l => { if (l !== G.lane || Math.random() < 0.85) spawnWave(l, b.d.wave); }); }
+    if (b.st > b.riseDur) { b.state = 'dance'; b.play(danceName(b), 1, false, 0.35); b.beat = 1.2; }
+    return;
+  }
+  if (b.state === 'intro') { if (b.st > Math.min(b.introDur, 3.2) || G.phase !== 'intro') { b.state = 'dance'; b.play(danceName(b), 1, false, 0.4); b.beat = 1.5; } return; }
+  if (b.state === 'magic') { if (!b.cast && b.st > b.magicDur * 0.5) { b.cast = true; spawnBolt(G.lane); } if (b.st > b.magicDur) { b.state = 'dance'; b.play(danceName(b), 1, false, 0.3); } return; }
+  /* dancing */
+  if (b.curName !== danceName(b)) b.play(danceName(b), 1, false, 0.5);
+  if (G.phase === 'question' || G.phase === 'gap') {
+    b.beat -= sdt;
+    if (b.beat <= 0) {
+      const ph = bossPhase(); b.beat = (S.hard ? 2.4 : 3.0) - (ph - 1) * 0.35;
+      if (b.ch === 'forest' && b.act.Magic && Math.random() < 0.22 + ph * 0.06) { b.state = 'magic'; b.cast = false; b.magicDur = b.play('Magic', 1.3, true, 0.15); return; }
+      const lanes = shuffle([0, 1, 2]).slice(0, ph >= 3 || (S.hard && ph >= 2) ? 2 : 1);
+      lanes.forEach(l => spawnWave(l, b.d.wave)); sfx.bump(); shake(0.12);
+    }
+  }
+}
+/* ================= v17 OUTFIT SKINS: new textures for the same clothes, previewed on a 3D turntable ================= */
+const SKINS = [
+  {id:'base', name:'Классика', price:0, k:-1},
+  {id:'s1', name:'Дым', price:3000, k:1},
+  {id:'s0', name:'Паутина', price:3500, k:0},
+  {id:'s2', name:'Олени', price:4000, k:2},
+  {id:'s3', name:'Ошибка 404', price:4500, k:3},
+  {id:'s5', name:'Снежинка', price:5000, k:5},
+  {id:'s6', name:'Симбиот', price:6500, k:6},
+  {id:'s7', name:'Полярная звезда', price:8000, k:7},
+  {id:'s4', name:'Тёмный ангел', price:0, k:4, hard:true}
+];
+const SKIN = {tex:{}, base:null, mats:null};
+function skinInit(){
+  S.owned.skin = S.owned.skin || ['base']; if (S.owned.skin.indexOf('base') < 0) S.owned.skin.unshift('base');
+  S.equip.skin = S.equip.skin || 'base';
+}
+function bodyMats(){
+  if (SKIN.mats) return SKIN.mats;
+  const L = []; if (A.heroGL) A.heroGL.scene.traverse(o => { if (o.isMesh && o.name === 'HeroBody' && o.material && !o.material.userData.outline && L.indexOf(o.material) < 0) L.push(o.material); });
+  if (L.length) { SKIN.mats = L; SKIN.base = L[0].map; } return L;
+}
+function skinTex(k, cb){
+  if (k < 0) { cb(SKIN.base); return; }
+  const have = SKIN.tex[k]; if (have && have.wrOk) { cb(have); return; }
+  if (have) { have.cbs.push(cb); return; }
+  const t = new T.TextureLoader().load('a/skin' + k + '.webp', tx => { tx.wrOk = true; (tx.cbs || []).forEach(f => f(tx)); tx.cbs = []; }, undefined, () => {});
+  t.flipY = false; t.cbs = [cb]; SKIN.tex[k] = t;
+}
+function wearSkin(id){
+  const sk = SKINS.find(s => s.id === id) || SKINS[0], L = bodyMats(); if (!L.length) return;
+  SKIN.want = sk.id;
+  skinTex(sk.k, tex => { if (!tex || SKIN.want !== sk.id) return; L.forEach(m => { m.map = tex; m.needsUpdate = true; }); });
+}
+function applyOutfit(){ skinInit(); wearSkin(S.equip.skin); }
+function skinCards(){
+  return '<h3>Скины</h3><p class="note">Новая расцветка той же одежды. Нажми — примеришь на героине и покрутишь её.</p><div class="skin-row">' + SKINS.map(s => {
+    const own = S.owned.skin.indexOf(s.id) >= 0, eq = S.equip.skin === s.id;
+    const tag = eq ? 'Надето' : own ? 'Есть' : s.hard ? 'Хард-босс' : s.price;
+    return '<button class="skin-card' + (eq ? ' on' : '') + (s.hard && !own ? ' hardonly' : '') + '" data-skin="' + s.id + '"><img src="a/skin' + (s.k < 0 ? '_base' : s.k) + '_t.webp" alt="" loading="lazy"><b>' + esc(s.name) + '</b><span>' + (typeof tag === 'number' ? '<i class="ci"></i>' + tag : tag) + '</span></button>';
+  }).join('') + '</div>';
+}
+/* ---- try-on: the heroine on a turntable ---- */
+const TRY = {i:0, rot:0, drag:null, spin:0.75};
+function openTry(id){
+  skinInit(); TRY.i = Math.max(0, SKINS.findIndex(s => s.id === id)); TRY.rot = 0.35; G.mode = 'tryon'; showScreen('scrTry'); renderTry();
+}
+function renderTry(){
+  const s = SKINS[TRY.i], own = S.owned.skin.indexOf(s.id) >= 0, eq = S.equip.skin === s.id;
+  $('#tryK').textContent = 'Скин ' + (TRY.i + 1) + ' / ' + SKINS.length; $('#tryName').textContent = s.name; $('#tryCoins').textContent = S.coins;
+  $('#tryNote').textContent = s.hard && !own ? 'Награда: победи любого босса в режиме ХАРД' : own ? (eq ? 'Сейчас на тебе' : 'Уже твой') : 'Цена: ' + s.price + ' конфет';
+  const b = $('#tryBuy'); b.disabled = eq || (s.hard && !own); b.textContent = eq ? 'Надето' : own ? 'Надеть' : s.hard ? 'Только за хард' : 'Купить за ' + s.price;
+  wearSkin(s.id);
+}
+function tryBuy(){
+  const s = SKINS[TRY.i], own = S.owned.skin.indexOf(s.id) >= 0;
+  if (!own) { if (s.hard) return; if (S.coins < s.price) { toast('Не хватает конфет', 'Нужно ' + s.price + ', у тебя ' + S.coins, 'bad'); bumpEl($('#tryBuy'), 'nope'); return; } S.coins -= s.price; S.owned.skin.push(s.id); sfx.win(); haptic(HAP.good); burst(0, 1.6, 0.2, 0xffd23a, 22, 6); toast('Новый скин!', s.name, 'good'); }
+  S.equip.skin = s.id; save(); renderTry();
+}
+function tryClose(){ wearSkin(S.equip.skin); openSub('scrShop', renderShop); }
+function tryFrame(dt){
+  if (G.mode !== 'tryon' || !hero) return;
+  if (!TRY.drag) TRY.rot += dt * TRY.spin;
+  hero.g.rotation.y = Math.PI + TRY.rot; hero.g.position.z += (3.7 - hero.g.position.z) * Math.min(1, dt * 4);
+}
+function grantHardSkin(){
+  skinInit(); if (S.owned.skin.indexOf('s4') >= 0) return;
+  S.owned.skin.push('s4'); save(); later(2.2, () => toast('Скин «Тёмный ангел»!', 'Награда за босса на харде — надень в Магазине', 'good'));
+}
+function bindSkins(){
+  $('#shopList').addEventListener('click', e => { const c = e.target.closest('[data-skin]'); if (c) { e.stopPropagation(); openTry(c.dataset.skin); } });
+  $('#tryBack').addEventListener('click', tryClose);
+  $('#tryBuy').addEventListener('click', tryBuy);
+  $$('#scrTry [data-d]').forEach(b => b.addEventListener('click', () => { TRY.i = (TRY.i + (+b.dataset.d) + SKINS.length) % SKINS.length; haptic(HAP.tap); renderTry(); }));
+  const st = $('#tryStage');
+  st.addEventListener('pointerdown', e => { TRY.drag = {x:e.clientX, r:TRY.rot}; });
+  window.addEventListener('pointermove', e => { if (TRY.drag && G.mode === 'tryon') TRY.rot = TRY.drag.r + (e.clientX - TRY.drag.x) * 0.012; });
+  window.addEventListener('pointerup', () => { TRY.drag = null; });
+}
+/* ================= v17 COLLECTION: 60 fact cards, each guarded by a wooden relic.
+   Relics drop only for beating a boss, or rarely for beating the vampire. In a run only the relic icon is shown;
+   the fact card is read later in the Collection. Any relic can be worn as a charm. ================= */
+const RELIC_NAMES = ['Рогатая маска','Лис-хранитель','Пустоглазый','Солнечная кукла','Рогатый страж','Кролик-спираль','Ворон-око','Чёрная кошка','Глаз на шесте','Красный весельчак',
+  'Ветвистый идол','Сплетённый','Скелет с посохом','Зубастая голова','Связанная маска','Красный тотем','Крылатый ящик','Звёздный плащ','Узорная сова','Танцующий идол',
+  'Оленёнок','Рёберный','Тихий конус','Красный чертёнок','Белый в крестиках','Медвежонок','Тёмная сова','Маска-крест','Тёмный рогач','Кролик-пуговица',
+  'Ушастый кокон','Серый шип','Клыкастая маска','Тёмный странник','Колючий вождь','Длинноносый','Шевронный','Олень-спираль','Красный лис','Чёрный монолит',
+  'Ромбовый','Чёрный рогач','Сипуха','Лис-шакал','Рогатый капюшон','Колпак в точку','Ухмыльчивый зверь','Тихий капюшон','Кролик с верёвкой','Кот-крестик',
+  'Копьеносец','Красный шип','Грибная шляпа','Птица-шип','Улыбчивый молчун','Рогатый бородач','Клюв в плаще','Зубастая башня','Безликий','Олень-солнце'];
+const CARD_RELIC = [58,15,46,44,57,13,8,27,25,16,10,39,35,23,9,24,12,2,33,29,47,31,7,50,0,30,53,40,21,3,54,42,41,4,48,17,37,20,45,32,1,56,28,38,14,22,55,34,26,19,43,18,59,6,49,51,11,5,36,52];
+const CARD_GAME = ['Slender Man','Minecraft','Team Fortress 2','Hollow Knight','Poppy Playtime','Undertale','Portal','Zelda: Majora’s Mask','Five Nights at Freddy’s','Super Mario',
+  'Siren Head','Geometry Dash','Dredge','Skyrim','Dark Deception','Portal 2','Adventure Time','The Walten Files','LIMBO','Cuphead',
+  'Half-Life','Minecraft','Five Nights at Freddy’s','The Legend of Zelda','Pokémon','Silent Hill','Subnautica','Geometry Dash','Undertale','Doki Doki Literature Club',
+  'The Sims','Portal','Bendy and the Ink Machine','BioShock','Cuphead','Slender Man','Temple Run','Genshin Impact','Little Nightmares','Resident Evil',
+  'Subway Surfers','Minecraft','Five Nights at Freddy’s','Poppy Playtime','Slender Man','Gravity Falls','Adventure Time','Geometry Dash','Zelda: Majora’s Mask','Temple Run',
+  'Undertale','Portal','Half-Life','LIMBO','Resident Evil','Silent Hill','Dredge','Cuphead','BioShock','The Last of Us'];
+const PACKS = ['Безумные факты о играх, монстрах и их создании', 'Поражающие факты о самых известных играх', 'Безумные факты о культовых играх и мультсериалах'];
+const COLL = CARD_RELIC.map((r, i) => ({id:'k' + i, i, relic:r, name:RELIC_NAMES[r], game:CARD_GAME[i], pack:Math.floor(i / 20)}));
+const COLL_ID = {}; COLL.forEach(c => { COLL_ID[c.id] = c; });
+function relicIco(r, cls){ const x = (r % 10) / 9 * 100, y = Math.floor(r / 10) / 5 * 100; return '<i class="rl-ico' + (cls ? ' ' + cls : '') + '" style="background-position:' + x.toFixed(3) + '% ' + y.toFixed(3) + '%"></i>'; }
+function migrateRelics(){
+  if (S.relicV === 17) return;
+  const old = (S.relics || []).filter(id => !COLL_ID[id]);
+  if (old.length) { S.coins += old.length * 120; S.relicMigr = old.length; }
+  S.relics = (S.relics || []).filter(id => COLL_ID[id]); S.relNew = S.relNew || []; S.relicV = 17; save();
+}
+function giveRelic(){
+  const left = COLL.filter(c => S.relics.indexOf(c.id) < 0);
+  if (!left.length) { S.coins += 150; save(); return null; }
+  const c = left[ri(left.length)]; S.relics.push(c.id); S.relNew = (S.relNew || []).concat(c.id); save(); renderRelicBadge(); return c;
+}
+function showRelic(c){
+  const el = $('#relicPop');
+  if (!c) el.innerHTML = '<div class="rp-in"><span class="eyebrow">Collection complete!</span><b>Все 60 реликвий собраны</b><span class="note">Вместо реликвии — 150 конфет</span></div>';
+  else el.innerHTML = '<div class="rp-in"><span class="eyebrow">New relic! · ' + S.relics.length + '/60</span>' + relicIco(c.relic, 'big') + '<b>' + esc(c.name) + '</b><span class="note">Факт ждёт тебя в Коллекции</span></div>';
+  el.hidden = false; el.classList.remove('show'); void el.offsetWidth; el.classList.add('show'); sfx.pup(); haptic(HAP.pup);
+  clearTimeout(showRelic.t); showRelic.t = setTimeout(() => { el.hidden = true; }, 3400);
+}
+function renderRelicBadge(){ const b = $('#btnRelics'); if (b) b.classList.toggle('has-new', !!(S.relNew && S.relNew.length)); }
+function renderRelics(){
+  $('#rlCount').textContent = S.relics.length + ' из 60';
+  $('#rlGrid').innerHTML = PACKS.map((p, k) => '<div class="rl-pack"><span class="eyebrow">Пак ' + (k + 1) + ' · ' + esc(p) + '</span><div class="rl-grid">' +
+    COLL.filter(c => c.pack === k).map(c => { const got = S.relics.indexOf(c.id) >= 0, nw = got && S.relNew && S.relNew.indexOf(c.id) >= 0;
+      return '<button class="rl-cell' + (got ? '' : ' no') + (nw ? ' nw' : '') + (S.charm === c.id ? ' worn' : '') + '" data-rl="' + c.id + '" aria-label="' + (got ? esc(c.name) : 'Закрыто') + '">' + relicIco(c.relic) + (got ? '' : '<b>?</b>') + '</button>'; }).join('') + '</div></div>').join('');
+}
+function openCard(id){
+  const c = COLL_ID[id]; if (!c) return;
+  if (S.relics.indexOf(id) < 0) { toast('Реликвия ещё не найдена', 'Их дают за победу над боссом и иногда — над вампиром', 'bad'); return; }
+  if (S.relNew) { S.relNew = S.relNew.filter(x => x !== id); save(); renderRelicBadge(); }
+  const v = $('#cardView');
+  v.innerHTML = '<div class="cv-in"><div class="cv-head">' + relicIco(c.relic, 'mid') + '<div><span class="eyebrow">' + esc(c.game) + '</span><b>' + esc(c.name) + '</b></div><button class="btn btn-small" data-cv="close">✕</button></div>' +
+    '<img class="cv-card" src="a/cards/c' + String(c.i).padStart(2, '0') + '.webp" alt="Карточка-факт: ' + esc(c.game) + '">' +
+    '<button class="btn" data-cv="wear">' + (S.charm === id ? 'Снять брелок' : 'Повесить брелоком на героиню') + '</button></div>';
+  v.hidden = false; v.classList.remove('show'); void v.offsetWidth; v.classList.add('show');
+  v.onclick = e => { const b = e.target.closest('[data-cv]'); if (e.target === v || (b && b.dataset.cv === 'close')) { v.hidden = true; renderRelics(); return; } if (b && b.dataset.cv === 'wear') { charmSet(S.charm === id ? null : id); haptic(HAP.good); v.hidden = true; renderRelics(); toast(S.charm ? 'Брелок надет' : 'Брелок снят', S.charm ? c.name : '', 'good'); } };
+}
+/* ---- charm: the worn relic dangles at the heroine's hip ---- */
+const CHARM = {g:null, id:null, plane:null};
+function charmSet(id){ S.charm = id || null; save(); buildCharm(); }
+function buildCharm(){
+  if (CHARM.g && CHARM.g.parent) CHARM.g.parent.remove(CHARM.g);
+  CHARM.g = null; CHARM.id = null;
+  const c = S.charm && COLL_ID[S.charm]; if (!c || !hero || !hero.g) return;
+  const base = assetTex('relics.webp'); if (!base.wrOk) { CHARM.wait = true; return; } CHARM.wait = false;
+  const t = base.clone(); t.needsUpdate = true; t.repeat.set(0.1, 1 / 6); t.offset.set((c.relic % 10) * 0.1, 1 - (Math.floor(c.relic / 10) + 1) / 6);
+  const g = new T.Group(), pl = new T.Mesh(new T.PlaneGeometry(0.46, 0.46), curvify(new T.MeshBasicMaterial({map:t, transparent:true, alphaTest:0.35, side:T.DoubleSide})));
+  pl.position.y = -0.26; g.add(pl);
+  const str = new T.Mesh(new T.BoxGeometry(0.018, 0.16, 0.018), mat(0xffd23a)); str.position.y = -0.04; g.add(str);
+  g.position.set(0.42, 1.02, 0.18); hero.g.add(g); CHARM.g = g; CHARM.plane = pl; CHARM.id = c.id;
+}
+const _cq = new T.Quaternion();
+function updateCharm(dt){
+  if (CHARM.wait && S.charm) buildCharm();
+  if (!CHARM.g) return;
+  const run = (G.mode === 'run' || G.mode === 'boss') && G.ws > 0.5;
+  CHARM.g.rotation.z = Math.sin(G.clock * (run ? 9 : 2.4)) * (run ? 0.35 : 0.12);
+  CHARM.g.visible = !(G.shadowT > 0);
+  CHARM.g.getWorldQuaternion(_cq).invert(); CHARM.plane.quaternion.copy(_cq).multiply(camera.quaternion);
+}
+const SLIDE = {"fps":30,"n":46,"bones":["mixamorigHips","mixamorigLeftUpLeg","mixamorigLeftLeg","mixamorigLeftFoot","mixamorigLeftToeBase","mixamorigLeftToe_End","mixamorigRightUpLeg","mixamorigRightLeg","mixamorigRightFoot","mixamorigRightToeBase","mixamorigRightToe_End","mixamorigSpine","mixamorigSpine1","mixamorigSpine2","mixamorigLeftShoulder","mixamorigLeftArm","mixamorigLeftForeArm","mixamorigLeftHand","mixamorigLeftHandIndex1","mixamorigLeftHandIndex2","mixamorigLeftHandIndex3","mixamorigLeftHandIndex4","mixamorigLeftHandThumb1","mixamorigLeftHandThumb2","mixamorigLeftHandThumb3","mixamorigLeftHandThumb4","mixamorigNeck","mixamorigHead","mixamorigHeadTop_End","mixamorigRightShoulder","mixamorigRightArm","mixamorigRightForeArm","mixamorigRightHand","mixamorigRightHandIndex1","mixamorigRightHandIndex2","mixamorigRightHandIndex3","mixamorigRightHandIndex4","mixamorigRightHandThumb1","mixamorigRightHandThumb2","mixamorigRightHandThumb3","mixamorigRightHandThumb4"],"q":"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+gMd7rnx3336Ax3uufHfffoDHe658d99+gMd7rnx3336Ax3uufHfffoDHe658d99+gMd7rnx3336Ax3uufHfffoDHe658d99+gMd7rnx3336Ax3uufHfffoDHe658d99+gMd7rnx3336Ax3uufHfffoDHe658d99+gMd7rnx3336Ax3uufHfffoDHe658d99+gMd7rnx3336Ax3uufHfffoDHe658d99+gMd7rnx3336Ax3uufHfffoDHe658d99+gMd7rnx3336Ax3uufHfffoDHe658d99+gMd7rnx3336Ax3uufHfffoDHe658d99+gMd7rnx3336Ax3uufHfffoDHe658d99+gMd7rnx3336Ax3uufHfffoDHe658d99+gMd7rnx3336Ax3uufHfffoDHe658d99+gMd7rnx330AAAAAAAD/fwAAAAAAAP9/AAAAAAAA/38AAAAAAAD/fwAAAAAAAP9/AAAAAAAA/38AAAAAAAD/fwAAAAAAAP9/AAAAAAAA/38AAAAAAAD/fwAAAAAAAP9/AAAAAAAA/38AAAAAAAD/fwAAAAAAAP9/AAAAAAAA/38AAAAAAAD/fwAAAAAAAP9/AAAAAAAA/38AAAAAAAD/fwAAAAAAAP9/AAAAAAAA/38AAAAAAAD/fwAAAAAAAP9/AAAAAAAA/38AAAAAAAD/fwAAAAAAAP9/AAAAAAAA/38AAAAAAAD/fwAAAAAAAP9/AAAAAAAA/38AAAAAAAD/fwAAAAAAAP9/AAAAAAAA/38AAAAAAAD/fwAAAAAAAP9/AAAAAAAA/38AAAAAAAD/fwAAAAAAAP9/AAAAAAAA/38AAAAAAAD/fwAAAAAAAP9/AAAAAAAA/38AAAAAAAD/fwAAAAAAAP9/AAAAAAAA/38AAAAAAAD/fw==","p":"nwa6vqRHhj4aBi7Cnwa6vqRHhj6IozLCnwa6vqRHhj7t8y7Cnwa6vqRHhj6ARyTCnwa6vqRHhj4OtRLCnwa6vqRHhj7Xf/bBnwa6vqRHhj7CnsHBnwa6vqRHhj7xA43Bnwa6vqRHhj4rIjzBnwa6vqRHhj4yLOvAnwa6vqRHhj5WQ5XAnwa6vqRHhj7EY4nAnwa6vqRHhj5ZI57Anwa6vqRHhj5CuajAnwa6vqRHhj7cB7XAnwa6vqRHhj4oE8LAnwa6vqRHhj7b8M/Anwa6vqRHhj4vEd7Anwa6vqRHhj4OZuzAnwa6vqRHhj7sp/vAnwa6vqRHhj5aaAbBnwa6vqRHhj5TBRDBnwa6vqRHhj75bhvBnwa6vqRHhj46JzXBnwa6vqRHhj5An1bBnwa6vqRHhj7yoHHBnwa6vqRHhj79xoTBnwa6vqRHhj5X2I/Bnwa6vqRHhj4LjJzBnwa6vqRHhj4V+KzBnwa6vqRHhj4vlbzBnwa6vqRHhj7KcsvBnwa6vqRHhj7sRtvBnwa6vqRHhj6Dy+rBnwa6vqRHhj5KyPfBnwa6vqRHhj5angHCnwa6vqRHhj76qgbCnwa6vqRHhj4fxAzCnwa6vqRHhj5hgRXCnwa6vqRHhj7spx3Cnwa6vqRHhj7c5iLCnwa6vqRHhj63libCnwa6vqRHhj5/YCnCnwa6vqRHhj4gxSvCnwa6vqRHhj5GnS3Cnwa6vqRHhj5ixC7C"};
+/* ================= v17 SLIDE: Mixamo "Running Slide" on the heroine + an arch beast you can only slide under ================= */
+const SLIDE_SPEED = 1.55, SLIDE_T = ((SLIDE.n - 1) / SLIDE.fps) / SLIDE_SPEED * 0.86;
+function addSlide(h){ if (!h || !h.mixer) return; try { h.act.Slide = h.mixer.clipAction(clipFromData(SLIDE, 'Slide')); } catch(e) { console.error('slide', e); } }
+function downSwipe(){
+  if (G.mode === 'run' && vampStrikeTry()) return;
+  slide();
+}
+const ASSET = {tex:{}};
+function assetTex(name){
+  if (ASSET.tex[name]) return ASSET.tex[name];
+  const t = new T.TextureLoader().load('a/' + name, tx => { tx.wrOk = true; }, undefined, () => { t.wrBad = true; });
+  t.anisotropy = 2; ASSET.tex[name] = t; return t;
+}
+const BEAST_DIM = {1:[7.6, 7.6 * 419 / 640], 2:[7.6, 7.6 * 366 / 640]};
+function beastKind(){ return curCh().id === 'forest' ? 1 : 2; }
+function buildBeast(g, u){
+  const n = beastKind(), [w, hgt] = BEAST_DIM[n], tex = assetTex('beast' + n + '.png');
+  const m = curvify(new T.MeshBasicMaterial({map:tex, transparent:true, alphaTest:0.02, side:T.DoubleSide, depthWrite:true}));
+  const geo = new T.PlaneGeometry(w, hgt); geo.translate(0, hgt / 2 - 0.08, 0);
+  const body = new T.Mesh(geo, m); g.add(body); u.body = body; u.mat = m;
+  [-1, 1].forEach(s => addShadow(g, 0.9).position.x = s * 3.0);
+  u.len = 0.2;
+}
+function updateBeast(o, u, sdt){
+  const z = o.position.z, b = u.body; if (!b) return;
+  b.scale.y = 1 + Math.sin(u.age * 3.2) * 0.025; b.position.y = Math.sin(u.age * 3.2 + 1) * 0.04;
+  u.mat.opacity = clamp(1 - (z - 0.1) / 1.1, 0, 1);
+  if (!u.roared && z > -26) { u.roared = true; tone(120, 70, .45, 'sawtooth', .05); if (!G.beastHinted) { G.beastHinted = true; hint('Slide! Swipe ↓', 2400); } }
+}
+/* ---- second fork look: the graffiti wall (scary half / cute half); which side hides the tunnel is still random ---- */
+const FORKW = {w:15, h:15 * 474 / 1200};
+function addForkWall(g){
+  const tex = assetTex('forkwall.webp');
+  const m = curvify(new T.MeshBasicMaterial({map:tex, transparent:true, alphaTest:0.4, side:T.DoubleSide}));
+  const geo = new T.PlaneGeometry(FORKW.w, FORKW.h); geo.translate(0, FORKW.h / 2 - 0.06, 0);
+  const p = new T.Mesh(geo, m); p.position.set(0, 0, -4.32); g.add(p); return p;
+}
 /* ================= v17 CAT: rigged cat. Two mistakes in a row → it leaps onto the heroine and bites her shoulder.
    She sways and drifts between lanes until the player taps the cat fast enough to fill the ring. ================= */
 function animClips(name, flat){
@@ -5198,9 +5561,10 @@ function v17Frame(sdt, dt){
   if (S.hard && G.mode === 'run') hardFrame(sdt);
   if (G.mode === 'run') soulFrame(sdt);
 }
-function postHero17(sdt, dt){ postHeroBite(sdt); }
+function postHero17(sdt, dt){ postHeroBite(sdt); if (!CHARM.built && hero && hero.mixer) { CHARM.built = true; buildCharm(); } updateCharm(dt); tryFrame(dt); }
 
 SONGS.push(CUSTOM_SONG);
+async function startBossLoad(){ const ch = curCh().id; if (A.ok && DBOSS[ch] && !A.dboss[DBOSS[ch].model]) { toast('Босс просыпается…', DBOSS[ch].name, 'boss'); try { await ensureDanceBoss(ch); } catch(e) { console.error('boss load', e); } } startBoss(); }
 function renderSongs(){
   renderSongs0();
   const row = document.querySelector('#songList [data-song="custom"]'); if (!row) return;
@@ -5208,6 +5572,11 @@ function renderSongs(){
   const up = document.createElement('button'); up.className = 'song-up'; up.setAttribute('data-up', '1'); up.textContent = S.customName ? 'Сменить' : 'Загрузить'; row.insertBefore(up, row.querySelector('.song-play'));
 }
 function bindV17(){
+  skinInit(); bindSkins();
+  migrateRelics(); renderRelicBadge();
+  $('#rlGrid').addEventListener('click', e => { const b = e.target.closest('[data-rl]'); if (b) openCard(b.dataset.rl); });
+  if (S.relicMigr) { const n = S.relicMigr; S.relicMigr = 0; save(); setTimeout(() => toast('Новая коллекция!', 'Старые реликвии (' + n + ') обменяны на ' + n * 120 + ' конфет', 'good'), 1200); }
+  ['beast1.png', 'beast2.png', 'forkwall.webp', 'relics.webp'].forEach(assetTex);
   const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'audio/*,.mp3,.m4a,.aac,.wav,.ogg,.flac'; inp.hidden = true; inp.id = 'songFile'; document.body.appendChild(inp);
   inp.addEventListener('change', () => { const f = inp.files && inp.files[0]; inp.value = ''; if (f) loadCustomFile(f); });
   $('#songList').addEventListener('click', e => {
@@ -5320,8 +5689,8 @@ function snapCharacters(){
 }
 const TUT2 = [
   {k:'Правила', c:'#ffc93a', t:'Слова стали монстрами', d:'Перед забегом — <b>10 карточек</b> и быстрая проверка. На тропе волки несут переводы: <b>встань на полосу с верным</b>, пока они не добежали.', art:'char', who:'wolf', name:'ВОЛК'},
-  {k:'Управление', c:'#17b3bf', t:'Всё — свайпами', d:'<b>← →</b> сменить полосу · <b>↑</b> прыжок · <b>↓</b> удар мечом с разворотом. Летучих мышей <b>тапай</b> или рассекай свайпом.', art:'swipe'},
-  {k:'Героиня', c:'#52ff2e', t:'Меч и разворот', d:'Быстрые верные ответы заряжают меч. Полный заряд — <b>свайп вниз</b> или кнопка: удар с разворотом сносит всё впереди.', art:'char', who:'hero', name:'ЭТО ТЫ'},
+  {k:'Управление', c:'#17b3bf', t:'Всё — свайпами', d:'<b>← →</b> сменить полосу · <b>↑</b> прыжок · <b>↓</b> подкат — под рогатым зверем только так. Летучих мышей <b>тапай</b> или рассекай свайпом.', art:'swipe'},
+  {k:'Героиня', c:'#52ff2e', t:'Меч и разворот', d:'Быстрые верные ответы заряжают меч. Полный заряд — жми <b>кнопку меча</b>: удар с разворотом сносит всё впереди.', art:'char', who:'hero', name:'ЭТО ТЫ'},
   {k:'Мини-босс', c:'#c77dff', t:'Вампир', d:'Лежит на склепе у дороги и следит. Потом встаёт <b>вместо волка</b>: если верное слово у него — встань на его полосу и <b>свайпни вниз</b>. Позже вызовет на дуэль.', art:'char', who:'vamp', name:'ВАМПИР'},
   {k:'Хулиган', c:'#ff7ab8', t:'Кот', d:'Ошибёшься <b>два раза подряд</b> — кот прыгнет на плечо и укусит: героиню будет мотать с полосы на полосу. <b>Быстро тапай по коту</b>, пока круг не заполнится. Ещё он прячет ответы и бросает клубки.', art:'char', who:'cat', name:'КОТ'},
   {k:'Поворот', c:'#ff8a5a', t:'Развилка', d:'Ближе к концу дорога уходит <b>влево и вправо</b>. За одним поворотом — туннель с ловушками и двойными конфетами, за другим — длинный спокойный путь. Где что — <b>загадка</b>.', art:'fork'},
@@ -5446,7 +5815,7 @@ function startStun(){
   if (!b.stars) { const sg = new T.Group(); const sm = mat(0xffe14a, {basic:true}); for (let i = 0; i < 5; i++) { const s = M(ico(0.2, 0), sm); s.userData.a = i * Math.PI * 2 / 5; sg.add(s); } b.g.add(sg); b.stars = sg; }
   b.stars.position.y = b.top * 0.92 + 0.4; b.stars.visible = true;
   G.heroZT = b.z + 7.2;
-  banner('Оглушён!', 'Пожиратель слов', 'Тапай по нему — бей мечом!', '#ffd23a'); sfx.hit(); shake(0.45); haptic(HAP.boss); flashFx('rgba(255,225,74,.5)');
+  banner('Оглушён!', bossName(), 'Тапай по нему — бей мечом!', '#ffd23a'); sfx.hit(); shake(0.45); haptic(HAP.boss); flashFx('rgba(255,225,74,.5)');
   sayAt(out => { if (!G.boss || !G.boss.stun) return false; out.set(0, G.boss.top * 0.95 + 1.2, G.boss.z); return true; }, 'bossStun', 1700);
   $('#stunUI').hidden = false; renderStun(); return true;
 }
@@ -5538,6 +5907,7 @@ const STAGES = [
   {name:'Ведьмин час', sub:'Двойные ловушки', speed:14.8, obst:0.95, dbl:0.5, kinds:['rock','log','bats','pumpkin','spikes'], pup:0.4, pal:'witch', set:'arena', sprint:1.9, color:'#b8ff7a'},
   {name:'Звёздный мост', sub:'Финал · максимальная скорость', speed:15.4, obst:1, dbl:0.6, kinds:['rock','log','bats','pumpkin','spikes','bounce'], pup:0.42, pal:'astral', set:'astral', sprint:2.0, color:'#ffd6ff'}
 ];
+STAGES.forEach((s, i) => { if (i >= 1) s.kinds.push('beast'); });
 const QUESTION_DIST = 34, Q_WALK = 2.4, Q_FAR = 88;
 /* monsters now walk TOWARD the hero: they close in at (run speed + walk speed) and reach him exactly when the timer ends */
 function qZ(q){ const rem = Math.max(0, q.T - (G.time - q.spawn)); return -Math.min(Q_FAR, (G.ws + Q_WALK) * rem); }
@@ -5558,7 +5928,7 @@ function clearPlay(){
   endBuild(); clearSplats(); if (G.shadowT > 0) shadowOff(true); G.duel = null; $('#duel').hidden = true; G.forkUntil = 0; resetJunction(); dropAnims(); trailHist.length = 0; $('#stunUI').hidden = true; $('#vdown').hidden = true; if (G.boss && G.boss.stun) G.boss.stun = false;
   if (G.current) { releaseQuestion(G.current); if (G.current.orbs) G.current.orbs.forEach(o => { freeTag(o.tag); scene.remove(o.g); disposeTree(o.g); }); }
   G.current = null; if (G.nextQ) { releaseQuestion(G.nextQ); G.nextQ = null; }
-  clearCoins(); catOff(); biteOff(); if (V.mode !== 'off') vampOff();
+  clearCoins(); catOff(); biteOff(); clearWaves(); if (V.mode !== 'off') vampOff();
   obstacles.splice(0).forEach(o => { if (o.userData.kind === 'bats') batsDisarm(o.userData); if (o.userData.tags) o.userData.tags.forEach(freeTag); scene.remove(o); }); tapT.length = 0;
   pickups.splice(0).forEach(o => scene.remove(o));
   if (G.proj) { scene.remove(G.proj.m); G.proj = null; }
@@ -5588,7 +5958,7 @@ function stageUp(n){
   G.stage = n; const st = STAGES[n]; G.speedNow = st.speed * hardMul(); questEvent('level', n + 1);
   if (G.branch) {} else if (G.shadowT > 0) setTo = st.set; else setPal(st.pal, st.set); musicStage(Math.min(3, n >> 1)); banner('Уровень ' + (n + 1) + ' из ' + STAGES.length, st.name, st.sub, st.color); sfx.stage(); haptic(HAP.stage); flashFx('rgba(255,255,255,.45)');
 }
-function pickKind(st, not){ const ks = st.kinds.filter(k => (k !== 'bats' || opt('bats')) && (['pumpkin', 'spikes', 'bounce'].indexOf(k) < 0 || opt('traps'))), L = ks.length ? ks : ['rock', 'log']; let k; let guard = 0; do { k = L[ri(L.length)]; } while (k === not && ++guard < 8); return k; }
+function pickKind(st, not){ const ks = st.kinds.filter(k => (k !== 'bats' || opt('bats')) && (['pumpkin', 'spikes', 'bounce', 'beast'].indexOf(k) < 0 || opt('traps'))), L = ks.length ? ks : ['rock', 'log']; let k; let guard = 0; do { k = L[ri(L.length)]; } while (k === not && ++guard < 8); return k; }
 function spawnHazard(kind, at){
   const st = STAGES[G.stage]; let lane = ri(3);
   if (kind === 'spikes' && G.stage >= 4 && Math.random() < 0.4) { const free = ri(3); [0, 1, 2].filter(l => l !== free).forEach(l => spawnObstacle('spikes', l, SPAWN_Z)); lane = free; }
@@ -5663,7 +6033,7 @@ function resolveRun(){
   if (CAT.mode === 'on' || CAT.mode === 'jump') catLeave(false);
   catMistake(ok); if (!ok) hardMistake();
   const vampE = q.ents.find(e => e.vamp);
-  if (vampE) { if (ok && vampE === target) { if (q.vampStruck) { vampExit('die'); G.coinsRun += 20; popText('Vampire down! +20', LANES[chosen], 3.4, tz, 'vamp'); } else { vampExit('steal'); toast('Вампир увернулся!', 'Верное слово было у него — нужен свайп вниз', 'bad'); } } else vampExit(ok ? 'flee' : 'steal'); }
+  if (vampE) { if (ok && vampE === target) { if (q.vampStruck) { vampExit('die'); G.coinsRun += 20; if (Math.random() < 0.04) later(1.1, () => showRelic(giveRelic())); popText('Vampire down! +20', LANES[chosen], 3.4, tz, 'vamp'); } else { vampExit('steal'); toast('Вампир увернулся!', 'Верное слово было у него — нужен свайп вниз', 'bad'); } } else vampExit(ok ? 'flee' : 'steal'); }
   if (ok) {
     G.combo++; G.bestCombo = Math.max(G.bestCombo, G.combo); G.correctN++; comboHeal();
     const mult = Math.min(ECON.comboCap, 1 + Math.floor(G.combo / 5) * ECON.comboStep) * (G.x2T > 0 ? 2 : 1) * (S.hard ? 2 : 1); const gain = Math.round((q.item.corrupt ? ECON.ansCorrupt : ECON.ans) * mult); G.coinsRun += gain; G.econ.ans += gain;
@@ -5751,7 +6121,7 @@ function startBoss(){
   G.bossPool = ids; G.bossPtr = 0;
   showPlayHud(true); renderBoss(); renderHearts();
   G.phase = 'intro'; G.introT = 2.2; G.ws = 0;
-  toast('Пожиратель слов', 'Он собран из твоих самых слабых слов', 'boss'); sfx.roar(); shake(0.5); musicPlay('boss');
+  toast(bossName(), 'Он собран из твоих самых слабых слов', 'boss'); sfx.roar(); shake(0.5); musicPlay('boss');
 }
 function nextBossItem(){
   const i = G.retryQ.findIndex(r => r.at <= G.bossCount);
@@ -5760,7 +6130,7 @@ function nextBossItem(){
 }
 function spawnBossQ(){
   const item = nextBossItem(); const q = buildQ(item);
-  q.T = windowFor(q) * S.pace + 0.5; q.spawn = G.time; q.lastMove = G.time; q.kind = 'boss'; q.chip = 'Пожиратель слов · фаза ' + bossPhase();
+  q.T = windowFor(q) * S.pace + 0.5; q.spawn = G.time; q.lastMove = G.time; q.kind = 'boss'; q.chip = bossName() + ' · фаза ' + bossPhase();
   q.orbs = q.options.map((t, i) => { const o = makeOrb(t); o.start = new T.Vector3(LANES[i], 4.6, -20.4); o.end = new T.Vector3(LANES[i], 1.2, 0); o.g.position.copy(o.start); scene.add(o.g); o.tag = getTag(t, 'orb'); showTag(o.tag, out => { if (o.dead || !o.g.visible) return false; out.set(o.g.position.x, o.g.position.y + 0.55 * o.g.scale.y, o.g.position.z); o.tag.alpha = o.fade ? clamp(o.g.scale.x, 0, 1) : 1; return true; }, i * 70); return o; });
   G.boss.windT = 0.9; G.current = q; G.phase = 'question'; showQ(q); sfx.toss();
 }
@@ -5821,12 +6191,12 @@ function afterResolveBoss(){
 function bossDefeat(){
   removeOrbs(); hideQ(); railClear(); G.current = null;
   G.phase = 'dead'; G.deadT = 2.6; G.boss.dead = true; G.boss.deadT = 0;
-  sfx.win(); shake(0.6); haptic(HAP.boss); G.coinsRun += 100; renderCoins();
+  sfx.win(); shake(0.6); haptic(HAP.boss); G.coinsRun += 100; renderCoins(); if (S.hard) grantHardSkin(); later(1.0, () => showRelic(giveRelic()));
   for (let i = 0; i < 4; i++) burst((Math.random() - .5) * 3, 3 + Math.random() * 2, -21, i % 2 ? 0xfffbea : 0xffe14a, 14, 8);
-  toast('Пожиратель слов повержен!', 'Слова главы вернулись в лес · +100', 'good');
+  toast(bossName() + ' повержен!', 'Слова главы свободны · +100', 'good');
 }
 function animBoss(sdt){
-  const b = G.boss; if (!b) return; b.t += sdt; const t = b.t;
+  const b = G.boss; if (!b) return; if (b.dancer) { danceBossAnim(b, sdt); return; } b.t += sdt; const t = b.t;
   const PR = b.glb ? 3.3 : 2.5;
   b.pages.forEach((p, i) => { const a = t * 0.8 + i * Math.PI * 2 / b.pages.length; p.position.set(Math.cos(a) * PR, 3.4 + Math.sin(t * 2 + i) * 0.5, Math.sin(a) * 1.3); p.rotation.y = a; p.rotation.z = Math.sin(t * 3 + i) * .4; });
   if (b.dead) { b.deadT += sdt; b.g.rotation.x = -Math.min(1.35, b.deadT * 1.3); b.g.position.y = -Math.max(0, b.deadT - 0.9) * 2; return; }
@@ -5851,7 +6221,7 @@ function animBoss(sdt){
   b.g.position.y = Math.abs(Math.sin(t * 2)) * .08;
 }
 function bossLogic(sdt, dt){
-  animBoss(sdt); updateProjectile(sdt);
+  animBoss(sdt); updateProjectile(sdt); updateWaves17(sdt);
   if (G.phase === 'intro') { G.introT -= dt; if (G.introT <= 0) { G.phase = 'gap'; G.nextSpawn = G.time + 0.2; } }
   else if (G.phase === 'gap') { if (!G.proj && G.time >= G.nextSpawn) spawnBossQ(); }
   else if (G.phase === 'question') {
@@ -5898,7 +6268,7 @@ function endRun(outcome){
   G.celebrate = outcome === 'done' || outcome === 'win'; G.defeated = outcome === 'fail';
   const titles = {
     run: {done:'Забег завершён', fail:'Сердца закончились', quit:'Забег прерван'},
-    boss: {win:'Пожиратель слов повержен!', fail:'Босс устоял в этот раз', quit:'Бой прерван'}
+    boss: {win:bossName() + ' повержен!', fail:'Босс устоял в этот раз', quit:'Бой прерван'}
   };
   $('#resEyebrow').textContent = kind === 'boss' ? 'Итоги боя с боссом' : 'Итоги забега';
   $('#resTitle').textContent = (titles[kind] && titles[kind][outcome]) || 'Итоги';
@@ -6130,11 +6500,11 @@ Object.keys(sfx).forEach(k => { sfx[k] = timed('звук ' + k, sfx[k]); });
 const loadEl = $('#loading'), loadTxt = $('#loadTxt'), loadBar = $('#loadBar');
 function setProg(p){ const v = Math.round(clamp(p, 0, 1) * 100); loadTxt.textContent = 'Загружаю лес… ' + v + '%'; loadBar.style.width = v + '%'; }
 function endBoot(){
-  if (A.ok) { try { scene.remove(hero.g); hero = buildHeroGLB(); addDance(hero); addSpin(hero); hero.g.rotation.y = Math.PI; scene.add(hero.g); buildSceneryKit(); buildVamp(); buildCat(); buildGhost(); applySkins(); buildTurnKit(); } catch (e) { console.error(e); A.ok = false; buildSceneryProc(); } }
+  if (A.ok) { try { scene.remove(hero.g); hero = buildHeroGLB(); addDance(hero); addSpin(hero); addSlide(hero); hero.g.rotation.y = Math.PI; scene.add(hero.g); buildSceneryKit(); buildVamp(); buildCat(); buildGhost(); applySkins(); buildTurnKit(); } catch (e) { console.error(e); A.ok = false; buildSceneryProc(); } }
   else buildSceneryProc();
   setPal('dusk', 'day', true); prewarm(); setTimeout(renderMusic, 400); window.__bootDone = true; if (TG.ok) tgCloudInit(); else cloudInit(); if (G.mode === 'home') renderHome(); loadEl.classList.add('out'); setTimeout(() => { loadEl.hidden = true; }, 600);
 }
-if (/debug/.test(location.search)) window.__WR = {hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
+if (/debug/.test(location.search)) window.__WR = {startBossLoad, ensureDanceBoss, DW, giveRelic, showRelic, COLL, hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
 bindMeta(); bindV12(); bindV17(); goHome();
 requestAnimationFrame(frame);
 if (HAS_GLB) loadAssets(setProg).then(endBoot).catch(e => { console.error('assets', e); A.ok = false; endBoot(); });
