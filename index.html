@@ -1643,8 +1643,8 @@ function buildQBase(item){
   let prompt, sub, opts, kind, chip;
   if (type === 'en2ru') { kind = 'wolf'; chip = 'Тёмный волк · перевод'; prompt = w.en; sub = 'Выбери перевод'; opts = [w.ru].concat(pickDistractors(w, 2, 'ru').map(d => d.ru)); }
   else if (type === 'ru2en') { kind = 'wolf'; chip = 'Тёмный волк · слово'; prompt = w.ru; sub = 'Выбери английское слово'; opts = [w.en].concat(pickDistractors(w, 2, 'en').map(d => d.en)); }
-  else if (type === 'gap') { kind = 'fire'; chip = 'Нежить · контекст'; prompt = w.ex; sub = 'Какое слово пропущено?'; opts = [w.en].concat(pickDistractors(w, 2, 'en').map(d => d.en)); }
-  else { kind = 'penguin'; chip = 'Нежить-эхо · написание'; prompt = w.ru; sub = 'Как пишется это слово?'; opts = [w.en].concat(misspellings(w.en, 2)); }
+  else if (type === 'gap') { kind = 'fire'; chip = 'Волк · контекст'; prompt = w.ex; sub = 'Какое слово пропущено?'; opts = [w.en].concat(pickDistractors(w, 2, 'en').map(d => d.en)); }
+  else { kind = 'penguin'; chip = 'Волк-эхо · написание'; prompt = w.ru; sub = 'Как пишется это слово?'; opts = [w.en].concat(misspellings(w.en, 2)); }
   while (opts.length < 3) opts.push(pickDistractors(w, 3, 'en')[opts.length].en);
   const order = shuffle([0,1,2]);
   return {item, w, type, kind, chip, prompt, sub, options: order.map(i => opts[i]), correct: order.indexOf(0)};
@@ -1655,7 +1655,7 @@ function windowFor(q){
   const base = {en2ru:3.2, ru2en:3.2, gap:4.0, spell:3.6, pair:3.6}[q.type] || 3.6;
   return clamp(base + len * 0.035, 3.8, 8.5);
 }
-function plan(){
+function plan0(){
   const unseen = chList().filter(w => !S.words[w.id].seen).map(w => w.id);
   const nNew = Math.min(unseen.length, 10);
   const due = chIds().filter(isDue).sort((a, b) => S.words[a].due - S.words[b].due || S.words[a].box - S.words[b].box);
@@ -4185,7 +4185,8 @@ function renderHome(){
   const btn = $('#btnStart');
   if (p.newIds.length) { $('#startTitle').textContent = 'Начать сессию'; $('#startSub').textContent = p.newIds.length + ' новых слов' + (p.reviewIds.length ? ' + ' + p.reviewIds.length + ' на повторение' : ''); btn.disabled = false; }
   else if (p.reviewIds.length) { $('#startTitle').textContent = 'Повторить слова'; $('#startSub').textContent = p.campIds.length + ' карточек перед забегом'; btn.disabled = false; }
-  else { $('#startTitle').textContent = 'На сегодня всё'; $('#startSub').textContent = 'Следующие повторы — завтра'; btn.disabled = true; }
+  else if (p.practice) { $('#startTitle').textContent = 'Тренировка'; $('#startSub').textContent = 'Повторы на сегодня сделаны — забег на закрепление'; btn.disabled = false; }
+  else { $('#startTitle').textContent = 'Начать забег'; $('#startSub').textContent = 'Слов пока мало — открой карточки'; btn.disabled = true; }
   const bb = $('#btnBoss'); const open = bossOpen();
   const bw = S.bossWins[curCh().id]; bb.disabled = !open; bb.textContent = bw ? 'Реванш с боссом' : 'Босс главы';
   let note = '';
@@ -4322,7 +4323,7 @@ function buildQ(item){
   if (item.type === 'pair') {
     const p = pairPrompt(w);
     if (p) { const opts = [w.en].concat(pickDistractors(w, 2, 'en').map(d => d.en)); const order = shuffle([0, 1, 2]);
-      return {item, w, type:'pair', kind:'fire', chip:'Нежить · пара слов', prompt:p, sub:'Какое слово подходит в пару?', options:order.map(i => opts[i]), correct:order.indexOf(0)}; }
+      return {item, w, type:'pair', kind:'fire', chip:'Волк · пара слов', prompt:p, sub:'Какое слово подходит в пару?', options:order.map(i => opts[i]), correct:order.indexOf(0)}; }
     item = Object.assign({}, item, {type:'ru2en'});
   }
   if (item.type === 'build') {
@@ -4599,6 +4600,7 @@ const DIRS = ['up', 'left', 'right', 'down'];
 function duelWordPool(){ let L = chList().filter(w => S.words[w.id].seen); if (L.length < 4) L = chList(); if (L.length < 4) L = WORDS.filter(w => w.ch === 'forest'); return L; }
 function startDuel(){
   if (!V.g || V.mode !== 'off') { startSprint(false); return; }
+  if (BITE.mode !== 'off') catBiteEnd(false); if (CAT.mode !== 'off' && CAT.mode !== 'spit') catOff();
   G.phase = 'duel'; G.duelDone = true; G.sched = [];
   V.mode = 'duel'; G.lane = 1; railActive(); V.g.position.set(0, 0, -7.2); V.g.rotation.set(0, 0, 0); V.g.scale.setScalar(1); V.inner.rotation.y = Math.PI / 2; V.inner.scale.setScalar(2.5); V.inner.position.y = 1.15; V.shadow.visible = true; V.glow.visible = false; vampAnim('Cast', 0.2, false, 1);
   scene.add(V.g); V.g.visible = true; V.inner.visible = true;
@@ -4606,6 +4608,7 @@ function startDuel(){
   G.duel = {hp, max:hp, fails:0, maxFails:S.hard ? 2 : 3, r:null, wait:1.4, flinch:0};
   $('#rail').hidden = true; $('#duel').hidden = false; renderDuelHP();
   banner('Дуэль', 'Вампир в костюме', 'Свайпни к верному переводу!', '#c77dff'); sfx.vamp(); haptic(HAP.boss);
+  if (!S.duelSeen) { S.duelSeen = 1; save(); G.duel.wait = 3.2; later(2.4, () => { if (G.duel) toast('Дуэль с вампиром', 'Слова встанут вокруг него. Свайпни ↑ ← → ↓ к верному переводу', 'boss'); }); }
   sayAt(out => { if (V.mode !== 'duel') return false; V.g.getWorldPosition(out); out.y += 2.3; return true; }, 'duel', 2200);
 }
 function renderDuelHP(){ const d = G.duel; if (!d) return; $('#duelHP').innerHTML = Array.from({length:d.max}, (_, i) => '<i class="' + (i < d.hp ? 'on' : '') + '"></i>').join('') + '<span>промахов: ' + d.fails + '/' + d.maxFails + '</span>'; }
@@ -5676,7 +5679,7 @@ function heroShoulderLocal(out){
   return best ? out.copy(best) : out.set(0.3 * BITE.side, 1.55, 0);
 }
 function catBiteStart(){
-  if (!A.ok || !BITE.rig || !opt('cat') || BITE.mode !== 'off' || G.mode !== 'run' || G.hearts <= 0 || G.phase === 'turn' || G.shadowT > 0 || G.paused) return;
+  if (!A.ok || !BITE.rig || !opt('cat') || BITE.mode !== 'off' || G.mode !== 'run' || G.hearts <= 0 || G.phase === 'turn' || G.phase === 'duel' || G.duel || G.shadowT > 0 || G.paused) return;
   if (CAT.mode !== 'off') catLeave(false);
   const r = BITE.rig; BITE.side = Math.random() < 0.5 ? -1 : 1; BITE.mode = 'leap'; BITE.t = 0; BITE.fill = 0; BITE.punch = 0;
   BITE.need = S.hard ? 20 : 14; BITE.maxT = S.hard ? 22 : 14;
@@ -6838,20 +6841,6 @@ function speak(text){
   if (!VOICE.set.has(slug)) { speakTTS(text); return; }
   voiceFetch(slug).then(ab => voicePlay(ab, 1)).catch(() => speakTTS(text));
 }
-/* "Oh no!" in her voice instead of the buzzer on a mistake during a run */
-function ohNo(){
-  if (S.muted || G.clock - VOICE.lastOh < 1.4) return false;
-  VOICE.lastOh = G.clock;
-  const slug = 'ohno_' + (1 + ri(3));
-  voiceFetch(slug).then(ab => voicePlay(ab, 0.95)).catch(() => tone(220, 90, .35, 'sawtooth', .08));
-  return true;
-}
-(function(){
-  const bad0 = sfx.bad;
-  sfx.bad = function(){ if ((G.mode === 'run' || G.mode === 'boss') && ohNo()) return; if (G.mode === 'run' || G.mode === 'boss') return; bad0(); };
-  /* warm the cache with the clips that play during a run */
-  setTimeout(() => { ['ohno_1', 'ohno_2', 'ohno_3'].forEach(s => voiceFetch(s).catch(() => {})); }, 4000);
-})();
 /* ================= v18 KIT: Anna's three 3D kits (twilight forest, purple swamp, tunnel creatures) =================
    Loaded quietly after start. Every prop is normalised to height 1 and stands on y = 0, front to +Z. */
 const KIT18 = {ok:false, busy:false, n:{}, dim:{}};
@@ -7538,11 +7527,22 @@ function vampLaneWanted(q){
 /* his lines only while he lies on the crypt slab by the road */
 function sayAt(getPos, key, ms){ if (/^(vampSpawn|vampSteal|vampDie|duel)$/.test(key)) return; sayAt0(getPos, key, ms); }
 
-/* ---- ghosts belong to the moon cemetery only; elsewhere the "context" monsters are bats and walkers ---- */
-function enemyNames(kind){
-  if (kind === 'wolf') return ['wolf', 'wolf', 'wolf'];
-  if (kind === 'fire') { if (curLoc().mob === 'ghost') return shuffle(FLOAT_POOL.concat(['ghost1'])).slice(0, 3); return shuffle(['bat', 'bat', 'jack', 'witchcat', 'mummy']).slice(0, 3); }
-  return shuffle(WALK_POOL.slice()).slice(0, 3);
+/* ---- the word monsters are always wolves (as in the tutorial) ---- */
+function enemyNames(kind){ return ['wolf', 'wolf', 'wolf']; }
+
+/* ---- you can always play: when nothing is due today, the start button runs a practice run on studied words ---- */
+function plan(){
+  const p = plan0(); if (p.newIds.length || p.reviewIds.length) return p;
+  const seen = chIds().filter(id => S.words[id].seen); if (seen.length < 4) return p;
+  const pick = shuffle(seen.slice()).sort((a, b) => (S.words[a].box - S.words[b].box) + (Math.random() - 0.5) * 3).slice(0, 14);
+  return {newIds:[], reviewIds:[], extraIds:pick, campIds:pick.slice(0, 10), reduced:false, practice:true};
+}
+function startPractice(p){ G.plan = p; const go = () => { G.practiceIds = p.extraIds.slice(); startRun([], p.extraIds.slice()); }; if (!S.tut) openTut(go); else go(); }
+
+/* ---- shadow world no longer hides the words ---- */
+function updateShadow(sdt, q){
+  if (G.shadowT > 0) { G.shadowT -= sdt; if (G.shadowT <= 0) { shadowOff(true); return; } }
+  if (G.hideTags) { G.hideTags = false; $('#rail').classList.remove('shadowed'); }
 }
 
 /* ---- per-run extras ---- */
@@ -7555,7 +7555,7 @@ function sprintExtras(sch, st, first, t0){
     return;
   }
   const left = G.queue ? G.queue.length - G.qIndex : 0;
-  if (A.ok && opt('vamp') && V.g && !G.duelDone && V.mode === 'off' && G.answered >= 4 && (V.laneN >= 1 || (V.seen >= 1 && left <= 3))) { sch.length = 0; sch.push({at:t0 + 0.4, fn:startDuel}); return; }
+  if (A.ok && opt('vamp') && V.g && !G.duelDone && V.mode === 'off' && BITE.mode === 'off' && CAT.mode === 'off' && G.answered >= 4 && (V.laneN >= 1 || (V.seen >= 1 && left <= 3))) { sch.length = 0; sch.push({at:t0 + 0.4, fn:startDuel}); return; }
   if (opt('arch') && !G.archDone && G.stage >= 1 && Math.random() < 0.22) { G.archDone = true; sch.push({at:t0 + 0.15, fn:spawnSecretArch}); sch.extra = (sch.extra || 0) + 0.5; }
   if (A.ok && opt('cat') && CAT.g && CAT.mode === 'off' && G.stage >= (S.hard ? 1 : 2) && Math.random() < (S.hard ? 0.32 : 0.22)) sch.push({at:t0 + 0.35, fn:catSpitEvent});
   if (opt('ghost') && G.shadowLoss >= 3) { sch.push({at:t0 + 0.7, fn:() => { spawnObstacle('rock', G.lane, SPAWN_Z); popText('Shadow mistake!', hero.g.position.x, 2.6, -2, 'bad'); }}); }
@@ -7581,6 +7581,7 @@ function bindV18(){
   PAL_COLS.forEach(f => { PALS.tunnel.c[f] = new T.Color(PALS.tunnel[f]); }); PALS.tunnel.skyC = PALS.tunnel.sky.map(s => new T.Color(s));
   OUTLINE_I.visible = false;
   setTimeout(() => { loadKit18(); }, 1800);
+  document.addEventListener('click', e => { if (!e.target.closest || !e.target.closest('#btnStart') || $('#btnStart').disabled) return; const p = plan(); if (!p.practice) return; e.stopPropagation(); e.preventDefault(); audio(); startPractice(p); }, true);
 }
 /* ================= v18 MUSIC: an original warm fingerstyle guitar tune; your own track never gets muffled mid-run ================= */
 /* plucked string (Karplus–Strong with a fractional delay, so high notes stay in tune), rendered once per note */
