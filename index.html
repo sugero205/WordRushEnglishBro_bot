@@ -4318,7 +4318,7 @@ function pairPrompt(w){
   toks[i] = '___' + toks[i].slice(stem.length); return toks.join(' ');
 }
 const canBuild = w => !!w && /^[a-z]{3,11}$/i.test(w.en);
-function buildQ(item){
+function buildQ0(item){
   const w = W[item.id];
   if (item.type === 'pair') {
     const p = pairPrompt(w);
@@ -4784,7 +4784,7 @@ function makeJunction0(kind, tunnelSide, cornerSide){
   sides.forEach(s => { const r = new T.Mesh(K.roadG, K.pathM); r.position.set(s * (3.3 + ROAD_L / 2), 0.026, 0); g.add(r); });
   const w = new T.Mesh(K.wall.geometry, KIT_MAT); w.position.set(0, 0, -5.6); g.add(w);
   if (kind === 'fork') {
-    const wallArt = ASSET.tex['forkwall.webp'] && ASSET.tex['forkwall.webp'].wrOk && Math.random() < 0.5;
+    const wallArt = !!(ASSET.tex['forkwall.webp'] && ASSET.tex['forkwall.webp'].wrOk);
     if (wallArt) addForkWall(g);
     sides.forEach(s => {
       if (!wallArt) { const sg = new T.Mesh(K.signN[s < 0 ? 0 : 1].geometry, KIT_MAT); sg.position.set(s * 4.4, 0, -4.4); g.add(sg); }
@@ -7003,8 +7003,27 @@ function forkDecor(g, sides){
       });
     }
     /* soft corners where the side road leaves the main one */
-    put(D.mid[0], s * 4.6, 4.6, D.hs[1], 0); put(D.small[0], s * 6.2, -3.9, D.hs[0], 0);
+    put(D.mid[0], s * 4.6, 4.6, D.hs[1], 0);
   });
+}
+
+/* ---- road obstacles to dodge (or jump) made from Anna's kits, picked for the place ---- */
+const KIT_ROCKS = {
+  pu:[['pu_crystal', 1.5], ['pu_mush', 1.6], ['pu_eyestone', 1.5], ['pu_skullrock', 1.5], ['pu_horns', 1.3]],
+  tw:[['tw_pot', 1.35], ['tw_cage', 1.7], ['tw_crystal', 1.6], ['tw_ruin', 1.35], ['tw_mush', 1.7], ['tw_roses', 1.25]],
+  tn:[['tn_boulder', 1.5], ['tn_rock', 1.25], ['tn_crystal', 1.5]]
+};
+function kitRockList(){
+  if (inTunnel()) return KIT_ROCKS.tn;
+  const s = curLoc().set; return s === 'tw18' ? KIT_ROCKS.tw : s === 'ice' ? null : KIT_ROCKS.pu;
+}
+function makeKitRock(lane){
+  const L = KIT18.ok && kitRockList(); if (!L) return null;
+  const ok = L.filter(r => KIT18.n[r[0]]); if (!ok.length) return null;
+  const [name, h] = ok[ri(ok.length)], dim = KIT18.dim[name] || {w:1}, sc = Math.min(h, 1.75 / Math.max(0.3, dim.w));
+  const g = new T.Group(), m = KIT18.n[name].clone(); m.scale.setScalar(sc); m.rotation.y = (Math.random() - 0.5) * 0.7; g.add(m); addShadow(g, 0.85);
+  g.position.x = LANES[lane]; g.userData = {kind:'rock', lane, hit:false, age:0.5, parts:[]};
+  return g;
 }
 /* ================= v18 WORLD: each chapter road is place A → fork (tunnel or long road) → place B =================
    Ch.1 Candy valley → Twilight forest · Ch.2 Mushroom bog → Fog over the mire · Ch.3 Ice peaks → Northern lights.
@@ -7539,6 +7558,23 @@ function plan(){
 }
 function startPractice(p){ G.plan = p; const go = () => { G.practiceIds = p.extraIds.slice(); startRun([], p.extraIds.slice()); }; if (!S.tut) openTut(go); else go(); }
 
+/* ---- questions: mostly "pick the translation"; pairs, gaps, spelling and letter-building only now and then (more often in the tunnel) ---- */
+function specialType(box, w){
+  const opts = box <= 1 ? ['pair', 'gap'] : box === 2 ? ['gap', 'pair', 'build'] : ['spell', 'build', 'pair', 'gap'];
+  const ok = opts.filter(t => (t !== 'gap' || (w.ex && w.ex.indexOf('___') >= 0)) && (t !== 'pair' || pairPrompt(w)) && (t !== 'build' || canBuild(w)));
+  return ok.length ? ok[ri(ok.length)] : null;
+}
+function qTypeFor2(box, w){
+  if (box <= 0) return 'en2ru';
+  if (Math.random() < (box >= 3 ? 0.22 : 0.15)) { const t = specialType(box, w); if (t) return t; }
+  return Math.random() < 0.5 ? 'en2ru' : 'ru2en';
+}
+function buildQ(item){
+  const s = S.words[item.id];
+  if (G.mode === 'run' && inTunnel() && s && s.box >= 1 && (item.type === 'en2ru' || item.type === 'ru2en') && Math.random() < 0.4) { const t = specialType(s.box, W[item.id]); if (t) item = Object.assign({}, item, {type:t}); }
+  return buildQ0(item);
+}
+
 /* ---- shadow world no longer hides the words ---- */
 function updateShadow(sdt, q){
   if (G.shadowT > 0) { G.shadowT -= sdt; if (G.shadowT <= 0) { shadowOff(true); return; } }
@@ -7563,7 +7599,7 @@ function sprintExtras(sch, st, first, t0){
 
 /* ---- obstacles rise over the horizon far away instead of popping up near the heroine ---- */
 function spawnObstacle(kind, lane, z){
-  const g = makeObstacle(kind, lane); g.position.z = z; g.scale.setScalar(kind === 'bats' ? 0.001 : 1); scene.add(g); obstacles.push(g);
+  const g = (kind === 'rock' && makeKitRock(lane)) || makeObstacle(kind, lane); g.position.z = z; g.scale.setScalar(kind === 'bats' ? 0.001 : 1); scene.add(g); obstacles.push(g);
   if (kind !== 'bats') g.userData.age = 0.5;
   return g;
 }
