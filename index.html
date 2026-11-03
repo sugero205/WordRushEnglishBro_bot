@@ -7127,10 +7127,11 @@ const BIO_LITE = {tw:1, sw:1, ice:1};
 function bioPlace(b, it, z, pools, meta){
   it.z = z; it.uvDirty = true;
   if (BIO_LITE[b]) {
-    if (it.i % 2) { it.s = 0; it.sp = null; return; }
-    const big = pools.big.length && Math.random() < 0.75, pool = big ? pools.big : pools.mid; if (!pool.length) { it.s = 0; it.sp = null; return; }
-    const sp = pool[ri(pool.length)], side = Math.random() < 0.5 ? -1 : 1, d = meta[sp], xr = big ? [13, 25] : [10, 17];
-    it.sp = sp; it.x = side * (xr[0] + Math.random() * (xr[1] - xr[0])); it.s = 0.9 + Math.random() * 0.3; it.flip = Math.random() < 0.5; it.h = d.h * it.s; it.w = it.h * d.a; return;
+    /* drawn props live far away now: big ones deep behind the 3D forest, a few mid ones a little closer */
+    if (b !== 'tw' && it.i % 2) { it.s = 0; it.sp = null; return; }
+    const big = pools.big.length && (b === 'tw' || Math.random() < 0.8), pool = big ? pools.big : pools.mid; if (!pool.length) { it.s = 0; it.sp = null; return; }
+    const sp = pool[ri(pool.length)], side = Math.random() < 0.5 ? -1 : 1, d = meta[sp], xr = big ? [26, 46] : [18, 28];
+    it.sp = sp; it.x = side * (xr[0] + Math.random() * (xr[1] - xr[0])); it.s = big ? 1.1 + Math.random() * 0.45 : 1.0 + Math.random() * 0.25; it.flip = Math.random() < 0.5; it.h = d.h * it.s; it.w = it.h * d.a; return;
   }
   const r = Math.random(), kind = r < 0.2 ? 'big' : r < 0.55 ? 'mid' : r < 0.86 ? 'small' : 'crit';
   const pool = pools[kind].length ? pools[kind] : pools.mid.length ? pools.mid : pools.small; if (!pool || !pool.length) { it.s = 0; return; }
@@ -7333,6 +7334,7 @@ function junctionExtras(sch, t0){
   }
   return false;
 }
+function bioTex(b){ return BIOV.tex[b] || (BIOV.tex[b] = assetTex('bio_' + b + '.webp?v=182')); }
 /* ================= v18 TUNNEL: darker, torch-lit, cobwebs and cave props, bats all the way,
    a vampire that swoops out of the dark once, and black blob creatures that crawl out of the walls
    and pile up behind the heroine, chasing her until the light at the exit scares them off ================= */
