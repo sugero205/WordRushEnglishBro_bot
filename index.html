@@ -627,6 +627,34 @@ label.btn{cursor:pointer}
 .sword-btn.guard.ready{background:#5fd6ff;animation:guardPulse 1.4s ease-in-out infinite}
 @keyframes guardPulse{50%{box-shadow:0 3px 0 var(--lineS),0 0 0 7px rgba(95,214,255,.35)}}
 #btnShadow.ready::after{content:'TAP';background:none;width:auto;height:auto;top:-24px;font:900 12px/1 var(--display);color:#fff;-webkit-text-stroke:3px #1e1838;paint-order:stroke fill;letter-spacing:.06em}
+/* v18 beta: tuning panel */
+#tuneFab{position:absolute;left:max(10px,env(safe-area-inset-left,0px));top:46%;z-index:40;width:42px;height:42px;border-radius:50%;border:2px solid #1e1838;background:#ffd23a;font:900 20px/1 var(--body);box-shadow:0 3px 0 #1e1838;pointer-events:auto}
+#betaTag{position:absolute;right:8px;bottom:6px;z-index:40;font:900 10px/1 var(--body);color:#fff;background:#ff5a6a;padding:3px 6px;border-radius:6px;pointer-events:none;opacity:.85}
+#tunePanel{position:absolute;left:0;right:0;bottom:0;z-index:41;max-height:62%;display:flex;flex-direction:column;background:rgba(24,18,44,.96);color:#fff;font:600 13px/1.3 var(--body);border-radius:16px 16px 0 0;box-shadow:0 -6px 24px rgba(0,0,0,.4);pointer-events:auto;touch-action:pan-y}
+#tunePanel[hidden]{display:none}
+#tunePanel button{font:800 12px/1 var(--body);border:0;border-radius:9px;padding:7px 9px;background:#3a2e66;color:#fff}
+#tunePanel button.on{background:#ffd23a;color:#1e1838}
+.tp-top,.tp-go,.tp-tabs,.tp-row2{display:flex;gap:6px;align-items:center;padding:8px 10px 0;flex-wrap:wrap}
+.tp-top b{flex:1;font-size:15px}
+.tp-tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.12)}
+.tp-go{font-size:12px;color:#cfc6ef}
+.tp-body{overflow-y:auto;padding:6px 12px 14px;-webkit-overflow-scrolling:touch}
+.tp-row{display:block;margin:8px 0}
+.tp-row span{display:block;margin-bottom:3px;color:#e6e0ff}
+.tp-row b{color:#ffd23a}
+.tp-row i{font-style:normal;color:#ff9ab8;cursor:pointer;padding:0 4px}
+.tp-row input[type=range]{width:100%;accent-color:#ffd23a;height:26px}
+.tp-row select{width:100%;padding:6px;border-radius:8px;font:700 13px var(--body)}
+.tp-chk{display:flex;gap:8px;align-items:center;margin:10px 0}
+.tp-chk input{width:20px;height:20px;accent-color:#ffd23a}
+.tp-h{margin:8px 0;color:#cfc6ef;font-size:12px}
+.tp-type{border-top:1px solid rgba(255,255,255,.1);padding-top:4px;margin-top:6px}
+.tp-tn{font:900 13px/1.2 var(--body);color:#9fe0ff;margin-top:4px}
+.tp-type .tp-row{margin:4px 0}
+.tp-skins{display:flex;flex-wrap:wrap;gap:6px}
+.tp-out{padding:8px 10px 12px}
+.tp-out textarea{width:100%;border-radius:8px;font:12px/1.3 monospace;padding:6px}
+.tp-tn small{font:600 10px var(--body);color:#8a80b0}
 
 #perf{position:absolute;left:8px;right:8px;bottom:92px;z-index:9;font:700 10.5px/1.35 ui-monospace,Menlo,monospace;color:#fff;background:rgba(20,10,40,.8);border:2px solid rgba(255,255,255,.25);border-radius:10px;padding:6px 8px;pointer-events:none;white-space:pre-wrap;max-height:30vh;overflow:hidden}
 #perf b{color:#ffc93a}
@@ -1182,14 +1210,15 @@ const TIER = ['Новая','Бронза I','Бронза II','Серебро I'
 const INTERVAL_DAYS = [0,1,3,7,14,30];
 const DAY = 86400000;
 const LANES = [-2.2, 0, 2.2];
-const KEY = 'wordrush-forest-v1';
+const BETA = /\/beta\//.test(location.pathname) || /[?&]beta\b/.test(location.search);
+const KEY = BETA ? 'wordrush-forest-v1-beta' : 'wordrush-forest-v1';
 
 /* ================= SAVE ================= */
 function blankWord(){ return {seen:false, box:0, due:0, lapses:0, reps:0}; }
 function freshState(){ const words = {}; WORDS.forEach(w => words[w.id] = blankWord()); return {words, dayOffset:0, coins:0, lastAcc:1, sessions:0, runs:0, bossUnlocked:false, bossBeaten:false, muted:false, pace:1, bestCombo:0}; }
 function loadState(){
   const f = freshState(); let s = null;
-  try { const raw = localStorage.getItem(KEY); if (raw) s = JSON.parse(raw); } catch(e) { s = null; }
+  try { const raw = localStorage.getItem(KEY) || (BETA ? localStorage.getItem('wordrush-forest-v1') : null); if (raw) s = JSON.parse(raw); } catch(e) { s = null; }
   if (!s || typeof s !== 'object') return f;
   const out = Object.assign(f, s);
   const words = {};
@@ -2397,10 +2426,10 @@ function applyPal(){
   }
   skyGeo.attributes.color.needsUpdate = true;
   const C = (f, out) => out.copy(a.c[f]).lerp(b.c[f], k), N = f => a[f] + (b[f] - a[f]) * k;
-  C('fog', scene.fog.color); scene.fog.near = N('fogN'); scene.fog.far = N('fogF');
-  C('hemiS', hemi.color); C('hemiG', hemi.groundColor); hemi.intensity = N('hemiI');
-  C('sun', sun.color); sun.intensity = N('sunI');
-  C('grass', grassMat.color); C('path', pathMat.color); curveU.value = N('curve');
+  const tl18 = TL(); C('fog', scene.fog.color); scene.fog.near = N('fogN') * (tl18.fogN || 1); scene.fog.far = N('fogF') * (tl18.fogF || 1);
+  C('hemiS', hemi.color); C('hemiG', hemi.groundColor); hemi.intensity = N('hemiI') * (tl18.bright || 1);
+  C('sun', sun.color); sun.intensity = N('sunI') * (tl18.bright || 1);
+  C('grass', grassMat.color); C('path', pathMat.color); curveU.value = N('curve') * TUNE.cam.curve;
   C('cloud', cloudMat.color); C('ember', emMat.color);
   C('hillFar', hillFarMat.color); C('hillNear', hillNearMat.color); C('orb', orbMat.color);
   orb.position.y = N('orbY'); orb.scale.setScalar(N('orbS'));
@@ -2469,7 +2498,7 @@ function makeSet(defs){
       const it = {minX:d[2], maxX:d[3], s0:d[4], s1:d[5], face:!!fl.face, lean:!!fl.lean, center:!!fl.center, row:fl.row || 0, gaps:fl.gaps, side:k % 2 ? 1 : -1};
       sceneryPlace(it, fl.row ? -230 + 246 * Math.floor(k / 2) / Math.ceil(n / 2) : -230 + 246 * (k + Math.random()) / n); items.push(it);
     }
-    set.types.push({ims, items});
+    set.types.push({ims, items, name:node.name || (node.userData && node.userData.srcName) || ''});
   });
   return set;
 }
@@ -3437,7 +3466,7 @@ function updateParts(sdt){
 }
 
 /* ================= COINS (one instanced draw call) ================= */
-const SPAWN_Z = -50;
+let SPAWN_Z = -50;
 const easeOutBack = t => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
 const COIN_N = 96;
 const coinGeo = (() => {
@@ -4114,7 +4143,7 @@ function renderPups(){
 const inPlay = () => (G.mode === 'run' || G.mode === 'boss') && !G.paused;
 function setLane(i){ i = clamp(i, 0, 2); if (i === G.lane || G.phase === 'turn') return; if (G.current && G.current.lockLane && G.phase === 'question') { sfx.bump(); haptic(HAP.lane); return; } if (G.forkUntil > G.time && (i === 1 || Math.abs(i - G.lane) > 1)) { sfx.bump(); haptic(HAP.lane); popText('Wall!', hero.g.position.x, 2.4, 0, 'bad'); return; } G.lane = i; haptic(HAP.lane); if (G.current && G.phase === 'question') G.current.lastMove = G.time; railActive(); }
 function moveLane(d){ setLane(G.lane + d); }
-function jump(){ if (G.slideT > 0) G.slideT = 0; if (G.heroY <= 0.001 && G.vy <= 0) { G.vy = 10.5; sfx.jump(); haptic(HAP.tap); } }
+function jump(){ if (G.slideT > 0) G.slideT = 0; if (G.heroY <= 0.001 && G.vy <= 0) { G.vy = TUNE.run.jump; sfx.jump(); haptic(HAP.tap); } }
 function slide(){ if (G.mode !== 'run' && G.mode !== 'boss') return; if (G.heroY > 0.05) G.vy = Math.min(G.vy, -18); if (G.slideT <= 0) { sfx.slide(); haptic(HAP.tap); if (hero) hero.slideOn = false; } G.slideT = SLIDE_T; }
 slots.forEach((s, i) => s.addEventListener('click', e => { e.stopPropagation(); if (inPlay()) setLane(i); }));
 let sw = null;
@@ -4784,7 +4813,7 @@ function makeJunction0(kind, tunnelSide, cornerSide){
   sides.forEach(s => { const r = new T.Mesh(K.roadG, K.pathM); r.position.set(s * (3.3 + ROAD_L / 2), 0.026, 0); g.add(r); });
   const w = new T.Mesh(K.wall.geometry, KIT_MAT); w.position.set(0, 0, -5.6); g.add(w);
   if (kind === 'fork') {
-    const wallArt = !!(ASSET.tex['forkwall.webp'] && ASSET.tex['forkwall.webp'].wrOk);
+    const wallArt = !!(ASSET.tex['forkwall.webp'] && ASSET.tex['forkwall.webp'].wrOk && TUNE.fork.wall);
     if (wallArt) addForkWall(g);
     sides.forEach(s => {
       if (!wallArt) { const sg = new T.Mesh(K.signN[s < 0 ? 0 : 1].geometry, KIT_MAT); sg.position.set(s * 4.4, 0, -4.4); g.add(sg); }
@@ -6315,7 +6344,7 @@ function startSprint(first){
   const st = STAGES[G.stage]; G.phase = 'gap'; const t0 = G.time, sch = [];
   sch.push({at:t0 + 0.05, fn:() => coinPattern(SPAWN_Z)});
   if (!first) {
-    if (!(G.branch && G.branch.kind === 'long') && Math.random() < Math.min(1, st.obst + (S.hard ? 0.25 : 0) + (G.branch ? 0.3 : 0))) sch.push({at:t0 + 0.45, fn:() => { G.lastHazLane = spawnHazard(pickKind(st)); }});
+    if (!(G.branch && G.branch.kind === 'long') && Math.random() < Math.min(1, st.obst * TUNE.run.obst + (S.hard ? 0.25 : 0) + (G.branch ? 0.3 : 0))) sch.push({at:t0 + 0.45, fn:() => { G.lastHazLane = spawnHazard(pickKind(st)); }});
     const dbl = G.branch && G.branch.kind === 'long' ? 0 : (st.dbl || 0) + (S.hard && G.stage >= 2 ? 0.4 : 0) + (G.branch ? 0.35 : 0); if (dbl && Math.random() < dbl) sch.push({at:t0 + 1.15, fn:() => { const k = pickKind(st, 'log'); if (k !== 'bats' && !batsActive()) spawnHazard(k); }});
     if (A.ok && opt('vamp') && !G.branch && V.mode === 'off' && !V.ready && G.answered >= 1 && Math.random() < (V.seen ? 0.5 : 0.9)) sch.push({at:t0 + 0.2, fn:() => vampRoadSpawn()});
     if (pupDue(st)) sch.push({at:t0 + 0.85, fn:() => { const k = pickPup(); if (k) { spawnPickup(k, ri(3), SPAWN_Z); G.lastPup = G.time; } }});
@@ -6332,7 +6361,7 @@ function startDash(){
 function prepNextQ(){
   if (G.nextQ || G.qIndex >= G.queue.length) return;
   const item = G.queue[G.qIndex]; const q = buildQ(item);
-  q.T = S.hard ? Math.max(2.6, windowFor(q) * S.pace * 0.72) : windowFor(q) * S.pace; q.T *= lvTime(); q.v = QUESTION_DIST / q.T;
+  q.T = S.hard ? Math.max(2.6, windowFor(q) * S.pace * 0.72) : windowFor(q) * S.pace; q.T *= lvTime() * TUNE.run.qtime; q.v = QUESTION_DIST / q.T;
   const grp = new T.Group(); q.ents = []; const names = A.ok ? enemyNames(q.kind) : [];
   if (A.ok && vampLaneWanted(q)) names[ri(3)] = 'vamp';
   for (let i = 0; i < 3; i++) { const e = acquireEnemy(q.kind, !!item.corrupt, names[i]); e.g.position.x = LANES[i]; e.g.visible = false; grp.add(e.g); q.ents.push(e); }
@@ -6649,24 +6678,24 @@ function menuLookY(){
 }
 function updateCamera(dt){
   let tp, tl; const hx = hero.g.position.x * Math.cos(scene.rotation.y) + hero.g.position.z * Math.sin(scene.rotation.y);
-  if (G.mode === 'run') { tp = [hx + 1.2, 2.55, 4.5]; tl = [hx * 0.85 + 0.15, 1.45, -10]; }
+  if (G.mode === 'run') { const C = TUNE.cam; tp = [hx + C.x, C.y, C.z]; tl = [hx * 0.85 + 0.15, C.look, -10]; }
   else if (G.mode === 'boss') { const hz = hero.g.position.z, up = clamp(-hz / 8, 0, 1); tp = [hx * 0.9 + 1.1 - up * 0.6, 2.55 + up * 0.9, 4.6 + hz]; tl = [hx * 0.6 + 0.2, 3.0 + up * 0.9, -12 + hz * 0.6]; }
   else { tp = [0, 1.5, 8]; tl = [0, menuLookY(), -1]; }
-  const k = Math.min(1, dt * 3.2);
+  const k = Math.min(1, dt * (G.mode === 'run' ? TUNE.cam.follow : 3.2));
   camPos.x += (tp[0] - camPos.x) * k; camPos.y += (tp[1] - camPos.y) * k; camPos.z += (tp[2] - camPos.z) * k;
   camLook.x += (tl[0] - camLook.x) * k; camLook.y += (tl[1] - camLook.y) * k; camLook.z += (tl[2] - camLook.z) * k;
   camera.position.copy(camPos);
   if (G.shake > 0.002) { camera.position.x += (Math.random() - .5) * G.shake; camera.position.y += (Math.random() - .5) * G.shake; G.shake *= Math.exp(-dt * 9); }
   camera.lookAt(camLook);
   skyDome.position.copy(camera.position);
-  const pl = G.mode === 'run' || G.mode === 'boss', wantFov = (pl ? runFov : baseFov) + clamp(G.ws, 0, 16) * (pl ? 0.18 : 0.32); fovNow += (wantFov - fovNow) * Math.min(1, dt * 3);
+  const pl = G.mode === 'run' || G.mode === 'boss', wantFov = (pl ? runFov + (G.mode === 'run' ? TUNE.cam.fov : 0) : baseFov) + clamp(G.ws, 0, 16) * (pl ? 0.18 : 0.32); fovNow += (wantFov - fovNow) * Math.min(1, dt * 3);
   if (Math.abs(camera.fov - fovNow) > 0.02) { camera.fov = fovNow; camera.updateProjectionMatrix(); }
   camera.rotateZ(clamp((hero.g.position.x - (G.mode === 'run' || G.mode === 'boss' ? LANES[G.lane] : 0)) * 0.012, -0.03, 0.03));
 }
 function updateHero(sdt, dt){
   const h = hero, playing = G.mode === 'run' || G.mode === 'boss';
   const tx = playing ? LANES[G.lane] : 0;
-  h.g.position.x += (tx - h.g.position.x) * Math.min(1, (playing ? sdt : dt) * 13);
+  h.g.position.x += (tx - h.g.position.x) * Math.min(1, playing ? sdt * TUNE.run.lane : dt * 13);
   if (G.heroY > 0 || G.vy > 0) { G.vy -= 34 * sdt; G.heroY += G.vy * sdt; if (G.heroY <= 0) { G.heroY = 0; G.vy = 0; } }
   if (G.wasAir && G.heroY <= 0 && playing) { h.land = 0.24; haptic(HAP.land); burst(h.g.position.x, 0.15, 0.2, 0xf3dcc0, 5, 2.5); }
   G.wasAir = G.heroY > 0;
@@ -6726,7 +6755,7 @@ function update(dt){
   let targetWS = 0;
   if (playing && G.phase !== 'intro') {
     if (G.mode === 'boss') targetWS = G.phase === 'dead' || G.phase === 'stun' ? 0 : 8.5;
-    else targetWS = G.phase === 'turn' ? 0 : G.speedNow * (G.dashT > 0 ? 1.55 : 1);
+    else targetWS = G.phase === 'turn' ? 0 : G.speedNow * TUNE.run.speed * (G.dashT > 0 ? 1.55 : 1);
   }
   G.ws += (targetWS - G.ws) * Math.min(1, dt * 2.5);
   if (playing && !G.paused) {
@@ -6741,7 +6770,7 @@ function update(dt){
   if (G.mode === 'run') updateJunction(sdt, move);
   if (A.ok) { updateScenery(move); bioUpdate(move); } else for (const o of scenery) { o.position.z += move; if (o.position.z > 16) sceneryPlaceP(o, o.position.z - 246); }
   updateClouds(dt); updateEmbers(move, dt, G.clock); updateIslands(move, G.clock); updateBalloons(move, G.clock);
-  if (palK < 1) { palK = Math.min(1, palK + dt / (G.mode === 'run' ? 3.6 : 1.6)); applyPal(); }
+  if (palK < 1) { palK = Math.min(1, palK + dt / (G.mode === 'run' ? TUNE.run.blend : 1.6)); applyPal(); }
   if (A.ok && setTo !== activeSet && (G.mode === 'run' || palK >= 0.5)) sceneryGo(setTo, SCN.front); SCN.front = null;
   if (!G.paused) {
     if (G.mode === 'run') runLogic(sdt, dt);
@@ -7043,7 +7072,7 @@ function chLocs(){ return CH_LOCS[curCh().id] || ['candy', 'twilight']; }
 function curLoc(){ const L = chLocs(); return LOCS[L[clamp(G.loc || 0, 0, L.length - 1)]]; }
 function locSet(L){ L = L || curLoc(); return SETS[L.set] ? L.set : (L.alt || L.set); }
 function inTunnel(){ return !!(G.branch && G.branch.kind === 'tunnel' && !G.branch.out); }
-function locLook(){ if (G.mode === 'boss') return ['arena', 'arena']; if (inTunnel()) return ['tunnel', 'none']; const L = curLoc(); return [L.pal, locSet(L)]; }
+function locLook(){ if (G.mode === 'boss') return ['arena', 'arena']; if (inTunnel()) return [TL('tunnel').pal || 'tunnel', 'none']; const L = curLoc(); return [TL(L.k).pal || L.pal, locSet(L)]; }
 function setLoc(instant){ const [p, s] = locLook(); if (G.shadowT > 0) setTo = s; else setPal(p, s, instant); }
 function locWorld(front){ const L = curLoc(); setBiome(L.bio || null, L.pano || null, front); }
 function stageWorld(st){ locWorld(); }
@@ -7096,13 +7125,13 @@ function scnUpd(name, move, leaving){
   const set = SETS[name]; if (!set) return true;
   if (move === 0 && !set.dirty) return false; set.dirty = false; let alive = 0;
   for (const ty of set.types) {
-    const items = ty.items;
+    const items = ty.items, tt = TS(name, ty.name), td = tt && tt.d != null ? tt.d : 1, tsc = tt && tt.s || 1, tx = tt && tt.x || 1;
     for (let k = 0; k < items.length; k++) {
       const it = items[k]; it.z += move;
       if (it.z > 16) { sceneryPlace(it, it.z - 246); if (leaving) it.gone = true; else it.hold = false; }
       if (!it.gone) alive++;
-      const hide = it.gone || it.hold || (TR.J && sceneryCut(it));
-      dummy.position.set(it.x, 0, it.z); dummy.rotation.set(0, it.ry, it.rz); dummy.scale.setScalar(hide ? 0.0001 : it.s); dummy.updateMatrix();
+      const hide = it.gone || it.hold || (TR.J && sceneryCut(it)) || (td < 1 && tHash(k) >= td);
+      dummy.position.set(it.x * tx, 0, it.z); dummy.rotation.set(0, it.ry, it.rz); dummy.scale.setScalar(hide ? 0.0001 : it.s * tsc); dummy.updateMatrix();
       for (const im of ty.ims) im.setMatrixAt(k, dummy.matrix);
     }
     for (const im of ty.ims) im.instanceMatrix.needsUpdate = true;
@@ -7142,15 +7171,15 @@ function bioPlace(b, it, z, pools, meta){
 function bioStep(b, move, leaving){
   const mesh = BIOV.meshes[b], B = BIOV.items[b]; if (!mesh || !B) return true;
   mesh.visible = G.mode === 'run' && bioTex(b).wrOk === true;
-  const pos = mesh.geometry.attributes.position.array; let uvd = false, alive = 0;
+  const pos = mesh.geometry.attributes.position.array, tl = TL(), bd = tl.bioD == null ? 1 : tl.bioD, bx = tl.bioX || 1; let uvd = false, alive = 0;
   for (let i = 0; i < B.items.length; i++) {
     const it = B.items[i]; it.z += move;
     if (it.z > 16) { bioPlace(b, it, it.z - 246, B.pools, B.meta); uvd = true; if (leaving) it.gone = true; else it.hold = false; }
     if (!it.gone) alive++;
-    const cut = !it.s || it.gone || it.hold || (TR.J && sceneryCut(it)) || (it.z > -4 && Math.abs(it.x) < 5.2);
+    const X = it.x * bx, cut = !it.s || it.gone || it.hold || (TR.J && sceneryCut(it)) || (it.z > -4 && Math.abs(X) < 5.2) || (bd < 1 && tHash(i) >= bd);
     const hw = cut ? 0 : it.w / 2, hh = cut ? 0 : it.h, o = i * 12, y0 = -0.06, zz = it.z;
-    pos[o] = it.x - hw; pos[o + 1] = y0; pos[o + 2] = zz; pos[o + 3] = it.x + hw; pos[o + 4] = y0; pos[o + 5] = zz;
-    pos[o + 6] = it.x + hw; pos[o + 7] = y0 + hh; pos[o + 8] = zz; pos[o + 9] = it.x - hw; pos[o + 10] = y0 + hh; pos[o + 11] = zz;
+    pos[o] = X - hw; pos[o + 1] = y0; pos[o + 2] = zz; pos[o + 3] = X + hw; pos[o + 4] = y0; pos[o + 5] = zz;
+    pos[o + 6] = X + hw; pos[o + 7] = y0 + hh; pos[o + 8] = zz; pos[o + 9] = X - hw; pos[o + 10] = y0 + hh; pos[o + 11] = zz;
   }
   mesh.geometry.attributes.position.needsUpdate = true; if (uvd) bioWriteUV(b);
   const k = clamp(0.55 + hemi.intensity * 0.6, 0.8, 1.05); mesh.material.color.setRGB(k, k, k);
@@ -7227,7 +7256,7 @@ function updateSkyIslands(move, t){
   if (SKYI.pend && palK >= 0.999 && islMat(SKYI.pend).map.wrOk && SKYI.list.every(it => (it.c || 0) >= 0.99 && it.k <= 0.01)) {
     SKYI.set = SKYI.pend; SKYI.pend = null; SKYI.list.forEach(it => { islPick(it); it.st = 'grow'; });
   }
-  const ready = islMat(SKYI.set).map.wrOk, vis = !inTunnel() && G.mode !== 'boss' || G.mode === 'boss';
+  const ready = islMat(SKYI.set).map.wrOk, vis = (!inTunnel() || G.mode === 'boss') && TL().isl !== 0;
   for (const it of SKYI.list) {
     islCloud(it);
     it.z += move * 0.06; if (it.z > -76) { it.z -= 128; it.x = (Math.random() < 0.5 ? -1 : 1) * (24 + Math.random() * 44); it.y = 15 + Math.random() * 20; if (!SKYI.pend) { islPick(it); it.k = 0; it.st = 'grow'; } }
@@ -7239,7 +7268,7 @@ function updateSkyIslands(move, t){
     it.m.scale.set(sc * it.a * (it.flip ? -1 : 1), sc, 1);
     it.m.material.color.copy(scene.fog.color).lerp(_isw.setRGB(1, 1, 1), 0.78);
     const cm = it.cm, cs = it.s * (0.75 + 0.35 * it.c) * 1.25;
-    cm.visible = it.c > 0.01 && !inTunnel(); cm.material.opacity = Math.min(1, it.c * 1.15) * 0.95;
+    cm.visible = vis && it.c > 0.01 && !inTunnel(); cm.material.opacity = Math.min(1, it.c * 1.15) * 0.95;
     if (cm.visible) { cm.position.set(it.x, it.y + bob - it.s * 0.08, it.z + 0.5); cm.quaternion.copy(camera.quaternion); cm.scale.set(cs * 1.55, cs, 1); cm.material.color.copy(scene.fog.color).lerp(_isw.setRGB(1, 1, 1), 0.86); }
   }
 }
@@ -7247,7 +7276,7 @@ function updateSkyIslands(move, t){
 /* ---------------- the fork: longer roads with decor, no corner at the end of a branch ---------------- */
 function makeJunction(kind, tunnelSide, cornerSide){
   const g = makeJunction0(kind, tunnelSide, cornerSide);
-  try { if (kind === 'fork') forkDecor(g, g.userData.sides); } catch(e) { console.error('forkDecor', e); }
+  try { if (kind === 'fork' && TUNE.fork.decor) forkDecor(g, g.userData.sides); } catch(e) { console.error('forkDecor', e); }
   return g;
 }
 /* make the branch road's stones continue the main road's stones exactly where it ends */
@@ -7279,7 +7308,7 @@ function finishTurn(){
   const set = SETS[activeSet]; if (set) set.dirty = true;
 }
 function enterBranch(kind, side){
-  const rem = Math.max(0, G.queue.length - G.qIndex), base = kind === 'tunnel' ? 26 : 30;
+  const rem = Math.max(0, G.queue.length - G.qIndex), base = kind === 'tunnel' ? TUNE.tun.len : TUNE.fork.len;
   const dur = clamp((rem - 1.5) * 8, 16, base);
   G.branch = {kind, side, until:G.time + dur};
   spawnReveal(kind);
@@ -7329,12 +7358,152 @@ function exitBranch(){
 function junctionExtras(sch, t0){
   if (G.mode !== 'run' || TR.J) return false;
   if (G.branch) { if (branchEnding() && G.branch.kind !== 'tunnel') exitBranch(); return false; }
-  if (opt('fork') && TR.kit && !G.junctionDone && !G.loc && G.queue && (G.stage >= 3 || G.qIndex >= Math.ceil(G.queue.length * 0.5)) && G.queue.length - G.qIndex >= 3) {
+  if (opt('fork') && TR.kit && !G.junctionDone && !G.loc && G.queue && (G.stage >= TUNE.fork.stage || G.qIndex >= Math.ceil(G.queue.length * 0.5)) && G.queue.length - G.qIndex >= 3) {
     G.junctionDone = true; sch.splice(1); sch.push({at:t0 + 0.2, fn:() => spawnJunction('fork')}); sch.extra = 1e6; return true;
   }
   return false;
 }
 function bioTex(b){ return BIOV.tex[b] || (BIOV.tex[b] = assetTex('bio_' + b + '.webp?v=182')); }
+/* ================= v18 TUNING: every look-and-feel number in one place (TUNE) =================
+   The normal game reads TUNE with Anna's approved values (TUNE_BAKED).
+   The beta build (/beta/) adds a "Конструктор" panel: change anything live, then "Экспорт" gives a short code to send back. */
+const TUNE_DEF = {
+  run:{speed:1, qtime:1, obst:1, spawn:50, blend:3.6, jump:10.5, lane:13},
+  cam:{y:2.55, z:4.5, x:1.2, look:1.45, fov:0, curve:1, follow:3.2},
+  tun:{light:1, swarm:16, bats:0.8, scare:1, len:26},
+  fork:{stage:3, len:30, wall:1, decor:1},
+  loc:{}, set:{}
+};
+const TUNE_BAKED = {};
+function tuneMerge(a, b){ const o = JSON.parse(JSON.stringify(a || {})); for (const k in (b || {})) { o[k] = (b[k] && typeof b[k] === 'object' && !Array.isArray(b[k])) ? tuneMerge(o[k] || {}, b[k]) : b[k]; } return o; }
+let TUNE = tuneMerge(TUNE_DEF, TUNE_BAKED);
+if (BETA) { try { const s = JSON.parse(localStorage.getItem('wr_tune') || 'null'); if (s) TUNE = tuneMerge(TUNE, s); } catch(e) {} }
+(function(){ for (const k in LOCS) LOCS[k].k = k; })();
+function locKey(){ if (G.mode !== 'run') return null; if (inTunnel()) return 'tunnel'; const L = curLoc(); return L && L.k; }
+function TL(k){ k = k || locKey(); return (k && TUNE.loc[k]) || {}; }
+function TS(set, name){ const s = TUNE.set[set]; return (s && s[name]) || null; }
+const tHash = k => (k * 0.6180339887) % 1;
+const TUNE_NAMES = {"tw_tree": "Дерево-рожица", "tw_spiral": "Спиральный росток", "tw_roses": "Розы", "tw_sign": "Указатель", "tw_lamp": "Фонарь", "tw_mush": "Гриб", "tw_gate": "Руина-арка", "tw_pot": "Котёл", "tw_curl": "Завиток", "tw_vine": "Лоза", "tw_crystal": "Кристалл", "tw_ruin": "Руина", "tw_cage": "Клетка", "tw_banner": "Знамя", "tw_sprout": "Росток", "pu_fence": "Фиолетовый заборчик", "pu_tentacle": "Щупальце", "pu_hand": "Рука из земли", "pu_skullrock": "Камень-череп", "pu_spikes": "Шипы", "pu_sign": "Табличка", "pu_horns": "Рогатый череп", "pu_eyestone": "Камень с глазом", "pu_mush": "Розовый гриб", "pu_arch": "Арка", "pu_stalk": "Глаз на стебле", "pu_crystal": "Кристалл", "fence": "Забор", "archway": "Арка над дорогой", "lollipop": "Леденец", "candyCane": "Карамельная трость", "gumdrop": "Мармелад", "donut": "Пончик", "mushHouse": "Грибной домик", "pinkTree": "Розовое дерево", "bush": "Куст", "crystalPink": "Розовый кристалл", "crystalIce": "Ледяной кристалл", "smallMush": "Грибочки", "rockCliff": "Скала", "darkPine": "Тёмная ель", "grassTuft": "Трава", "tarPond": "Лужа", "deadTree": "Сухое дерево", "reeds": "Камыш", "dripTree": "Дерево-капля", "mushTree": "Гриб-дерево", "bigTree": "Большое дерево", "hollowLog": "Бревно", "critter": "Зверёк", "eyeRock": "Камень с глазами", "skullRock": "Скала-череп", "banner": "Флаг", "tower": "Башня", "obelisk": "Обелиск", "iceSpires": "Ледяные шпили", "snowPine": "Снежная ель", "snowRock": "Снежный камень", "snowman": "Снеговик", "igloo": "Иглу", "crate": "Ящик", "lamp": "Фонарь", "signpost": "Указатель", "barrel": "Бочка"};
+
+/* ---------------- beta panel ---------------- */
+const TP = {el:null, tab:'run', open:false};
+const TP_TABS = [['run', 'Забег'], ['cam', 'Камера'], ['place', 'Место'], ['decor', 'Декор'], ['tun', 'Туннель'], ['fork', 'Развилка'], ['skin', 'Скины']];
+const TP_RUN = [['speed', 'Скорость бега', 0.5, 1.8, 0.05], ['qtime', 'Время на ответ', 0.5, 2, 0.05], ['obst', 'Частота препятствий', 0, 2, 0.05], ['spawn', 'Дальность появления', 30, 90, 1], ['blend', 'Плавность смены места, с', 0.5, 10, 0.1], ['jump', 'Высота прыжка', 7, 15, 0.1], ['lane', 'Скорость смены полосы', 5, 30, 0.5]];
+const TP_CAM = [['y', 'Высота камеры', 1.2, 6, 0.05], ['z', 'Отдаление', 2.5, 10, 0.05], ['x', 'Сдвиг вбок', -1.5, 3, 0.05], ['look', 'Куда смотрит (высота)', 0, 4, 0.05], ['fov', 'Угол обзора +/−', -20, 20, 1], ['curve', 'Изгиб мира', 0, 2.5, 0.05], ['follow', 'Плавность камеры', 1, 10, 0.1]];
+const TP_TUN = [['light', 'Свет факелов', 0, 3, 0.05], ['swarm', 'Существ максимум', 0, 30, 1], ['bats', 'Летучие мыши', 0, 1, 0.05], ['len', 'Длина туннеля, с', 12, 45, 1]];
+const TP_FORK = [['stage', 'Развилка на уровне', 1, 6, 1], ['len', 'Длина длинного пути, с', 12, 45, 1]];
+function tpSlider(path, label, mn, mx, st, val, def){
+  return '<label class="tp-row"><span>' + esc(label) + ' <b data-v="' + path + '">' + (+val).toFixed(st < 1 ? 2 : 0) + '</b>' + (Math.abs(val - def) > 1e-9 ? ' <i data-reset="' + path + '" title="сбросить">↺</i>' : '') + '</span><input type="range" min="' + mn + '" max="' + mx + '" step="' + st + '" value="' + val + '" data-p="' + path + '" data-def="' + def + '"></label>';
+}
+function tpCheck(path, label, val){ return '<label class="tp-chk"><input type="checkbox" data-c="' + path + '"' + (val ? ' checked' : '') + '> ' + esc(label) + '</label>'; }
+function tpGet(path){ return path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), TUNE); }
+function tpSet(path, v){
+  const ks = path.split('.'); let o = TUNE; for (let i = 0; i < ks.length - 1; i++) { o[ks[i]] = o[ks[i]] && typeof o[ks[i]] === 'object' ? o[ks[i]] : {}; o = o[ks[i]]; }
+  o[ks[ks.length - 1]] = v; tuneSave(); tuneApply();
+}
+function tpDefOf(path){ const v = path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), TUNE_DEF); return v; }
+function tuneSave(){ try { localStorage.setItem('wr_tune', JSON.stringify(tuneDiff())); } catch(e) {} }
+/* only what differs from the defaults goes into the code Anna sends */
+function tuneDiff(){
+  const out = {};
+  const walk = (a, d, o) => { for (const k in a) { const v = a[k], dv = d ? d[k] : undefined; if (v == null || v === '') continue; if (v && typeof v === 'object') { const sub = {}; walk(v, dv || {}, sub); if (Object.keys(sub).length) o[k] = sub; } else if (dv === undefined || Math.abs(v - dv) > 1e-9 || typeof v !== 'number' && v !== dv) o[k] = typeof v === 'number' ? Math.round(v * 1000) / 1000 : v; } };
+  walk(TUNE, TUNE_DEF, out); return out;
+}
+function tuneApply(){
+  SPAWN_Z = -TUNE.run.spawn;
+  if (palTo) { palK = Math.min(palK, 0.999); applyPal(); }
+  const s = SETS[activeSet]; if (s) s.dirty = true;
+  if (SCN.leave && SETS[SCN.leave]) SETS[SCN.leave].dirty = true;
+}
+function tpPlaceRows(){
+  const k = locKey() || (chLocs()[0]), L = LOCS[k] || {name:'Туннель'}, t = TL(k), pals = Object.keys(PALS).filter(p => p !== 'shadow');
+  const def = {fogN:1, fogF:1, bright:1, bioD:1, bioX:1, isl:1};
+  let h = '<div class="tp-h">Место сейчас: <b>' + esc(k === 'tunnel' ? 'Туннель' : L.name) + '</b></div>';
+  h += '<label class="tp-row"><span>Палитра (небо, туман, свет)</span><select data-s="loc.' + k + '.pal"><option value="">— как задумано —</option>' + pals.map(p => '<option' + (t.pal === p ? ' selected' : '') + '>' + p + '</option>').join('') + '</select></label>';
+  [['fogN', 'Туман начинается (ближе ↔ дальше)', 0.3, 2.5, 0.05], ['fogF', 'Туман полностью (ближе ↔ дальше)', 0.4, 2.5, 0.05], ['bright', 'Яркость света', 0.3, 2, 0.05], ['bioD', 'Рисованный фон: сколько', 0, 1, 0.05], ['bioX', 'Рисованный фон: насколько далеко', 0.5, 2, 0.05]].forEach(([p, n, a, b, s]) => { h += tpSlider('loc.' + k + '.' + p, n, a, b, s, t[p] == null ? def[p] : t[p], def[p]); });
+  h += tpCheck('loc.' + k + '.isl', 'Парящие острова в небе', t.isl == null ? 1 : t.isl);
+  return h;
+}
+function tpDecorRows(){
+  const name = activeSet, set = SETS[name];
+  if (!set) return '<div class="tp-h">Здесь нет 3D-декора (туннель)</div>';
+  let h = '<div class="tp-h">Набор декора: <b>' + esc(name) + '</b> · для каждого предмета: сколько · размер · отступ от дороги</div>';
+  const seen = {};
+  set.types.forEach(ty => {
+    const n = ty.name || '?'; if (seen[n]) return; seen[n] = 1; const t = TS(name, n) || {};
+    h += '<div class="tp-type"><div class="tp-tn">' + esc(TUNE_NAMES[n] || n) + ' <small>' + esc(n) + '</small></div>' + tpSlider('set.' + name + '.' + n + '.d', 'сколько', 0, 1, 0.05, t.d == null ? 1 : t.d, 1) + tpSlider('set.' + name + '.' + n + '.s', 'размер', 0.3, 2.5, 0.05, t.s == null ? 1 : t.s, 1) + tpSlider('set.' + name + '.' + n + '.x', 'отступ', 0.5, 2.5, 0.05, t.x == null ? 1 : t.x, 1) + '</div>';
+  });
+  return h;
+}
+function tpRender(){
+  if (!TP.el) return;
+  const tab = TP.tab; let h = '';
+  if (tab === 'run') TP_RUN.forEach(r => { h += tpSlider('run.' + r[0], r[1], r[2], r[3], r[4], TUNE.run[r[0]], TUNE_DEF.run[r[0]]); });
+  else if (tab === 'cam') TP_CAM.forEach(r => { h += tpSlider('cam.' + r[0], r[1], r[2], r[3], r[4], TUNE.cam[r[0]], TUNE_DEF.cam[r[0]]); });
+  else if (tab === 'place') h = tpPlaceRows();
+  else if (tab === 'decor') h = tpDecorRows();
+  else if (tab === 'tun') { TP_TUN.forEach(r => { h += tpSlider('tun.' + r[0], r[1], r[2], r[3], r[4], TUNE.tun[r[0]], TUNE_DEF.tun[r[0]]); }); h += tpCheck('tun.scare', 'Вампир выскакивает из темноты', TUNE.tun.scare); h += '<div class="tp-h">Темнота туннеля — вкладка «Место», когда ты внутри туннеля</div>'; }
+  else if (tab === 'fork') { TP_FORK.forEach(r => { h += tpSlider('fork.' + r[0], r[1], r[2], r[3], r[4], TUNE.fork[r[0]], TUNE_DEF.fork[r[0]]); }); h += tpCheck('fork.wall', 'Граффити-стена', TUNE.fork.wall); h += tpCheck('fork.decor', 'Предметы вдоль дорог развилки', TUNE.fork.decor); }
+  else if (tab === 'skin') h = '<div class="tp-h">Примерить на героине (без покупки, только в бете)</div><div class="tp-skins">' + SKINS.map(s => '<button data-skin18="' + s.id + '"' + (S.equip.skin === s.id ? ' class="on"' : '') + '>' + esc(s.name) + '</button>').join('') + '</div>';
+  TP.el.querySelector('.tp-body').innerHTML = h;
+  TP.el.querySelectorAll('.tp-tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
+  TP.el.querySelector('[data-a="pause"]').textContent = G.paused ? '▶ Пуск' : '⏸ Пауза';
+}
+function tpExport(){
+  const code = JSON.stringify(tuneDiff());
+  const box = TP.el.querySelector('.tp-out'); box.hidden = false; box.querySelector('textarea').value = code === '{}' ? 'Ничего не изменено' : 'WR-TUNE ' + code;
+  box.querySelector('textarea').select();
+  try { navigator.clipboard.writeText('WR-TUNE ' + code).then(() => toast('Скопировано', 'Вставь код в чат с Claude', 'good')).catch(() => toast('Код ниже', 'Выдели и скопируй его вручную', 'good')); } catch(e) {}
+}
+function tpImport(txt){
+  try { const j = JSON.parse(String(txt).replace(/^\s*WR-TUNE\s*/, '')); TUNE = tuneMerge(TUNE_DEF, j); tuneSave(); tuneApply(); tpRender(); toast('Настройки загружены', '', 'good'); } catch(e) { toast('Не получилось прочитать код', '', 'bad'); }
+}
+function tpJump(where){
+  if (G.mode !== 'run') { toast('Начни забег', 'Перемещение работает во время забега', 'bad'); return; }
+  if (where === 'fork') { if (!TR.J && !G.branch) { G.junctionDone = true; G.sched = []; G.sprintEnd = G.time + 99; spawnJunction('fork'); } return; }
+  if (where === 'tunnel') { if (!G.branch && !TR.J) { G.junctionDone = true; enterBranch('tunnel', 1); } return; }
+  if (G.branch) exitBranch();
+  G.loc = where === 'a' ? 0 : chLocs().length - 1; setLoc(true); showSet(locSet()); locWorld(); locBanner();
+}
+function buildTunePanel(){
+  if (TP.el || !BETA) return;
+  const fab = document.createElement('button'); fab.id = 'tuneFab'; fab.textContent = '⚙'; fab.setAttribute('aria-label', 'Конструктор'); document.getElementById('app').appendChild(fab);
+  const el = document.createElement('div'); el.id = 'tunePanel'; el.hidden = true;
+  el.innerHTML = '<div class="tp-top"><b>Конструктор</b><button data-a="pause">⏸ Пауза</button><button data-a="export">Экспорт</button><button data-a="import">Импорт</button><button data-a="close">✕</button></div>' +
+    '<div class="tp-go">Перейти: <button data-go="a">Место 1</button><button data-go="fork">Развилка</button><button data-go="tunnel">Туннель</button><button data-go="b">Место 2</button></div>' +
+    '<div class="tp-tabs">' + TP_TABS.map(t => '<button data-tab="' + t[0] + '">' + t[1] + '</button>').join('') + '</div><div class="tp-body"></div>' +
+    '<div class="tp-out" hidden><textarea rows="3"></textarea><div class="tp-row2"><button data-a="copy">Скопировать</button><button data-a="load">Загрузить этот код</button><button data-a="resetall">Сбросить всё</button></div></div>';
+  document.getElementById('app').appendChild(el); TP.el = el;
+  ['pointerdown', 'pointerup', 'touchstart', 'click'].forEach(ev => el.addEventListener(ev, e => e.stopPropagation()));
+  fab.addEventListener('pointerdown', e => e.stopPropagation());
+  fab.addEventListener('click', e => { e.stopPropagation(); TP.open = !TP.open; el.hidden = !TP.open; if (TP.open) tpRender(); });
+  el.addEventListener('input', e => {
+    const r = e.target; if (r.dataset.p) { const v = parseFloat(r.value); tpSet(r.dataset.p, v); const b = el.querySelector('[data-v="' + r.dataset.p + '"]'); if (b) b.textContent = v.toFixed(parseFloat(r.step) < 1 ? 2 : 0); }
+  });
+  el.addEventListener('change', e => {
+    const r = e.target;
+    if (r.dataset.c) tpSet(r.dataset.c, r.checked ? 1 : 0);
+    if (r.dataset.s) { tpSet(r.dataset.s, r.value || null); if (G.mode === 'run') setLoc(); }
+    if (r.dataset.p) tpRender();
+  });
+  el.addEventListener('click', e => {
+    const b = e.target.closest('button, i[data-reset]'); if (!b) return;
+    if (b.dataset.tab) { TP.tab = b.dataset.tab; tpRender(); }
+    else if (b.dataset.reset) { tpSet(b.dataset.reset, tpDefOf(b.dataset.reset) == null ? 1 : tpDefOf(b.dataset.reset)); tpRender(); }
+    else if (b.dataset.go) tpJump(b.dataset.go);
+    else if (b.dataset.skin18) { S.equip.skin = b.dataset.skin18; try { applySkins(); } catch(err) {} tpRender(); }
+    else if (b.dataset.a === 'pause') { if (G.mode === 'run' || G.mode === 'boss') { G.paused = !G.paused; if (!G.paused) showScreen(null); } tpRender(); }
+    else if (b.dataset.a === 'close') { TP.open = false; el.hidden = true; }
+    else if (b.dataset.a === 'export') tpExport();
+    else if (b.dataset.a === 'import') { const box = el.querySelector('.tp-out'); box.hidden = false; box.querySelector('textarea').value = ''; box.querySelector('textarea').focus(); }
+    else if (b.dataset.a === 'copy') { const t = el.querySelector('.tp-out textarea'); t.select(); try { document.execCommand('copy'); } catch(err) {} try { navigator.clipboard.writeText(t.value).catch(() => {}); } catch(err) {} toast('Скопировано', '', 'good'); }
+    else if (b.dataset.a === 'load') tpImport(el.querySelector('.tp-out textarea').value);
+    else if (b.dataset.a === 'resetall') { TUNE = tuneMerge(TUNE_DEF, TUNE_BAKED); tuneSave(); tuneApply(); tpRender(); }
+  });
+  /* the Место / Декор tabs follow the place you are in */
+  setInterval(() => { if (TP.open && (TP.tab === 'place' || TP.tab === 'decor')) { const key = locKey() + '|' + activeSet; if (key !== TP.lastKey) { TP.lastKey = key; tpRender(); } } }, 700);
+  const tag = document.createElement('div'); tag.id = 'betaTag'; tag.textContent = 'БЕТА'; document.getElementById('app').appendChild(tag);
+}
 /* ================= v18 TUNNEL: darker, torch-lit, cobwebs and cave props, bats all the way,
    a vampire that swoops out of the dark once, and black blob creatures that crawl out of the walls
    and pile up behind the heroine, chasing her until the light at the exit scares them off ================= */
@@ -7430,13 +7599,13 @@ function tunnelFxFrame(move, segs){
     const cand = [];
     for (let i = 0; i < SEG_N; i++) { const s = TR.segs[i]; if (s.on && s.z < 1 && s.z > -18) cand.push({z:s.z, x:(i % 2 ? 1 : -1) * 4.1, i}); }
     cand.sort((a, b) => b.z - a.z);
-    for (; n < 2 && n < cand.length; n++) { const c = cand[n], l = TUN.lights[n]; l.position.set(c.x, 2.9, c.z); l.intensity = 1.35 + Math.sin(G.clock * 11 + c.i) * 0.18 + Math.sin(G.clock * 23 + c.i * 2) * 0.1; }
+    for (; n < 2 && n < cand.length; n++) { const c = cand[n], l = TUN.lights[n]; l.position.set(c.x, 2.9, c.z); l.intensity = (1.35 + Math.sin(G.clock * 11 + c.i) * 0.18 + Math.sin(G.clock * 23 + c.i * 2) * 0.1) * TUNE.tun.light; }
   }
   for (let k = n; k < 2; k++) TUN.lights[k].intensity = Math.max(0, TUN.lights[k].intensity - 0.08);
   /* creatures out of the walls */
   if (TUN.on && inTunnel() && G.mode === 'run' && !(G.branch && G.branch.ending) && KIT18.ok) {
-    TUN.spawnT -= dt; if (TUN.spawnT <= 0) { TUN.spawnT = 0.9 + Math.random() * 0.8; if (TUN.swarm.length < 16) swarmSpawn(); }
-    if (!TUN.scareDone && G.time > TUN.scareAt) vampScare();
+    TUN.spawnT -= dt; if (TUN.spawnT <= 0) { TUN.spawnT = 0.9 + Math.random() * 0.8; if (TUN.swarm.length < TUNE.tun.swarm) swarmSpawn(); }
+    if (!TUN.scareDone && G.time > TUN.scareAt && TUNE.tun.scare) vampScare();
   }
   swarmFrame(dt, move);
 }
@@ -7588,7 +7757,7 @@ function sprintExtras(sch, st, first, t0){
   if (first) return;
   if (junctionExtras(sch, t0)) return;
   if (G.branch) {
-    if (G.branch.kind === 'tunnel' && opt('bats') && !batsActive() && !G.branch.ending && Math.random() < 0.8) sch.push({at:t0 + 0.3, fn:() => { if (!batsActive()) spawnObstacle('bats', ri(3), -30); }});
+    if (G.branch.kind === 'tunnel' && opt('bats') && !batsActive() && !G.branch.ending && Math.random() < TUNE.tun.bats) sch.push({at:t0 + 0.3, fn:() => { if (!batsActive()) spawnObstacle('bats', ri(3), -30); }});
     if (A.ok && opt('cat') && CAT.g && CAT.mode === 'off' && Math.random() < 0.18) sch.push({at:t0 + 0.35, fn:catSpitEvent});
     return;
   }
@@ -7619,6 +7788,7 @@ function bindV18(){
   PAL_COLS.forEach(f => { PALS.tunnel.c[f] = new T.Color(PALS.tunnel[f]); }); PALS.tunnel.skyC = PALS.tunnel.sky.map(s => new T.Color(s));
   OUTLINE_I.visible = false;
   setTimeout(() => { loadKit18(); }, 1800);
+  if (BETA) buildTunePanel();
   document.addEventListener('click', e => { if (!e.target.closest || !e.target.closest('#btnStart') || $('#btnStart').disabled) return; const p = plan(); if (!p.practice) return; e.stopPropagation(); e.preventDefault(); audio(); startPractice(p); }, true);
 }
 /* ================= v18 MUSIC: an original warm fingerstyle guitar tune; your own track never gets muffled mid-run ================= */
@@ -7721,7 +7891,7 @@ function setProg(p){ const v = Math.round(clamp(p, 0, 1) * 100); loadTxt.textCon
 function endBoot(){
   if (A.ok) { try { scene.remove(hero.g); hero = buildHeroGLB(); addDance(hero); addSpin(hero); addSlide(hero); hero.g.rotation.y = Math.PI; scene.add(hero.g); buildSceneryKit(); buildVamp(); buildCat(); buildGhost(); applySkins(); buildTurnKit(); buildTunnelDeco(); } catch (e) { console.error(e); A.ok = false; buildSceneryProc(); } }
   else buildSceneryProc();
-  setPal('dusk', 'day', true); prewarm(); setTimeout(renderMusic, 400); window.__bootDone = true; if (TG.ok) tgCloudInit(); else cloudInit(); if (G.mode === 'home') renderHome(); loadEl.classList.add('out'); setTimeout(() => { loadEl.hidden = true; }, 600);
+  setPal('dusk', 'day', true); prewarm(); setTimeout(renderMusic, 400); window.__bootDone = true; if (BETA) {} else if (TG.ok) tgCloudInit(); else cloudInit(); if (G.mode === 'home') renderHome(); loadEl.classList.add('out'); setTimeout(() => { loadEl.hidden = true; }, 600);
 }
 if (/debug/.test(location.search)) window.__WR = {offlineRender, foldLoop, SONGS, MUS_SR, LAYER_MIX, speak, voiceFetch, TR, V, SETS, SKYI, BIOV2:BIOV, get palK(){ return palK; }, get activeSet(){ return activeSet; }, inTunnel, KIT18, TUN, SCN, LOCS, curLoc, advanceLoc, loadKit18, swarmSpawn, vampScare, sceneryGo, VOICE, TRY, BIOV, setBiome, lvProgress, lvAfterRun, chLvl, applyChapterStages, prefetchWorld, startBossLoad, ensureDanceBoss, DW, giveRelic, showRelic, COLL, hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
 bindMeta(); bindV12(); bindV17(); bindV18(); goHome();
