@@ -9,8 +9,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Word Rush">
-<link rel="icon" type="image/png" href="icon.png?v=17">
-<link rel="apple-touch-icon" href="apple-touch-icon.png?v=17">
+<link rel="icon" type="image/png" href="icon.png?v=18">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=18">
 <style>html,body{margin:0;padding:0;height:100%;background:#1e1838}*,*::before,*::after{box-sizing:border-box}</style>
 <script>(function(){var s=document.createElement('script');s.src='https://telegram.org/js/telegram-web-app.js';s.async=true;s.onload=function(){window.dispatchEvent(new Event('tg-ready'))};document.head.appendChild(s);})();</script>
 <title>Word Rush</title>
@@ -621,6 +621,13 @@ label.btn{cursor:pointer}
 .mz-you{font:700 12.5px/1.35 var(--body);color:#8a2a3a}
 .mz-you s{color:#c0304a;text-decoration-thickness:2px}
 
+/* v18: rescue shield on the right, shadow by a tap on the left */
+.sword-btn.guard{background:conic-gradient(#5fd6ff calc(var(--p,0) * 1turn),rgba(255,248,228,.8) 0)}
+.sword-btn.guard i{background:#18284a}
+.sword-btn.guard.ready{background:#5fd6ff;animation:guardPulse 1.4s ease-in-out infinite}
+@keyframes guardPulse{50%{box-shadow:0 3px 0 var(--lineS),0 0 0 7px rgba(95,214,255,.35)}}
+#btnShadow.ready::after{content:'TAP';background:none;width:auto;height:auto;top:-24px;font:900 12px/1 var(--display);color:#fff;-webkit-text-stroke:3px #1e1838;paint-order:stroke fill;letter-spacing:.06em}
+
 #perf{position:absolute;left:8px;right:8px;bottom:92px;z-index:9;font:700 10.5px/1.35 ui-monospace,Menlo,monospace;color:#fff;background:rgba(20,10,40,.8);border:2px solid rgba(255,255,255,.25);border-radius:10px;padding:6px 8px;pointer-events:none;white-space:pre-wrap;max-height:30vh;overflow:hidden}
 #perf b{color:#ffc93a}
 @media (prefers-reduced-motion:reduce){#qcard,#toast,.slot.enter,#banner.show .bn-in,.pill.bump,#lines{animation:none}.slot,.btn{transition:none}}
@@ -663,7 +670,7 @@ label.btn{cursor:pointer}
   <div id="vdown" hidden><svg width="30" height="34" viewBox="0 0 30 34" aria-hidden="true"><path d="M15 3v24M5 18l10 11 10-11" fill="none" stroke="#c77dff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
   <div id="catRing" hidden><svg viewBox="0 0 80 80" aria-hidden="true"><circle class="cr-bg" cx="40" cy="40" r="32"/><circle id="crFill" class="cr-fg" cx="40" cy="40" r="32"/></svg><b>TAP!</b></div>
   <div id="stunUI" hidden><b>ТАПАЙ ПО БОССУ!</b><div class="stb"><i id="stunFill"></i></div><span id="stunHits">ударов: 0</span></div>
-  <button id="btnSword" class="sword-btn" hidden aria-label="Удар мечом"><i><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M24.5 3.5 27.6 4.4 28.5 7.5 13.6 22.4 9.6 18.4z" fill="#d8ffcc" stroke="#9dff6a" stroke-width="1.6" stroke-linejoin="round"/><path d="M7.2 16.2 15.8 24.8M9.8 22.2 5.2 26.8" stroke="#ffd23a" stroke-width="3" stroke-linecap="round"/><circle cx="4.6" cy="27.4" r="2.1" fill="#ffd23a"/></svg></i></button>
+  <button id="btnSword" class="sword-btn guard" hidden aria-label="Щит-спасатель"><i><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.5 26.5 7.2v8.3c0 6.4-4.4 10.9-10.5 13-6.1-2.1-10.5-6.6-10.5-13V7.2z" fill="#d6f4ff" stroke="#5fd6ff" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 8.2v16.2M10.2 13.8h11.6" stroke="#5fd6ff" stroke-width="2.4" stroke-linecap="round"/></svg></i></button>
   <div id="banner" hidden><div class="bn-in"><span class="bn-k" id="bnK"></span><b id="bnT"></b><span class="bn-s" id="bnS"></span></div></div>
   <div id="flyLayer"></div>
   <svg id="trail" aria-hidden="true"><polyline class="tw" points=""/><polyline class="tc" points=""/></svg>
@@ -1135,7 +1142,7 @@ const SHOP = {
   up:[
     {id:'magnet', name:'Магнит дольше', desc:'+3 с к магниту за уровень', prices:[300, 650, 1100]},
     {id:'shield', name:'Щит дольше', desc:'+3 с к щиту за уровень', prices:[300, 650, 1100]},
-    {id:'sword', name:'Быстрый меч', desc:'Меч заряжается быстрее', prices:[350, 750, 1200]},
+    {id:'sword', name:'Быстрый щит', desc:'Щит-спасатель заряжается быстрее', prices:[350, 750, 1200]},
     {id:'shadow', name:'Глубокая тень', desc:'+3 с в Мире теней за уровень', prices:[350, 750, 1200]}
   ],
   potion:{id:'heart', name:'Запасное сердце', desc:'Спасает один раз, когда сердца закончились', price:150}
@@ -1147,7 +1154,7 @@ const QUEST_POOL = [
   {id:'level', t:'Дойди до уровня {n}', n:[3, 5, 7], r:[40, 70, 100]},
   {id:'candy', t:'Собери {n} конфет за забеги', n:[80, 150, 250], r:[40, 60, 90]},
   {id:'bats', t:'Прогони {n} стаи летучих мышей', n:[2, 3, 5], r:[40, 60, 90]},
-  {id:'sword', t:'Ударь мечом {n} раза', n:[2, 3, 4], r:[40, 50, 70]},
+  {id:'sword', t:'Проскользни под барьером {n} раза', n:[2, 3, 4], r:[40, 50, 70]},
   {id:'shadow', t:'Обгони свою тень {n} раз', n:[3, 5, 8], r:[50, 70, 100]},
   {id:'combo', t:'Сделай комбо ×{n}', n:[5, 7, 10], r:[40, 60, 90]},
   {id:'build', t:'Собери из букв {n} слова', n:[2, 3, 5], r:[50, 70, 100]},
@@ -1636,7 +1643,7 @@ function buildQBase(item){
   let prompt, sub, opts, kind, chip;
   if (type === 'en2ru') { kind = 'wolf'; chip = 'Тёмный волк · перевод'; prompt = w.en; sub = 'Выбери перевод'; opts = [w.ru].concat(pickDistractors(w, 2, 'ru').map(d => d.ru)); }
   else if (type === 'ru2en') { kind = 'wolf'; chip = 'Тёмный волк · слово'; prompt = w.ru; sub = 'Выбери английское слово'; opts = [w.en].concat(pickDistractors(w, 2, 'en').map(d => d.en)); }
-  else if (type === 'gap') { kind = 'fire'; chip = 'Призрак · контекст'; prompt = w.ex; sub = 'Какое слово пропущено?'; opts = [w.en].concat(pickDistractors(w, 2, 'en').map(d => d.en)); }
+  else if (type === 'gap') { kind = 'fire'; chip = 'Нежить · контекст'; prompt = w.ex; sub = 'Какое слово пропущено?'; opts = [w.en].concat(pickDistractors(w, 2, 'en').map(d => d.en)); }
   else { kind = 'penguin'; chip = 'Нежить-эхо · написание'; prompt = w.ru; sub = 'Как пишется это слово?'; opts = [w.en].concat(misspellings(w.en, 2)); }
   while (opts.length < 3) opts.push(pickDistractors(w, 3, 'en')[opts.length].en);
   const order = shuffle([0,1,2]);
@@ -1787,7 +1794,7 @@ const BOSS_SONG = {
 };
 function musInstruments(ctx, out, noise){
   const env = (g, t, a, peak, d, end) => { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + a + d); };
-  return Object.assign(musExtra(ctx, out, noise), musExtra2(ctx, out, noise), {
+  return Object.assign(musExtra(ctx, out, noise), musExtra2(ctx, out, noise), musExtra3(ctx, out, noise), {
     bass(t, m, dur, v){
       const o = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain();
       o.type = 'sawtooth'; o.frequency.value = mhz(m); f.type = 'lowpass'; f.Q.value = 5; f.frequency.setValueAtTime(1300, t); f.frequency.exponentialRampToValueAtTime(260, t + dur);
@@ -2455,7 +2462,7 @@ function makeSet(defs){
     const ims = [];
     prims.forEach(p => {
       const im = new T.InstancedMesh(p.geometry, p.material, n); im.frustumCulled = false; im.instanceMatrix.setUsage(T.DynamicDrawUsage); im.visible = false; scene.add(im); ims.push(im);
-      if (p.userData.outlineGeo) { const om = new T.InstancedMesh(p.userData.outlineGeo, OUTLINE_I, n); om.frustumCulled = false; om.instanceMatrix.setUsage(T.DynamicDrawUsage); om.visible = false; scene.add(om); ims.push(om); }
+      if (false && p.userData.outlineGeo) { const om = new T.InstancedMesh(p.userData.outlineGeo, OUTLINE_I, n); om.frustumCulled = false; om.instanceMatrix.setUsage(T.DynamicDrawUsage); om.visible = false; scene.add(om); ims.push(om); }
     });
     const items = [], fl = d[6] || {};
     for (let k = 0; k < n; k++) {
@@ -3430,7 +3437,7 @@ function updateParts(sdt){
 }
 
 /* ================= COINS (one instanced draw call) ================= */
-const SPAWN_Z = -32;
+const SPAWN_Z = -50;
 const easeOutBack = t => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
 const COIN_N = 96;
 const coinGeo = (() => {
@@ -3560,7 +3567,7 @@ function updateObstacles(sdt){
       const hitPump = (u.kind === 'pumpkin' || u.kind === 'yarn') && Math.abs(z) < 0.75 && Math.abs(LANES[u.lane] - hx) < 1.0 && G.heroY < 0.9;
       const hitMob = u.kind === 'mob' && mobHits(o, u, hx);
       const hitBeast = u.kind === 'beast' && Math.abs(z) < 0.7 && G.slideT <= 0.04;
-      if (u.kind === 'beast' && !u.passed && Math.abs(z) < 0.7 && G.slideT > 0.04) { u.passed = true; G.coinsRun += 2; renderCoins(); popText('Nice slide!', hx, 2.2, 0, 'gain'); }
+      if (u.kind === 'beast' && !u.passed && Math.abs(z) < 0.7 && G.slideT > 0.04) { u.passed = true; G.coinsRun += 2; renderCoins(); popText('Nice slide!', hx, 2.2, 0, 'gain'); questEvent('sword'); }
       const hitBats = u.kind === 'spikes' && Math.abs(z) < 0.7 && Math.abs(LANES[u.lane] - hx) < 1.0 && G.heroY < 1.05 && u.up > 0.5;
       if (hitLog || hitRock || hitPump || hitBats || hitBeast || hitMob) {
         if (G.shadowT > 0) { u.hit = true; }
@@ -4315,7 +4322,7 @@ function buildQ(item){
   if (item.type === 'pair') {
     const p = pairPrompt(w);
     if (p) { const opts = [w.en].concat(pickDistractors(w, 2, 'en').map(d => d.en)); const order = shuffle([0, 1, 2]);
-      return {item, w, type:'pair', kind:'fire', chip:'Призрак · пара слов', prompt:p, sub:'Какое слово подходит в пару?', options:order.map(i => opts[i]), correct:order.indexOf(0)}; }
+      return {item, w, type:'pair', kind:'fire', chip:'Нежить · пара слов', prompt:p, sub:'Какое слово подходит в пару?', options:order.map(i => opts[i]), correct:order.indexOf(0)}; }
     item = Object.assign({}, item, {type:'ru2en'});
   }
   if (item.type === 'build') {
@@ -4352,7 +4359,7 @@ function endBuild(){ if (!G.buildQ) return; G.buildQ = null; $('#buildPad').hidd
 $('#buildPad').addEventListener('click', e => { const b = e.target.closest('.bp-t'); if (b) { e.stopPropagation(); buildTap(b); } });
 
 /* ---------- enemy lines ---------- */
-function sayAt(getPos, key, ms){
+function sayAt0(getPos, key, ms){
   if (!opt('lines')) return;
   const L = pickLine(key), t = getTag(L[0], 'say'), tok = {}; t.big = true; t.sayTok = tok; t.isSay = true;
   showTag(t, out => { if (!getPos(out)) return false; out.y += 0.95; return true; }, 0);
@@ -4450,7 +4457,7 @@ function rivalResolve(q, ok){
 PALS.shadow = {sky:['#05030f','#1a0e3a','#3a1a6a','#5a2a8a','#7a4aa8'], fog:'#2a1a4a', fogN:16, fogF:72, hemiS:'#b0a0ff', hemiG:'#100820', hemiI:0.78, sun:'#c0a0ff', sunI:0.5, grass:'#5a4a8a', path:'#b0a0d8', curve:0.0009, cloud:'#4a3a7a', ember:'#d0b0ff', hillFar:'#24164a', hillNear:'#140a30', orb:'#e0d0ff', orbY:14, orbS:20};
 (p => { p.c = {}; PAL_COLS.forEach(f => { p.c[f] = new T.Color(p[f]); }); p.skyC = p.sky.map(s => new T.Color(s)); })(PALS.shadow);
 const shadowBtn = $('#btnShadow');
-function renderShadowBtn(){ shadowBtn.style.setProperty('--p', clamp(G.shadowE || 0, 0, 1).toFixed(3)); shadowBtn.classList.toggle('ready', (G.shadowE || 0) >= 1 && !(G.shadowT > 0)); shadowBtn.classList.toggle('on', G.shadowT > 0); if ((G.shadowE || 0) >= 1 && !(G.shadowT > 0) && !G.shadowReadyHint && G.mode === 'run' && opt('shadow')) { G.shadowReadyHint = true; hint('Shadow ready: two fingers ↓', 2800); } }
+function renderShadowBtn(){ shadowBtn.style.setProperty('--p', clamp(G.shadowE || 0, 0, 1).toFixed(3)); shadowBtn.classList.toggle('ready', (G.shadowE || 0) >= 1 && !(G.shadowT > 0)); shadowBtn.classList.toggle('on', G.shadowT > 0); if ((G.shadowE || 0) >= 1 && !(G.shadowT > 0) && !G.shadowReadyHint && G.mode === 'run' && opt('shadow')) { G.shadowReadyHint = true; hint('Shadow ready! Tap the ghost', 2800); } }
 let heroOutlines = null;
 function shadowOn(){
   if (!inPlay() || G.shadowT > 0 || !opt('shadow') || G.mode !== 'run') return;
@@ -4464,7 +4471,7 @@ function shadowOn(){
 function shadowOff(instant){
   if (!(G.shadowT > 0) && !instant) return;
   G.shadowT = 0; G.hideTags = false; $('#rail').classList.remove('shadowed'); heroGhostly(false); $('#shadowfx').classList.remove('on');
-  if (G.mode === 'boss') setPal('arena', 'arena'); else if (G.mode === 'run') { if (G.branch) { const bl = branchLook(G.branch); setPal(bl[0], bl[1]); } else setPal(STAGES[G.stage].pal, STAGES[G.stage].set); } else setPal('dusk', 'day');
+  if (G.mode === 'boss') setPal('arena', 'arena'); else if (G.mode === 'run') setLoc(); else setPal('dusk', 'day');
   renderShadowBtn();
 }
 function updateShadow(sdt, q){
@@ -4712,17 +4719,17 @@ PALS.tunnel = {sky:['#0a0610','#1a1020','#2a1a28','#3a2430','#4a2e34'], fog:'#1c
 PALS.meadow = {sky:['#3a5ab8','#6fa0e6','#ffc88a','#ffe2ae','#fff4dc'], fog:'#ffe2b8', fogN:30, fogF:112, hemiS:'#fff4d8', hemiG:'#5a7a3a', hemiI:0.68, sun:'#ffe0a0', sunI:0.85, grass:'#76c84a', path:'#fff2dc', curve:0.0009, cloud:'#ffffff', ember:'#fff2a0', hillFar:'#a0c87a', hillNear:'#5a9a4a', orb:'#fff8e0', orbY:9, orbS:30};
 [PALS.tunnel, PALS.meadow].forEach(p => { p.c = {}; PAL_COLS.forEach(f => { p.c[f] = new T.Color(p[f]); }); p.skyC = p.sky.map(s => new T.Color(s)); });
 
-const SEG_L = 6, SEG_N = 26, ROAD_L = 74;
+const SEG_L = 6, SEG_N = 26, ROAD_L = 160;
 function buildTurnKit(){
   if (TR.kit) return;
   const K = {};
   /* materials: own copies of ground and path so they do not scroll with the treadmill */
-  const gt = grassTex.clone(); gt.needsUpdate = true; gt.wrapS = gt.wrapT = T.RepeatWrapping; gt.repeat.set(180 * 26 / 170, 180 * 42 / 260);
+  const gt = grassTex.clone(); gt.needsUpdate = true; gt.wrapS = gt.wrapT = T.RepeatWrapping; gt.repeat.set(330 * 26 / 170, 330 * 42 / 260);
   K.grassM = curvify(new T.MeshPhongMaterial({map:gt, shininess:0, specular:0x000000}));
   const pt = pathTex.clone(); pt.needsUpdate = true; pt.wrapS = pt.wrapT = T.RepeatWrapping; pt.repeat.set(1, ROAD_L * 24 / 260);
   K.pathM = curvify(new T.MeshPhongMaterial({map:pt, shininess:0, specular:0x000000, alphaTest:0.5}));
-  K.groundG = new T.PlaneGeometry(180, 180, 45, 45); K.groundG.rotateX(-Math.PI / 2);
-  K.roadG = new T.PlaneGeometry(6.6, ROAD_L, 1, 34); K.roadG.rotateX(-Math.PI / 2); K.roadG.rotateY(Math.PI / 2);
+  K.groundG = new T.PlaneGeometry(330, 330, 66, 66); K.groundG.rotateX(-Math.PI / 2);
+  K.roadG = new T.PlaneGeometry(6.6, ROAD_L, 1, 72); K.roadG.rotateX(-Math.PI / 2); K.roadG.rotateY(Math.PI / 2);
   /* far wall: low cliff with crystals so the old road beyond is hidden */
   const wb = KB();
   wb.add(box(150, 4.4, 1.8, 60, 1, 1), [0x4a3a5e, 0x7a6a92], [0, 2.2, 0]);
@@ -4767,7 +4774,7 @@ function buildTurnKit(){
   /* one hidden template so prewarm compiles every new shader */
   const tpl = makeJunction('fork', -1); tpl.visible = true; K.tpl = tpl;
 }
-function makeJunction(kind, tunnelSide, cornerSide){
+function makeJunction0(kind, tunnelSide, cornerSide){
   const K = TR.kit, g = new T.Group();
   const ground = new T.Mesh(K.groundG, K.grassM); ground.position.y = -0.03; g.add(ground);
   const sides = kind === 'fork' ? [-1, 1] : [cornerSide];
@@ -4895,7 +4902,7 @@ function updateJunction(sdt, move){
     if (TR.kit) { TR.kit.grassM.color.copy(grassMat.color); TR.kit.pathM.color.copy(pathMat.color); }
     const u = J.userData;
     if (!u.turned) { if (!u.armed && J.position.z > -62) armJunction(J); if (J.position.z >= -0.45 && G.mode === 'run') startTurn(); }
-    else if (G.time - u.turnedAt > 14) { scene.remove(J); TR.J = null; }
+    else if (J.position.z > ROAD_L + 18) { scene.remove(J); TR.J = null; }
   }
   if (G.branch && G.branch.kind === 'tunnel' && branchEnding() && TR.segOn) stopTunnel(false);
   updateTunnel(move);
@@ -5604,7 +5611,7 @@ function assetTex(name){
 }
 const BEAST_DIM = {1:[7.6, 7.6 * 419 / 640], 2:[7.6, 7.6 * 366 / 640]};
 function beastKind(){ return curCh().id === 'forest' ? 1 : 2; }
-function buildBeast(g, u){
+function buildBeast0(g, u){
   const n = beastKind(), [w, hgt] = BEAST_DIM[n], tex = assetTex('beast' + n + '.png');
   const m = curvify(new T.MeshBasicMaterial({map:tex, transparent:true, alphaTest:0.02, side:T.DoubleSide, depthWrite:true}));
   const geo = new T.PlaneGeometry(w, hgt); geo.translate(0, hgt / 2 - 0.08, 0);
@@ -5612,7 +5619,7 @@ function buildBeast(g, u){
   [-1, 1].forEach(s => addShadow(g, 0.9).position.x = s * 3.0);
   u.len = 0.2;
 }
-function updateBeast(o, u, sdt){
+function updateBeast0(o, u, sdt){
   const z = o.position.z, b = u.body; if (!b) return;
   b.scale.y = 1 + Math.sin(u.age * 3.2) * 0.025; b.position.y = Math.sin(u.age * 3.2 + 1) * 0.04;
   u.mat.opacity = clamp(1 - (z - 0.1) / 1.1, 0, 1);
@@ -5862,8 +5869,8 @@ async function loadCustomFile(file){
 function setMediaMeta(){
   try {
     if (!('mediaSession' in navigator) || !window.MediaMetadata) return;
-    const md = navigator.mediaSession.metadata; if (md && md.title === 'Word Rush' && md.album === 'v17') return;
-    navigator.mediaSession.metadata = new MediaMetadata({title:'Word Rush', artist:'English runner · B1–B2', album:'v17', artwork:[{src:'icon-512.png?v=17', sizes:'512x512', type:'image/png'}, {src:'icon.png?v=17', sizes:'256x256', type:'image/png'}]});
+    const md = navigator.mediaSession.metadata; if (md && md.title === 'Word Rush' && md.album === 'v18') return;
+    navigator.mediaSession.metadata = new MediaMetadata({title:'Word Rush', artist:'English runner · B1–B2', album:'v18', artwork:[{src:'icon-512.png?v=17', sizes:'512x512', type:'image/png'}, {src:'icon.png?v=17', sizes:'256x256', type:'image/png'}]});
   } catch(e) {}
 }
 /* ================= v17 UI: short English hints under the question card; speech bubbles stay on screen and above the answers ================= */
@@ -5919,7 +5926,7 @@ function bindV17(){
 const OPT_DEF = {ghost:false, shadow:true, vamp:true, cat:true, bats:true, traps:true, fork:true, arch:true, lines:true, fx:true, hints:true};
 const OPTS = [
   {k:'ghost', name:'Тень-соперник', sub:'призрак твоего лучшего времени по слову'},
-  {k:'shadow', name:'Мир теней', sub:'включается свайпом двумя пальцами вниз'},
+  {k:'shadow', name:'Мир теней', sub:'включается тапом по призраку слева внизу'},
   {k:'vamp', name:'Вампир', sub:'у дороги, среди волков и дуэль'},
   {k:'cat', name:'Кот-хулиган', sub:'прыгает в полосу, плюётся, бросает клубки'},
   {k:'bats', name:'Летучие мыши'},
@@ -6020,11 +6027,11 @@ function snapCharacters(){
 const TUT2 = [
   {k:'Правила', c:'#ffc93a', t:'Слова стали монстрами', d:'Перед забегом — <b>10 карточек</b> и быстрая проверка. На тропе волки несут переводы: <b>встань на полосу с верным</b>, пока они не добежали.', art:'char', who:'wolf', name:'ВОЛК'},
   {k:'Управление', c:'#17b3bf', t:'Всё — свайпами', d:'<b>← →</b> сменить полосу · <b>↑</b> прыжок · <b>↓</b> подкат — под рогатым зверем только так. Летучих мышей <b>тапай</b> или рассекай свайпом.', art:'swipe'},
-  {k:'Героиня', c:'#52ff2e', t:'Меч и разворот', d:'Быстрые верные ответы заряжают меч. Полный заряд — жми <b>кнопку меча</b>: удар с разворотом сносит всё впереди.', art:'char', who:'hero', name:'ЭТО ТЫ'},
-  {k:'Мини-босс', c:'#c77dff', t:'Вампир', d:'Лежит на склепе у дороги и следит. Потом встаёт <b>вместо волка</b>: если верное слово у него — встань на его полосу и <b>свайпни вниз</b>. Позже вызовет на дуэль.', art:'char', who:'vamp', name:'ВАМПИР'},
+  {k:'Героиня', c:'#52ff2e', t:'Щит-спасатель', d:'Верные ответы <b>очень медленно</b> заряжают щит справа. Полный щит срабатывает сам в последний момент — когда ты потеряла бы <b>последнее сердце</b>.', art:'char', who:'hero', name:'ЭТО ТЫ'},
+  {k:'Мини-босс', c:'#c77dff', t:'Вампир', d:'Лежит на склепе у дороги и следит. Потом встаёт <b>вместо волка</b>: если верное слово у него — встань на его полосу и <b>свайпни вниз</b>. Потом вызовет на дуэль. Говорит он только со своего склепа.', art:'char', who:'vamp', name:'ВАМПИР'},
   {k:'Хулиган', c:'#ff7ab8', t:'Кот', d:'Ошибёшься <b>два раза подряд</b> — кот прыгнет на плечо и укусит: героиню будет мотать с полосы на полосу. <b>Быстро тапай по коту</b>, пока круг не заполнится. Ещё он прячет ответы и бросает клубки.', art:'char', who:'cat', name:'КОТ'},
-  {k:'Поворот', c:'#ff8a5a', t:'Развилка', d:'Ближе к концу дорога уходит <b>влево и вправо</b>. За одним поворотом — туннель с ловушками и двойными конфетами, за другим — длинный спокойный путь. Где что — <b>загадка</b>.', art:'fork'},
-  {k:'Сила', c:'#b08aff', t:'Мир теней', d:'Верные ответы заряжают призрака слева. Заряжен — <b>проведи двумя пальцами вниз</b>: станешь призраком, ловушки не страшны, награда ×2.', art:'two', who:'ghost'},
+  {k:'Поворот', c:'#ff8a5a', t:'Развилка', d:'Один раз за забег дорога делится <b>влево и вправо</b>. За одним поворотом — тёмный туннель с ловушками и двойными конфетами, за другим — длинный спокойный путь. Где что — <b>загадка</b>. После развилки начинается новое место.', art:'fork'},
+  {k:'Сила', c:'#b08aff', t:'Мир теней', d:'Верные ответы заряжают призрака <b>слева внизу</b>. Заряжен — <b>тапни по нему</b>: станешь призраком, ловушки не страшны, награда ×2.', art:'char', who:'ghost', name:'ТЕНЬ'},
   {k:'Босс', c:'#ff5a6a', t:'Боссы глав', d:'Открываются, когда изучишь все слова главы. Танцуют и топают волнами — <b>перепрыгивай</b>. Серия верных ответов — босс падает: <b>тапай</b>! Победа над боссом и слова, угаданные в 3 забегах, прокачивают главу: бронза → серебро → золото.', art:'char', who:'boss', name:'БОСС'},
   {k:'Настройки', c:'#5fd6ff', t:'Под себя', d:'Лишнее выключается в <b>Настройках → Игровые элементы</b>. Там же — мелодии, режим ХАРД и это обучение.', art:'settings'}
 ];
@@ -6222,7 +6229,7 @@ function v12Frame(sdt, dt){
   if (G.mode === 'run') updateVdown(); else if (!vdownEl.hidden) vdownEl.hidden = true;
   if (vSlab) vSlab.visible = V.mode === 'road';
   if (V.mode === 'road') updateVampRoad(sdt);
-  musicMood(); v17Frame(sdt, dt);
+  musicMood(); v17Frame(sdt, dt); v18Frame(sdt, dt);
 }
 
 G.anims = [];
@@ -6268,7 +6275,7 @@ function clearPlay(){
 function resetPlay(){
   clearPlay();
   Object.assign(G, {defeated:false, paused:false, hearts:3, combo:0, bestCombo:0, coinsRun:0, misR:misReset(), hardBoost:1, wrongRow:0, soulSpawned:false, soulDone:false, res:{}, answered:0, correctN:0, qIndex:0, lane:1, heroY:0, vy:0, freeze:0, slow:0, phase:'gap', proj:null, retryQ:[], bossCount:0,
-    stage:0, slideT:0, dashT:0, shieldT:0, magnetT:0, x2T:0, sched:[], sprintEnd:0, pendingDash:false, coinStreak:0, sword:0, batAlt:false, shadowE:0, shadowT:0, shadowLoss:0, archPending:false, archDone:false, duel:null, duelDone:false, forkUntil:0, forkDouble:0, revived:false, hideTags:false, buildQ:null, anims:[], econ:{track:0, ans:0, pupSpawn:0, pups:0}, lastPup:-99, forkDone:false, junctionDone:false, branch:null, shadowReadyHint:false, bossStreak:0, heroZT:0, stunT:0});
+    stage:0, slideT:0, dashT:0, shieldT:0, magnetT:0, x2T:0, sched:[], sprintEnd:0, pendingDash:false, coinStreak:0, sword:0, batAlt:false, shadowE:0, shadowT:0, shadowLoss:0, archPending:false, archDone:false, duel:null, duelDone:false, forkUntil:0, forkDouble:0, revived:false, hideTags:false, buildQ:null, anims:[], econ:{track:0, ans:0, pupSpawn:0, pups:0}, lastPup:-99, forkDone:false, junctionDone:false, branch:null, loc:0, shadowReadyHint:false, bossStreak:0, heroZT:0, stunT:0});
   hero.atk = 0; hero.hurt = 0;
   renderHearts(); renderCoins(); renderCombo(); railClear(); renderPups(); renderSword(); renderShadowBtn(); GH.want = 1; GH.lead = 1;
 }
@@ -6276,12 +6283,12 @@ function showPlayHud(boss){ showScreen(null); tgPlaying(true); $('#hud').hidden 
 function startRun(newIds, reviewIds){
   newIds.forEach(id => { const s = S.words[id]; s.seen = true; s.box = 0; s.due = now(); });
   save();
-  resetPlay(); G.mode = 'run'; applyChapterStages(); setArena(false); stageWorld(STAGES[0]);
+  resetPlay(); G.mode = 'run'; G.loc = 0; applyChapterStages(); setArena(false); showSet(locSet()); locWorld();
   G.queue = buildQueue(newIds, reviewIds); G.speedNow = STAGES[0].speed * hardMul(); applyUpgrades(); G.perStage = clamp(Math.floor(G.queue.length / STAGES.length), 2, 4);
   showPlayHud(false); updateProgress();
   V.seen = 0; V.ready = false; V.laneN = 0;
   startSprint(true); musicStage(0); musicPlay('run');
-  banner('Уровень 1 из ' + STAGES.length, STAGES[0].name, 'Вперёд!', STAGES[0].color); sfx.stage();
+  banner('Уровень 1 из ' + STAGES.length, curLoc().name, 'Вперёд!', curLoc().color); sfx.stage();
   if (S.runs < 2) hint('Swipe ← → to move · ↑ jump', 4200);
 }
 function stageUp(n){
@@ -6307,7 +6314,7 @@ function startSprint(first){
   if (!first) {
     if (!(G.branch && G.branch.kind === 'long') && Math.random() < Math.min(1, st.obst + (S.hard ? 0.25 : 0) + (G.branch ? 0.3 : 0))) sch.push({at:t0 + 0.45, fn:() => { G.lastHazLane = spawnHazard(pickKind(st)); }});
     const dbl = G.branch && G.branch.kind === 'long' ? 0 : (st.dbl || 0) + (S.hard && G.stage >= 2 ? 0.4 : 0) + (G.branch ? 0.35 : 0); if (dbl && Math.random() < dbl) sch.push({at:t0 + 1.15, fn:() => { const k = pickKind(st, 'log'); if (k !== 'bats' && !batsActive()) spawnHazard(k); }});
-    if (A.ok && opt('vamp') && !G.branch && V.mode === 'off' && !V.ready && G.answered >= 2 && Math.random() < Math.min(0.95, (S.hard ? 0.6 : 0.4) + V.seen * 0.2)) sch.push({at:t0 + 0.2, fn:() => vampRoadSpawn()});
+    if (A.ok && opt('vamp') && !G.branch && V.mode === 'off' && !V.ready && G.answered >= 1 && Math.random() < (V.seen ? 0.5 : 0.9)) sch.push({at:t0 + 0.2, fn:() => vampRoadSpawn()});
     if (pupDue(st)) sch.push({at:t0 + 0.85, fn:() => { const k = pickPup(); if (k) { spawnPickup(k, ri(3), SPAWN_Z); G.lastPup = G.time; } }});
     if (Math.random() < (G.branch ? (G.branch.kind === 'tunnel' ? 0.6 : 0.35) : ECON.coin2)) sch.push({at:t0 + 1.3, fn:() => coinPattern(SPAWN_Z, G.lastHazLane)});
   }
@@ -6352,7 +6359,7 @@ function record(id, ok, fast){
   r.n++; if (ok) r.ok++; else r.wrong = true;
   if (r.firstFast === null) r.firstFast = ok && fast;
 }
-function loseHeart(){ G.hearts--; renderHearts(); const h = $('#hearts').children[G.hearts]; if (h) bumpEl(h, 'lost'); hurtFx();
+function loseHeart0(){ G.hearts--; renderHearts(); const h = $('#hearts').children[G.hearts]; if (h) bumpEl(h, 'lost'); hurtFx();
   if (G.hearts <= 0 && S.potions > 0 && !G.revived && !S.hard) { S.potions--; G.revived = true; G.hearts = 1; renderHearts(); toast('Запасное сердце!', 'Зелий осталось: ' + S.potions, 'good'); sfx.pup(); save(); } }
 function resolveRun(){
   const q = G.current, w = q.w, chosen = q.type === 'build' ? 1 : G.lane, ok = q.type === 'build' ? !!q.built : chosen === q.correct; endBuild();
@@ -6615,7 +6622,7 @@ function endRun(outcome){
   }).join('') + misExtra(changes) : (misExtra(changes) || '<li class="same"><div class="r-w"><span>В этот раз ни одно слово не дошло до ответа.</span></div></li>');
   const notes = [];
   if (outcome === 'fail' || outcome === 'quit') notes.push('Прогресс по словам, на которые уже был ответ, сохранён.');
-  if (kind === 'run') notes.push('Уровень ' + lvl + ' из ' + STAGES.length + ' — ' + STAGES[G.stage].name + (lvlRec && lvl > 1 ? ' · новый рекорд!' : '') + '.');
+  if (kind === 'run') notes.push('Уровень ' + lvl + ' из ' + STAGES.length + ' — ' + curLoc().name + (lvlRec && lvl > 1 ? ' · новый рекорд!' : '') + '.');
   if (G.soulNote) notes.unshift(G.soulNote);
   if (G.lvNote) notes.unshift(G.lvNote);
   notes.push('Быстрый верный ответ поднимает карточку на уровень, медленный — оставляет на месте, ошибка возвращает на Бронзу I.');
@@ -6711,7 +6718,7 @@ function update(dt){
   if (G.paused) sdt = 0;
   else if (G.freeze > 0) { G.freeze -= dt; sdt = 0; }
   else if (G.slow > 0) { G.slow -= dt; sdt = dt * 0.22; }
-  G.time += sdt; G.clock += dt;
+  G.time += sdt; G.clock += dt; G.sdt = sdt;
   const playing = G.mode === 'run' || G.mode === 'boss';
   let targetWS = 0;
   if (playing && G.phase !== 'intro') {
@@ -6731,8 +6738,8 @@ function update(dt){
   if (G.mode === 'run') updateJunction(sdt, move);
   if (A.ok) { updateScenery(move); bioUpdate(move); } else for (const o of scenery) { o.position.z += move; if (o.position.z > 16) sceneryPlaceP(o, o.position.z - 246); }
   updateClouds(dt); updateEmbers(move, dt, G.clock); updateIslands(move, G.clock); updateBalloons(move, G.clock);
-  if (palK < 1) { palK = Math.min(1, palK + dt / 1.6); applyPal(); }
-  if (A.ok && setTo !== activeSet && palK >= 0.5) { showSet(setTo); if (G.mode === 'run') flashFx('rgba(255,255,255,.6)'); }
+  if (palK < 1) { palK = Math.min(1, palK + dt / (G.mode === 'run' ? 3.6 : 1.6)); applyPal(); }
+  if (A.ok && setTo !== activeSet && (G.mode === 'run' || palK >= 0.5)) sceneryGo(setTo, SCN.front); SCN.front = null;
   if (!G.paused) {
     if (G.mode === 'run') runLogic(sdt, dt);
     else if (G.mode === 'boss') bossLogic(sdt, dt);
@@ -6766,7 +6773,7 @@ function frame(t){
   if (ADAPT && raw < 0.25) {
     emaDt += (raw - emaDt) * 0.06;
     if (emaDt > 0.027) slowT += raw; else slowT = Math.max(0, slowT - raw);
-    if (slowT > 1.8 && prNow <= 1 && OUTLINE_I.visible && G.phase !== 'question') { OUTLINE_I.visible = false; slowT = -2.5; mark('контуры декора выкл', 0); }
+    
     if (slowT > 1.8 && prNow > 1 && G.phase !== 'question') { const t0 = performance.now(); prNow = Math.max(1, prNow - 0.25); renderer.setPixelRatio(prNow); resize(); slowT = -2.5; mark('смена разрешения → ' + prNow, performance.now() - t0); }
   }
   const f0 = performance.now(); update(dt); const f1 = performance.now(); renderer.render(scene, camera); const f2 = performance.now();
@@ -6781,7 +6788,7 @@ function prewarm(){
       const kind = n === 'wolf' ? 'wolf' : (A.ok ? (FLOAT_POOL.indexOf(n) >= 0 ? 'fire' : 'penguin') : n);
       const e = acquireEnemy(kind, c, n); e.g.scale.setScalar(1); e.g.position.set((i % 5 - 2) * 1.6, j * 2, -Math.floor(i / 5) * 2); grp.add(e.g); tmp.push(e);
     }));
-    ['rock', 'log', 'bats', 'pumpkin', 'spikes', 'bounce', 'yarn', 'fork', 'secret'].forEach((k, i) => { const o = makeObstacle(k, 1); o.position.set(0, 0, -6 - i * 2); if (o.userData.spk) o.userData.spk.scale.y = 1; grp.add(o); });
+    ['rock', 'log', 'bats', 'pumpkin', 'spikes', 'bounce', 'yarn', 'fork', 'secret', 'beast'].forEach((k, i) => { const o = makeObstacle(k, 1); o.position.set(0, 0, -6 - i * 2); if (o.userData.spk) o.userData.spk.scale.y = 1; grp.add(o); });
     Object.keys(PUPS).forEach((k, i) => { const p = makePickup(k); p.position.set(-2 + i * 2, 0, -2); grp.add(p); });
     const bosses = A.ok ? [makeBossGLB(true), makeBossGLB(false)] : [makeBossProc()];
     bosses.forEach((b, i) => { b.g.position.set(-4 + i * 8, 0, -10); grp.add(b.g); });
@@ -6791,17 +6798,857 @@ function prewarm(){
     if (GH.g) GH.g.visible = true; swordTrail.visible = true; waves.forEach(w => { w.o.visible = true; }); spitBall.visible = true;
     burst(0, 1, -14, 0xffffff, 1, 1); bubble.visible = true;
     const vis = []; for (const k in SETS) { const s = SETS[k]; if (s) s.types.forEach(t => t.ims.forEach(im => { vis.push([im, im.visible]); im.visible = true; })); }
-    if (TR.kit) { TR.kit.tpl.position.set(0, 0, -40); grp.add(TR.kit.tpl); TR.segIM.visible = TR.lampIM.visible = true; tunnelMatrices(); }
+    if (TR.kit) { TR.kit.tpl.position.set(0, 0, -40); grp.add(TR.kit.tpl); TR.segIM.visible = TR.lampIM.visible = true; tunnelMatrices(); tunnelDecoVis(true); }
     scene.add(grp);
     renderer.compile(scene, camera);
     renderer.render(scene, camera);
-    if (TR.kit) { grp.remove(TR.kit.tpl); TR.segIM.visible = TR.lampIM.visible = false; }
+    if (TR.kit) { grp.remove(TR.kit.tpl); TR.segIM.visible = TR.lampIM.visible = false; tunnelDecoVis(false); }
     scene.remove(grp); vis.forEach(([im, v]) => { im.visible = v; }); bubble.visible = false;
     if (V.g && V.g.parent) V.g.parent.remove(V.g); if (CAT.g && CAT.g.parent) CAT.g.parent.remove(CAT.g); slashes.forEach(s => { s.grp.visible = false; }); clearCoins();
     if (GH.g) GH.g.visible = false; swordTrail.visible = false; waves.forEach(w => { w.o.visible = false; }); spitBall.visible = false;
     tmp.forEach(releaseEnemy); disposeTree(orbW.g);
   } catch (e) { console.error('prewarm', e); }
 }
+const VOICE_LIST = ["a_drop_in_the_ocean", "abroad", "accommodation", "accountable", "achieve", "actuator", "algorithm", "apply", "appraisal", "arrival", "assemble", "assembly", "assignment", "at_stake", "attend", "augment", "authentication", "automate", "back_to_square_one", "back_to_the_drawing_board", "back_up", "backpacker", "bandwagon", "bandwidth", "bearing", "benchmark", "biodiversity", "blueprint", "boarding", "bolt", "bottleneck", "brainstorm", "breach", "breakthrough", "breathtaking", "brute_force", "budget", "burn_the_midnight_oil", "burnout", "calibrate", "call_it_a_day", "cancel", "candy_star", "carbon_footprint", "career", "carry_on", "cat_s_yarn", "catch_up_on", "chamfer", "check_in", "circuit", "climate", "colleague", "commute", "compatible", "compensation", "compost", "conservation", "conservationist", "consumption", "contaminate", "crowded", "crowdfunding", "culture_shock", "currency", "current", "curriculum", "customs", "cut_down_on", "cutting_corners", "cutting_edge", "cybersecurity", "damage", "deadline", "debug", "deflection", "deforestation", "degradation", "degree", "delay", "delegate", "departure", "deplete", "depletion", "deploy", "deprecate", "destination", "destroy", "disruptive", "drawing", "drill", "drill_bit", "drop_out", "drought", "echo_crystal", "ecosystem", "emission", "emissions", "emulate", "en_route", "encryption", "endangered", "environment", "ergonomic", "erosion", "exacerbate", "exchange", "exchange_rate", "experience", "explore", "extinct", "eye_ring", "fare", "fasten", "fatigue", "feasibility", "feedback", "firefly_lantern", "firmware", "first_word_scroll", "fixture", "flange", "flood", "fog_key", "forest_heart", "freelance", "friction", "fuel", "gasket", "gear", "gear_ratio", "get_around", "get_away_from_it_all", "get_the_hang_of", "glitch", "globetrotter", "go_green", "greenwashing", "griffin_feather", "guide", "habitat", "hand_in", "hands_on", "harmful", "hire", "hit_the_road", "hitchhike", "hourglass", "hydraulic", "ice_rune", "immerse", "improve", "in_the_cloud", "in_the_long_run", "interface", "internship", "interoperability", "interview", "intuitive", "irreversible", "iterate", "itinerary", "jarred_mushroom", "jet_lag", "journey", "kinematics", "landfill", "landmark", "latency", "layover", "learning_curve", "lecture", "letterless_book", "lever", "leverage", "load", "load_bearing", "local", "lubricate", "lucky_horseshoe", "luggage", "malfunction", "manage", "market_shell", "master_gear", "meeting", "meticulous", "mitigate", "moon_shard", "motor", "multitask", "networking", "nomadic", "nuts_and_bolts", "obsolescence", "obsolete", "off_the_beaten_track", "offset", "ohno_1", "ohno_2", "ohno_3", "on_the_same_page", "open_source", "outage", "overbooked", "overrated", "owl_eye", "passport", "patch", "peer_review", "peripheral", "phase_out", "picturesque", "poaching", "pollution", "preserve", "prioritize", "pristine", "procrastinate", "proficient", "promotion", "proprietary", "protect", "prototype", "pulley", "qualification", "recycle", "red_eye", "reduce", "redundant", "refund", "remote", "renewable", "research", "reservation", "resign", "resilient", "resource", "reverse_engineer", "roll_out", "round_trip", "rubbish", "run_like_clockwork", "run_out_of", "salary", "scalability", "scalable", "scarcity", "schedule", "scholarship", "seamless", "secluded", "sensor", "servo_motor", "set_off", "shadow_mask", "shaft", "shortage", "shut_down", "sightseeing", "skill", "solar", "soldering_iron", "souvenir", "species", "specification", "spring", "star_map", "state_of_the_art", "stopover", "streamline", "stress", "sugar_crown", "surveillance", "sustainability", "sustainable", "take_notes", "tamper_with", "tensile_strength", "think_outside_the_box", "thread", "threat", "time_management", "tip_of_the_iceberg", "tolerance", "torque", "tourist_trap", "toxic", "trail_compass", "travel_light", "trial_and_error", "troubleshoot", "tuition", "ubiquitous", "under_the_hood", "up_to_speed", "user_friendly", "vampire_fang", "vise", "voltage", "vulnerability", "wanderlust", "waste", "wear_and_tear", "wearable", "weld", "welder", "wildfire", "wildlife", "wind_bell", "workaholic", "workaround", "workload"];
+/* ================= v18 VOICE: every word is a recorded mp3 in the heroine's own voice (works on Android, where the browser has no speech engine) ================= */
+const VOICE = {set:new Set(VOICE_LIST), buf:{}, busy:{}, lastOh:-9, src:null};
+function voiceSlug(t){ return String(t).toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, ''); }
+function voiceFetch(slug){
+  if (VOICE.buf[slug]) return Promise.resolve(VOICE.buf[slug]);
+  if (VOICE.busy[slug]) return VOICE.busy[slug];
+  const a = audio(); if (!a) return Promise.reject(new Error('muted'));
+  const p = fetch('a/voice/' + slug + '.mp3').then(r => { if (!r.ok) throw new Error('voice ' + r.status); return r.arrayBuffer(); }).then(b => decodeAudio(a, b)).then(ab => { VOICE.buf[slug] = ab; delete VOICE.busy[slug]; return ab; });
+  p.catch(() => { delete VOICE.busy[slug]; });
+  VOICE.busy[slug] = p; return p;
+}
+function voicePlay(ab, vol){
+  const a = audio(); if (!a || !ab) return;
+  try {
+    if (VOICE.src) { try { VOICE.src.stop(); } catch(e) {} }
+    const s = a.createBufferSource(), g = a.createGain(); s.buffer = ab; g.gain.value = vol || 1; s.connect(g); g.connect(a.destination); s.start(a.currentTime + 0.01); VOICE.src = s;
+  } catch(e) {}
+}
+function speakTTS(text){
+  if (S.muted || !('speechSynthesis' in window)) return;
+  try { const u = new SpeechSynthesisUtterance(text); u.lang = voice ? voice.lang : 'en-US'; if (voice) u.voice = voice; u.rate = 0.9; const ss = window.speechSynthesis; if (ss.speaking || ss.pending) ss.cancel(); ss.speak(u); } catch(e) {}
+}
+function speak(text){
+  if (S.muted || !text) return;
+  const slug = voiceSlug(text);
+  if (!VOICE.set.has(slug)) { speakTTS(text); return; }
+  voiceFetch(slug).then(ab => voicePlay(ab, 1)).catch(() => speakTTS(text));
+}
+/* "Oh no!" in her voice instead of the buzzer on a mistake during a run */
+function ohNo(){
+  if (S.muted || G.clock - VOICE.lastOh < 1.4) return false;
+  VOICE.lastOh = G.clock;
+  const slug = 'ohno_' + (1 + ri(3));
+  voiceFetch(slug).then(ab => voicePlay(ab, 0.95)).catch(() => tone(220, 90, .35, 'sawtooth', .08));
+  return true;
+}
+(function(){
+  const bad0 = sfx.bad;
+  sfx.bad = function(){ if ((G.mode === 'run' || G.mode === 'boss') && ohNo()) return; if (G.mode === 'run' || G.mode === 'boss') return; bad0(); };
+  /* warm the cache with the clips that play during a run */
+  setTimeout(() => { ['ohno_1', 'ohno_2', 'ohno_3'].forEach(s => voiceFetch(s).catch(() => {})); }, 4000);
+})();
+/* ================= v18 KIT: Anna's three 3D kits (twilight forest, purple swamp, tunnel creatures) =================
+   Loaded quietly after start. Every prop is normalised to height 1 and stands on y = 0, front to +Z. */
+const KIT18 = {ok:false, busy:false, n:{}, dim:{}};
+const _qmax = a => a instanceof Int8Array ? 127 : a instanceof Uint8Array ? 255 : a instanceof Int16Array ? 32767 : a instanceof Uint16Array ? 65535 : 1;
+function kitBake(node){
+  node.updateMatrix();
+  const sc = node.scale.x || 1;
+  node.traverse(o => {
+    if (!o.isMesh) return;
+    const g = o.geometry, p = g.attributes.position, nr = g.attributes.normal;
+    /* quantized + interleaved attributes: read with getX (raw values) and scale ourselves */
+    const kp = (p.normalized ? 1 / _qmax(p.array) : 1) * sc, f = new Float32Array(p.count * 3);
+    for (let i = 0; i < p.count; i++) { f[i * 3] = p.getX(i) * kp; f[i * 3 + 1] = p.getY(i) * kp; f[i * 3 + 2] = p.getZ(i) * kp; }
+    g.setAttribute('position', new T.BufferAttribute(f, 3));
+    if (nr) {
+      const kn = nr.normalized ? 1 / _qmax(nr.array) : 1, fn = new Float32Array(nr.count * 3);
+      for (let i = 0; i < nr.count; i++) { const x = nr.getX(i) * kn, y = nr.getY(i) * kn, z = nr.getZ(i) * kn, l = Math.hypot(x, y, z) || 1; fn[i * 3] = x / l; fn[i * 3 + 1] = y / l; fn[i * 3 + 2] = z / l; }
+      g.setAttribute('normal', new T.BufferAttribute(fn, 3));
+    }
+    const uv = g.attributes.uv;
+    if (uv && (uv.isInterleavedBufferAttribute || !(uv.array instanceof Float32Array))) {
+      const ku = uv.normalized ? 1 / _qmax(uv.array) : 1, fu = new Float32Array(uv.count * 2);
+      for (let i = 0; i < uv.count; i++) { fu[i * 2] = uv.getX(i) * ku; fu[i * 2 + 1] = uv.getY(i) * ku; }
+      g.setAttribute('uv', new T.BufferAttribute(fu, 2));
+    }
+    g.boundingBox = null; g.boundingSphere = null; g.computeBoundingBox();
+  });
+  node.scale.set(1, 1, 1); node.position.set(0, 0, 0); node.rotation.set(0, 0, 0); node.updateMatrixWorld(true);
+  /* exact height 1, base on the ground, centred */
+  const b = new T.Box3(); node.traverse(o => { if (o.isMesh) b.union(o.geometry.boundingBox); });
+  const s = new T.Vector3(), c = new T.Vector3(); b.getSize(s); b.getCenter(c);
+  const k = 1 / Math.max(1e-4, s.y);
+  node.traverse(o => { if (!o.isMesh) return; const g = o.geometry; g.translate(-c.x, -b.min.y, -c.z); g.scale(k, k, k); g.computeBoundingSphere(); g.computeBoundingBox(); });
+  return {w:s.x * k, d:s.z * k};
+}
+async function loadKit18(){
+  if (KIT18.ok || KIT18.busy) return;
+  if (!A.ok || !window.__bootDone) { setTimeout(loadKit18, 1500); return; }
+  KIT18.busy = true;
+  try {
+    const gl = await loadGLB(new T.GLTFLoader(), 'kit18');
+    document.querySelectorAll('script').forEach(s => { if (s.text.length > 50000 && s.text.slice(0, 40).indexOf('WR_GLB') >= 0) s.remove(); });
+    gl.scene.children.slice().forEach(n => { const name = stripName(n.name); prepNode(n); KIT18.dim[name] = kitBake(n); n.traverse(o => { if (o.isMesh) o.userData.noOutline = true; }); KIT18.n[name] = n; });
+    buildKit18Sets(); KIT18.ok = true;
+    if (G.mode === 'run') { const s = locSet(); if (s !== activeSet && !(G.branch && G.branch.kind === 'tunnel')) { setTo = s; } }
+  } catch(e) { console.error('kit18', e); }
+  KIT18.busy = false;
+}
+/* a fence piece from the purple picket: turned to run along the road, 2.6 long */
+function kitFence(node, len){
+  const m = node.clone(); m.geometry = node.geometry.clone(); const w = KIT18.dim.pu_fence ? KIT18.dim.pu_fence.w : 1.35, k = len / w;
+  m.geometry.scale(k, k * 0.62, k); m.geometry.rotateY(Math.PI / 2); return m;
+}
+function buildKit18Sets(){
+  const N = KIT18.n, K = kitNode, F = {face:true}, ROW = {row:3.85, step:2.6, gaps:0};
+  SETS.tw18 = makeSet([
+    [K('fence'), 190, 0, 0, 1, 1, ROW],
+    [N.tw_tree, 12, 7, 30, 7.5, 11], [N.tw_spiral, 8, 5, 15, 3.2, 4.8], [N.tw_roses, 10, 4.5, 12, 1.6, 2.5], [N.tw_sign, 3, 4.5, 6, 2.0, 2.4, F],
+    [N.tw_lamp, 8, 4.4, 4.9, 4.0, 4.5, F], [N.tw_mush, 9, 5, 15, 2.8, 4.6], [N.tw_gate, 3, 9, 20, 5.0, 6.4, F], [N.tw_pot, 3, 5.5, 12, 1.8, 2.4, F],
+    [N.tw_curl, 6, 5, 14, 2.8, 4.2], [N.tw_vine, 8, 4.5, 12, 1.8, 2.8], [N.tw_crystal, 8, 4.6, 12, 1.4, 2.4], [N.tw_ruin, 3, 6, 16, 2.0, 2.8],
+    [N.tw_cage, 3, 4.8, 9, 2.0, 2.5, F], [N.tw_banner, 4, 4.5, 5.2, 3.4, 4.2, F], [N.tw_sprout, 10, 4.3, 10, 1.4, 2.3],
+    [K('darkPine'), 10, 13, 34, 1.0, 1.6], [K('grassTuft'), 20, 4.0, 9, 0.9, 1.5]
+  ]);
+  SETS.sw18 = makeSet([
+    [N.pu_fence ? kitFence(N.pu_fence, 2.62) : K('fence'), 190, 0, 0, 1, 1, ROW],
+    [N.pu_tentacle, 8, 5, 14, 3.2, 4.8], [N.pu_hand, 6, 4.6, 10, 1.8, 2.8], [N.pu_skullrock, 5, 5.5, 14, 2.0, 3.0, F], [N.pu_spikes, 6, 4.8, 12, 1.4, 2.2],
+    [N.pu_sign, 3, 4.5, 6, 2.0, 2.4, F], [N.pu_horns, 4, 5, 12, 1.8, 2.6, F], [N.pu_eyestone, 5, 5.5, 14, 2.0, 3.0, F], [N.pu_mush, 10, 4.6, 12, 2.2, 3.8],
+    [N.pu_arch, 3, 9, 18, 4.6, 6.0, F], [N.pu_stalk, 8, 4.5, 10, 2.2, 3.4], [N.pu_crystal, 8, 4.6, 12, 1.3, 2.2],
+    [K('tarPond'), 5, 5, 14, 0.8, 1.3], [K('deadTree'), 10, 7, 26, 0.9, 1.5], [K('reeds'), 18, 4.2, 10, 0.9, 1.4], [K('dripTree'), 6, 8, 26, 0.85, 1.3]
+  ]);
+  /* compile the new shaders now, not in the middle of a run */
+  try {
+    const tmp = []; ['tw18', 'sw18'].forEach(k => SETS[k].types.forEach(t => t.ims.forEach(im => { tmp.push(im); im.visible = true; })));
+    renderer.compile(scene, camera); tmp.forEach(im => { im.visible = false; });
+  } catch(e) {}
+}
+
+/* ---- 3D mini-monsters crossing the road (replace the drawn billboards) ---- */
+function mobDef(){
+  const k = (G.branch && G.branch.kind === 'tunnel' && !G.branch.out) ? 'tunnel' : (curLoc().mob || 'jelly');
+  if (k === 'penguin') return {k, style:'slide', h:1.3};
+  if (k === 'ghost') return A.enemy.ghost1 ? {k, style:'float', h:1.5} : null;
+  if (!KIT18.ok) return null;
+  const N = KIT18.n;
+  if (k === 'jelly') return N.pu_jelly && {k, style:'hop', node:N.pu_jelly, h:1.45};
+  if (k === 'zombie') return N.tw_zombie && {k, style:'walk', node:N.tw_zombie, h:2.75};
+  if (k === 'crown') return N.pu_crown && {k, style:'float', node:N.pu_crown, h:1.25};
+  if (k === 'tunnel') { const nm = ['tn_blob1', 'tn_blob2', 'tn_blob4'][ri(3)]; return N[nm] && {k, style:'walk', node:N[nm], h:1.35}; }
+  return null;
+}
+function mobOk(){ return !!mobDef(); }
+const MOB_HINT = {jelly:'Jumping jelly! Dodge it', zombie:'Zombie! Dodge or jump', crown:'Flying skull! Dodge or jump', penguin:'Penguins! Dodge or jump', ghost:'Ghosts! Dodge or jump', tunnel:'Shadow creep! Dodge or jump'};
+function buildMob(g, u, lane){
+  const d = mobDef(); if (!d) { u.kind = 'rock'; return false; }
+  const body = new T.Group(); let m;
+  if (d.k === 'penguin') { m = makePenguin(false).g; }
+  else if (d.k === 'ghost') { const e = A.enemy.ghost1; m = e.node.clone(); m.scale.setScalar(e.s); }
+  else { m = d.node.clone(); m.scale.setScalar(d.h * (d.k === 'zombie' ? 0.92 + Math.random() * 0.18 : 1)); }
+  body.add(m); g.add(body); addShadow(g, d.k === 'zombie' ? 0.75 : 0.6);
+  u.body = body; u.style = d.style; u.mk = d.k; u.dir = Math.random() < 0.5 ? -1 : 1; u.lane0 = lane; u.ph = Math.random() * 6; u.h = d.h;
+  if (u.style === 'slide') { u.x = -u.dir * 4.2; } else if (u.style === 'hop') { u.lane = lane; u.x = LANES[lane]; u.hopT = 0.25; } else { u.x = -u.dir * 3.6; }
+  body.rotation.y = u.style === 'hop' ? 0 : u.dir * Math.PI / 2;
+  g.position.x = u.x;
+  return true;
+}
+function updateMob(o, u, sdt){
+  if (u.hit) return; const z = o.position.z, b = u.body;
+  if (z > -34) {
+    if (u.style === 'slide') { u.x += u.dir * 3.1 * sdt; b.rotation.z = -u.dir * 0.22; }
+    else if (u.style === 'walk') { u.x += u.dir * (u.mk === 'zombie' ? 1.25 : 1.7) * sdt; const s = Math.abs(Math.sin(u.age * (u.mk === 'zombie' ? 5 : 9))); b.position.y = s * 0.1; b.rotation.z = Math.sin(u.age * (u.mk === 'zombie' ? 5 : 9)) * 0.08; }
+    else if (u.style === 'float') { u.x += u.dir * 2.0 * sdt; b.position.y = 0.35 + Math.sin(u.age * 4) * 0.25; b.rotation.z = Math.sin(u.age * 2.6) * 0.12; }
+    else if (u.style === 'hop') {
+      u.hopT -= sdt;
+      if (u.hopT <= 0) { const nl = u.lane === 0 ? 1 : u.lane === 2 ? 1 : (Math.random() < 0.5 ? 0 : 2); u.from = LANES[u.lane]; u.lane = nl; u.hopT = 0.72; u.hk = 0; }
+      if (u.hk != null && u.hk < 1) { u.hk = Math.min(1, u.hk + sdt / 0.42); u.x = u.from + (LANES[u.lane] - u.from) * u.hk; b.position.y = Math.sin(u.hk * Math.PI) * 1.3; b.scale.set(1 - Math.sin(u.hk * Math.PI) * 0.08, 1 + Math.sin(u.hk * Math.PI) * 0.14, 1); }
+      else { const q = Math.max(0, Math.sin(u.age * 14)) * 0.06; b.scale.set(1 + q, 1 - q, 1 + q); }
+    }
+    if (u.style !== 'hop' && Math.abs(u.x) > 4.6) { u.dir = -Math.sign(u.x); u.x = Math.sign(u.x) * 4.6; b.rotation.y = u.dir * Math.PI / 2; }
+  }
+  o.position.x = u.x; u.lane = u.style === 'hop' ? u.lane : (u.x < -1.1 ? 0 : u.x > 1.1 ? 2 : 1);
+  if (!G.mobHinted && z > -24) { G.mobHinted = true; hint(MOB_HINT[u.mk] || 'Creeps! Dodge or jump', 2400); }
+}
+
+/* ---- the slide-only obstacle: a row of striped road barriers across all three lanes ---- */
+function buildBeast(g, u){
+  const n = KIT18.ok && KIT18.n.pu_barrier;
+  if (!n) { buildBeast0(g, u); return; }
+  const w = (KIT18.dim.pu_barrier && KIT18.dim.pu_barrier.w) || 1.8, sx = 2.55 / w;
+  LANES.forEach((x, i) => { const m = n.clone(); m.scale.set(sx, 1.45, 1.6); m.position.x = x + (i - 1) * 0.08; if (i === 1) m.rotation.y = Math.PI; g.add(m); });
+  [-1, 0, 1].forEach(s => addShadow(g, 0.55).position.x = s * 2.4);
+  u.body = null; u.mat = null; u.len = 0.25;
+}
+function updateBeast(o, u, sdt){
+  if (u.mat) { updateBeast0(o, u, sdt); return; }
+  if (!u.roared && o.position.z > -30) { u.roared = true; tone(160, 90, .25, 'square', .04); if (!G.beastHinted) { G.beastHinted = true; hint('Barrier! Slide — swipe ↓', 2400); } }
+}
+
+/* ---- decor along the two roads of the fork, picked for the place we are in ---- */
+function forkDecoNodes(){
+  const L = curLoc(), N = KIT18.n, K = kitNode;
+  if ((L.set === 'tw18' || L.set === 'sw18') && KIT18.ok) {
+    if (L.set === 'tw18') return {small:[N.tw_roses, N.tw_sprout, N.tw_crystal, N.tw_vine], mid:[N.tw_lamp, N.tw_sign, N.tw_mush, N.tw_cage], big:[N.tw_tree, N.tw_spiral, N.tw_gate], hs:[1.9, 4.2, 8.5]};
+    return {small:[N.pu_crystal, N.pu_spikes, N.pu_hand], mid:[N.pu_mush, N.pu_sign, N.pu_stalk, N.pu_eyestone], big:[N.pu_tentacle, N.pu_arch, N.pu_skullrock], hs:[1.8, 3.2, 5.0]};
+  }
+  if (L.set === 'ice') return {small:[K('crystalIce'), K('snowRock')], mid:[K('snowman'), K('crystalIce')], big:[K('snowPine'), K('iceSpires')], hs:[1, 1.2, 1.3], proc:true};
+  return {small:[K('gumdrop'), K('smallMush'), K('crystalPink')], mid:[K('lollipop'), K('candyCane'), K('mushHouse')], big:[K('pinkTree'), K('pinkTree'), K('lollipop')], hs:[1.2, 1.2, 1.4], proc:true};
+}
+function forkDecor(g, sides){
+  const D = forkDecoNodes(), put = (node, x, z, h, ry) => {
+    if (!node) return; const m = node.clone(); m.scale.setScalar(D.proc ? h * (0.85 + Math.random() * 0.3) : h * (0.85 + Math.random() * 0.3)); m.position.set(x, 0, z); m.rotation.y = ry; g.add(m);
+  };
+  const tSide = g.userData.tunnelSide;
+  sides.forEach(s => {
+    for (let x = 9; x < (s === tSide ? 24 : ROAD_L - 6); x += 5.5 + Math.random() * 4) {
+      [-1, 1].forEach(e => {
+        const r = Math.random(), z = e * (4.4 + Math.random() * 1.6);
+        if (r < 0.45) put(D.small[ri(D.small.length)], s * x, z, D.hs[0], Math.random() * 6.28);
+        else if (r < 0.8) put(D.mid[ri(D.mid.length)], s * x, z, D.hs[1], e > 0 ? Math.PI : 0);
+        if (Math.random() < 0.55) put(D.big[ri(D.big.length)], s * (x + 2), e * (8 + Math.random() * 14), D.hs[2], Math.random() * 6.28);
+      });
+    }
+    /* soft corners where the side road leaves the main one */
+    put(D.mid[0], s * 4.6, 4.6, D.hs[1], 0); put(D.small[0], s * 6.2, -3.9, D.hs[0], 0);
+  });
+}
+/* ================= v18 WORLD: each chapter road is place A → fork (tunnel or long road) → place B =================
+   Ch.1 Candy valley → Twilight forest · Ch.2 Mushroom bog → Fog over the mire · Ch.3 Ice peaks → Northern lights.
+   Levels only change speed and traps now; the scenery changes only when the place changes, and it changes
+   the way a road does: new things come out of the fog, the old ones go by behind the camera. */
+const LOCS = {
+  candy:{name:'Конфетная долина', sub:'Леденцы, батуты и прыгучее желе', pal:'candy', set:'candy', color:'#ff7ab8', mob:'jelly'},
+  twilight:{name:'Сумеречный лес', sub:'Деревья открывают глаза', pal:'twilight', set:'tw18', alt:'forest', bio:'tw', pano:'tw', color:'#c9a2f2', mob:'zombie'},
+  swamp:{name:'Грибные топи', sub:'Под ногами хлюпает', pal:'swamp', set:'sw18', alt:'swamp', bio:'sw', pano:'sw', color:'#8dff6a', mob:'jelly'},
+  bog:{name:'Туман над трясиной', sub:'Глубже и темнее', pal:'bog', set:'sw18', alt:'swamp', bio:'sw', pano:'sw', color:'#b8ff7a', mob:'crown'},
+  ice:{name:'Ледяные пики', sub:'Пингвины катятся на животах', pal:'ice', set:'ice', bio:'ice', pano:'ice_b', color:'#9fd8ff', mob:'penguin'},
+  icenight:{name:'Северное сияние', sub:'Ночь на вершине', pal:'icenight', set:'ice', bio:'ice', pano:'ice', color:'#b8fff0', mob:'penguin'},
+  cem:{name:'Лунное кладбище', sub:'Ночь · призраки на дороге', pal:'night', set:'arena', bio:'cem', pano:'cem', color:'#9fd8ff', mob:'ghost'}
+};
+const CH_LOCS = {forest:['candy', 'twilight'], city:['swamp', 'bog'], port:['ice', 'icenight']};
+function chLocs(){ return CH_LOCS[curCh().id] || ['candy', 'twilight']; }
+function curLoc(){ const L = chLocs(); return LOCS[L[clamp(G.loc || 0, 0, L.length - 1)]]; }
+function locSet(L){ L = L || curLoc(); return SETS[L.set] ? L.set : (L.alt || L.set); }
+function inTunnel(){ return !!(G.branch && G.branch.kind === 'tunnel' && !G.branch.out); }
+function locLook(){ if (G.mode === 'boss') return ['arena', 'arena']; if (inTunnel()) return ['tunnel', 'none']; const L = curLoc(); return [L.pal, locSet(L)]; }
+function setLoc(instant){ const [p, s] = locLook(); if (G.shadowT > 0) setTo = s; else setPal(p, s, instant); }
+function locWorld(front){ const L = curLoc(); setBiome(L.bio || null, L.pano || null, front); }
+function stageWorld(st){ locWorld(); }
+function advanceLoc(front){
+  if ((G.loc || 0) >= chLocs().length - 1) { setLoc(); return false; }
+  G.loc = (G.loc || 0) + 1; SCN.front = front; setLoc(); locWorld(front);
+  return true;
+}
+function locBanner(){ const L = curLoc(); banner('Новое место · уровень ' + (G.stage + 1) + ' из ' + STAGES.length, L.name, L.sub || '', L.color); sfx.stage(); haptic(HAP.stage); }
+function branchLook(b){ return b.kind === 'tunnel' ? ['tunnel', 'none'] : locLook(); }
+function setArena(on){ if (on) setPal('arena', 'arena'); else if (G.mode === 'run') setLoc(); else setPal('dusk', 'day'); }
+
+/* chapter 1 keeps its eight levels of difficulty, but they live in two places now */
+function v18Stages(){
+  const F = CH_WORLD.forest.stages, A_ = LOCS.candy, B_ = LOCS.twilight;
+  const kinds = [['rock', 'rock', 'log'], ['rock', 'log', 'bounce', 'bats', 'beast', 'mob'], ['rock', 'log', 'bats', 'pumpkin', 'beast', 'mob'], ['rock', 'log', 'bounce', 'bats', 'pumpkin', 'beast', 'beast', 'mob'],
+    ['rock', 'log', 'bats', 'pumpkin', 'mob', 'beast'], ['log', 'bats', 'mob', 'mob', 'spikes', 'beast', 'beast'], ['rock', 'log', 'bats', 'mob', 'spikes', 'beast', 'beast'], ['rock', 'log', 'bats', 'mob', 'pumpkin', 'spikes', 'beast', 'beast']];
+  F.forEach((s, i) => { const L = i < 4 ? A_ : B_; Object.assign(s, {name:L.name, sub:L.sub, pal:L.pal, set:L.set, bio:L.bio || null, pano:L.pano || null, color:L.color, kinds:kinds[i]}); });
+  ['city', 'port'].forEach(id => CH_WORLD[id].stages.forEach((s, i) => { if (i >= 2 && s.kinds.indexOf('beast') >= 0) s.kinds.push('beast'); }));
+}
+function stageUp(n){
+  G.stage = n; const st = STAGES[n]; G.speedNow = st.speed * hardMul(); questEvent('level', n + 1);
+  const forkPending = opt('fork') && TR.kit && !G.junctionDone && G.queue && G.queue.length - G.qIndex >= 3;
+  if (!G.branch && !TR.J && !G.loc && n >= (forkPending ? 6 : 4) && advanceLoc(-108)) locBanner();
+  else { sfx.stage(); haptic(HAP.stage); }
+  musicStage(Math.min(3, n >> 1)); updateProgress();
+  popText('Level ' + (n + 1) + '!', hero.g.position.x, 3.0, -1.5, 'good');
+}
+
+/* ---------------- scenery hand-over ---------------- */
+const SCN = {leave:null, front:null};
+const FOG_EDGE = -108;
+function scnItems(set, fn){ set.types.forEach(t => t.items.forEach(fn)); }
+function showSet(name){
+  activeSet = name; SCN.leave = null;
+  for (const k in SETS) { const s = SETS[k]; if (!s) continue; const on = k === name; s.types.forEach(t => { t.ims.forEach(im => { im.visible = on; }); if (on) t.items.forEach(it => { it.hold = it.gone = false; }); }); if (on) s.dirty = true; }
+}
+function hideSetNow(k){ const s = SETS[k]; if (s) s.types.forEach(t => t.ims.forEach(im => { im.visible = false; })); if (SCN.leave === k) SCN.leave = null; }
+function sceneryGo(name, front){
+  if (G.mode !== 'run') { showSet(name); return; }
+  if (name === activeSet) return;
+  front = front == null ? FOG_EDGE : front;
+  if (SCN.leave) hideSetNow(SCN.leave);
+  const old = activeSet, ob = SETS[old], nb = SETS[name];
+  if (ob) { scnItems(ob, it => { it.hold = false; it.gone = it.z < front; }); SCN.leave = old; ob.dirty = true; }
+  activeSet = name;
+  if (nb) { nb.types.forEach(t => t.ims.forEach(im => { im.visible = true; })); scnItems(nb, it => { it.gone = false; it.hold = it.z > front; }); nb.dirty = true; }
+}
+function scnUpd(name, move, leaving){
+  const set = SETS[name]; if (!set) return true;
+  if (move === 0 && !set.dirty) return false; set.dirty = false; let alive = 0;
+  for (const ty of set.types) {
+    const items = ty.items;
+    for (let k = 0; k < items.length; k++) {
+      const it = items[k]; it.z += move;
+      if (it.z > 16) { sceneryPlace(it, it.z - 246); if (leaving) it.gone = true; else it.hold = false; }
+      if (!it.gone) alive++;
+      const hide = it.gone || it.hold || (TR.J && sceneryCut(it));
+      dummy.position.set(it.x, 0, it.z); dummy.rotation.set(0, it.ry, it.rz); dummy.scale.setScalar(hide ? 0.0001 : it.s); dummy.updateMatrix();
+      for (const im of ty.ims) im.setMatrixAt(k, dummy.matrix);
+    }
+    for (const im of ty.ims) im.instanceMatrix.needsUpdate = true;
+  }
+  return leaving && alive === 0;
+}
+function updateScenery(move){
+  scnUpd(activeSet, move, false);
+  if (SCN.leave && scnUpd(SCN.leave, move, true)) hideSetNow(SCN.leave);
+}
+/* fences never break */
+function sceneryPlace(it, z){
+  if (it.center) { it.z = z; it.x = 0; it.s = 1; it.ry = 0; it.rz = 0; return; }
+  if (it.row) { it.z = z; it.x = it.side * it.row; it.s = 1; it.ry = 0; it.rz = 0; return; }
+  const side = Math.random() < 0.5 ? -1 : 1; it.z = z;
+  it.x = side * (it.minX + Math.random() * (it.maxX - it.minX)); it.s = it.s0 + Math.random() * (it.s1 - it.s0);
+  it.ry = it.face ? -side * 0.55 + (Math.random() - .5) * .4 : Math.random() * 6.283; it.rz = it.lean ? (Math.random() - .5) * .3 : 0;
+}
+
+/* ---------------- drawn roadside props: fewer, further back, and handed over the same way ---------------- */
+const BIO_LITE = {tw:1, sw:1, ice:1};
+function bioPlace(b, it, z, pools, meta){
+  it.z = z; it.uvDirty = true;
+  if (BIO_LITE[b]) {
+    if (it.i % 2) { it.s = 0; it.sp = null; return; }
+    const big = pools.big.length && Math.random() < 0.75, pool = big ? pools.big : pools.mid; if (!pool.length) { it.s = 0; it.sp = null; return; }
+    const sp = pool[ri(pool.length)], side = Math.random() < 0.5 ? -1 : 1, d = meta[sp], xr = big ? [13, 25] : [10, 17];
+    it.sp = sp; it.x = side * (xr[0] + Math.random() * (xr[1] - xr[0])); it.s = 0.9 + Math.random() * 0.3; it.flip = Math.random() < 0.5; it.h = d.h * it.s; it.w = it.h * d.a; return;
+  }
+  const r = Math.random(), kind = r < 0.2 ? 'big' : r < 0.55 ? 'mid' : r < 0.86 ? 'small' : 'crit';
+  const pool = pools[kind].length ? pools[kind] : pools.mid.length ? pools.mid : pools.small; if (!pool || !pool.length) { it.s = 0; return; }
+  const sp = pool[ri(pool.length)], side = Math.random() < 0.5 ? -1 : 1, d = meta[sp];
+  const xr = kind === 'big' ? [10, 19] : kind === 'mid' ? [4.7, 8.5] : kind === 'small' ? [4.3, 7] : [4.8, 7.5];
+  it.sp = sp; it.x = side * (xr[0] + Math.random() * (xr[1] - xr[0])); it.s = 0.85 + Math.random() * 0.3; it.flip = Math.random() < 0.5; it.h = d.h * it.s; it.w = it.h * d.a;
+}
+function bioStep(b, move, leaving){
+  const mesh = BIOV.meshes[b], B = BIOV.items[b]; if (!mesh || !B) return true;
+  mesh.visible = G.mode === 'run' && bioTex(b).wrOk === true;
+  const pos = mesh.geometry.attributes.position.array; let uvd = false, alive = 0;
+  for (let i = 0; i < B.items.length; i++) {
+    const it = B.items[i]; it.z += move;
+    if (it.z > 16) { bioPlace(b, it, it.z - 246, B.pools, B.meta); uvd = true; if (leaving) it.gone = true; else it.hold = false; }
+    if (!it.gone) alive++;
+    const cut = !it.s || it.gone || it.hold || (TR.J && sceneryCut(it)) || (it.z > -4 && Math.abs(it.x) < 5.2);
+    const hw = cut ? 0 : it.w / 2, hh = cut ? 0 : it.h, o = i * 12, y0 = -0.06, zz = it.z;
+    pos[o] = it.x - hw; pos[o + 1] = y0; pos[o + 2] = zz; pos[o + 3] = it.x + hw; pos[o + 4] = y0; pos[o + 5] = zz;
+    pos[o + 6] = it.x + hw; pos[o + 7] = y0 + hh; pos[o + 8] = zz; pos[o + 9] = it.x - hw; pos[o + 10] = y0 + hh; pos[o + 11] = zz;
+  }
+  mesh.geometry.attributes.position.needsUpdate = true; if (uvd) bioWriteUV(b);
+  const k = clamp(0.55 + hemi.intensity * 0.6, 0.8, 1.05); mesh.material.color.setRGB(k, k, k);
+  return leaving && alive === 0;
+}
+function bioUpdate(move){
+  if (BIOV.cur) bioStep(BIOV.cur, move, false);
+  if (BIOV.leave && bioStep(BIOV.leave, move, true)) { if (BIOV.meshes[BIOV.leave]) BIOV.meshes[BIOV.leave].visible = false; BIOV.leave = null; }
+}
+function setBiome(b, pano, front){
+  if (b && !BIO.bio[b]) b = null;
+  if (b !== BIOV.cur) {
+    if (BIOV.leave && BIOV.meshes[BIOV.leave]) BIOV.meshes[BIOV.leave].visible = false; BIOV.leave = null;
+    const old = BIOV.cur;
+    if (old && BIOV.items[old]) {
+      if (front == null || G.mode !== 'run') { if (BIOV.meshes[old]) BIOV.meshes[old].visible = false; }
+      else { BIOV.items[old].items.forEach(it => { it.hold = false; it.gone = it.z < front; }); BIOV.leave = old; }
+    }
+    BIOV.cur = b;
+    if (b) { bioMesh(b); BIOV.items[b].items.forEach(it => { it.gone = false; it.hold = front != null && it.z > front; }); }
+  } else if (front == null && b && BIOV.items[b]) BIOV.items[b].items.forEach(it => { it.gone = it.hold = false; });
+  if (front == null && BIOV.leave) { if (BIOV.meshes[BIOV.leave]) BIOV.meshes[BIOV.leave].visible = false; BIOV.leave = null; }
+  setPano(pano);
+}
+function bioFrame(){
+  if (G.mode !== 'run') { [BIOV.cur, BIOV.leave].forEach(b => { if (b && BIOV.meshes[b]) BIOV.meshes[b].visible = false; }); panoUpdate(true); return; }
+  panoUpdate(false);
+}
+/* horizon strip: cross-fades instead of snapping */
+function setPano(k){
+  if (k && !BIO.pano[k]) k = null;
+  if (BIOV.panoCur === k) return;
+  BIOV.panoCur = k; if (!k) return;
+  let m = BIOV.pano[k];
+  if (!m) {
+    const asp = BIO.pano[k], Wd = asp > 4 ? 230 : 150, Hd = Wd / asp;
+    const mt = new T.MeshBasicMaterial({map:assetTex('pano_' + k + '.webp'), transparent:true, depthWrite:false, fog:false, opacity:0});
+    m = new T.Mesh(new T.PlaneGeometry(Wd, Hd), mt); m.position.set(0, -13.5 + Hd / 2, -138); m.renderOrder = -0.5; scene.add(m); BIOV.pano[k] = m;
+  }
+  if (G.mode !== 'run') m.material.opacity = 1;
+}
+let _panoT = 0;
+function panoUpdate(off){
+  const now = performance.now(), dt = Math.min(0.1, (now - (_panoT || now)) / 1000); _panoT = now;
+  for (const k in BIOV.pano) {
+    const m = BIOV.pano[k], want = !off && k === BIOV.panoCur && !inTunnel() ? 1 : 0, mt = m.material;
+    mt.opacity += clamp(want - mt.opacity, -dt / 2.5, dt / 2.5); if (off) mt.opacity = 0;
+    m.visible = mt.opacity > 0.01;
+    if (m.visible) { mt.color.copy(scene.fog.color).lerp(_bw.setRGB(1, 1, 1), 0.72); m.position.x = camera.position.x * 0.85; }
+  }
+}
+
+/* ---------------- sky islands melt into clouds while the place changes, then grow back in the new style ---------------- */
+const CLOUD18 = {mat:null, tex:null, lt:0};
+function cloudTex18(){
+  if (CLOUD18.tex) return CLOUD18.tex;
+  CLOUD18.tex = canvasTex(256, 160, (x, w, h) => {
+    const puff = (cx, cy, r) => { const g = x.createRadialGradient(cx, cy, 0, cx, cy, r); g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(0.55, 'rgba(255,255,255,.92)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.beginPath(); x.arc(cx, cy, r, 0, 6.283); x.fill(); };
+    [[70, 98, 46], [118, 78, 58], [170, 92, 48], [100, 110, 40], [150, 112, 42], [205, 108, 34], [48, 112, 30]].forEach(p => puff(p[0], p[1], p[2]));
+  });
+  return CLOUD18.tex;
+}
+function islCloud(it){
+  if (it.cm) return it.cm;
+  const m = new T.Mesh(new T.PlaneGeometry(1, 1), new T.MeshBasicMaterial({map:cloudTex18(), transparent:true, depthWrite:false, fog:false, opacity:0}));
+  m.renderOrder = -0.75; m.frustumCulled = false; m.visible = false; scene.add(m); it.cm = m; it.c = 0; return m;
+}
+function palName(){ for (const k in PALS) if (PALS[k] === palTo) return k; return null; }
+function updateSkyIslands(move, t){
+  if (!SKYI.list.length) { if (!ISL_DATA.candy) return; buildSkyIslands(); }
+  const dt = clamp(t - (CLOUD18.lt || t), 0, 0.1); CLOUD18.lt = t;
+  const want = ISL_FOR_PAL[palName()] || SKYI.set;
+  if (want !== (SKYI.pend || SKYI.set) && ISL_DATA[want]) { SKYI.pend = want; islMat(want); SKYI.list.forEach(it => { it.st = 'cloud'; }); }
+  if (SKYI.pend && palK >= 0.999 && islMat(SKYI.pend).map.wrOk && SKYI.list.every(it => (it.c || 0) >= 0.99 && it.k <= 0.01)) {
+    SKYI.set = SKYI.pend; SKYI.pend = null; SKYI.list.forEach(it => { islPick(it); it.st = 'grow'; });
+  }
+  const ready = islMat(SKYI.set).map.wrOk, vis = !inTunnel() && G.mode !== 'boss' || G.mode === 'boss';
+  for (const it of SKYI.list) {
+    islCloud(it);
+    it.z += move * 0.06; if (it.z > -76) { it.z -= 128; it.x = (Math.random() < 0.5 ? -1 : 1) * (24 + Math.random() * 44); it.y = 15 + Math.random() * 20; if (!SKYI.pend) { islPick(it); it.k = 0; it.st = 'grow'; } }
+    if (it.st === 'cloud') { it.c = Math.min(1, (it.c || 0) + dt * 1.1); if (it.c > 0.45) it.k = Math.max(0, it.k - dt * 1.3); }
+    else { if (it.k < 1) it.k = Math.min(1, it.k + dt * 0.8); if (it.k > 0.4) it.c = Math.max(0, (it.c || 0) - dt * 0.9); }
+    const sc = it.s * Math.max(0.001, it.k), bob = Math.sin(t * 0.45 + it.ph) * 0.7;
+    it.m.visible = vis && ready && it.k > 0.01 && !inTunnel();
+    it.m.position.set(it.x, it.y + bob, it.z); it.m.quaternion.copy(camera.quaternion);
+    it.m.scale.set(sc * it.a * (it.flip ? -1 : 1), sc, 1);
+    it.m.material.color.copy(scene.fog.color).lerp(_isw.setRGB(1, 1, 1), 0.78);
+    const cm = it.cm, cs = it.s * (0.75 + 0.35 * it.c) * 1.25;
+    cm.visible = it.c > 0.01 && !inTunnel(); cm.material.opacity = Math.min(1, it.c * 1.15) * 0.95;
+    if (cm.visible) { cm.position.set(it.x, it.y + bob - it.s * 0.08, it.z + 0.5); cm.quaternion.copy(camera.quaternion); cm.scale.set(cs * 1.55, cs, 1); cm.material.color.copy(scene.fog.color).lerp(_isw.setRGB(1, 1, 1), 0.86); }
+  }
+}
+
+/* ---------------- the fork: longer roads with decor, no corner at the end of a branch ---------------- */
+function makeJunction(kind, tunnelSide, cornerSide){
+  const g = makeJunction0(kind, tunnelSide, cornerSide);
+  try { if (kind === 'fork') forkDecor(g, g.userData.sides); } catch(e) { console.error('forkDecor', e); }
+  return g;
+}
+/* make the branch road's stones continue the main road's stones exactly where it ends */
+function uvLine(mesh, rep, off){
+  const g = mesh.geometry, p = g.attributes.position, uv = g.attributes.uv, n = p.count - 1;
+  const a = new T.Vector3(p.getX(0), p.getY(0), p.getZ(0)).applyMatrix4(mesh.matrixWorld), b = new T.Vector3(p.getX(n), p.getY(n), p.getZ(n)).applyMatrix4(mesh.matrixWorld);
+  const va = uv.getY(0), vb = uv.getY(n), dz = b.z - a.z || 1e-6, slope = (vb - va) / dz;
+  return {slope, v0:va + slope * (0 - a.z)};
+}
+function alignBranchRoad(J){
+  try {
+    const K = TR.kit; J.updateMatrixWorld(true); path.updateMatrixWorld(true);
+    const road = J.children.find(c => c.geometry === K.roadG && Math.abs(new T.Vector3().setFromMatrixPosition(c.matrixWorld).x) < 2); if (!road) return;
+    const P = uvLine(path), R = uvLine(road), pt = K.pathM.map;
+    const rep = pathTex.repeat.y * P.slope / R.slope;
+    const tp = pathTex.repeat.y * P.v0 + pathTex.offset.y;
+    pt.repeat.y = rep; pt.offset.y = ((tp - rep * R.v0) % 1 + 1) % 1;
+  } catch(e) { console.error('align', e); }
+}
+function finishTurn(){
+  const t = TR.turn, J = TR.J, u = J.userData; TR.turn = null;
+  scene.rotation.y = 0; hero.g.rotation.y = 0; hero.g.position.x = 0;
+  J.position.applyAxisAngle(_yAx, t.th); J.rotation.y += t.th; u.turned = true; u.turnedAt = G.time;
+  clearCoins(); obstacles.splice(0).forEach(o => { if (o.userData.tags) o.userData.tags.forEach(freeTag); scene.remove(o); }); pickups.splice(0).forEach(p => scene.remove(p));
+  shake(0.12); sfx.dash();
+  G.ws = t.ws0; G.phase = 'gap'; G.sched = [{at:G.time + 0.25, fn:() => coinPattern(SPAWN_Z)}]; G.sprintEnd = G.time + 1.8;
+  alignBranchRoad(J);
+  enterBranch(t.side === u.tunnelSide ? 'tunnel' : 'long', t.side);
+  const set = SETS[activeSet]; if (set) set.dirty = true;
+}
+function enterBranch(kind, side){
+  const rem = Math.max(0, G.queue.length - G.qIndex), base = kind === 'tunnel' ? 26 : 30;
+  const dur = clamp((rem - 1.5) * 8, 16, base);
+  G.branch = {kind, side, until:G.time + dur};
+  spawnReveal(kind);
+  if (kind === 'tunnel') { SCN.front = TR.reveal ? TR.reveal.position.z - 1.2 : -28; setLoc(); startTunnel(); tunnelFxStart(); banner('Туннель', 'Короткий путь', 'Ловушки чаще · конфеты ×2', '#ff8a5a'); }
+  else { setLoc(); banner('Длинный путь', 'Безопасная дорога', 'Без ловушек · больше бонусов', '#5fd68a'); }
+  questEvent('fork'); haptic(HAP.stage);
+}
+/* the tunnel stops growing: its far mouth opens onto the next place */
+function tunnelExitBegin(){
+  const b = G.branch; if (!b || b.ending) return; b.ending = true;
+  TR.segs.forEach(s => { if (s.on && s.z < -60) s.on = false; });
+  let minZ = 0; TR.segs.forEach(s => { if (s.on && s.z < minZ) minZ = s.z; });
+  const endZ = minZ - SEG_L / 2;
+  if (TR.kit) { const m = new T.Mesh(TR.kit.portal.geometry, KIT_MAT); m.rotation.y = -Math.PI / 2; m.position.set(0, 0, endZ - 1.4); scene.add(m); TR.exitM = m; }
+  b.locDone = true;
+  if ((G.loc || 0) < chLocs().length - 1) G.loc = (G.loc || 0) + 1;
+  SCN.front = endZ - 1; setTo = locSet(); locWorld(endZ - 1);
+}
+function stopTunnel(now){
+  const was = TR.segOn; TR.segOn = false;
+  if (now) { TR.segs.forEach(s => { s.on = false; }); if (TR.segIM) TR.segIM.visible = TR.lampIM.visible = false; tunnelFxEnd(true); if (TR.exitM) { scene.remove(TR.exitM); TR.exitM = null; } return; }
+  if (was && G.branch && G.branch.kind === 'tunnel') tunnelExitBegin();
+}
+function updateTunnel(move){
+  if (TR.exitM) { TR.exitM.position.z += move; if (TR.exitM.position.z > 30) { scene.remove(TR.exitM); TR.exitM = null; } }
+  const b = G.branch;
+  if (b && b.kind === 'tunnel' && b.ending && !b.out && TR.exitM && TR.exitM.position.z > -1.2) { b.out = true; setLoc(); tunnelFxEnd(false); locBanner(); }
+  if (!TR.segIM || !TR.segIM.visible) { tunnelFxFrame(move, false); return; }
+  const recycle = TR.segOn && b && G.time < b.until;
+  let minZ = 0; TR.segs.forEach(s => { if (s.on && s.z < minZ) minZ = s.z; });
+  let any = false;
+  TR.segs.forEach(s => {
+    if (!s.on) return; s.z += move;
+    if (s.z > 16) { if (recycle) s.z = minZ - SEG_L; else s.on = false; }
+    if (s.on) any = true;
+  });
+  if (!any) { TR.segIM.visible = TR.lampIM.visible = false; tunnelFxFrame(move, false); if (b && b.kind === 'tunnel') exitBranch(); return; }
+  tunnelMatrices(); tunnelFxFrame(move, true);
+}
+function exitBranch(){
+  const b = G.branch; G.branch = null;
+  if (b && b.kind === 'tunnel') { TR.segOn = false; TR.segs.forEach(s => { s.on = false; }); if (TR.segIM) TR.segIM.visible = TR.lampIM.visible = false; tunnelFxEnd(true); }
+  if (b && !b.locDone) { advanceLoc(FOG_EDGE); locBanner(); }
+  else { setLoc(); if (b && !b.out) locBanner(); }
+}
+/* the fork comes once per run, at the same point; a branch simply ends — no second turn */
+function junctionExtras(sch, t0){
+  if (G.mode !== 'run' || TR.J) return false;
+  if (G.branch) { if (branchEnding() && G.branch.kind !== 'tunnel') exitBranch(); return false; }
+  if (opt('fork') && TR.kit && !G.junctionDone && !G.loc && G.queue && (G.stage >= 3 || G.qIndex >= Math.ceil(G.queue.length * 0.5)) && G.queue.length - G.qIndex >= 3) {
+    G.junctionDone = true; sch.splice(1); sch.push({at:t0 + 0.2, fn:() => spawnJunction('fork')}); sch.extra = 1e6; return true;
+  }
+  return false;
+}
+/* ================= v18 TUNNEL: darker, torch-lit, cobwebs and cave props, bats all the way,
+   a vampire that swoops out of the dark once, and black blob creatures that crawl out of the walls
+   and pile up behind the heroine, chasing her until the light at the exit scares them off ================= */
+const TUN = {built:false, on:false, k:0, torchIM:null, flameIM:null, webIM:null, props:[], swarm:[], spawnT:0, scareAt:0, scareDone:false, lunge:0, hinted:false};
+/* two warm point lights that ride on the nearest torches; they exist from the start so no shader recompiles mid-run */
+TUN.lights = [0, 1].map(() => { const l = new T.PointLight(0xff9a48, 0, 12, 2); l.position.set(0, -40, 0); scene.add(l); return l; });
+function webTex(){
+  return canvasTex(256, 256, (x, w, h) => {
+    x.strokeStyle = 'rgba(240,235,255,.85)'; x.lineWidth = 2.2; x.lineCap = 'round';
+    const cx = 6, cy = 6, R = 245, sp = 9;
+    for (let i = 0; i <= sp; i++) { const a = (i / sp) * Math.PI / 2; x.beginPath(); x.moveTo(cx, cy); x.lineTo(cx + Math.cos(a) * R, cy + Math.sin(a) * R); x.stroke(); }
+    x.lineWidth = 1.6;
+    for (let r = 26; r < R; r += 22 + r * 0.06) { x.beginPath(); for (let i = 0; i <= sp; i++) { const a = (i / sp) * Math.PI / 2, rr2 = r * (0.92 + 0.08 * Math.sin(i * 2.1)); const px = cx + Math.cos(a) * rr2, py = cy + Math.sin(a) * rr2; if (i) { const am = ((i - 0.5) / sp) * Math.PI / 2, rm = rr2 * 0.9; x.quadraticCurveTo(cx + Math.cos(am) * rm, cy + Math.sin(am) * rm, px, py); } else x.moveTo(px, py); } x.stroke(); }
+  });
+}
+function flameTex(){
+  return canvasTex(64, 128, (x, w, h) => {
+    const g = x.createRadialGradient(32, 92, 2, 32, 80, 60); g.addColorStop(0, 'rgba(255,250,210,1)'); g.addColorStop(0.25, 'rgba(255,200,90,.95)'); g.addColorStop(0.6, 'rgba(255,110,30,.55)'); g.addColorStop(1, 'rgba(255,60,10,0)');
+    x.fillStyle = g; x.beginPath(); x.moveTo(32, 4); x.quadraticCurveTo(62, 70, 46, 112); x.quadraticCurveTo(32, 126, 18, 112); x.quadraticCurveTo(2, 70, 32, 4); x.fill();
+  });
+}
+const TUN_PROPS = [['tn_crystal', 1.5, 4.05], ['tn_rock', 1.1, 4.0], ['tn_column', 2.5, 4.4], ['tn_rockblobs', 2.2, 4.25], ['tn_lantern', 2.6, 4.2], null, ['tn_pillar', 2.6, 4.45], ['tn_crystal', 1.1, 4.1], null];
+function buildTunnelDeco(){
+  if (TUN.built || !TR.segIM) return; TUN.built = true;
+  /* torch: iron bracket + stick, one per segment, sides alternate */
+  const tb = KB(); tb.add(box(0.12, 0.6, 0.12), 0x3a2a24, [0, 2.45, 0]); tb.add(cyl(0.16, 0.1, 0.24, 6), 0x5a4a44, [0, 2.8, 0]); tb.add(box(0.5, 0.08, 0.08), 0x3a2a24, [0.25, 2.5, 0]);
+  const tg = tb.build('torch18').geometry;
+  TUN.torchIM = new T.InstancedMesh(tg, KIT_MAT, SEG_N); TUN.torchIM.frustumCulled = false; TUN.torchIM.instanceMatrix.setUsage(T.DynamicDrawUsage); TUN.torchIM.visible = false; scene.add(TUN.torchIM);
+  const fm = curvify(new T.MeshBasicMaterial({map:flameTex(), transparent:true, depthWrite:false, blending:T.AdditiveBlending, fog:false, side:T.DoubleSide}));
+  const fg = new T.PlaneGeometry(0.62, 1.05); fg.translate(0, 0.45, 0);
+  TUN.flameIM = new T.InstancedMesh(fg, fm, SEG_N); TUN.flameIM.frustumCulled = false; TUN.flameIM.instanceMatrix.setUsage(T.DynamicDrawUsage); TUN.flameIM.visible = false; TUN.flameIM.renderOrder = 2; scene.add(TUN.flameIM);
+  const wm = curvify(new T.MeshBasicMaterial({map:webTex(), transparent:true, alphaTest:0.12, depthWrite:false, side:T.DoubleSide, color:0xb8a8c8}));
+  TUN.webIM = new T.InstancedMesh(new T.PlaneGeometry(2.6, 2.6), wm, SEG_N); TUN.webIM.frustumCulled = false; TUN.webIM.instanceMatrix.setUsage(T.DynamicDrawUsage); TUN.webIM.visible = false; scene.add(TUN.webIM);
+  TR.lampIM.material.visible = false;
+}
+function buildTunnelProps(){
+  if (TUN.props.length || !KIT18.ok) return;
+  const types = {};
+  TUN_PROPS.forEach(p => { if (p && KIT18.n[p[0]] && !types[p[0]]) types[p[0]] = true; });
+  Object.keys(types).forEach(name => {
+    const node = KIT18.n[name], ims = [];
+    node.traverse(o => { if (o.isMesh) { const im = new T.InstancedMesh(o.geometry, o.material, SEG_N * 2); im.frustumCulled = false; im.instanceMatrix.setUsage(T.DynamicDrawUsage); im.visible = false; scene.add(im); ims.push(im); } });
+    TUN.props.push({name, ims});
+  });
+}
+const _tq = new T.Object3D();
+function tunnelDecoMatrices(){
+  if (!TUN.built) return;
+  const t = G.clock;
+  for (let i = 0; i < SEG_N; i++) {
+    const s = TR.segs[i], on = s.on, side = i % 2 ? 1 : -1;
+    _tq.position.set(side * 4.62, 0, s.z); _tq.rotation.set(0, side > 0 ? Math.PI : 0, 0); _tq.scale.setScalar(on ? 1 : 0.0001); _tq.updateMatrix(); TUN.torchIM.setMatrixAt(i, _tq.matrix);
+    const fl = 0.85 + Math.sin(t * 13 + i * 1.7) * 0.1 + Math.sin(t * 7.3 + i) * 0.08;
+    _tq.position.set(side * 4.38, 2.9, s.z); _tq.rotation.set(0, 0, Math.sin(t * 5 + i) * 0.08); _tq.scale.set(on ? fl : 0.0001, on ? fl * (1 + Math.sin(t * 17 + i * 3) * 0.08) : 0.0001, 1); _tq.updateMatrix(); TUN.flameIM.setMatrixAt(i, _tq.matrix);
+    const ws = i % 3 === 1 ? 1 : 0, wside = (i * 7) % 4 < 2 ? -1 : 1;
+    _tq.position.set(wside * 4.1, 5.0, s.z + 1.2); _tq.rotation.set(0, 0, wside < 0 ? 0 : -Math.PI / 2); _tq.scale.setScalar(on && ws ? 1 : 0.0001); _tq.updateMatrix(); TUN.webIM.setMatrixAt(i, _tq.matrix);
+  }
+  TUN.torchIM.instanceMatrix.needsUpdate = TUN.flameIM.instanceMatrix.needsUpdate = TUN.webIM.instanceMatrix.needsUpdate = true;
+  for (const P of TUN.props) {
+    for (let i = 0; i < SEG_N; i++) for (let e = 0; e < 2; e++) {
+      const slot = TUN_PROPS[(i * 5 + e * 3) % TUN_PROPS.length], s = TR.segs[i], side = e ? 1 : -1, use = s.on && slot && slot[0] === P.name;
+      if (use) { _tq.position.set(side * slot[2], 0, s.z + (e ? 1.6 : -1.4)); _tq.rotation.set(0, side < 0 ? Math.PI / 2 : -Math.PI / 2, 0); _tq.scale.setScalar(slot[1]); }
+      else { _tq.position.set(0, -50, 0); _tq.scale.setScalar(0.0001); }
+      _tq.updateMatrix(); P.ims.forEach(im => im.setMatrixAt(i * 2 + e, _tq.matrix));
+    }
+    P.ims.forEach(im => { im.instanceMatrix.needsUpdate = true; });
+  }
+}
+function tunnelMatrices(){
+  for (let i = 0; i < SEG_N; i++) { const s = TR.segs[i]; _tm.position.set(0, 0, s.z); _tm.scale.setScalar(s.on ? 1 : 0.0001); _tm.updateMatrix(); TR.segIM.setMatrixAt(i, _tm.matrix); TR.lampIM.setMatrixAt(i, _tm.matrix); }
+  TR.segIM.instanceMatrix.needsUpdate = true; TR.lampIM.instanceMatrix.needsUpdate = true;
+  tunnelDecoMatrices();
+}
+function tunnelDecoVis(v){
+  if (TUN.built) { TUN.torchIM.visible = TUN.flameIM.visible = TUN.webIM.visible = v; }
+  TUN.props.forEach(P => P.ims.forEach(im => { im.visible = v; }));
+}
+function tunnelFxStart(){
+  buildTunnelDeco(); buildTunnelProps(); tunnelDecoVis(true); tunnelDecoMatrices();
+  TUN.on = true; TUN.spawnT = 1.2; TUN.scareDone = false; TUN.scareAt = G.time + 4 + Math.random() * 9; TUN.lunge = 0;
+}
+function tunnelFxEnd(now){
+  TUN.on = false; swarmFlee();
+  if (now) { tunnelDecoVis(false); TUN.lights.forEach(l => { l.intensity = 0; }); }
+}
+/* per frame while a tunnel is (or was just) around */
+function tunnelFxFrame(move, segs){
+  const dt = Math.min(0.05, G.sdt || 0);
+  if (!segs && TUN.built && TUN.torchIM.visible) tunnelDecoVis(false);
+  /* lights follow the nearest torches ahead */
+  let n = 0;
+  if (segs && TUN.built) {
+    const cand = [];
+    for (let i = 0; i < SEG_N; i++) { const s = TR.segs[i]; if (s.on && s.z < 1 && s.z > -18) cand.push({z:s.z, x:(i % 2 ? 1 : -1) * 4.1, i}); }
+    cand.sort((a, b) => b.z - a.z);
+    for (; n < 2 && n < cand.length; n++) { const c = cand[n], l = TUN.lights[n]; l.position.set(c.x, 2.9, c.z); l.intensity = 1.35 + Math.sin(G.clock * 11 + c.i) * 0.18 + Math.sin(G.clock * 23 + c.i * 2) * 0.1; }
+  }
+  for (let k = n; k < 2; k++) TUN.lights[k].intensity = Math.max(0, TUN.lights[k].intensity - 0.08);
+  /* creatures out of the walls */
+  if (TUN.on && inTunnel() && G.mode === 'run' && !(G.branch && G.branch.ending) && KIT18.ok) {
+    TUN.spawnT -= dt; if (TUN.spawnT <= 0) { TUN.spawnT = 0.9 + Math.random() * 0.8; if (TUN.swarm.length < 16) swarmSpawn(); }
+    if (!TUN.scareDone && G.time > TUN.scareAt) vampScare();
+  }
+  swarmFrame(dt, move);
+}
+/* ---------------- the swarm ---------------- */
+const SWARM_NODES = ['tn_blob1', 'tn_blob2', 'tn_blob4', 'tn_blob5', 'tn_blob3'];
+function swarmSpawn(){
+  const name = SWARM_NODES[ri(SWARM_NODES.length)], node = KIT18.n[name]; if (!node) return;
+  const g = new T.Group(), body = new T.Group(), m = node.clone(), h = name === 'tn_blob3' ? 1.0 : 0.6 + Math.random() * 0.4;
+  m.scale.setScalar(h * 1.15); body.add(m); g.add(body); addShadow(g, 0.35 * h + 0.2);
+  const side = Math.random() < 0.5 ? -1 : 1, z = -24 - Math.random() * 14;
+  g.position.set(side * 5.6, 0, z); scene.add(g);
+  TUN.swarm.push({g, body, side, mode:'wall', t:0, x:side * 5.6, wx:side * (3.7 + Math.random() * 0.6), z, ph:Math.random() * 6.28, h, ox:0, oz:0});
+}
+function swarmJoin(c){
+  c.mode = 'chase'; c.t = 0;
+  c.ox = clamp(c.x * 0.75 + (Math.random() - 0.5) * 1.6, -4.3, 4.3); c.oz = 0.15 + Math.random() * 1.7;
+  if (!TUN.hinted && TUN.swarm.filter(q => q.mode === 'chase').length >= 3) { TUN.hinted = true; hint('Shadow creeps! Keep running', 2400); }
+}
+function swarmLunge(){ if (TUN.swarm.some(c => c.mode === 'chase')) { TUN.lunge = 1.3; tone(90, 60, .35, 'sawtooth', .05); } }
+function swarmFlee(){ TUN.swarm.forEach(c => { if (c.mode !== 'gone') { c.mode = 'flee'; c.t = 0; } }); }
+function swarmClear(){ TUN.swarm.forEach(c => scene.remove(c.g)); TUN.swarm.length = 0; }
+function swarmFrame(dt, move){
+  if (!TUN.swarm.length) return;
+  if (G.mode !== 'run') { swarmClear(); return; }
+  if (TUN.lunge > 0) TUN.lunge = Math.max(0, TUN.lunge - dt);
+  const hx = hero.g.position.x, lz = TUN.lunge > 0 ? -1.1 * Math.sin(Math.min(1, TUN.lunge / 1.3) * Math.PI) : 0;
+  for (let i = TUN.swarm.length - 1; i >= 0; i--) {
+    const c = TUN.swarm[i]; c.t += dt; const b = c.body;
+    if (c.mode === 'wall') {
+      c.z += move; const k = Math.min(1, c.t / 0.7), e = k * k * (3 - 2 * k); c.x = c.side * 5.6 + (c.wx - c.side * 5.6) * e;
+      b.rotation.y = c.side < 0 ? Math.PI / 2 : -Math.PI / 2; b.position.y = Math.abs(Math.sin(c.t * 6 + c.ph)) * 0.08; b.rotation.z = Math.sin(c.t * 3 + c.ph) * 0.1;
+      if (c.z > -1.5) swarmJoin(c);
+    } else if (c.mode === 'chase') {
+      /* clump: drift towards the neighbours, but keep a little space */
+      let ax = 0, cnt = 0; for (const o of TUN.swarm) { if (o === c || o.mode !== 'chase') continue; const dx = o.x - c.x, dz = o.z - c.z, d = Math.hypot(dx, dz); if (d < 0.55 && d > 0) { c.ox -= dx / d * dt * 1.2; c.oz -= dz / d * dt * 0.8; } else if (d < 2.5) { ax += o.x; cnt++; } }
+      if (cnt) c.ox += (ax / cnt - c.x) * dt * 0.25;
+      c.ox = clamp(c.ox, -4.3, 4.3); c.oz = clamp(c.oz, 0.1, 2.2);
+      const tx = hx * 0.35 + c.ox, tz = c.oz + lz;
+      c.x += (tx - c.x) * Math.min(1, dt * 3.2); c.z += (tz - c.z) * Math.min(1, dt * (TUN.lunge > 0 ? 6 : 2.4));
+      const hop = Math.abs(Math.sin(c.t * 9 + c.ph)); b.position.y = hop * 0.22; b.scale.set(1 + (1 - hop) * 0.08, 1 - (1 - hop) * 0.1 + hop * 0.05, 1);
+      b.rotation.y = clamp(-c.x * 0.12, -0.5, 0.5) + Math.sin(c.t * 1.3 + c.ph) * 0.25; b.rotation.z = Math.sin(c.t * 9 + c.ph) * 0.12;
+    } else if (c.mode === 'flee') {
+      c.z += (G.ws * 0.55 + 4) * dt; c.x += Math.sign(c.x || 1) * dt * 2; const s = Math.max(0.001, 1 - c.t * 0.9); b.scale.setScalar(s); b.rotation.y = 0;
+      if (c.t > 1.2 || c.z > 9) { scene.remove(c.g); TUN.swarm.splice(i, 1); continue; }
+    }
+    if (c.z > 14) { scene.remove(c.g); TUN.swarm.splice(i, 1); continue; }
+    c.g.position.set(c.x, 0, c.z);
+  }
+}
+/* ---------------- one scare per tunnel: the vampire dives out of the dark at the camera ---------------- */
+function vampScare(){
+  TUN.scareDone = true;
+  if (!A.ok || !V.g || V.mode !== 'off' || !opt('vamp')) return;
+  const side = Math.random() < 0.5 ? -1 : 1;
+  V.mode = 'scare'; V.sc = {t:0, side, boo:false};
+  V.g.position.set(side * 3.4, 5.0, -18); V.g.rotation.set(0, 0, 0); V.g.scale.setScalar(1); V.inner.position.y = 0; V.inner.rotation.y = Math.PI / 2; V.inner.scale.setScalar(2.3); V.shadow.visible = false; V.glow.visible = false; V.g.visible = true;
+  scene.add(V.g); vampAnim('Cast', 0, false, 1.3); sfx.vampLaugh();
+}
+function vampScareFrame(sdt){
+  if (V.mode !== 'scare') return;
+  const s = V.sc; s.t += sdt; const g = V.g;
+  if (s.t < 1.05) {
+    const k = s.t / 1.05, e = k * k * (3 - 2 * k);
+    g.position.set(s.side * 3.4 + (-s.side * 0.9 - s.side * 3.4) * e, 5.0 + (2.3 - 5.0) * e + Math.sin(k * Math.PI) * 0.6, -18 + (1.6 + 18) * e);
+    if (!s.boo && s.t > 0.62) { s.boo = true; vampAnim('Catch', 0.08, true, 1.6); popText('BOO!', g.position.x, 3.4, g.position.z - 1, 'vamp'); flashFx('rgba(120,40,160,.45)'); shake(0.32); haptic(HAP.bad); tone(520, 180, .4, 'sawtooth', .05); }
+  } else {
+    g.position.x += -s.side * 8 * sdt; g.position.y += 6 * sdt; g.position.z -= 2 * sdt; g.scale.setScalar(Math.max(0.001, 1 - (s.t - 1.05) * 1.2));
+    if (s.t > 1.8) vampOff();
+  }
+}
+/* ================= v18 PLAY: rescue shield instead of the sword button, shadow by a tap,
+   vampire that really shows up (and talks only from his crypt), ghosts only at the cemetery ================= */
+
+/* ---- rescue shield: charges very slowly from right answers and saves the very last heart ---- */
+function renderSword(){
+  const p = clamp(G.sword || 0, 0, 1); swordBtn.style.setProperty('--p', p.toFixed(3));
+  const r = p >= 1; if (swordBtn.classList.contains('ready') !== r) { swordBtn.classList.toggle('ready', r); if (r) bumpEl(swordBtn, 'pop'); }
+}
+function chargeSword(fast){
+  const was = (G.sword || 0) >= 1; G.sword = Math.min(1, (G.sword || 0) + (fast ? 0.06 : 0.05) + 0.012 * (S.up.sword || 0)); renderSword();
+  if (!was && G.sword >= 1) { sfx.pup(); if (!G.swordHinted) { G.swordHinted = true; hint('Shield ready: it saves your last heart', 2600); } }
+}
+function useSword(){
+  if (!inPlay()) return;
+  if (vampStrikeTry()) return;
+  bumpEl(swordBtn, 'nope'); sfx.tap();
+  hint((G.sword || 0) >= 1 ? 'Shield ready: it saves your last heart' : 'Right answers slowly charge the shield', 2200);
+}
+function loseHeart(){
+  if (G.hearts <= 1 && (G.sword || 0) >= 1) {
+    G.sword = 0; renderSword(); G.shieldT = Math.max(G.shieldT || 0, 1.6);
+    const hx = hero.g.position.x; popText('Shield!', hx, 2.8, 0, 'good'); burst(hx, 1.2, 0, 0x7ff3ff, 22, 7); flashFx('rgba(110,220,255,.5)');
+    sfx.pup(); haptic(HAP.pup); shake(0.25); bumpEl(swordBtn, 'pop');
+    toast('Щит спас!', 'Последнее сердце осталось с тобой', 'good'); swarmLunge();
+    return;
+  }
+  swarmLunge(); loseHeart0();
+}
+
+/* ---- shadow world: tap the ghost button at the bottom left (the two-finger swipe is gone) ---- */
+function shadowGesture(){}
+
+/* ---- the vampire: lies on his crypt early in every run, then takes a monster's place, then the duel ---- */
+function vampLaneWanted(q){
+  if (!V.g || V.mode !== 'off' || q.type === 'build' || !opt('vamp') || G.branch) return false;
+  if (!V.ready) { if (V.seen >= 1 && G.answered >= 3) V.ready = true; else return false; }
+  return V.laneN === 0 || (!G.duelDone && Math.random() < 0.3);
+}
+/* his lines only while he lies on the crypt slab by the road */
+function sayAt(getPos, key, ms){ if (/^(vampSpawn|vampSteal|vampDie|duel)$/.test(key)) return; sayAt0(getPos, key, ms); }
+
+/* ---- ghosts belong to the moon cemetery only; elsewhere the "context" monsters are bats and walkers ---- */
+function enemyNames(kind){
+  if (kind === 'wolf') return ['wolf', 'wolf', 'wolf'];
+  if (kind === 'fire') { if (curLoc().mob === 'ghost') return shuffle(FLOAT_POOL.concat(['ghost1'])).slice(0, 3); return shuffle(['bat', 'bat', 'jack', 'witchcat', 'mummy']).slice(0, 3); }
+  return shuffle(WALK_POOL.slice()).slice(0, 3);
+}
+
+/* ---- per-run extras ---- */
+function sprintExtras(sch, st, first, t0){
+  if (first) return;
+  if (junctionExtras(sch, t0)) return;
+  if (G.branch) {
+    if (G.branch.kind === 'tunnel' && opt('bats') && !batsActive() && !G.branch.ending && Math.random() < 0.8) sch.push({at:t0 + 0.3, fn:() => { if (!batsActive()) spawnObstacle('bats', ri(3), -30); }});
+    if (A.ok && opt('cat') && CAT.g && CAT.mode === 'off' && Math.random() < 0.18) sch.push({at:t0 + 0.35, fn:catSpitEvent});
+    return;
+  }
+  const left = G.queue ? G.queue.length - G.qIndex : 0;
+  if (A.ok && opt('vamp') && V.g && !G.duelDone && V.mode === 'off' && G.answered >= 4 && (V.laneN >= 1 || (V.seen >= 1 && left <= 3))) { sch.length = 0; sch.push({at:t0 + 0.4, fn:startDuel}); return; }
+  if (opt('arch') && !G.archDone && G.stage >= 1 && Math.random() < 0.22) { G.archDone = true; sch.push({at:t0 + 0.15, fn:spawnSecretArch}); sch.extra = (sch.extra || 0) + 0.5; }
+  if (A.ok && opt('cat') && CAT.g && CAT.mode === 'off' && G.stage >= (S.hard ? 1 : 2) && Math.random() < (S.hard ? 0.32 : 0.22)) sch.push({at:t0 + 0.35, fn:catSpitEvent});
+  if (opt('ghost') && G.shadowLoss >= 3) { sch.push({at:t0 + 0.7, fn:() => { spawnObstacle('rock', G.lane, SPAWN_Z); popText('Shadow mistake!', hero.g.position.x, 2.6, -2, 'bad'); }}); }
+}
+
+/* ---- obstacles rise over the horizon far away instead of popping up near the heroine ---- */
+function spawnObstacle(kind, lane, z){
+  const g = makeObstacle(kind, lane); g.position.z = z; g.scale.setScalar(kind === 'bats' ? 0.001 : 1); scene.add(g); obstacles.push(g);
+  if (kind !== 'bats') g.userData.age = 0.5;
+  return g;
+}
+
+/* ---- per-frame hook ---- */
+function v18Frame(sdt, dt){
+  vampScareFrame(sdt);
+  if (G.mode !== 'run' && TUN.swarm.length) swarmClear();
+  if (G.mode !== 'run' && !TUN.on) TUN.lights.forEach(l => { if (l.intensity > 0) l.intensity = Math.max(0, l.intensity - dt * 3); });
+}
+function bindV18(){
+  v18Stages();
+  /* a darker, warmer tunnel */
+  Object.assign(PALS.tunnel, {sky:['#050307','#0c070c','#140c12','#1c1016','#22141a'], fog:'#0d080c', fogN:5, fogF:50, hemiS:'#c09070', hemiG:'#140a10', hemiI:0.4, sun:'#ff9a5a', sunI:0.18, grass:'#241a22', path:'#9a8270', ember:'#ffb050', hillFar:'#140c12', hillNear:'#0c070a'});
+  PAL_COLS.forEach(f => { PALS.tunnel.c[f] = new T.Color(PALS.tunnel[f]); }); PALS.tunnel.skyC = PALS.tunnel.sky.map(s => new T.Color(s));
+  OUTLINE_I.visible = false;
+  setTimeout(() => { loadKit18(); }, 1800);
+}
+/* ================= v18 MUSIC: an original warm fingerstyle guitar tune; your own track never gets muffled mid-run ================= */
+/* plucked string (Karplus–Strong with a fractional delay, so high notes stay in tune), rendered once per note */
+function musExtra3(ctx, out, noise){
+  const sr = ctx.sampleRate, cache = {};
+  const body = ctx.createBiquadFilter(); body.type = 'peaking'; body.frequency.value = 210; body.gain.value = 4; body.Q.value = 1.1;
+  const air = ctx.createBiquadFilter(); air.type = 'highshelf'; air.frequency.value = 3200; air.gain.value = -5;
+  body.connect(air); air.connect(out);
+  function ks(m, bright){
+    const key = m + (bright ? 'b' : ''); if (cache[key]) return cache[key];
+    const f = mhz(m), L = sr / f - 0.5, len = Math.round(sr * 2.6), b = ctx.createBuffer(1, len, sr), d = b.getChannelData(0);
+    const t60 = clamp(3.4 - (m - 40) * 0.06, 0.9, 3.4), g = Math.pow(0.001, 1 / (t60 * f));
+    const n0 = Math.ceil(L) + 2;
+    let prev = 0; for (let i = 0; i < n0; i++) { const r = Math.random() * 2 - 1; prev = prev + (r - prev) * (bright ? 0.75 : 0.45); d[i] = prev; }
+    let mean = 0; for (let i = 0; i < n0; i++) mean += d[i]; mean /= n0; for (let i = 0; i < n0; i++) d[i] -= mean;
+    for (let i = n0; i < len; i++) {
+      const x = i - L, xi = Math.floor(x), fr = x - xi;
+      const a = d[xi] * (1 - fr) + d[xi + 1] * fr, a2 = d[xi - 1] * (1 - fr) + d[xi] * fr;
+      d[i] = g * 0.5 * (a + a2);
+    }
+    let mx = 0; for (let i = 0; i < len; i++) { const v = Math.abs(d[i]); if (v > mx) mx = v; } if (mx > 0) for (let i = 0; i < len; i++) d[i] /= mx;
+    return (cache[key] = b);
+  }
+  return {
+    gtr(t, m, dur, v, bright){
+      const s = ctx.createBufferSource(), gn = ctx.createGain(); s.buffer = ks(m, bright);
+      const end = t + Math.min(2.5, Math.max(0.12, dur));
+      gn.gain.setValueAtTime(v, t); gn.gain.setValueAtTime(v, end - 0.06); gn.gain.linearRampToValueAtTime(0.0001, end);
+      s.connect(gn); gn.connect(body); s.start(t); s.stop(end + 0.02);
+    }
+  };
+}
+/* "Тёплая гитара" — G · Em · C · D · G · Bm · C · D, travis-style thumb and fingers, a simple folk melody on top */
+function writeGuitar(I, st, L){
+  const CH = [
+    {b:[43, 50], t:[55, 59, 62, 67]}, {b:[40, 47], t:[55, 59, 64, 67]}, {b:[48, 43], t:[55, 60, 64, 67]}, {b:[50, 45], t:[57, 62, 66, 69]},
+    {b:[43, 50], t:[55, 59, 62, 67]}, {b:[47, 42], t:[54, 59, 62, 66]}, {b:[48, 43], t:[55, 60, 64, 67]}, {b:[50, 45], t:[57, 62, 66, 69]}
+  ];
+  const MEL = [
+    [[0, 71, 4], [4, 74, 4], [8, 79, 6], [14, 78, 2]], [[0, 76, 6], [6, 74, 2], [8, 71, 4], [12, 67, 4]],
+    [[0, 72, 4], [4, 76, 4], [8, 79, 4], [12, 76, 4]], [[0, 78, 6], [6, 76, 2], [8, 74, 8]],
+    [[0, 71, 2], [2, 74, 2], [4, 79, 4], [8, 83, 6], [14, 81, 2]], [[0, 78, 6], [6, 74, 2], [8, 71, 8]],
+    [[0, 72, 3], [3, 74, 1], [4, 76, 4], [8, 79, 4], [12, 76, 4]], [[0, 74, 4], [4, 78, 4], [8, 81, 6], [14, 79, 2]]
+  ];
+  const PICK = [[0, 3], [2, 1], [6, 2], [7, 3], [10, 1], [12, 2], [14, 3]];
+  const hum = s => s * st + (s % 4 === 2 ? st * 0.12 : 0);
+  for (let bar = 0; bar < 8; bar++) {
+    const t0 = bar * 16 * st, c = CH[bar];
+    if (L === 0) { [0, 4, 8, 12].forEach((s, i) => I.gtr(t0 + s * st, c.b[i % 2], st * 4.2, i === 0 ? 0.62 : 0.5)); I.kick(t0, 0.32); I.kick(t0 + 8 * st, 0.24); }
+    else if (L === 1) { PICK.forEach(([s, k], i) => I.gtr(t0 + hum(s), c.t[k], st * (16 - s) * 0.9, (s === 0 ? 0.34 : 0.27) * (i % 2 ? 0.9 : 1), s === 7)); if (bar % 2) I.gtr(t0 + 15 * st, c.t[0], st * 1.5, 0.18); }
+    else if (L === 2) { for (let s = 0; s < 16; s += 2) I.shaker(t0 + hum(s + 1), s % 4 === 2 ? 0.16 : 0.1); [4, 12].forEach(s => I.rim(t0 + s * st, 0.22)); if (bar === 7) [13, 14, 15].forEach(s => I.rim(t0 + s * st, 0.12)); }
+    else if (L === 3) { MEL[bar].forEach(([s, m, n]) => I.gtr(t0 + s * st, m, n * st * 1.15, 0.36, true)); }
+  }
+}
+(function(){
+  const i = SONGS.findIndex(s => s.id === 'lofi');
+  SONGS.splice(i >= 0 ? i + 1 : SONGS.length, 0, {id:'guitar', name:'Тёплая гитара', sub:'фингерстайл · 92 BPM', bpm:92, rms:[0.062, 0.05, 0.02, 0.04], peak:[0.75, 0.55, 0.32, 0.5], write:writeGuitar});
+})();
+/* your own track keeps playing as it is in the tunnel and the duel (it used to be muffled there, which sounded like it faded out) */
+function musicMood(){
+  if (G.mode !== 'run' || !musicOn() || G.paused) return;
+  const own = curSong().id === 'custom';
+  const want = (!own && (G.phase === 'duel' || inTunnel())) ? 'tense' : 'run';
+  if (MUS.mode === want || MUS.want === want) return;
+  if (!MUS.mode && !MUS.want) return;
+  musicPlay(want);
+}
+
 /* ---- on-device stutter diagnostics: every frame longer than 70 ms is logged with what ran around it ---- */
 const perfEl = $('#perf'), PM = [], PL = []; let pfPrevStart = 0, pfFrames = 0, pfSince = performance.now(), pfFps = 0, pfShownAt = 0;
 function mark(name, dur){ PM.push({n:name, d:dur, at:performance.now()}); if (PM.length > 80) PM.splice(0, PM.length - 80); }
@@ -6833,12 +7680,12 @@ Object.keys(sfx).forEach(k => { sfx[k] = timed('звук ' + k, sfx[k]); });
 const loadEl = $('#loading'), loadTxt = $('#loadTxt'), loadBar = $('#loadBar');
 function setProg(p){ const v = Math.round(clamp(p, 0, 1) * 100); loadTxt.textContent = 'Загружаю лес… ' + v + '%'; loadBar.style.width = v + '%'; }
 function endBoot(){
-  if (A.ok) { try { scene.remove(hero.g); hero = buildHeroGLB(); addDance(hero); addSpin(hero); addSlide(hero); hero.g.rotation.y = Math.PI; scene.add(hero.g); buildSceneryKit(); buildVamp(); buildCat(); buildGhost(); applySkins(); buildTurnKit(); } catch (e) { console.error(e); A.ok = false; buildSceneryProc(); } }
+  if (A.ok) { try { scene.remove(hero.g); hero = buildHeroGLB(); addDance(hero); addSpin(hero); addSlide(hero); hero.g.rotation.y = Math.PI; scene.add(hero.g); buildSceneryKit(); buildVamp(); buildCat(); buildGhost(); applySkins(); buildTurnKit(); buildTunnelDeco(); } catch (e) { console.error(e); A.ok = false; buildSceneryProc(); } }
   else buildSceneryProc();
   setPal('dusk', 'day', true); prewarm(); setTimeout(renderMusic, 400); window.__bootDone = true; if (TG.ok) tgCloudInit(); else cloudInit(); if (G.mode === 'home') renderHome(); loadEl.classList.add('out'); setTimeout(() => { loadEl.hidden = true; }, 600);
 }
-if (/debug/.test(location.search)) window.__WR = {TRY, BIOV, setBiome, lvProgress, lvAfterRun, chLvl, applyChapterStages, prefetchWorld, startBossLoad, ensureDanceBoss, DW, giveRelic, showRelic, COLL, hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
-bindMeta(); bindV12(); bindV17(); goHome();
+if (/debug/.test(location.search)) window.__WR = {offlineRender, foldLoop, SONGS, MUS_SR, LAYER_MIX, speak, voiceFetch, TR, V, SETS, SKYI, BIOV2:BIOV, get palK(){ return palK; }, get activeSet(){ return activeSet; }, inTunnel, KIT18, TUN, SCN, LOCS, curLoc, advanceLoc, loadKit18, swarmSpawn, vampScare, sceneryGo, VOICE, TRY, BIOV, setBiome, lvProgress, lvAfterRun, chLvl, applyChapterStages, prefetchWorld, startBossLoad, ensureDanceBoss, DW, giveRelic, showRelic, COLL, hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
+bindMeta(); bindV12(); bindV17(); bindV18(); goHome();
 requestAnimationFrame(frame);
 if (HAS_GLB) loadAssets(setProg).then(endBoot).catch(e => { console.error('assets', e); A.ok = false; endBoot(); });
 else endBoot();
