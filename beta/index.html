@@ -629,7 +629,7 @@ label.btn{cursor:pointer}
 @keyframes guardPulse{50%{box-shadow:0 3px 0 var(--lineS),0 0 0 7px rgba(95,214,255,.35)}}
 #btnShadow.ready::after{content:'TAP';background:none;width:auto;height:auto;top:-24px;font:900 12px/1 var(--display);color:#fff;-webkit-text-stroke:3px #1e1838;paint-order:stroke fill;letter-spacing:.06em}
 /* v18 beta: tuning panel */
-#tuneFab{position:absolute;left:max(10px,env(safe-area-inset-left,0px));top:46%;z-index:40;width:42px;height:42px;border-radius:50%;border:2px solid #1e1838;background:#ffd23a;font:900 20px/1 var(--body);box-shadow:0 3px 0 #1e1838;pointer-events:auto}
+#tuneFab{position:absolute;left:max(10px,env(safe-area-inset-left,0px));top:31%;z-index:40;width:42px;height:42px;border-radius:50%;border:2px solid #1e1838;background:#ffd23a;font:900 20px/1 var(--body);box-shadow:0 3px 0 #1e1838;pointer-events:auto}
 #betaTag{position:absolute;right:8px;bottom:6px;z-index:40;font:900 10px/1 var(--body);color:#fff;background:#ff5a6a;padding:3px 6px;border-radius:6px;pointer-events:none;opacity:.85}
 #tunePanel{position:absolute;left:0;right:0;bottom:0;z-index:41;max-height:62%;display:flex;flex-direction:column;background:rgba(24,18,44,.96);color:#fff;font:600 13px/1.3 var(--body);border-radius:16px 16px 0 0;box-shadow:0 -6px 24px rgba(0,0,0,.4);pointer-events:auto;touch-action:pan-y}
 #tunePanel[hidden]{display:none}
@@ -656,6 +656,35 @@ label.btn{cursor:pointer}
 .tp-out{padding:8px 10px 12px}
 .tp-out textarea{width:100%;border-radius:8px;font:12px/1.3 monospace;padding:6px}
 .tp-tn small{font:600 10px var(--body);color:#8a80b0}
+/* v18 beta: skin editor */
+#skEd{position:absolute;inset:0;z-index:42;display:flex;flex-direction:column;pointer-events:none;color:#fff;font:600 13px/1.3 var(--body)}
+#skEd[hidden]{display:none}
+#skEd button,#skEd .sk-a{font:800 12px/1 var(--body);border:0;border-radius:9px;padding:8px 10px;background:#3a2e66;color:#fff;text-decoration:none;display:inline-block}
+#skEd button.on{background:#ffd23a;color:#1e1838}
+#skEd button.bad{background:#7a2440}
+.sk-top{pointer-events:auto;display:flex;gap:6px;align-items:center;padding:calc(env(safe-area-inset-top,0px) + 8px) 10px 8px;background:linear-gradient(rgba(20,14,40,.85),rgba(20,14,40,0))}
+.sk-name{flex:1;min-width:0;border-radius:9px;border:0;padding:8px;font:800 13px var(--body)}
+.sk-stage{flex:1;pointer-events:auto;touch-action:none}
+.sk-panel{pointer-events:auto;max-height:56%;display:flex;flex-direction:column;background:rgba(24,18,44,.97);border-radius:16px 16px 0 0;box-shadow:0 -6px 24px rgba(0,0,0,.4)}
+.sk-tabs{display:flex;gap:6px;overflow-x:auto;padding:8px 10px 6px;border-bottom:1px solid rgba(255,255,255,.12)}
+.sk-body{overflow-y:auto;padding:8px 12px 18px;-webkit-overflow-scrolling:touch}
+.sk-h{color:#cfc6ef;font-size:12px;margin:6px 0}
+.sk-zone{display:grid;grid-template-columns:1fr 54px 92px;gap:8px;align-items:center;margin:6px 0}
+.sk-zone input[type=color],.sk-row input[type=color]{width:54px;height:34px;border:0;border-radius:8px;padding:0;background:none}
+.sk-zone select{padding:6px;border-radius:8px;font:700 12px var(--body)}
+.sk-row{display:block;margin:8px 0}.sk-row span{display:block;margin-bottom:3px;color:#e6e0ff}
+.sk-row input[type=range]{width:100%;accent-color:#ffd23a;height:26px}.sk-row input[type=text]{width:100%;padding:8px;border-radius:8px;border:0;font:800 14px var(--body)}
+.sk-chk{display:flex;gap:8px;align-items:center;margin:10px 0}.sk-chk input{width:20px;height:20px;accent-color:#ffd23a}
+.sk-chips,.sk-pats,.sk-btns,.sk-seg,.sk-sw{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.sk-chips button i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-2px;border:1px solid rgba(255,255,255,.5)}
+.sk-prev{display:block;width:62%;max-width:240px;margin:6px auto;border-radius:10px;touch-action:none;background:#2a2244}
+.sk-icons{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:6px;margin:6px 0}
+#skEd .sk-icons button{padding:2px;background:#2e2452}.sk-icons canvas{width:44px;height:44px;display:block;margin:auto}
+.sk-sel{border-top:1px solid rgba(255,255,255,.12);margin-top:6px;padding-top:4px}
+.sk-sw button{width:42px;height:42px;border-radius:50%!important;border:2px solid rgba(255,255,255,.4)!important}
+.sk-sw button.on{outline:3px solid #ffd23a}
+.sk-ref{display:block;max-width:100%;max-height:120px;border-radius:8px;margin:6px 0}
+.sk-list{display:flex;flex-direction:column;gap:6px}.sk-item{display:grid;grid-template-columns:48px 1fr auto auto;gap:8px;align-items:center}.sk-item img{width:48px;height:64px;border-radius:6px}
 
 #perf{position:absolute;left:8px;right:8px;bottom:92px;z-index:9;font:700 10.5px/1.35 ui-monospace,Menlo,monospace;color:#fff;background:rgba(20,10,40,.8);border:2px solid rgba(255,255,255,.25);border-radius:10px;padding:6px 8px;pointer-events:none;white-space:pre-wrap;max-height:30vh;overflow:hidden}
 #perf b{color:#ffc93a}
@@ -6681,6 +6710,7 @@ function updateCamera(dt){
   let tp, tl; const hx = hero.g.position.x * Math.cos(scene.rotation.y) + hero.g.position.z * Math.sin(scene.rotation.y);
   if (G.mode === 'run') { const C = TUNE.cam; tp = [hx + C.x, C.y, C.z]; tl = [hx * 0.85 + 0.15, C.look, -10]; }
   else if (G.mode === 'boss') { const hz = hero.g.position.z, up = clamp(-hz / 8, 0, 1); tp = [hx * 0.9 + 1.1 - up * 0.6, 2.55 + up * 0.9, 4.6 + hz]; tl = [hx * 0.6 + 0.2, 3.0 + up * 0.9, -12 + hz * 0.6]; }
+  else if (G.mode === 'skined') { tp = [0, 1.1, 5.8]; tl = [0, -0.15, 1.6]; }
   else { tp = [0, 1.5, 8]; tl = [0, menuLookY(), -1]; }
   const k = Math.min(1, dt * (G.mode === 'run' ? TUNE.cam.follow : 3.2));
   camPos.x += (tp[0] - camPos.x) * k; camPos.y += (tp[1] - camPos.y) * k; camPos.z += (tp[2] - camPos.z) * k;
@@ -6733,7 +6763,7 @@ function updateHero(sdt, dt){
   else if (!h.flashing) h.packMat.emissive.setRGB(glow, glow * .7, 0);
   h.g.position.y = G.heroY + bob;
   if (G.mode === 'home' && h.mixer) { h.g.rotation.y = Math.PI + HK.rot; h.g.position.y += HK.y; }
-  if (h.sword && h.sword.g) h.sword.g.visible = G.mode !== 'home';
+  if (h.sword && h.sword.g) h.sword.g.visible = G.mode !== 'home' && G.mode !== 'skined';
   const tzz = G.mode === 'home' ? HK.z : G.mode === 'boss' ? (G.heroZT || 0) : 0;
   h.zRun = (G.mode === 'boss' && Math.abs(tzz - h.g.position.z) > 0.6) || G.phase === 'turn';
   if (G.phase === 'turn' && TR.turn) h.g.rotation.y = TR.turn.heroRot;
@@ -7445,7 +7475,7 @@ function tpRender(){
   else if (tab === 'decor') h = tpDecorRows();
   else if (tab === 'tun') { TP_TUN.forEach(r => { h += tpSlider('tun.' + r[0], r[1], r[2], r[3], r[4], TUNE.tun[r[0]], TUNE_DEF.tun[r[0]]); }); h += tpCheck('tun.scare', 'Вампир выскакивает из темноты', TUNE.tun.scare); h += '<div class="tp-h">Темнота туннеля — вкладка «Место», когда ты внутри туннеля</div>'; }
   else if (tab === 'fork') { TP_FORK.forEach(r => { h += tpSlider('fork.' + r[0], r[1], r[2], r[3], r[4], TUNE.fork[r[0]], TUNE_DEF.fork[r[0]]); }); h += tpCheck('fork.wall', 'Граффити-стена', TUNE.fork.wall); h += tpCheck('fork.decor', 'Предметы вдоль дорог развилки', TUNE.fork.decor); }
-  else if (tab === 'skin') h = '<div class="tp-h">Примерить на героине (без покупки, только в бете)</div><div class="tp-skins">' + SKINS.map(s => '<button data-skin18="' + s.id + '"' + (S.equip.skin === s.id ? ' class="on"' : '') + '>' + esc(s.name) + '</button>').join('') + '</div>';
+  else if (tab === 'skin') h = '<button data-a="sked" class="on" style="margin:8px 0">Открыть редактор скинов</button><div class="tp-h">Примерить на героине (без покупки, только в бете)</div><div class="tp-skins">' + SKINS.map(s => '<button data-skin18="' + s.id + '"' + (S.equip.skin === s.id ? ' class="on"' : '') + '>' + esc(s.name) + '</button>').join('') + '</div>';
   TP.el.querySelector('.tp-body').innerHTML = h;
   TP.el.querySelectorAll('.tp-tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
   TP.el.querySelector('[data-a="pause"]').textContent = G.paused ? '▶ Пуск' : '⏸ Пауза';
@@ -7495,6 +7525,7 @@ function buildTunePanel(){
     else if (b.dataset.skin18) { S.equip.skin = b.dataset.skin18; try { applySkins(); } catch(err) {} tpRender(); }
     else if (b.dataset.a === 'pause') { if (G.mode === 'run' || G.mode === 'boss') { G.paused = !G.paused; if (!G.paused) showScreen(null); } tpRender(); }
     else if (b.dataset.a === 'close') { TP.open = false; el.hidden = true; }
+    else if (b.dataset.a === 'sked') skOpen();
     else if (b.dataset.a === 'export') tpExport();
     else if (b.dataset.a === 'import') { const box = el.querySelector('.tp-out'); box.hidden = false; box.querySelector('textarea').value = ''; box.querySelector('textarea').focus(); }
     else if (b.dataset.a === 'copy') { const t = el.querySelector('.tp-out textarea'); t.select(); try { document.execCommand('copy'); } catch(err) {} try { navigator.clipboard.writeText(t.value).catch(() => {}); } catch(err) {} toast('Скопировано', '', 'good'); }
@@ -7504,6 +7535,377 @@ function buildTunePanel(){
   /* the Место / Декор tabs follow the place you are in */
   setInterval(() => { if (TP.open && (TP.tab === 'place' || TP.tab === 'decor')) { const key = locKey() + '|' + activeSet; if (key !== TP.lastKey) { TP.lastKey = key; tpRender(); } } }, 700);
   const tag = document.createElement('div'); tag.id = 'betaTag'; tag.textContent = 'БЕТА'; document.getElementById('app').appendChild(tag);
+}
+/* ================= v18 PRINT ICONS: a small motion-design icon set (flat geometric shapes, 100×100 box) =================
+   Each icon draws paths and calls F(rule) to fill (or outline in "line" style) and S(w) for stroke-only parts. */
+const ICONS = {
+  sparkle:{n:'Искра', d:(c, F) => { c.beginPath(); c.moveTo(50, 2); c.quadraticCurveTo(56, 44, 98, 50); c.quadraticCurveTo(56, 56, 50, 98); c.quadraticCurveTo(44, 56, 2, 50); c.quadraticCurveTo(44, 44, 50, 2); c.closePath(); F(); }},
+  star:{n:'Звезда', d:(c, F) => { c.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, r = i % 2 ? 19 : 47; c.lineTo(50 + Math.cos(a) * r, 54 + Math.sin(a) * r); } c.closePath(); F(); }},
+  moon:{n:'Луна', d:(c, F) => { c.beginPath(); c.moveTo(60, 6); c.bezierCurveTo(30, 8, 8, 30, 8, 54); c.bezierCurveTo(8, 78, 30, 96, 56, 96); c.bezierCurveTo(74, 96, 88, 88, 96, 74); c.bezierCurveTo(66, 78, 40, 60, 40, 36); c.bezierCurveTo(40, 24, 48, 12, 60, 6); c.closePath(); F(); }},
+  bolt:{n:'Молния', d:(c, F) => { c.beginPath(); [[60, 2], [18, 58], [46, 58], [36, 98], [84, 38], [56, 38], [70, 2]].forEach(p => c.lineTo(p[0], p[1])); c.closePath(); F(); }},
+  flame:{n:'Пламя', d:(c, F) => { c.beginPath(); c.moveTo(50, 2); c.bezierCurveTo(64, 26, 84, 38, 84, 62); c.bezierCurveTo(84, 84, 68, 98, 50, 98); c.bezierCurveTo(32, 98, 16, 84, 16, 62); c.bezierCurveTo(16, 46, 26, 36, 34, 26); c.bezierCurveTo(36, 40, 42, 48, 50, 52); c.bezierCurveTo(44, 36, 46, 18, 50, 2); c.closePath();
+    c.moveTo(50, 64); c.bezierCurveTo(58, 72, 62, 78, 62, 84); c.bezierCurveTo(62, 90, 56, 94, 50, 94); c.bezierCurveTo(44, 94, 38, 90, 38, 84); c.bezierCurveTo(38, 78, 44, 72, 50, 64); c.closePath(); F('evenodd'); }},
+  skull:{n:'Череп', d:(c, F) => { c.beginPath(); c.moveTo(50, 6); c.bezierCurveTo(26, 6, 12, 22, 12, 44); c.bezierCurveTo(12, 58, 20, 66, 28, 70); c.lineTo(28, 86); c.bezierCurveTo(28, 92, 32, 96, 38, 96); c.lineTo(62, 96); c.bezierCurveTo(68, 96, 72, 92, 72, 86); c.lineTo(72, 70); c.bezierCurveTo(80, 66, 88, 58, 88, 44); c.bezierCurveTo(88, 22, 74, 6, 50, 6); c.closePath();
+    c.moveTo(47, 46); c.ellipse(36, 46, 11, 12, 0, 0, Math.PI * 2); c.moveTo(75, 46); c.ellipse(64, 46, 11, 12, 0, 0, Math.PI * 2); c.moveTo(50, 58); c.lineTo(56, 70); c.lineTo(44, 70); c.closePath();
+    [40, 50, 60].forEach(x => { c.moveTo(x - 3, 82); c.rect(x - 3, 82, 6, 10); }); F('evenodd'); }},
+  eye:{n:'Глаз', d:(c, F) => { c.beginPath(); c.moveTo(2, 50); c.bezierCurveTo(24, 18, 76, 18, 98, 50); c.bezierCurveTo(76, 82, 24, 82, 2, 50); c.closePath(); c.moveTo(70, 50); c.arc(50, 50, 20, 0, Math.PI * 2); c.moveTo(59, 50); c.arc(50, 50, 9, 0, Math.PI * 2); F('evenodd'); }},
+  heart:{n:'Сердце', d:(c, F) => { c.beginPath(); c.moveTo(50, 92); c.bezierCurveTo(20, 70, 6, 52, 6, 34); c.bezierCurveTo(6, 18, 18, 8, 32, 8); c.bezierCurveTo(41, 8, 47, 13, 50, 20); c.bezierCurveTo(53, 13, 59, 8, 68, 8); c.bezierCurveTo(82, 8, 94, 18, 94, 34); c.bezierCurveTo(94, 52, 80, 70, 50, 92); c.closePath(); F(); }},
+  web:{n:'Паутина', d:(c, F, S) => { c.beginPath(); for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4; c.moveTo(50, 50); c.lineTo(50 + Math.cos(a) * 48, 50 + Math.sin(a) * 48); } [14, 26, 38].forEach(r => { for (let i = 0; i <= 8; i++) { const a = i * Math.PI / 4, b = (i - 0.5) * Math.PI / 4, p = [50 + Math.cos(a) * r, 50 + Math.sin(a) * r]; if (!i) c.moveTo(p[0], p[1]); else c.quadraticCurveTo(50 + Math.cos(b) * r * 0.82, 50 + Math.sin(b) * r * 0.82, p[0], p[1]); } }); S(4); }},
+  spider:{n:'Паук', d:(c, F, S) => { c.beginPath(); [-1, 1].forEach(s => [[30, 26, 8, 6], [34, 44, 2, 30], [34, 58, 4, 70], [30, 66, 14, 94]].forEach(([a, b, x, y]) => { c.moveTo(50 + s * 8, 52); c.quadraticCurveTo(50 + s * a, b, 50 + s * (50 - x), y); })); S(5); c.beginPath(); c.ellipse(50, 60, 15, 19, 0, 0, Math.PI * 2); c.moveTo(60, 36); c.arc(50, 36, 10, 0, Math.PI * 2); F(); }},
+  bat:{n:'Летучая мышь', d:(c, F) => { c.beginPath(); c.moveTo(50, 34); c.lineTo(57, 24); c.lineTo(61, 35); c.bezierCurveTo(72, 28, 87, 29, 98, 38); c.bezierCurveTo(89, 41, 85, 49, 85, 58); c.bezierCurveTo(77, 51, 68, 53, 64, 61); c.bezierCurveTo(59, 57, 54, 61, 50, 70); c.bezierCurveTo(46, 61, 41, 57, 36, 61); c.bezierCurveTo(32, 53, 23, 51, 15, 58); c.bezierCurveTo(15, 49, 11, 41, 2, 38); c.bezierCurveTo(13, 29, 28, 28, 39, 35); c.lineTo(43, 24); c.closePath(); F(); }},
+  crown:{n:'Корона', d:(c, F) => { c.beginPath(); [[10, 74], [6, 26], [30, 48], [50, 14], [70, 48], [94, 26], [90, 74]].forEach(p => c.lineTo(p[0], p[1])); c.closePath(); c.rect(10, 80, 80, 12); F(); }},
+  snow:{n:'Снежинка', d:(c, F, S) => { c.beginPath(); for (let i = 0; i < 6; i++) { const a = i * Math.PI / 3, co = Math.cos(a), si = Math.sin(a); c.moveTo(50, 50); c.lineTo(50 + co * 46, 50 + si * 46); [24, 36].forEach(r => { const px = 50 + co * r, py = 50 + si * r; [-1, 1].forEach(s => { const b = a + s * 0.7; c.moveTo(px, py); c.lineTo(px + Math.cos(b) * 12, py + Math.sin(b) * 12); }); }); } S(6); }},
+  cat:{n:'Кот', d:(c, F) => { c.beginPath(); c.moveTo(16, 94); c.lineTo(12, 30); c.lineTo(34, 44); c.bezierCurveTo(44, 40, 56, 40, 66, 44); c.lineTo(88, 30); c.lineTo(84, 94); c.closePath();
+    [[36, 1], [64, -1]].forEach(([x]) => { c.moveTo(x - 10, 66); c.quadraticCurveTo(x, 54, x + 10, 66); c.quadraticCurveTo(x, 74, x - 10, 66); c.closePath(); }); c.moveTo(46, 78); c.lineTo(54, 78); c.lineTo(50, 84); c.closePath(); F('evenodd'); }},
+  mush:{n:'Гриб', d:(c, F) => { c.beginPath(); c.moveTo(6, 56); c.bezierCurveTo(6, 26, 28, 8, 50, 8); c.bezierCurveTo(72, 8, 94, 26, 94, 56); c.closePath(); [[30, 34, 7], [56, 24, 6], [72, 42, 6], [46, 46, 5]].forEach(([x, y, r]) => { c.moveTo(x + r, y); c.arc(x, y, r, 0, Math.PI * 2); }); c.moveTo(36, 60); c.lineTo(64, 60); c.lineTo(66, 90); c.bezierCurveTo(66, 96, 34, 96, 34, 90); c.closePath(); F('evenodd'); }},
+  candy:{n:'Леденец', d:(c, F) => { c.beginPath(); c.arc(50, 38, 32, 0, Math.PI * 2); c.moveTo(74, 38); c.arc(50, 38, 24, 0, Math.PI * 2); c.moveTo(66, 38); c.arc(50, 38, 16, 0, Math.PI * 2); c.moveTo(58, 38); c.arc(50, 38, 8, 0, Math.PI * 2); c.rect(46, 70, 8, 28); F('evenodd'); }},
+  wolf:{n:'Волк', d:(c, F) => { c.beginPath(); [[50, 96], [30, 66], [12, 68], [22, 44], [14, 4], [38, 26], [50, 22], [62, 26], [86, 4], [78, 44], [88, 68], [70, 66]].forEach(p => c.lineTo(p[0], p[1])); c.closePath(); c.moveTo(30, 48); c.lineTo(44, 52); c.lineTo(34, 56); c.closePath(); c.moveTo(70, 48); c.lineTo(56, 52); c.lineTo(66, 56); c.closePath(); c.moveTo(44, 78); c.lineTo(56, 78); c.lineTo(50, 86); c.closePath(); F('evenodd'); }},
+  flower:{n:'Цветок', d:(c, F) => { c.beginPath(); for (let i = 0; i < 6; i++) { const a = i * Math.PI / 3, x = 50 + Math.cos(a) * 30, y = 50 + Math.sin(a) * 30; c.moveTo(x + 18, y); c.arc(x, y, 18, 0, Math.PI * 2); } c.moveTo(58, 50); c.arc(50, 50, 8, 0, Math.PI * 2); F(); }},
+  dagger:{n:'Кинжал', d:(c, F) => { c.beginPath(); c.moveTo(50, 2); c.lineTo(58, 18); c.lineTo(56, 62); c.lineTo(44, 62); c.lineTo(42, 18); c.closePath(); c.rect(28, 62, 44, 8); c.rect(45, 70, 10, 18); c.moveTo(56, 92); c.arc(50, 92, 6, 0, Math.PI * 2); F(); }},
+  crystal:{n:'Кристалл', d:(c, F) => { c.beginPath(); [[50, 2], [82, 30], [66, 98], [34, 98], [18, 30]].forEach(p => c.lineTo(p[0], p[1])); c.closePath(); c.moveTo(50, 12); c.lineTo(36, 32); c.lineTo(44, 88); c.lineTo(50, 88); c.closePath(); F('evenodd'); }},
+  wings:{n:'Крылья', d:(c, F) => { c.beginPath(); [-1, 1].forEach(s => { const X = x => 50 + s * (50 - x); c.moveTo(X(48), 40); c.bezierCurveTo(X(30), 18, X(10), 18, X(2), 28); c.bezierCurveTo(X(12), 30, X(16), 34, X(16), 38); c.bezierCurveTo(X(8), 38, X(4), 44, X(4), 50); c.bezierCurveTo(X(12), 48, X(18), 50, X(20), 54); c.bezierCurveTo(X(14), 56, X(12), 62, X(14), 68); c.bezierCurveTo(X(28), 62, X(40), 56, X(48), 52); c.closePath(); }); F(); }},
+  planet:{n:'Планета', d:(c, F, S) => { c.beginPath(); c.arc(50, 50, 24, 0, Math.PI * 2); F(); c.beginPath(); c.ellipse(50, 50, 46, 13, -0.35, 0, Math.PI * 2); S(6); }},
+  smile:{n:'Смайл', d:(c, F) => { c.beginPath(); c.arc(50, 50, 46, 0, Math.PI * 2); c.moveTo(42, 38); c.ellipse(36, 38, 6, 10, 0, 0, Math.PI * 2); c.moveTo(70, 38); c.ellipse(64, 38, 6, 10, 0, 0, Math.PI * 2); c.moveTo(24, 58); c.quadraticCurveTo(50, 90, 76, 58); c.quadraticCurveTo(50, 76, 24, 58); c.closePath(); F('evenodd'); }},
+  sun:{n:'Солнце', d:(c, F) => { c.beginPath(); c.arc(50, 50, 20, 0, Math.PI * 2); for (let i = 0; i < 12; i++) { const a = i * Math.PI / 6, b = 0.13; c.moveTo(50 + Math.cos(a - b) * 27, 50 + Math.sin(a - b) * 27); c.lineTo(50 + Math.cos(a) * 48, 50 + Math.sin(a) * 48); c.lineTo(50 + Math.cos(a + b) * 27, 50 + Math.sin(a + b) * 27); c.closePath(); } F(); }},
+  wave:{n:'Волна', d:(c, F, S) => { c.beginPath(); [32, 52, 72].forEach(y => { c.moveTo(4, y); for (let x = 4; x <= 96; x += 2) c.lineTo(x, y + Math.sin((x - 4) / 92 * Math.PI * 2) * 8); }); S(6); }},
+  chevron:{n:'Шевроны', d:(c, F, S) => { c.beginPath(); [20, 44, 68].forEach(y => { c.moveTo(10, y + 18); c.lineTo(50, y); c.lineTo(90, y + 18); }); S(9); }},
+  plus:{n:'Крест', d:(c, F) => { c.beginPath(); [[38, 4], [62, 4], [62, 38], [96, 38], [96, 62], [62, 62], [62, 96], [38, 96], [38, 62], [4, 62], [4, 38], [38, 38]].forEach(p => c.lineTo(p[0], p[1])); c.closePath(); F(); }},
+  drip:{n:'Подтёки', d:(c, F) => { c.beginPath(); c.moveTo(2, 10); c.lineTo(98, 10); c.lineTo(98, 34); [[86, 62, 6], [70, 44, 5], [52, 80, 7], [34, 52, 5], [16, 70, 6]].forEach(([x, len, r]) => { c.lineTo(x + r, 34); c.lineTo(x + r, len); c.arc(x, len, r, 0, Math.PI); c.lineTo(x - r, 34); }); c.lineTo(2, 34); c.closePath(); F(); }},
+  triangle:{n:'Треугольник-глаз', d:(c, F) => { c.beginPath(); c.moveTo(50, 4); c.lineTo(97, 90); c.lineTo(3, 90); c.closePath(); c.moveTo(28, 62); c.quadraticCurveTo(50, 40, 72, 62); c.quadraticCurveTo(50, 80, 28, 62); c.closePath(); c.moveTo(56, 62); c.arc(50, 62, 6, 0, Math.PI * 2); F('evenodd'); }}
+};
+/* draw an icon into ctx at (x, y) with size sz; style: fill | line | duo */
+function drawIcon(ctx, key, x, y, sz, rot, col, style, col2){
+  const I = ICONS[key]; if (!I) return;
+  const pass = (c, dx, dy, fillCol, mode) => {
+    c.save(); c.translate(x + dx, y + dy); c.rotate(rot || 0); c.scale(sz / 100, sz / 100); c.translate(-50, -50);
+    c.fillStyle = fillCol; c.strokeStyle = fillCol; c.lineJoin = 'round'; c.lineCap = 'round';
+    const F = rule => { if (mode === 'line') { c.lineWidth = 5; c.stroke(); } else c.fill(rule || 'nonzero'); };
+    const S = w => { c.lineWidth = mode === 'line' ? Math.max(3, w * 0.6) : w; c.stroke(); };
+    I.d(c, F, S); c.restore();
+  };
+  if (style === 'duo') pass(ctx, sz * 0.07, sz * 0.07, col2 || '#000', 'fill');
+  pass(ctx, 0, 0, col, style === 'line' ? 'line' : 'fill');
+}
+/* ================= v18 SKIN EDITOR (beta): colours, patterns and prints on the heroine's own clothes =================
+   The cut of the clothes never changes. Everything is drawn on a FRONT|BACK template (768×512, same layout as the
+   skin sheets); a per-texel map (a/skinmap.png) copies it onto the 3D model, face and hands stay from the base texture. */
+const SKZ = [[2, 'hat', 'Шапка'], [3, 'neck', 'Горловина'], [4, 'sweater', 'Свитер'], [5, 'sleeve', 'Рукава'], [6, 'rib', 'Манжеты и низ'], [7, 'pants', 'Штаны'], [8, 'shoes', 'Кроссовки']];
+const SK_PATS = [['none', 'Нет'], ['stripes', 'Полоски'], ['checks', 'Клетка'], ['dots', 'Горох'], ['argyle', 'Ромбы'], ['zigzag', 'Зигзаг'], ['gradient', 'Градиент'], ['camo', 'Пятна'], ['sparkle', 'Искры'], ['star', 'Звёзды'], ['snow', 'Снежинки'], ['heart', 'Сердца'], ['skull', 'Черепа'], ['flame', 'Пламя'], ['web', 'Паутина'], ['bolt', 'Молнии']];
+const SK_FAB = [['knit', 'Вязка'], ['smooth', 'Гладко'], ['denim', 'Деним'], ['fleece', 'Флис']];
+const SKED = {ready:false, loading:null, W:768, H:512, idx:null, zone:null, base32:null, masks:{}, panel:null, pctx:null, tmp:null, tctx:null, texC:null, tctxT:null, tex:null,
+  design:null, list:[], imgs:{}, cur:null, sel:-1, side:'f', zone:'sweater', tab:'colors', dirty:true, t:0, drag:null, swatch:null, palette:[], el:null, wornId:null};
+function skNewDesign(){
+  return {name:'Мой скин', zones:{hat:{c:'#f4f1ec', p:'none', pc:'#e0d8cc', ps:1, pa:0, f:'knit'}, neck:{c:'#1d1a24', p:'none', pc:'#3a3448', ps:1, pa:0, f:'knit'}, sweater:{c:'#1d1a24', p:'none', pc:'#ff5a6a', ps:1, pa:0, f:'knit'},
+    sleeve:{c:'#1d1a24', p:'none', pc:'#ff5a6a', ps:1, pa:0, f:'knit'}, rib:{c:'#2a2632', p:'none', pc:'#ffffff', ps:1, pa:0, f:'knit'}, pants:{c:'#1e1c2a', p:'none', pc:'#5a4a7a', ps:1, pa:0, f:'smooth'}, shoes:{c:'#ece6da', p:'none', pc:'#c8c0b0', ps:1, pa:0, f:'smooth'}},
+    layers:[], tpl:null, tplZones:false, imgs:{}};
+}
+function skImg(src){ return new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; }); }
+function skPixels(img, w, h){ const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d'); x.drawImage(img, 0, 0, w, h); return x.getImageData(0, 0, w, h).data; }
+async function skLoad(){
+  if (SKED.ready) return true; if (SKED.loading) return SKED.loading;
+  SKED.loading = (async () => {
+    const [map, zon, tpl] = await Promise.all([skImg('a/skinmap.png'), skImg('a/skinzones.png'), skImg('a/skin_tpl.png')]);
+    const N = 1024 * 1024, m = skPixels(map, 1024, 1024), idx = new Int32Array(N), zone = new Uint8Array(N);
+    for (let t = 0; t < N; t++) { const r = m[t * 4], g = m[t * 4 + 1], b = m[t * 4 + 2]; const sx = r | ((b & 1) << 8), sy = g | (((b >> 1) & 1) << 8), bk = (b >> 2) & 1; idx[t] = Math.min(511, sy) * 768 + Math.min(383, sx) + bk * 384; zone[t] = b >> 3; }
+    SKED.idx = idx; SKED.zmap = zone;
+    const zp = skPixels(zon, 768, 512);
+    SKZ.forEach(([id, key]) => { const c = document.createElement('canvas'); c.width = 768; c.height = 512; const x = c.getContext('2d'), d = x.createImageData(768, 512); for (let i = 0; i < 768 * 512; i++) { if (zp[i * 4] === id) { d.data[i * 4 + 3] = 255; } } x.putImageData(d, 0, 0); SKED.masks[key] = c; });
+    const sil = document.createElement('canvas'); sil.width = 768; sil.height = 512; { const x = sil.getContext('2d'), d = x.createImageData(768, 512); for (let i = 0; i < 768 * 512; i++) if (zp[i * 4] > 0) d.data[i * 4 + 3] = 255; x.putImageData(d, 0, 0); } SKED.sil = sil;
+    { const fc = document.createElement('canvas'); fc.width = 768; fc.height = 512; const x = fc.getContext('2d'); x.drawImage(tpl, 0, 0, 768, 512); const d = x.getImageData(0, 0, 768, 512); for (let i = 0; i < 768 * 512; i++) if (zp[i * 4] !== 1) d.data[i * 4 + 3] = 0; x.putImageData(d, 0, 0); SKED.faceC = fc; }
+    const L = bodyMats(), bimg = SKIN.base && SKIN.base.image; if (!bimg) throw new Error('no base texture');
+    SKED.base32 = new Uint32Array(skPixels(bimg, 1024, 1024).buffer.slice(0));
+    SKED.panel = document.createElement('canvas'); SKED.panel.width = 768; SKED.panel.height = 512; SKED.pctx = SKED.panel.getContext('2d');
+    SKED.tmp = document.createElement('canvas'); SKED.tmp.width = 768; SKED.tmp.height = 512; SKED.tctx = SKED.tmp.getContext('2d');
+    SKED.texC = document.createElement('canvas'); SKED.texC.width = 1024; SKED.texC.height = 1024; SKED.tctxT = SKED.texC.getContext('2d');
+    SKED.out = SKED.tctxT.createImageData(1024, 1024); SKED.out32 = new Uint32Array(SKED.out.data.buffer);
+    SKED.tex = new T.CanvasTexture(SKED.texC); SKED.tex.flipY = false; if (SKIN.base) { SKED.tex.encoding = SKIN.base.encoding; SKED.tex.anisotropy = SKIN.base.anisotropy || 1; }
+    try { const st = await idbGet('sked'); if (st && st.list) SKED.list = st.list; } catch(e) {}
+    SKED.ready = true; return true;
+  })();
+  try { return await SKED.loading; } catch(e) { console.error('skin editor', e); SKED.loading = null; toast('Редактор не загрузился', 'Попробуй ещё раз', 'bad'); return false; }
+}
+/* ---------- drawing ---------- */
+let _skSeed = 1; const skRnd = () => { _skSeed = (_skSeed * 16807) % 2147483647; return _skSeed / 2147483647; };
+function skPattern(c, z, W, H){
+  const p = z.p, s = 30 * (z.ps || 1), col = z.pc, a = (z.pa || 0) * Math.PI / 180;
+  if (p === 'none') return;
+  c.save(); c.fillStyle = col; c.strokeStyle = col;
+  if (p === 'gradient') { const g = c.createLinearGradient(W / 2 - Math.sin(a) * H / 2, 0, W / 2 + Math.sin(a) * H / 2, H); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, col); c.fillStyle = g; c.fillRect(0, 0, W, H); c.restore(); return; }
+  c.translate(W / 2, H / 2); c.rotate(a); c.translate(-W, -H);
+  const W2 = W * 2, H2 = H * 2;
+  if (p === 'stripes') { for (let y = 0; y < H2; y += s) c.fillRect(0, y, W2, s * 0.45); }
+  else if (p === 'checks') { c.globalAlpha = 0.55; for (let y = 0; y < H2; y += s * 1.6) c.fillRect(0, y, W2, s * 0.6); for (let x = 0; x < W2; x += s * 1.6) c.fillRect(x, 0, s * 0.6, H2); c.globalAlpha = 1; c.lineWidth = 1.5; for (let y = s * 0.3; y < H2; y += s * 1.6) { c.beginPath(); c.moveTo(0, y); c.lineTo(W2, y); c.stroke(); } }
+  else if (p === 'dots') { for (let y = 0, r = 0; y < H2; y += s, r++) for (let x = (r % 2) * s / 2; x < W2; x += s) { c.beginPath(); c.arc(x, y, s * 0.18, 0, Math.PI * 2); c.fill(); } }
+  else if (p === 'argyle') { c.globalAlpha = 0.85; for (let y = 0, r = 0; y < H2; y += s, r++) for (let x = (r % 2) * s; x < W2; x += s * 2) { c.beginPath(); c.moveTo(x, y - s); c.lineTo(x + s, y); c.lineTo(x, y + s); c.lineTo(x - s, y); c.closePath(); c.fill(); } c.globalAlpha = 1; }
+  else if (p === 'zigzag') { c.lineWidth = s * 0.22; c.lineJoin = 'miter'; for (let y = 0; y < H2; y += s) { c.beginPath(); for (let x = 0, k = 0; x < W2; x += s / 2, k++) c.lineTo(x, y + (k % 2 ? s * 0.35 : 0)); c.stroke(); } }
+  else if (p === 'camo') { _skSeed = 7; for (let i = 0; i < 260; i++) { const x = skRnd() * W2, y = skRnd() * H2, r = s * (0.4 + skRnd() * 0.9); c.beginPath(); c.ellipse(x, y, r, r * (0.5 + skRnd() * 0.5), skRnd() * 3, 0, Math.PI * 2); c.fill(); } }
+  else if (ICONS[p]) { const step = s * 1.7; for (let y = 0, r = 0; y < H2; y += step, r++) for (let x = (r % 2) * step / 2; x < W2; x += step) drawIcon(c, p, x, y, s * 0.9, 0, col, 'fill'); }
+  c.restore();
+}
+function skFabric(c, f, W, H){
+  if (f === 'smooth' || !f) return;
+  c.save();
+  if (f === 'knit') { c.globalAlpha = 0.16; c.strokeStyle = '#000'; c.lineWidth = 1; for (let x = 0; x < W; x += 5) { c.beginPath(); for (let y = 0; y < H; y += 4) { c.moveTo(x, y); c.lineTo(x + 2.5, y + 3); c.lineTo(x + 5, y); } c.stroke(); } }
+  else if (f === 'denim') { c.globalAlpha = 0.13; c.strokeStyle = '#fff'; c.lineWidth = 1; for (let k = -H; k < W; k += 3) { c.beginPath(); c.moveTo(k, 0); c.lineTo(k + H, H); c.stroke(); } }
+  else if (f === 'fleece') { _skSeed = 3; c.globalAlpha = 0.12; c.fillStyle = '#fff'; for (let i = 0; i < 9000; i++) c.fillRect(skRnd() * W, skRnd() * H, 1.5, 1.5); }
+  c.restore();
+}
+function skDrawLayer(c, L, ox){
+  const x = L.x + ox, y = L.y, rot = (L.r || 0) * Math.PI / 180;
+  c.save(); c.globalAlpha = L.o == null ? 1 : L.o;
+  if (L.k === 'icon') drawIcon(c, L.src, x, y, L.s, rot, L.c, L.st, L.c2);
+  else if (L.k === 'text') {
+    c.translate(x, y); c.rotate(rot); c.font = '900 ' + Math.round(L.s * 0.42) + 'px Unbounded, "Arial Black", sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle';
+    if (L.st === 'duo') { c.fillStyle = L.c2 || '#000'; c.fillText(L.txt, L.s * 0.05, L.s * 0.05); }
+    if (L.st === 'line') { c.lineWidth = Math.max(2, L.s * 0.03); c.strokeStyle = L.c; c.strokeText(L.txt, 0, 0); } else { c.fillStyle = L.c; c.fillText(L.txt, 0, 0); }
+  } else if (L.k === 'img') {
+    const im = SKED.imgs[L.src]; if (im) { c.translate(x, y); c.rotate(rot); const w = L.s, h = L.s * im.height / im.width; c.drawImage(im, -w / 2, -h / 2, w, h); }
+  }
+  c.restore();
+}
+function skRenderPanel(){
+  const d = SKED.design, c = SKED.pctx, t = SKED.tctx, W = 768, H = 512;
+  c.globalCompositeOperation = 'source-over'; c.clearRect(0, 0, W, H); c.fillStyle = '#777'; c.fillRect(0, 0, W, H);
+  const tplImg = d.tpl && SKED.imgs[d.tpl];
+  if (tplImg) c.drawImage(tplImg, 0, 0, W, H);
+  if (!tplImg || d.tplZones) SKZ.forEach(([id, key]) => {
+    const z = d.zones[key]; t.globalCompositeOperation = 'source-over'; t.clearRect(0, 0, W, H);
+    t.fillStyle = z.c; t.fillRect(0, 0, W, H); skPattern(t, z, W, H); skFabric(t, z.f, W, H);
+    t.globalCompositeOperation = 'destination-in'; t.drawImage(SKED.masks[key], 0, 0);
+    c.globalAlpha = tplImg ? 0.85 : 1; c.drawImage(SKED.tmp, 0, 0); c.globalAlpha = 1;
+  });
+  d.layers.forEach(L => { skDrawLayer(c, L, L.side === 'b' ? 384 : 0); if (L.both) skDrawLayer(c, L, L.side === 'b' ? 0 : 384); });
+}
+function skBake(){
+  skRenderPanel();
+  const pd = new Uint32Array(SKED.pctx.getImageData(0, 0, 768, 512).data.buffer), out = SKED.out32, idx = SKED.idx, zone = SKED.zmap, base = SKED.base32;
+  for (let t = 0, n = out.length; t < n; t++) out[t] = zone[t] === 1 ? base[t] : (pd[idx[t]] | 0xff000000);
+  SKED.tctxT.putImageData(SKED.out, 0, 0); SKED.tex.needsUpdate = true;
+}
+function skWearTex(tex){ const L = bodyMats(); L.forEach(m => { m.map = tex; m.needsUpdate = true; }); }
+/* ---------- UI ---------- */
+function skOpen(){
+  if (!BETA) return;
+  if (!SKED.el) skBuildUI();
+  SKED.el.hidden = false; SKED.prevMode = G.mode; showScreen(null); $('#hud').hidden = true; $('#rail').hidden = true; swordBtn.hidden = true; shadowBtn.hidden = true;
+  G.mode = 'skined'; TRY.rot = 0; SKED.face = 0; if (TP.el) { TP.open = false; TP.el.hidden = true; } const fab = $('#tuneFab'); if (fab) fab.hidden = true;
+  SKED.el.querySelector('.sk-body').innerHTML = '<div class="sk-h">Загружаю редактор…</div>';
+  skLoad().then(ok => { if (!ok) return; if (!SKED.design) SKED.design = skNewDesign(); skWearTex(SKED.tex); SKED.dirty = true; skRenderTab(); });
+}
+function skClose(){ const fab = $('#tuneFab'); if (fab) fab.hidden = false; SKED.el.hidden = true; G.mode = 'home'; goHome(); wearSkin(S.equip.skin); }
+function skFrame(){
+  if (G.mode !== 'skined' || !SKED.ready) return;
+  const now = performance.now();
+  if (SKED.dirty && now - SKED.t > 90) { SKED.dirty = false; SKED.t = now; skBake(); skDrawPreview(); }
+}
+function tryFrame(dt){
+  if ((G.mode !== 'tryon' && G.mode !== 'skined') || !hero) return;
+  const hold = G.mode === 'skined' && SKED.face != null;
+  if (!TRY.drag && !hold) TRY.rot += dt * (G.mode === 'skined' ? 0.35 : TRY.spin);
+  if (hold && !TRY.drag) { const tgt = SKED.face + Math.round((TRY.rot - SKED.face) / (Math.PI * 2)) * Math.PI * 2; TRY.rot += (tgt - TRY.rot) * Math.min(1, dt * 6); }
+  hero.g.rotation.y = Math.PI + TRY.rot; hero.g.position.z += ((G.mode === 'skined' ? 1.6 : 3.7) - hero.g.position.z) * Math.min(1, dt * 4);
+}
+const skMark = () => { SKED.dirty = true; };
+function skZoneChips(){ return '<div class="sk-chips">' + SKZ.map(([, k, n]) => '<button data-zone="' + k + '" class="' + (SKED.zone === k ? 'on' : '') + '"><i style="background:' + SKED.design.zones[k].c + '"></i>' + n + '</button>').join('') + '</div>'; }
+function skRow(label, html){ return '<label class="sk-row"><span>' + label + '</span>' + html + '</label>'; }
+function skRange(path, v, mn, mx, st){ return '<input type="range" min="' + mn + '" max="' + mx + '" step="' + st + '" value="' + v + '" data-k="' + path + '">'; }
+function skLayerEditor(){
+  const L = SKED.design.layers[SKED.sel]; if (!L) return '<div class="sk-h">Нажми на принт на картинке ниже, чтобы выбрать и двигать его пальцем.</div>';
+  const st = ['fill', 'line', 'duo'].map((s, i) => '<button data-lst="' + s + '" class="' + (L.st === s || (!L.st && !i) ? 'on' : '') + '">' + ['Заливка', 'Контур', 'С тенью'][i] + '</button>').join('');
+  return '<div class="sk-sel">' + (L.k !== 'img' ? '<div class="sk-seg">' + st + '</div>' + skRow('Цвет', '<input type="color" value="' + L.c + '" data-k="L.c">') + (L.st === 'duo' ? skRow('Цвет тени', '<input type="color" value="' + (L.c2 || '#000000') + '" data-k="L.c2">') : '') : '') +
+    (L.k === 'text' ? skRow('Текст', '<input type="text" maxlength="14" value="' + esc(L.txt) + '" data-k="L.txt">') : '') +
+    skRow('Размер', skRange('L.s', L.s, 12, 300, 1)) + skRow('Поворот', skRange('L.r', L.r || 0, -180, 180, 1)) + skRow('Прозрачность', skRange('L.o', L.o == null ? 1 : L.o, 0.1, 1, 0.05)) +
+    '<label class="sk-chk"><input type="checkbox" data-k="L.both"' + (L.both ? ' checked' : '') + '> Повторить и на ' + (L.side === 'b' ? 'передней' : 'задней') + ' стороне</label>' +
+    '<div class="sk-btns"><button data-la="up">Выше слоем</button><button data-la="down">Ниже</button><button data-la="dup">Копия</button><button data-la="del" class="bad">Удалить</button></div></div>';
+}
+function skRenderTab(){
+  const b = SKED.el.querySelector('.sk-body'), d = SKED.design, tab = SKED.tab;
+  SKED.el.querySelectorAll('.sk-tabs button').forEach(x => x.classList.toggle('on', x.dataset.tab === tab));
+  SKED.el.querySelector('.sk-name').value = d.name;
+  let h = '';
+  if (tab === 'colors') {
+    h = '<div class="sk-h">Цвет каждой части одежды. Фактура — как выглядит ткань.</div>' + SKZ.map(([, k, n]) => { const z = d.zones[k]; return '<div class="sk-zone"><b>' + n + '</b><input type="color" value="' + z.c + '" data-k="Z.' + k + '.c"><select data-k="Z.' + k + '.f">' + SK_FAB.map(f => '<option value="' + f[0] + '"' + (z.f === f[0] ? ' selected' : '') + '>' + f[1] + '</option>').join('') + '</select></div>'; }).join('');
+  } else if (tab === 'pats') {
+    const z = d.zones[SKED.zone];
+    h = skZoneChips() + '<div class="sk-pats">' + SK_PATS.map(p => '<button data-pat="' + p[0] + '" class="' + (z.p === p[0] ? 'on' : '') + '">' + p[1] + '</button>').join('') + '</div>' +
+      (z.p !== 'none' ? skRow('Цвет узора', '<input type="color" value="' + z.pc + '" data-k="Z.' + SKED.zone + '.pc">') + skRow('Размер', skRange('Z.' + SKED.zone + '.ps', z.ps, 0.3, 3, 0.05)) + skRow('Наклон', skRange('Z.' + SKED.zone + '.pa', z.pa, -90, 90, 1)) : '');
+  } else if (tab === 'prints') {
+    h = '<div class="sk-btns"><button data-add="icon">+ Значок</button><button data-add="img">+ Своя картинка</button><button data-add="text">+ Надпись</button></div>' +
+      '<div class="sk-seg sk-side"><button data-side="f" class="' + (SKED.side === 'f' ? 'on' : '') + '">Перед</button><button data-side="b" class="' + (SKED.side === 'b' ? 'on' : '') + '">Спина</button></div>' +
+      '<canvas class="sk-prev" width="384" height="512"></canvas>' + (SKED.iconPick ? '<div class="sk-icons">' + Object.keys(ICONS).map(k => '<button data-icon="' + k + '" title="' + ICONS[k].n + '"><canvas width="56" height="56" data-ic="' + k + '"></canvas></button>').join('') + '</div>' : '') + skLayerEditor();
+  } else if (tab === 'palette') {
+    h = '<div class="sk-h">Загрузи референс — картинку, фото, кадр. Я возьму из него главные цвета.</div><div class="sk-btns"><button data-up="ref">Загрузить референс</button>' + (SKED.palette.length ? '<button data-pal="auto">Разложить по одежде</button>' : '') + '</div>' +
+      (SKED.refImg ? '<img class="sk-ref" src="' + SKED.refImg + '" alt="">' : '') +
+      (SKED.palette.length ? '<div class="sk-h">Нажми цвет, потом часть одежды:</div><div class="sk-sw">' + SKED.palette.map((c, i) => '<button data-sw="' + i + '" class="' + (SKED.swatch === i ? 'on' : '') + '" style="background:' + c + '"></button>').join('') + '</div>' + skZoneChips() : '');
+  } else if (tab === 'tpl') {
+    h = '<div class="sk-h">Шаблон — героиня спереди и сзади точно в позе модели. Рисуй поверх в любом приложении или используй как основу для генерации по референсу, потом загрузи сюда: рисунок сразу ляжет на 3D-героиню.</div>' +
+      '<div class="sk-btns"><a class="sk-a" href="a/skin_tpl.png" download="wordrush_skin_template.png" target="_blank">Скачать шаблон</a><a class="sk-a" href="a/skin_tpl_lines.png" download="wordrush_skin_lines.png" target="_blank">Шаблон — только контуры</a></div>' +
+      '<div class="sk-btns"><button data-up="tpl">Загрузить свой рисунок</button>' + (d.tpl ? '<button data-tpl="off" class="bad">Убрать рисунок</button>' : '') + '</div>' +
+      (d.tpl ? '<label class="sk-chk"><input type="checkbox" data-k="D.tplZones"' + (d.tplZones ? ' checked' : '') + '> Цвета и узоры из вкладок поверх рисунка</label>' : '') +
+      '<div class="sk-h">Рисунок: 768×512 (или любой размер с тем же соотношением 3:2). Левая половина — перед, правая — спина. Лицо и руки всегда остаются от героини.</div>';
+  } else if (tab === 'mine') {
+    h = '<div class="sk-btns"><button data-mine="save">Сохранить</button><button data-mine="new">Новый скин</button><button data-mine="wear">Надеть в бете</button><button data-mine="send">Отправить Claude</button></div>' +
+      '<div class="sk-h">«Отправить Claude» сохранит 3 файла: текстуру, превью и описание скина. Пришли их мне в чат — скин появится в магазине.</div>' +
+      '<div class="sk-list">' + (SKED.list.length ? SKED.list.map(it => '<div class="sk-item"><img src="' + it.thumb + '" alt=""><b>' + esc(it.name) + '</b><button data-open="' + it.id + '">Открыть</button><button data-delm="' + it.id + '" class="bad">✕</button></div>').join('') : '<div class="sk-h">Пока нет сохранённых скинов.</div>') + '</div>';
+  }
+  b.innerHTML = h;
+  b.querySelectorAll('canvas[data-ic]').forEach(cv => { const c = cv.getContext('2d'); drawIcon(c, cv.dataset.ic, 28, 28, 46, 0, '#ffd23a', 'fill'); });
+  skDrawPreview();
+}
+function skDrawPreview(){
+  const cv = SKED.el && SKED.el.querySelector('.sk-prev'); if (!cv || !SKED.panel) return;
+  const c = cv.getContext('2d'), ox = SKED.side === 'b' ? 384 : 0; c.clearRect(0, 0, 384, 512); c.drawImage(SKED.panel, ox, 0, 384, 512, 0, 0, 384, 512);
+  c.save(); c.globalCompositeOperation = 'destination-in'; c.drawImage(SKED.sil, ox, 0, 384, 512, 0, 0, 384, 512); c.restore();
+  c.drawImage(SKED.faceC, ox, 0, 384, 512, 0, 0, 384, 512);
+  c.save(); c.globalCompositeOperation = 'destination-over'; c.fillStyle = '#2a2244'; c.fillRect(0, 0, 384, 512); c.restore();
+  const L = SKED.design.layers[SKED.sel];
+  if (L && L.side === SKED.side) { c.strokeStyle = '#ffd23a'; c.setLineDash([6, 5]); c.lineWidth = 2; c.strokeRect(L.x - L.s / 2 - 4, L.y - L.s / 2 - 4, L.s + 8, L.s + 8); }
+}
+function skSetPath(path, v){
+  const d = SKED.design;
+  if (path.startsWith('Z.')) { const [, z, k] = path.split('.'); d.zones[z][k] = /^(ps|pa)$/.test(k) ? parseFloat(v) : v; }
+  else if (path.startsWith('L.')) { const L = d.layers[SKED.sel]; if (!L) return; const k = path.slice(2); L[k] = /^(s|r|o)$/.test(k) ? parseFloat(v) : v; }
+  else if (path.startsWith('D.')) d[path.slice(2)] = v;
+  skMark();
+}
+function skAddLayer(L){ const d = SKED.design; L.side = SKED.side; L.x = L.x || 192; L.y = L.y || 175; L.r = 0; L.o = 1; d.layers.push(L); SKED.sel = d.layers.length - 1; SKED.iconPick = false; skMark(); skRenderTab(); }
+function skUpload(kind){
+  const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*';
+  inp.onchange = async () => {
+    const f = inp.files && inp.files[0]; if (!f) return;
+    const url = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(f); });
+    const im = await skImg(url).catch(() => null); if (!im) { toast('Не получилось открыть картинку', '', 'bad'); return; }
+    const max = kind === 'tpl' ? 1536 : 768, sc = Math.min(1, max / Math.max(im.width, im.height)), c = document.createElement('canvas'); c.width = Math.round(im.width * sc); c.height = Math.round(im.height * sc);
+    const x = c.getContext('2d'); x.drawImage(im, 0, 0, c.width, c.height);
+    if (kind === 'img') { const dd = x.getImageData(0, 0, c.width, c.height), p = dd.data; let white = 0; for (let i = 0; i < p.length; i += 4) if (p[i] > 238 && p[i + 1] > 238 && p[i + 2] > 238 && p[i + 3] > 200) white++;
+      if (white > p.length / 4 * 0.2) { for (let i = 0; i < p.length; i += 4) { const mn = Math.min(p[i], p[i + 1], p[i + 2]); if (mn > 232) p[i + 3] = 0; else if (mn > 210) p[i + 3] = Math.round(p[i + 3] * (232 - mn) / 22); } x.putImageData(dd, 0, 0); toast('Белый фон убран', 'Картинка добавлена как принт', 'good'); } }
+    const data = c.toDataURL(kind === 'ref' ? 'image/jpeg' : 'image/png', 0.9), id = kind + Date.now().toString(36);
+    if (kind === 'ref') { SKED.refImg = data; SKED.palette = skPalette(x, c.width, c.height); SKED.swatch = null; skRenderTab(); return; }
+    SKED.design.imgs[id] = data; SKED.imgs[id] = await skImg(data);
+    if (kind === 'tpl') { SKED.design.tpl = id; skMark(); skRenderTab(); toast('Рисунок наложен', 'Покрути героиню и проверь спину', 'good'); }
+    else skAddLayer({k:'img', src:id, s:140});
+  };
+  inp.click();
+}
+/* main colours of a reference picture (k-means on a small copy) */
+function skPalette(x, w, h){
+  const c = document.createElement('canvas'); c.width = 64; c.height = 64; const cx = c.getContext('2d'); cx.drawImage(x.canvas, 0, 0, 64, 64);
+  const p = cx.getImageData(0, 0, 64, 64).data, pts = [], at = (x, y) => { const i = (y * 64 + x) * 4; return [p[i], p[i + 1], p[i + 2], p[i + 3]]; };
+  /* the picture's background (corner colour) is not part of the palette */
+  const cs = [at(0, 0), at(63, 0), at(0, 63), at(63, 63)].filter(q => q[3] > 128), bg = cs.length >= 3 ? [0, 1, 2].map(k => cs.reduce((s, q) => s + q[k], 0) / cs.length) : null;
+  for (let i = 0; i < p.length; i += 4) { if (p[i + 3] <= 128) continue; if (bg && Math.abs(p[i] - bg[0]) + Math.abs(p[i + 1] - bg[1]) + Math.abs(p[i + 2] - bg[2]) < 45) continue; pts.push([p[i], p[i + 1], p[i + 2]]); }
+  if (pts.length < 12) for (let i = 0; i < p.length; i += 4) if (p[i + 3] > 128) pts.push([p[i], p[i + 1], p[i + 2]]);
+  const K = 6; let cen = []; for (let k = 0; k < K; k++) cen.push(pts[Math.floor((k + 0.5) / K * pts.length)].slice());
+  let lab = new Array(pts.length).fill(0);
+  for (let it = 0; it < 10; it++) {
+    pts.forEach((q, i) => { let b = 0, bd = 1e9; cen.forEach((m, k) => { const dd = (q[0] - m[0]) ** 2 + (q[1] - m[1]) ** 2 + (q[2] - m[2]) ** 2; if (dd < bd) { bd = dd; b = k; } }); lab[i] = b; });
+    cen = cen.map((m, k) => { const s = [0, 0, 0]; let n = 0; pts.forEach((q, i) => { if (lab[i] === k) { s[0] += q[0]; s[1] += q[1]; s[2] += q[2]; n++; } }); return n ? s.map(v => v / n) : m; });
+  }
+  const cnt = cen.map((_, k) => lab.filter(l => l === k).length);
+  return cen.map((m, k) => ({m, n:cnt[k]})).filter(o => o.n > 0).sort((a, b) => b.n - a.n).map(o => '#' + o.m.map(v => Math.round(v).toString(16).padStart(2, '0')).join(''));
+}
+function skAutoPalette(){
+  const P = SKED.palette; if (!P.length) return; const d = SKED.design.zones;
+  const lum = h => { const n = parseInt(h.slice(1), 16); return ((n >> 16) & 255) * 0.3 + ((n >> 8) & 255) * 0.59 + (n & 255) * 0.11; };
+  const byL = P.slice().sort((a, b) => lum(a) - lum(b)), main = P[0], second = P[1] || P[0], accent = P[2] || second;
+  d.sweater.c = main; d.sleeve.c = main; d.neck.c = byL[0]; d.rib.c = accent; d.pants.c = second === main ? byL[0] : second; d.hat.c = byL[byL.length - 1]; d.shoes.c = byL[byL.length - 1];
+  d.sweater.pc = accent; d.sleeve.pc = accent; skMark(); skRenderTab();
+}
+async function skSaveList(){ try { await idbSet('sked', {list:SKED.list}); } catch(e) { console.error(e); } }
+function skThumb(){ const c = document.createElement('canvas'); c.width = 96; c.height = 128; const x = c.getContext('2d'); x.fillStyle = '#2a2244'; x.fillRect(0, 0, 96, 128); x.drawImage(SKED.panel, 0, 0, 384, 512, 0, 0, 96, 128); return c.toDataURL('image/png'); }
+async function skSave(){
+  const d = SKED.design; skBake(); const id = SKED.cur || ('sk' + Date.now().toString(36)); SKED.cur = id;
+  const it = {id, name:d.name || 'Мой скин', d:JSON.parse(JSON.stringify(d)), thumb:skThumb()}, i = SKED.list.findIndex(x => x.id === id);
+  if (i >= 0) SKED.list[i] = it; else SKED.list.unshift(it); await skSaveList(); toast('Скин сохранён', it.name, 'good'); if (SKED.tab === 'mine') skRenderTab();
+}
+async function skOpenSaved(id){
+  const it = SKED.list.find(x => x.id === id); if (!it) return;
+  SKED.design = JSON.parse(JSON.stringify(it.d)); SKED.cur = id; SKED.sel = -1;
+  for (const k in SKED.design.imgs) SKED.imgs[k] = await skImg(SKED.design.imgs[k]);
+  skMark(); SKED.tab = 'colors'; skRenderTab();
+}
+async function skWear(){
+  await skSave(); S.equip.skin = 'ed'; S.edSkin = SKED.cur; save();
+  const c = document.createElement('canvas'); c.width = c.height = 1024; c.getContext('2d').drawImage(SKED.texC, 0, 0);
+  SKED.wornTex = new T.CanvasTexture(c); SKED.wornTex.flipY = false; if (SKIN.base) SKED.wornTex.encoding = SKIN.base.encoding;
+  toast('Надето в бете', 'Скин будет на героине в забегах беты', 'good');
+}
+function wearSkin(id){
+  if (id === 'ed') { if (SKED.wornTex) { skWearTex(SKED.wornTex); return; } skRestoreWorn(); return; }
+  const sk = SKINS.find(s => s.id === id) || SKINS[0], L = bodyMats(); if (!L.length) return;
+  SKIN.want = sk.id;
+  skinTex(sk.k, tex => { if (!tex || SKIN.want !== sk.id) return; L.forEach(m => { m.map = tex; m.needsUpdate = true; }); });
+}
+async function skRestoreWorn(){
+  if (!BETA || SKED.restoring) return; SKED.restoring = true;
+  if (!(await skLoad())) return; const it = SKED.list.find(x => x.id === S.edSkin); if (!it) { S.equip.skin = 'base'; wearSkin('base'); return; }
+  const keep = SKED.design; SKED.design = JSON.parse(JSON.stringify(it.d)); for (const k in SKED.design.imgs) SKED.imgs[k] = await skImg(SKED.design.imgs[k]);
+  skBake(); const c = document.createElement('canvas'); c.width = c.height = 1024; c.getContext('2d').drawImage(SKED.texC, 0, 0);
+  SKED.wornTex = new T.CanvasTexture(c); SKED.wornTex.flipY = false; if (SKIN.base) SKED.wornTex.encoding = SKIN.base.encoding; SKED.design = keep;
+  if (S.equip.skin === 'ed' && G.mode !== 'skined') skWearTex(SKED.wornTex);
+}
+async function skSend(){
+  const d = SKED.design; skBake(); const slug = (d.name || 'skin').replace(/[^a-zа-яё0-9]+/gi, '_').slice(0, 24);
+  const blob = (cv, type) => new Promise(r => cv.toBlob(r, type || 'image/png'));
+  const prev = document.createElement('canvas'); prev.width = 768; prev.height = 512; const px = prev.getContext('2d'); px.drawImage(SKED.panel, 0, 0); px.globalCompositeOperation = 'destination-in'; px.drawImage(SKED.sil, 0, 0); px.globalCompositeOperation = 'destination-over'; px.fillStyle = '#ffffff'; px.fillRect(0, 0, 768, 512); px.globalCompositeOperation = 'source-over'; px.drawImage(SKED.faceC, 0, 0);
+  const files = [new File([await blob(SKED.texC)], 'skin_' + slug + '_texture.png', {type:'image/png'}), new File([await blob(prev)], 'skin_' + slug + '_sheet.png', {type:'image/png'}), new File([JSON.stringify(d)], 'skin_' + slug + '.json', {type:'application/json'})];
+  try { if (navigator.canShare && navigator.canShare({files})) { await navigator.share({files, title:'Скин ' + d.name}); return; } } catch(e) { if (e && e.name === 'AbortError') return; }
+  files.forEach(f => { const a = document.createElement('a'); a.href = URL.createObjectURL(f); a.download = f.name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000); });
+  toast('Файлы сохранены', 'Пришли их Claude в чат', 'good');
+}
+function skBuildUI(){
+  const el = document.createElement('div'); el.id = 'skEd'; el.hidden = true;
+  el.innerHTML = '<div class="sk-top"><button data-a="close">← Назад</button><input class="sk-name" maxlength="24" placeholder="Название скина"><button data-a="front">Перед</button><button data-a="back">Спина</button><button data-a="spin">⟳</button></div>' +
+    '<div class="sk-stage"></div><div class="sk-panel"><div class="sk-tabs">' + [['colors', 'Цвета'], ['pats', 'Узоры'], ['prints', 'Принты'], ['palette', 'Палитра'], ['tpl', 'Шаблон'], ['mine', 'Мои скины']].map(t => '<button data-tab="' + t[0] + '">' + t[1] + '</button>').join('') + '</div><div class="sk-body"></div></div>';
+  document.getElementById('app').appendChild(el); SKED.el = el;
+  ['pointerdown', 'pointerup', 'touchstart', 'click', 'keydown'].forEach(ev => el.addEventListener(ev, e => e.stopPropagation()));
+  const stg = el.querySelector('.sk-stage');
+  stg.addEventListener('pointerdown', e => { SKED.face = null; TRY.drag = {x:e.clientX, r:TRY.rot}; });
+  el.addEventListener('pointermove', e => { if (TRY.drag && G.mode === 'skined') TRY.rot = TRY.drag.r + (e.clientX - TRY.drag.x) * 0.012; if (SKED.drag) skDragMove(e); });
+  el.addEventListener('pointerup', () => { TRY.drag = null; SKED.drag = null; });
+  el.querySelector('.sk-name').addEventListener('input', e => { SKED.design.name = e.target.value; });
+  el.addEventListener('input', e => { const k = e.target.dataset.k; if (!k || e.target.type === 'checkbox') return; skSetPath(k, e.target.value); });
+  el.addEventListener('change', e => { const k = e.target.dataset.k; if (!k) return; if (e.target.type === 'checkbox') { skSetPath(k, e.target.checked); } else skSetPath(k, e.target.value); if (/^(L\.st|Z\..*\.p$|D\.)/.test(k) || e.target.tagName === 'SELECT' || e.target.type === 'checkbox') skRenderTab(); else if (k.startsWith('Z.') && k.endsWith('.c')) { const ch = el.querySelector('[data-zone="' + k.split('.')[1] + '"] i'); if (ch) ch.style.background = e.target.value; } });
+  el.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return; const d = SKED.design;
+    if (b.dataset.a === 'close') skClose();
+    else if (b.dataset.a === 'front') SKED.face = 0;
+    else if (b.dataset.a === 'back') SKED.face = Math.PI;
+    else if (b.dataset.a === 'spin') SKED.face = null;
+    else if (b.dataset.tab) { SKED.tab = b.dataset.tab; skRenderTab(); }
+    else if (b.dataset.zone) { if (SKED.tab === 'palette' && SKED.swatch != null) { d.zones[b.dataset.zone].c = SKED.palette[SKED.swatch]; skMark(); } SKED.zone = b.dataset.zone; skRenderTab(); }
+    else if (b.dataset.pat) { d.zones[SKED.zone].p = b.dataset.pat; skMark(); skRenderTab(); }
+    else if (b.dataset.add === 'icon') { SKED.iconPick = !SKED.iconPick; skRenderTab(); }
+    else if (b.dataset.add === 'img') skUpload('img');
+    else if (b.dataset.add === 'text') skAddLayer({k:'text', txt:'WORD RUSH', s:150, c:'#ffffff', st:'fill', c2:'#000000'});
+    else if (b.dataset.icon) skAddLayer({k:'icon', src:b.dataset.icon, s:110, c:'#ffd23a', st:'fill', c2:'#000000'});
+    else if (b.dataset.side) { SKED.side = b.dataset.side; SKED.face = SKED.side === 'b' ? Math.PI : 0; SKED.sel = -1; skRenderTab(); }
+    else if (b.dataset.lst) { const L = d.layers[SKED.sel]; if (L) { L.st = b.dataset.lst; skMark(); skRenderTab(); } }
+    else if (b.dataset.la) { const i = SKED.sel, L = d.layers[i]; if (!L) return; if (b.dataset.la === 'del') { d.layers.splice(i, 1); SKED.sel = -1; } else if (b.dataset.la === 'dup') { const c = JSON.parse(JSON.stringify(L)); c.x += 20; c.y += 20; d.layers.push(c); SKED.sel = d.layers.length - 1; } else if (b.dataset.la === 'up' && i < d.layers.length - 1) { d.layers.splice(i, 1); d.layers.splice(i + 1, 0, L); SKED.sel = i + 1; } else if (b.dataset.la === 'down' && i > 0) { d.layers.splice(i, 1); d.layers.splice(i - 1, 0, L); SKED.sel = i - 1; } skMark(); skRenderTab(); }
+    else if (b.dataset.up) skUpload(b.dataset.up);
+    else if (b.dataset.pal === 'auto') skAutoPalette();
+    else if (b.dataset.sw != null) { SKED.swatch = +b.dataset.sw; skRenderTab(); }
+    else if (b.dataset.tpl === 'off') { d.tpl = null; skMark(); skRenderTab(); }
+    else if (b.dataset.mine === 'save') skSave();
+    else if (b.dataset.mine === 'new') { SKED.design = skNewDesign(); SKED.cur = null; SKED.sel = -1; skMark(); SKED.tab = 'colors'; skRenderTab(); }
+    else if (b.dataset.mine === 'wear') skWear();
+    else if (b.dataset.mine === 'send') skSend();
+    else if (b.dataset.open) skOpenSaved(b.dataset.open);
+    else if (b.dataset.delm) { SKED.list = SKED.list.filter(x => x.id !== b.dataset.delm); skSaveList(); skRenderTab(); }
+  });
+  /* prints: tap to select, drag to move */
+  el.addEventListener('pointerdown', e => {
+    const cv = e.target.closest('.sk-prev'); if (!cv) return; e.preventDefault();
+    const r = cv.getBoundingClientRect(), x = (e.clientX - r.left) / r.width * 384, y = (e.clientY - r.top) / r.height * 512, d = SKED.design;
+    let hit = -1; for (let i = d.layers.length - 1; i >= 0; i--) { const L = d.layers[i]; if (L.side === SKED.side && Math.abs(x - L.x) < L.s / 2 + 8 && Math.abs(y - L.y) < L.s / 2 + 8) { hit = i; break; } }
+    if (hit !== SKED.sel) { SKED.sel = hit; skRenderTab(); }
+    if (hit >= 0) SKED.drag = {cv, dx:x - d.layers[hit].x, dy:y - d.layers[hit].y};
+  });
+}
+function skDragMove(e){
+  const g = SKED.drag, L = SKED.design.layers[SKED.sel]; if (!g || !L) return;
+  const cv = SKED.el.querySelector('.sk-prev') || g.cv, r = cv.getBoundingClientRect();
+  L.x = clamp((e.clientX - r.left) / r.width * 384 - g.dx, 0, 384); L.y = clamp((e.clientY - r.top) / r.height * 512 - g.dy, 0, 512); skMark(); skDrawPreview();
 }
 /* ================= v18 TUNNEL: darker, torch-lit, cobwebs and cave props, bats all the way,
    a vampire that swoops out of the dark once, and black blob creatures that crawl out of the walls
@@ -7778,7 +8180,7 @@ function spawnObstacle(kind, lane, z){
 
 /* ---- per-frame hook ---- */
 function v18Frame(sdt, dt){
-  vampScareFrame(sdt);
+  vampScareFrame(sdt); skFrame();
   if (G.mode !== 'run' && TUN.swarm.length) swarmClear();
   if (G.mode !== 'run' && !TUN.on) TUN.lights.forEach(l => { if (l.intensity > 0) l.intensity = Math.max(0, l.intensity - dt * 3); });
 }
@@ -7894,7 +8296,7 @@ function endBoot(){
   else buildSceneryProc();
   setPal('dusk', 'day', true); prewarm(); setTimeout(renderMusic, 400); window.__bootDone = true; if (BETA) {} else if (TG.ok) tgCloudInit(); else cloudInit(); if (G.mode === 'home') renderHome(); loadEl.classList.add('out'); setTimeout(() => { loadEl.hidden = true; }, 600);
 }
-if (/debug/.test(location.search)) window.__WR = {offlineRender, foldLoop, SONGS, MUS_SR, LAYER_MIX, speak, voiceFetch, TR, V, SETS, SKYI, BIOV2:BIOV, get palK(){ return palK; }, get activeSet(){ return activeSet; }, inTunnel, KIT18, TUN, SCN, LOCS, curLoc, advanceLoc, loadKit18, swarmSpawn, vampScare, sceneryGo, VOICE, TRY, BIOV, setBiome, lvProgress, lvAfterRun, chLvl, applyChapterStages, prefetchWorld, startBossLoad, ensureDanceBoss, DW, giveRelic, showRelic, COLL, hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
+if (/debug/.test(location.search)) window.__WR = {ICONS, drawIcon, skOpen, SKED, offlineRender, foldLoop, SONGS, MUS_SR, LAYER_MIX, speak, voiceFetch, TR, V, SETS, SKYI, BIOV2:BIOV, get palK(){ return palK; }, get activeSet(){ return activeSet; }, inTunnel, KIT18, TUN, SCN, LOCS, curLoc, advanceLoc, loadKit18, swarmSpawn, vampScare, sceneryGo, VOICE, TRY, BIOV, setBiome, lvProgress, lvAfterRun, chLvl, applyChapterStages, prefetchWorld, startBossLoad, ensureDanceBoss, DW, giveRelic, showRelic, COLL, hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
 bindMeta(); bindV12(); bindV17(); bindV18(); goHome();
 requestAnimationFrame(frame);
 if (HAS_GLB) loadAssets(setProg).then(endBoot).catch(e => { console.error('assets', e); A.ok = false; endBoot(); });
