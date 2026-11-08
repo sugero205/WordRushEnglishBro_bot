@@ -855,6 +855,7 @@ label.btn{cursor:pointer}
 .tag-price{display:inline-flex;align-items:center;gap:4px;flex:none;white-space:nowrap;padding:3px 8px 3px 5px;border:2.5px solid var(--ink);border-radius:999px;background:#fff6e3;box-shadow:0 2px 0 var(--ink);transform:rotate(-3deg);font:900 11.5px/1 var(--display)}
 .tag-price svg{width:20px;height:12px}
 .tag-own{display:inline-flex;align-items:center;gap:4px;flex:none;white-space:nowrap;padding:3px 8px;border:2.5px solid var(--ink);border-radius:999px;background:#8be59a;font:900 11px/1 var(--body)}
+.tag-own{color:#1e1838}
 .tag-own.has{background:#fff}
 .tag-badge{position:absolute;right:-8px;top:22px;padding:4px 8px;border:2.5px solid var(--ink);border-radius:9px;background:var(--candy);color:#fff;box-shadow:0 3px 0 #0d0820;transform:rotate(8deg);font:900 9.5px/1 var(--display);letter-spacing:.03em}
 .r-cyan{--g1:#b4f0ff;--g2:#4fc6ff;--tb:linear-gradient(180deg,#c6f4ff,#7fe3ff);--th:#16a8dc}
@@ -899,6 +900,49 @@ label.btn{cursor:pointer}
 .rl-card.worn{outline:3px solid #c8ff2e;outline-offset:2px}
 .c0{--cb:#c8ff2e;--cg:rgba(200,255,46,.55)}.c1{--cb:#3fd6ff;--cg:rgba(63,214,255,.55)}.c2{--cb:#ff6fb8;--cg:rgba(255,111,184,.55)}.c3{--cb:#ffc93a;--cg:rgba(255,201,58,.55)}.c4{--cb:#b99bff;--cg:rgba(185,155,255,.55)}.c5{--cb:#ff8a5a;--cg:rgba(255,138,90,.55)}.c6{--cb:#9cecff;--cg:rgba(156,236,255,.55)}.c7{--cb:#ffe066;--cg:rgba(255,224,102,.55)}
 @media (prefers-reduced-motion:reduce){.rec,.rec-lab,.tag-card,.h2-halo,.h2-shine i,#scrHome .logo::before,.h2-spark,.sh-title{animation:none!important}}
+.r-boss{--g1:#a9c6ff;--g2:#3d5cff;--tb:linear-gradient(180deg,#4b63e6,#22308f);--th:#0e1660;color:#fff6e3}
+.r-boss .tag-name{color:#fff6e3}
+
+/* ---- v20 vampire duel ---- */
+#duel::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 85% 70% at 50% 58%,rgba(40,0,50,0) 45%,rgba(54,6,64,.42) 100%);opacity:0;transition:opacity .5s}
+#duel:not([hidden])::before{opacity:1}
+#duel .dl-top{top:68px;gap:7px;padding:16px 18px 12px;min-width:230px;max-width:calc(100vw - 28px);box-sizing:border-box;border:3px solid #1a1233;border-radius:22px;
+  background:linear-gradient(180deg,rgba(52,22,92,.92),rgba(24,10,48,.92));box-shadow:0 5px 0 #0a0618,0 0 26px rgba(199,125,255,.45),inset 0 2px 0 rgba(255,255,255,.16)}
+#duel .dl-top::before{content:'ДУЭЛЬ';position:absolute;left:50%;top:-13px;transform:translateX(-50%);padding:4px 12px;border:2.5px solid #1a1233;border-radius:99px;
+  background:linear-gradient(180deg,#e2b3ff,#b05cff);box-shadow:0 3px 0 #0a0618;font:400 11px/1 'Dela Gothic One',var(--display);letter-spacing:.12em;color:#1a1233;white-space:nowrap}
+#duelHP{gap:6px}
+#duelHP i{width:12px;height:12px;border-radius:50% 0 50% 50%;transform:rotate(-45deg);border:2px solid #1a1233;background:rgba(255,255,255,.14);box-shadow:none}
+#duelHP i.on{background:radial-gradient(circle at 35% 35%,#ffc2e0,#ff3d8b 55%,#9b0f55);box-shadow:0 0 8px rgba(255,60,140,.65)}
+#duelHP span{margin-left:8px;padding:3px 8px;border-radius:99px;background:rgba(255,255,255,.1);font:800 11px/1 var(--body);color:#e6defa;text-shadow:none}
+#duelWord{display:block;max-width:calc(100vw - 64px);white-space:nowrap;overflow:hidden;overflow-wrap:normal;font:400 34px/1.15 'Dela Gothic One',var(--display);letter-spacing:.01em;color:#fff;
+  -webkit-text-stroke:3px #1a1233;paint-order:stroke fill;text-shadow:0 3px 0 #1a1233,0 0 18px rgba(199,125,255,.75);padding:2px 4px}
+#duel .dl-timer{width:210px;height:11px;border:2.5px solid #1a1233;background:rgba(255,255,255,.12)}
+#duel .dl-timer i{background:linear-gradient(90deg,#ff5fa8,#c77dff 55%,#7a5cff);box-shadow:0 0 10px #c77dff}
+
+#duel .dz{min-width:118px;max-width:calc(44vw - 20px);padding:12px 14px;border:3px solid #1a1233;border-radius:18px;color:#1a1233;text-align:center;
+  background:linear-gradient(180deg,#fffdf6,#ffe7c4);box-shadow:0 5px 0 #0a0618,inset 0 2px 0 #fff,inset 0 -4px 0 rgba(26,18,51,.08);
+  font:900 15px/1.15 var(--body);scale:.84;transition:opacity .16s,scale .26s cubic-bezier(.3,1.7,.5,1),background .15s,box-shadow .15s}
+#duel.live .dz{scale:1}
+#duel.live .dz-left{transition-delay:0s,.04s,0s,0s}#duel.live .dz-right{transition-delay:0s,.08s,0s,0s}#duel.live .dz-down{transition-delay:0s,.12s,0s,0s}
+#duel .dz-left{left:max(24px,calc(env(safe-area-inset-left,0px) + 24px))}
+#duel .dz-right{right:max(24px,calc(env(safe-area-inset-right,0px) + 24px))}
+#duel .dz.good{background:linear-gradient(180deg,#e2ffe4,#8be59a);box-shadow:0 5px 0 #0a0618,0 0 22px rgba(139,229,154,.95),inset 0 2px 0 #fff;scale:1.08}
+#duel .dz.bad{background:linear-gradient(180deg,#ffe0e3,#ff9aa3);animation:dzShake .32s}
+@keyframes dzShake{20%{translate:-6px 0}40%{translate:6px 0}60%{translate:-4px 0}80%{translate:3px 0}}
+/* arrow chips: a glossy purple button on the side you swipe toward */
+#duel .dz::before,#duel .dz::after{content:'';position:absolute;width:30px;height:30px;box-sizing:border-box;border-radius:50%;-webkit-text-stroke:0}
+#duel .dz::before{border:3px solid #1a1233;background:radial-gradient(circle at 35% 28%,#f6dcff,#c77dff 45%,#7a2fd6);box-shadow:0 3px 0 #0a0618,0 0 12px rgba(199,125,255,.85)}
+#duel .dz::after{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 4.5 5 12h4.4v7.5h5.2V12H19z' fill='%23fff' stroke='%231a1233' stroke-width='2.2' stroke-linejoin='round'/%3E%3C/svg%3E") center/17px no-repeat}
+#duel .dz-up::before,#duel .dz-up::after{top:-19px;left:50%;transform:translateX(-50%)}
+#duel .dz-down::before,#duel .dz-down::after{top:auto;bottom:-19px;left:50%;transform:translateX(-50%) rotate(180deg)}
+#duel .dz-left::before,#duel .dz-left::after{left:-19px;top:50%;transform:translateY(-50%) rotate(-90deg)}
+#duel .dz-right::before,#duel .dz-right::after{left:auto;right:-19px;top:50%;transform:translateY(-50%) rotate(90deg)}
+#duel.live .dz-up::after{animation:dzNudge 1.1s ease-in-out infinite;--nx:0px;--ny:-3px}
+#duel.live .dz-down::after{animation:dzNudge 1.1s ease-in-out infinite;--nx:0px;--ny:3px}
+#duel.live .dz-left::after{animation:dzNudge 1.1s ease-in-out infinite;--nx:-3px;--ny:0px}
+#duel.live .dz-right::after{animation:dzNudge 1.1s ease-in-out infinite;--nx:3px;--ny:0px}
+@keyframes dzNudge{0%,100%{translate:0 0}50%{translate:var(--nx) var(--ny)}}
+@media (prefers-reduced-motion:reduce){#duel.live .dz::after{animation:none}}
 
 #rlGrid{display:block}
 #perf{position:absolute;left:8px;right:8px;bottom:92px;z-index:9;font:700 10.5px/1.35 ui-monospace,Menlo,monospace;color:#fff;background:rgba(20,10,40,.8);border:2px solid rgba(255,255,255,.25);border-radius:10px;padding:6px 8px;pointer-events:none;white-space:pre-wrap;max-height:30vh;overflow:hidden}
@@ -3515,7 +3559,8 @@ function makeGreenSword(){
   const sparks = new T.Points(sg, sparkM); sparks.frustumCulled = false;
   for (const m of [hilt, blade]) { const o = new T.Mesh(m.userData.outlineGeo, OUTLINE_S); o.frustumCulled = false; o.userData.isOutline = true; m.add(o); }
   [hilt, blade, core, glow, sparks].forEach(o => { o.frustumCulled = false; g.add(o); });
-  return {g, glowM, sparkM, bladeM:blade.material};
+  const aura = swordAura(BL0, BL1); g.add(aura.m); glow.visible = false;
+  return {g, glowM, sparkM, bladeM:blade.material, aura};
 }
 function attachGreenSword(h){
   const old = h.model.getObjectByName('HeroSword'); if (!old || !old.parent) return;
@@ -3529,6 +3574,7 @@ function animGreenSword(h, t){
   const charged = G.sword >= 1, playing = G.mode === 'run' || G.mode === 'boss';
   sw.glowM.opacity = 0.26 + (charged && playing ? 0.22 + 0.12 * Math.sin(t * 8) : 0.05 * Math.sin(t * 3)) + (G.combo >= 5 ? 0.1 : 0);
   sw.sparkM.size = (charged ? 0.1 : 0.07) * (0.75 + 0.35 * Math.sin(t * 9)); sw.sparkM.opacity = 0.6 + 0.4 * Math.sin(t * 5.3);
+  if (sw.aura) swordAuraFrame(sw, t, charged, playing);
 }
 
 /* ---- GLB hero ---- */
@@ -3850,8 +3896,8 @@ function updateObstacles(sdt){
       const hitRock = u.kind === 'rock' && Math.abs(z) < 0.75 && Math.abs(LANES[u.lane] - hx) < 1.0 && !airborne();
       const hitPump = (u.kind === 'pumpkin' || u.kind === 'yarn') && Math.abs(z) < 0.75 && Math.abs(LANES[u.lane] - hx) < 1.0 && !airborne();
       const hitMob = u.kind === 'mob' && mobHits(o, u, hx);
-      const hitBeast = u.kind === 'beast' && Math.abs(z) < 0.7 && G.slideT <= 0.04;
-      if (u.kind === 'beast' && !u.passed && Math.abs(z) < 0.7 && G.slideT > 0.04) { u.passed = true; G.coinsRun += 2; renderCoins(); popText('Nice slide!', hx, 2.2, 0, 'gain'); questEvent('sword'); }
+      const hitBeast = u.kind === 'beast' && Math.abs(z) < 0.7 && G.slideT <= 0.04 && !airborne(0.18) && !u.passed;
+      if (u.kind === 'beast' && !u.passed && Math.abs(z) < 0.7 && (G.slideT > 0.04 || airborne(0.18))) { u.passed = true; G.coinsRun += 2; renderCoins(); popText(G.slideT > 0.04 ? 'Nice slide!' : 'Nice jump!', hx, 2.2, 0, 'gain'); questEvent('sword'); }
       const hitBats = u.kind === 'spikes' && Math.abs(z) < 0.7 && Math.abs(LANES[u.lane] - hx) < 1.0 && !airborne(0.25) && u.up > 0.5;
       if (hitLog || hitRock || hitPump || hitBats || hitBeast || hitMob) {
         if (G.shadowT > 0) { u.hit = true; }
@@ -4904,7 +4950,7 @@ function duelRound(){
   d.r = r;
   $('#duelWord').textContent = w.en;
   DIRS.forEach(dir => { const b = $('#duel .dz-' + dir); b.textContent = r.map[dir]; b.className = 'dz dz-' + dir; });
-  $('#duel').classList.add('live');
+  $('#duel').classList.add('live'); duelFit();
 }
 function duelInput(dir){
   const d = G.duel; if (!d || !d.r || G.phase !== 'duel') return;
@@ -5035,7 +5081,7 @@ function buildTurnKit(){
   fb.add(box(3.4, 0.6, 32, 1, 1, 8), 0x5a8a4a, [0, 12.2, 0]);
   for (let i = 0; i < 5; i++) fb.add(cone(0.9, 2.6, 5), [0x5a8a4a, 0x8ad06a], [0.3, 13.6, -12 + i * 6]);
   fb.add(box(0.3, 1.2, 4.2), 0x2a1a24, [-1.65, 9.4, 0]); fb.add(box(0.2, 0.9, 3.8), 0xff8a5a, [-1.8, 9.4, 0]);
-  K.portal = fb.build('tunnelPortal');
+  K.portal = fb.build('tunnelPortal'); try { K.cave = buildCaveMouth(); } catch(e) { console.error('cave', e); }
   /* long-path gate: flower arch */
   const gb = KB();
   [-4.9, 4.9].forEach(z => { gb.add(cyl(0.35, 0.45, 5.2, 8), [0xf4e2c8, 0xffffff], [0, 2.6, z]); gb.add(sph(0.7, 8, 6), 0xff8ad0, [0, 5.4, z]); });
@@ -5069,11 +5115,11 @@ function makeJunction0(kind, tunnelSide, cornerSide){
   const w = new T.Mesh(K.wall.geometry, KIT_MAT); w.position.set(0, 0, -5.6); g.add(w);
   if (kind === 'fork') {
     const wallArt = !!(ASSET.tex['forkwall.webp'] && ASSET.tex['forkwall.webp'].wrOk && TUNE.fork.wall);
-    if (wallArt) addForkWall(g);
+    if (wallArt) { addForkWall(g); addForkBoss(g); }
     sides.forEach(s => {
       if (!wallArt) { const sg = new T.Mesh(K.signN[s < 0 ? 0 : 1].geometry, KIT_MAT); sg.position.set(s * 4.4, 0, -4.4); g.add(sg); }
-      const gate = new T.Mesh(K.mgate.geometry, KIT_MAT); gate.position.set(s * 11.5, 0, 0); gate.rotation.y = s < 0 ? Math.PI : 0; g.add(gate);
-      const fog = new T.Mesh(K.fogG, K.fogM); fog.position.set(s * 11.2, 3.3, 0); fog.rotation.y = Math.PI / 2; g.add(fog);
+      const gate = K.caveGate ? K.caveGate.clone() : new T.Mesh(K.mgate.geometry, KIT_MAT); gate.position.set(s * 11.5, 0, 0); gate.rotation.y = s < 0 ? Math.PI : 0; g.add(gate);
+      const fog = new T.Mesh(K.caveGate ? K.veilG : K.fogG, K.fogM); fog.position.set(s * (K.caveGate ? 12.4 : 11.2), K.caveGate ? 0 : 3.3, 0); fog.rotation.y = Math.PI / 2; g.add(fog);
       if (!wallArt) { spookProps(g, s); signDeco(g, s); }
     });
   } else { const sg = new T.Mesh(K.signN[cornerSide < 0 ? 0 : 1].geometry, KIT_MAT); sg.position.set(cornerSide * 4.4, 0, -4.4); g.add(sg); }
@@ -5246,7 +5292,7 @@ function buildSpookKit(K){
   for (let i = -2; i <= 2; i++) gb.add(cone(0.22, 1.1, 4), 0x3a3048, [0, 8.15, i * 2.2]);
   [-3.2, -1.2, 1.4, 3.4].forEach((z, i) => gb.add(box(0.08, 1.2 + (i % 2) * 0.8, 0.08), 0x6a6a7a, [-0.5, 6.1 - (i % 2) * 0.4, z]));
   gb.add(box(0.6, 1.0, 0.6), [0x5a4a3a, 0x8a6a4a], [-0.9, 5.6, -4.1]); gb.add(box(0.6, 1.0, 0.6), [0x5a4a3a, 0x8a6a4a], [-0.9, 5.6, 4.1]);
-  K.mgate = gb.build('mysteryGate');
+  K.mgate = gb.build('mysteryGate'); try { if (TUNE.tun.cave) { K.caveGate = buildCaveMouth({k:0.8, wide:3.5, top:11, seed:777}); K.veilG = caveVeilGeo(0.8); } } catch(e) { console.error('caveGate', e); }
   K.fogG = new T.PlaneGeometry(9.2, 6.6, 1, 4);
   K.fogM = curvify(new T.MeshBasicMaterial({color:0x1a0f2a, transparent:true, opacity:0.62, side:T.DoubleSide, depthWrite:false}));
   const mkSign = dir => { const b = KB(); b.add(box(0.22, 2.6, 0.22), 0x5a3a2a, [0, 1.3, 0]); b.add(box(3.0, 1.15, 0.18), [0x7a5034, 0xa8784c], [dir * 0.4, 2.7, 0]); b.add(cone(0.8, 0.95, 3), [0x7a5034, 0xa8784c], [dir * 2.2, 2.7, 0], [0, 0, -dir * Math.PI / 2]); b.add(box(0.1, 0.5, 0.2), 0x3a2418, [dir * 0.9, 2.7, 0.1], [0, 0, 0.5]); b.add(box(0.1, 0.4, 0.2), 0x3a2418, [-dir * 0.4, 2.8, 0.1], [0, 0, -0.4]); return b.build('jSignN'); };
@@ -5297,7 +5343,7 @@ function signDeco(g, s){
 function spawnReveal(kind){
   const K = TR.kit; if (!K) return;
   if (TR.reveal) { scene.remove(TR.reveal); TR.reveal = null; }
-  const m = new T.Mesh((kind === 'tunnel' ? K.portal : K.gate).geometry, KIT_MAT); m.rotation.y = Math.PI / 2; m.position.set(0, 0, -30); scene.add(m); TR.reveal = m;
+  const m = kind === 'tunnel' && K.cave ? K.cave.clone() : new T.Mesh((kind === 'tunnel' ? K.portal : K.gate).geometry, KIT_MAT); m.rotation.y = Math.PI / 2; m.position.set(0, 0, -30); scene.add(m); TR.reveal = m;
 }
 
 /* ================= v16 SPIN STRIKE: Mixamo "Sword And Shield Attack" on the hero, in place, exactly one turn ================= */
@@ -5910,7 +5956,7 @@ function updateBeast0(o, u, sdt){
   const z = o.position.z, b = u.body; if (!b) return;
   b.scale.y = 1 + Math.sin(u.age * 3.2) * 0.025; b.position.y = Math.sin(u.age * 3.2 + 1) * 0.04;
   u.mat.opacity = clamp(1 - (z - 0.1) / 1.1, 0, 1);
-  if (!u.roared && z > -26) { u.roared = true; tone(120, 70, .45, 'sawtooth', .05); if (!G.beastHinted) { G.beastHinted = true; hint('Slide! Swipe ↓', 2400); } }
+  if (!u.roared && z > -26) { u.roared = true; tone(120, 70, .45, 'sawtooth', .05); if (!G.beastHinted) { G.beastHinted = true; hint('Jump ↑ or slide ↓', 2400); } }
 }
 /* ---- second fork look: the graffiti wall (scary half / cute half); which side hides the tunnel is still random ---- */
 const FORKW = {w:15, h:15 * 474 / 1200};
@@ -6200,7 +6246,7 @@ function bindV17(){
   migrateRelics(); renderRelicBadge();
   $('#rlGrid').addEventListener('click', e => { const b = e.target.closest('[data-rl]'); if (b) openCard(b.dataset.rl); });
   if (S.relicMigr) { const n = S.relicMigr; S.relicMigr = 0; save(); setTimeout(() => toast('Новая коллекция!', 'Старые реликвии (' + n + ') обменяны на ' + n * 120 + ' конфет', 'good'), 1200); }
-  ['beast1.png', 'beast2.png', 'forkwall.webp', 'relics.webp', 'isl_candy.webp'].forEach(assetTex);
+  ['beast1.png', 'beast2.png', 'forkwall.webp', 'forkboss.webp', 'relics.webp', 'isl_candy.webp'].forEach(assetTex);
   const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'audio/*,.mp3,.m4a,.aac,.wav,.ogg,.flac'; inp.hidden = true; inp.id = 'songFile'; document.body.appendChild(inp);
   inp.addEventListener('change', () => { const f = inp.files && inp.files[0]; inp.value = ''; if (f) loadCustomFile(f); });
   $('#songList').addEventListener('click', e => {
@@ -6516,7 +6562,7 @@ function v12Frame(sdt, dt){
   if (G.mode === 'run') updateVdown(); else if (!vdownEl.hidden) vdownEl.hidden = true;
   if (vSlab) vSlab.visible = V.mode === 'road';
   if (V.mode === 'road') updateVampRoad(sdt);
-  musicMood(); v17Frame(sdt, dt); v18Frame(sdt, dt); v19Frame(sdt, dt);
+  musicMood(); v17Frame(sdt, dt); v18Frame(sdt, dt); v19Frame(sdt, dt); v20Frame(sdt, dt);
 }
 
 G.anims = [];
@@ -6815,7 +6861,7 @@ function afterResolveBoss(){
 function bossDefeat(){
   removeOrbs(); hideQ(); railClear(); G.current = null;
   G.phase = 'dead'; G.deadT = 2.6; G.boss.dead = true; G.boss.deadT = 0;
-  sfx.win(); shake(0.6); haptic(HAP.boss); G.coinsRun += 100; renderCoins(); if (S.hard) grantHardSkin(); later(1.0, () => showRelic(giveRelic()));
+  sfx.win(); shake(0.6); haptic(HAP.boss); G.coinsRun += 100; renderCoins(); if (S.hard) grantHardSkin(); grantBossSkin(); later(1.0, () => showRelic(giveRelic()));
   for (let i = 0; i < 4; i++) burst((Math.random() - .5) * 3, 3 + Math.random() * 2, -21, i % 2 ? 0xfffbea : 0xffe14a, 14, 8);
   toast(bossName() + ' повержен!', 'Слова главы свободны · +100', 'good');
 }
@@ -7260,7 +7306,7 @@ function buildBeast(g, u){
 }
 function updateBeast(o, u, sdt){
   if (u.mat) { updateBeast0(o, u, sdt); return; }
-  if (!u.roared && o.position.z > -30) { u.roared = true; tone(160, 90, .25, 'square', .04); if (!G.beastHinted) { G.beastHinted = true; hint('Barrier! Slide — swipe ↓', 2400); } }
+  if (!u.roared && o.position.z > -30) { u.roared = true; tone(160, 90, .25, 'square', .04); if (!G.beastHinted) { G.beastHinted = true; hint('Barrier! Jump ↑ or slide ↓', 2400); } }
 }
 
 /* ---- decor along the two roads of the fork, picked for the place we are in ---- */
@@ -7579,7 +7625,7 @@ function tunnelExitBegin(){
   TR.segs.forEach(s => { if (s.on && s.z < -60) s.on = false; });
   let minZ = 0; TR.segs.forEach(s => { if (s.on && s.z < minZ) minZ = s.z; });
   const endZ = minZ - SEG_L / 2;
-  if (TR.kit) { const m = new T.Mesh(TR.kit.portal.geometry, KIT_MAT); m.rotation.y = -Math.PI / 2; m.position.set(0, 0, endZ - 1.4); scene.add(m); TR.exitM = m; }
+  if (TR.kit) { const m = new T.Mesh((TR.kit.cave || TR.kit.portal).geometry, KIT_MAT); m.rotation.y = -Math.PI / 2; m.position.set(0, 0, endZ - 1.4); scene.add(m); TR.exitM = m; }
   b.locDone = true;
   if ((G.loc || 0) < chLocs().length - 1) G.loc = (G.loc || 0) + 1;
   SCN.front = endZ - 1; setTo = locSet(); locWorld(endZ - 1);
@@ -7627,8 +7673,8 @@ function bioTex(b){ return BIOV.tex[b] || (BIOV.tex[b] = assetTex('bio_' + b + '
 const TUNE_DEF = {
   run:{speed:1, qtime:1, obst:1, spawn:50, blend:3.6, jump:11.5, lane:13},
   cam:{y:2.55, z:4.5, x:1.2, look:1.45, fov:0, curve:1, follow:3.2},
-  tun:{light:1, swarm:30, bats:0.8, scare:1, len:26}, fx:{parts:1, bokeh:1, rays:1, wind:1, glow:1, vig:1},
-  fork:{stage:3, len:30, wall:1, decor:1},
+  tun:{light:1, swarm:30, bats:0.8, scare:1, len:26, cave:1}, fx:{parts:1, bokeh:1, rays:1, wind:1, glow:1, vig:1},
+  fork:{stage:3, len:30, wall:1, decor:1, boss:1},
   loc:{}, set:{}
 };
 const TUNE_BAKED = {};
@@ -7700,7 +7746,7 @@ function tpRender(){
   else if (tab === 'place') h = tpPlaceRows();
   else if (tab === 'decor') h = tpDecorRows();
   else if (tab === 'tun') { TP_TUN.forEach(r => { h += tpSlider('tun.' + r[0], r[1], r[2], r[3], r[4], TUNE.tun[r[0]], TUNE_DEF.tun[r[0]]); }); h += tpCheck('tun.scare', 'Вампир выскакивает из темноты', TUNE.tun.scare); h += '<div class="tp-h">Темнота туннеля — вкладка «Место», когда ты внутри туннеля</div>'; }
-  else if (tab === 'fork') { TP_FORK.forEach(r => { h += tpSlider('fork.' + r[0], r[1], r[2], r[3], r[4], TUNE.fork[r[0]], TUNE_DEF.fork[r[0]]); }); h += tpCheck('fork.wall', 'Граффити-стена', TUNE.fork.wall); h += tpCheck('fork.decor', 'Предметы вдоль дорог развилки', TUNE.fork.decor); }
+  else if (tab === 'fork') { TP_FORK.forEach(r => { h += tpSlider('fork.' + r[0], r[1], r[2], r[3], r[4], TUNE.fork[r[0]], TUNE_DEF.fork[r[0]]); }); h += tpCheck('fork.wall', 'Граффити-стена', TUNE.fork.wall); h += tpCheck('fork.boss', 'Конфетный великан за стеной', TUNE.fork.boss); h += tpCheck('fork.decor', 'Предметы вдоль дорог развилки', TUNE.fork.decor); }
   else if (tab === 'skin') h = '<button data-a="sked" class="on" style="margin:8px 0">Открыть редактор скинов</button><div class="tp-h">Примерить на героине (без покупки, только в бете)</div><div class="tp-skins">' + SKINS.map(s => '<button data-skin18="' + s.id + '"' + (S.equip.skin === s.id ? ' class="on"' : '') + '>' + esc(s.name) + '</button>').join('') + '</div>';
   TP.el.querySelector('.tp-body').innerHTML = h;
   TP.el.querySelectorAll('.tp-tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
@@ -9060,8 +9106,32 @@ function tapFx(x, y){
 let SHOP_TAB = 'skins';
 const TAG_CANDY = '<svg viewBox="0 0 32 18" aria-hidden="true"><path d="M8 9 1.5 2.5v13zM24 9l6.5-6.5v13z" fill="#ffb3d6" stroke="#1e1838" stroke-width="2.2" stroke-linejoin="round"/><ellipse cx="16" cy="9" rx="8.6" ry="7.2" fill="#ff5fae" stroke="#1e1838" stroke-width="2.2"/></svg>';
 const TAG_HOOK = '<svg class="tag-hook" viewBox="0 0 120 30" aria-hidden="true"><path d="M60 8 14 30M60 8l46 22" stroke="#c9c2dd" stroke-width="2" fill="none"/><circle cx="60" cy="7" r="5.5" fill="#d8d3e6" stroke="#1e1838" stroke-width="2.4"/><circle cx="60" cy="7" r="2" fill="#1e1838"/></svg>';
+/* v20: eight new outfits; the list is kept sorted by price, boss / hard rewards last */
+SKINS.splice(0, SKINS.length,
+  {id:'base', name:'Классика', price:0, k:-1},
+  {id:'s1', name:'Дым', price:3000, k:1},
+  {id:'s8', name:'Дарк бой', price:3000, k:8},
+  {id:'s0', name:'Паутина', price:3500, k:0},
+  {id:'s2', name:'Олени', price:4000, k:2},
+  {id:'s9', name:'Воздушный кочевник', price:4000, k:9},
+  {id:'s3', name:'Ошибка 404', price:4500, k:3},
+  {id:'s10', name:'Новогодняя охота', price:4500, k:10, rar:'rare'},
+  {id:'s5', name:'Снежинка', price:5000, k:5},
+  {id:'s11', name:'Алые облака', price:5000, k:11},
+  {id:'s12', name:'Мексиканская смерть', price:6000, k:12, rar:'epic'},
+  {id:'s6', name:'Симбиот', price:6500, k:6},
+  {id:'s7', name:'Полярная звезда', price:8000, k:7},
+  {id:'s13', name:'Праздничный бунтарь', price:9000, k:13, rar:'legend'},
+  {id:'s14', name:'Сердце пламени', price:9000, k:14, rar:'legend'},
+  {id:'s15', name:'Всеведущий', price:0, k:15, boss:true},
+  {id:'s4', name:'Тёмный ангел', price:0, k:4, hard:true}
+);
 function skinRarity(s){
   if (s.hard) return ['ХАРД-БОСС', 'r-dark'];
+  if (s.boss) return ['БОСС', 'r-boss'];
+  if (s.rar === 'rare') return ['РЕДКИЙ', 'r-pink'];
+  if (s.rar === 'epic') return ['ЭПИК', 'r-sun'];
+  if (s.rar === 'legend') return ['ЛЕГЕНДА', 'r-lime'];
   if (!s.price) return ['КЛАССИКА', 'r-cream'];
   if (s.price <= 3000) return ['ОБЫЧНЫЙ', 'r-cyan'];
   if (s.price <= 3500) return ['РЕДКИЙ', 'r-purple'];
@@ -9069,12 +9139,30 @@ function skinRarity(s){
   if (s.price <= 5000) return ['ЭПИК', 'r-sun'];
   return ['ЛЕГЕНДА', 'r-lime'];
 }
+const isReward = s => !!(s.hard || s.boss);
+/* «Всеведущий»: the reward for beating any boss */
+function grantBossSkin(){
+  skinInit(); if (S.owned.skin.indexOf('s15') >= 0) return;
+  S.owned.skin.push('s15'); save(); later(S.hard ? 4.4 : 2.2, () => toast('Скин «Всеведущий»!', 'Награда за победу над боссом — надень в Магазине', 'good'));
+}
+function renderTry(){
+  const s = SKINS[TRY.i], own = S.owned.skin.indexOf(s.id) >= 0, eq = S.equip.skin === s.id;
+  $('#tryK').textContent = 'Скин ' + (TRY.i + 1) + ' / ' + SKINS.length; $('#tryName').textContent = s.name; $('#tryCoins').textContent = S.coins;
+  $('#tryNote').textContent = s.hard && !own ? 'Награда: победи любого босса в режиме ХАРД' : s.boss && !own ? 'Награда: победи любого босса' : own ? (eq ? 'Сейчас на тебе' : 'Уже твой') : 'Цена: ' + s.price + ' конфет';
+  const b = $('#tryBuy'); b.disabled = eq || (isReward(s) && !own); b.textContent = eq ? 'Надето' : own ? 'Надеть' : s.hard ? 'Только за хард' : s.boss ? 'Только за босса' : 'Купить за ' + s.price;
+  wearSkin(s.id);
+}
+function tryBuy(){
+  const s = SKINS[TRY.i], own = S.owned.skin.indexOf(s.id) >= 0;
+  if (!own) { if (isReward(s)) return; if (S.coins < s.price) { toast('Не хватает конфет', 'Нужно ' + s.price + ', у тебя ' + S.coins, 'bad'); bumpEl($('#tryBuy'), 'nope'); return; } S.coins -= s.price; S.owned.skin.push(s.id); sfx.win(); haptic(HAP.good); burst(0, 1.6, 0.2, 0xffd23a, 22, 6); toast('Новый скин!', s.name, 'good'); }
+  S.equip.skin = s.id; save(); renderTry();
+}
 function skinCards(){
   return '<p class="note">Новая расцветка той же одежды. Нажми — примеришь на героине и покрутишь её.</p><div class="tag-grid">' + SKINS.map(s => {
     const own = S.owned.skin.indexOf(s.id) >= 0, eq = S.equip.skin === s.id, [rar, cls] = skinRarity(s);
     const foot = eq ? '<span class="tag-own"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5 9.5 18 20 6" fill="none" stroke="#1e1838" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>Надето</span>'
-      : own ? '<span class="tag-own has">Надеть</span>' : s.hard ? '<span class="tag-own has">Босс</span>' : '<span class="tag-price">' + TAG_CANDY + s.price.toLocaleString('ru-RU').replace(/\s/g, ' ') + '</span>';
-    return '<button class="tag-card ' + cls + '" data-skin="' + s.id + '" aria-label="Скин «' + esc(s.name) + '»">' + TAG_HOOK + '<span class="tag-body"><span class="tag-name">' + esc(s.name) + '</span><span class="tag-img"><img src="a/skin' + (s.k < 0 ? '_base' : s.k) + '_c.webp" alt="" loading="lazy"></span><span class="tag-foot"><span class="tag-rar">' + rar + '</span>' + foot + '</span></span>' + (s.hard && !own ? '<span class="tag-badge">ХАРД</span>' : '') + '</button>';
+      : own ? '<span class="tag-own has">Надеть</span>' : isReward(s) ? '<span class="tag-own has">Босс</span>' : '<span class="tag-price">' + TAG_CANDY + s.price.toLocaleString('ru-RU').replace(/\s/g, ' ') + '</span>';
+    return '<button class="tag-card ' + cls + '" data-skin="' + s.id + '" aria-label="Скин «' + esc(s.name) + '»">' + TAG_HOOK + '<span class="tag-body"><span class="tag-name">' + esc(s.name) + '</span><span class="tag-img"><img src="a/skin' + (s.k < 0 ? '_base' : s.k) + '_c.webp" alt="" loading="lazy"></span><span class="tag-foot"><span class="tag-rar">' + rar + '</span>' + foot + '</span></span>' + (isReward(s) && !own ? '<span class="tag-badge">' + (s.hard ? 'ХАРД' : 'БОСС') + '</span>' : '') + '</button>';
   }).join('') + '</div>';
 }
 
@@ -9098,6 +9186,228 @@ function bindV19ui(){
   }, true);
   const tabs = $('#shTabs');
   if (tabs) tabs.addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (!b || b.dataset.tab === SHOP_TAB) return; SHOP_TAB = b.dataset.tab; renderShop(); haptic(HAP.tap); });
+}
+
+/* ================= v20 ================= */
+
+/* ---- fork boss: the candy giant with a glass belly towers behind the graffiti wall.
+   One cut-out picture on a soft 18×18 grid; the grid is bent every frame so it breathes and its arms reach ---- */
+const FB = {mesh:null, J:null, base:null, t:0, up:0, risen:false, grab:0};
+const FB_S = 30, FB_N = 18, FB_Z = -11, FB_Y0 = -0.66, FB_Y1 = -0.28;
+function fbW(u, v, side){
+  const sm = (a, b, x) => { const k = clamp((x - a) / (b - a), 0, 1); return k * k * (3 - 2 * k); };
+  const arm = side < 0 ? sm(0.40, 0.22, u) : sm(0.60, 0.78, u);
+  return arm * sm(0.40, 0.56, v);
+}
+function addForkBoss(g){
+  if (!TUNE.fork.boss) return;
+  const tex = assetTex('forkboss.webp'); if (!tex.wrOk) return;
+  const geo = new T.PlaneGeometry(FB_S, FB_S, FB_N, FB_N); geo.translate(0, FB_S / 2, 0);
+  const m = curvify(new T.MeshBasicMaterial({map:tex, transparent:true, alphaTest:0.04, depthWrite:false, side:T.DoubleSide, color:0xfff2f8}));
+  const mesh = new T.Mesh(geo, m); mesh.position.set(0, FB_S * FB_Y0, FB_Z); mesh.renderOrder = -1; mesh.frustumCulled = false; g.add(mesh);
+  if (!TR.kit || !TR.kit.tpl) { mesh.position.y = 0; return; }  /* the hidden prewarm template only needs the shader */
+  FB.mesh = mesh; FB.J = g; FB.base = Float32Array.from(geo.attributes.position.array); FB.t = Math.random() * 6; FB.up = 0; FB.risen = false; FB.grab = 0;
+}
+function forkBossFrame(dt){
+  const mesh = FB.mesh; if (!mesh) return;
+  if (!mesh.parent || !mesh.parent.parent) { FB.mesh = null; FB.J = null; return; }
+  const J = FB.J, t = (FB.t += dt);
+  /* rises from behind the wall when the fork comes close enough to see it */
+  const near = J.userData.turned ? 1 : clamp((J.position.z + 74) / 40, 0, 1);
+  if (!FB.risen && J.position.z > -70 && !J.userData.turned) { FB.risen = true; tone(72, 44, 1.1, 'sawtooth', .045); later(0.25, () => tone(96, 60, 0.7, 'square', .025)); shake(0.12); }
+  FB.up = Math.min(1, FB.up + (FB.risen ? dt / 1.6 : 0));
+  const rise = FB.up < 1 ? easeOutBack(FB.up) : 1;
+  FB.grab += ((J.userData.turned ? 0 : clamp((J.position.z + 30) / 16, 0, 1)) - FB.grab) * Math.min(1, dt * 2.5);
+  mesh.position.y = FB_S * (FB_Y0 + (FB_Y1 - FB_Y0) * rise) + Math.sin(t * 1.6) * 0.15;
+  mesh.rotation.z = Math.sin(t * 0.7) * 0.025;
+  mesh.rotation.x = -0.06 * FB.grab;
+  mesh.visible = FB.up > 0.01;
+  if (!mesh.visible) return;
+  /* bend the grid: breathing body, bobbing head, two arms swinging round their shoulders */
+  const p = mesh.geometry.attributes.position, B = FB.base, br = Math.sin(t * 1.6);
+  const aL = -(0.085 * Math.sin(t * 1.25) + 0.16 * FB.grab + 0.05 * near), aR = 0.085 * Math.sin(t * 1.25 + 0.7) + 0.16 * FB.grab + 0.05 * near;
+  const pL = [(0.42 - 0.5) * FB_S, 0.815 * FB_S], pR = [(0.58 - 0.5) * FB_S, 0.815 * FB_S];
+  const cL = Math.cos(aL), sL = Math.sin(aL), cR = Math.cos(aR), sR = Math.sin(aR);
+  for (let i = 0; i < p.count; i++) {
+    let x = B[i * 3], y = B[i * 3 + 1]; const u = x / FB_S + 0.5, v = y / FB_S;
+    const bel = Math.exp(-((u - 0.5) * (u - 0.5) / 0.03 + (v - 0.55) * (v - 0.55) / 0.04));
+    x *= 1 + 0.03 * br * bel; y *= 1 + 0.012 * br;
+    if (v > 0.86) y += 0.12 * Math.sin(t * 2.1 + 1) * (v - 0.86) / 0.14;
+    const wl = fbW(u, v, -1), wr = fbW(u, v, 1);
+    if (wl > 0) { const dx = x - pL[0], dy = y - pL[1], a = wl, k = 1 + 0.12 * FB.grab * wl; x = pL[0] + (dx * (1 - a + a * cL) - dy * a * sL) * k; y = pL[1] + (dx * a * sL + dy * (1 - a + a * cL)) * k; }
+    if (wr > 0) { const dx = x - pR[0], dy = y - pR[1], a = wr, k = 1 + 0.12 * FB.grab * wr; x = pR[0] + (dx * (1 - a + a * cR) - dy * a * sR) * k; y = pR[1] + (dx * a * sR + dy * (1 - a + a * cR)) * k; }
+    p.setXY(i, x, y);
+  }
+  p.needsUpdate = true;
+}
+
+/* ---- tunnel entrance: a real cave mouth — piled boulders round the arch, stalactites, moss and hanging vines,
+   two torches and a few glowing crystals at the foot. Built facing the runner, then turned the way the old portal was ---- */
+function seeded(s){ return () => { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function rockGeo(r, rnd, sx, sy, sz){
+  const g = new T.IcosahedronGeometry(r, 0), p = g.attributes.position, off = new Map();
+  for (let i = 0; i < p.count; i++) {
+    const k = Math.round(p.getX(i) * 1000) + ',' + Math.round(p.getY(i) * 1000) + ',' + Math.round(p.getZ(i) * 1000);
+    if (!off.has(k)) off.set(k, 0.78 + rnd() * 0.42);
+    const f = off.get(k); p.setXYZ(i, p.getX(i) * f * sx, p.getY(i) * f * sy, p.getZ(i) * f * sz);
+  }
+  g.computeVertexNormals(); return g;
+}
+let FLAME_TEX = null;
+function flameGlowTex(){
+  if (FLAME_TEX) return FLAME_TEX;
+  const c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d');
+  const gr = x.createRadialGradient(32, 32, 0, 32, 32, 32); gr.addColorStop(0, 'rgba(255,220,140,1)'); gr.addColorStop(0.35, 'rgba(255,150,60,.55)'); gr.addColorStop(1, 'rgba(255,120,40,0)');
+  x.fillStyle = gr; x.fillRect(0, 0, 64, 64); FLAME_TEX = new T.CanvasTexture(c); return FLAME_TEX;
+}
+function buildCaveMouth(o){
+  o = o || {}; const K = o.k || 1, WIDE = o.wide == null ? 10.5 : o.wide, TOPH = o.top == null ? 13.5 : o.top;
+  const rnd = seeded(o.seed || 20261108), b = KB();
+  const ROCK = [[0x3b3247, 0x766888], [0x41364f, 0x857597], [0x352c40, 0x6a5c7c]], DARK = [0x1c1624, 0x3a3046], MOSS = [0x4a8a3c, 0x92d86a];
+  const R0 = 6.35, CY = 3.4, rk = () => ROCK[Math.floor(rnd() * 3)];
+  /* arch ring: big boulders along the opening, two rows deep */
+  for (let row = 0; row < 2; row++) {
+    const n = row ? 11 : 15;
+    for (let i = 0; i <= n; i++) {
+      const a = Math.PI * i / n, r = (row ? 2.2 : 1.45) + rnd() * 0.7, rad = R0 + r * 0.72 + row * 1.9;
+      b.add(rockGeo(r, rnd, 1, 0.9 + rnd() * 0.3, 0.8 + rnd() * 0.4), rk(), [Math.cos(a) * rad, CY + Math.sin(a) * rad, 0.4 - row * 1.3 + rnd() * 0.5], [rnd() * 3, rnd() * 3, rnd() * 3]);
+    }
+  }
+  /* jambs down to the ground on both sides */
+  [-1, 1].forEach(s => {
+    for (let k = 0; k < 4; k++) { const r = 1.3 + rnd() * 0.6; b.add(rockGeo(r, rnd, 1, 1.1, 0.9), rk(), [s * (R0 - 0.1 + r * 0.7 + rnd() * 0.3), 0.5 + k * 1.05, 0.5 + rnd() * 0.4], [rnd() * 3, rnd() * 3, rnd() * 3]); }
+    /* outer cliff mass: piles of big rocks out to the sides and up, stepping back */
+    for (let k = 0; k < 16; k++) {
+      const x = s * (9 + rnd() * WIDE), top = TOPH - Math.abs(x) * 0.42 + rnd() * 2.5, y = rnd() * top, r = 2.2 + rnd() * 2.0;
+      b.add(rockGeo(r, rnd, 1.2, 1, 1), rk(), [x, y, -1.2 - rnd() * 3], [rnd() * 3, rnd() * 3, rnd() * 3]);
+    }
+    /* rubble and stalagmites at the foot */
+    for (let k = 0; k < 6; k++) b.add(rockGeo(0.35 + rnd() * 0.45, rnd, 1, 0.7, 1), rk(), [s * (6.4 + rnd() * 3.5), 0.15, 1.2 + rnd() * 1.8], [rnd() * 3, rnd() * 3, 0]);
+    for (let k = 0; k < 3; k++) b.add(cone(0.35 + rnd() * 0.2, 1.1 + rnd() * 1.1, 5), ROCK[0], [s * (5.9 + rnd() * 0.5), 0.5, -0.3 - rnd() * 1.2], [0, rnd() * 3, s * 0.12]);
+    /* glowing crystals in the corners */
+    for (let k = 0; k < 4; k++) { const h = 0.8 + rnd() * 1.1; b.add(cone(0.22 + rnd() * 0.12, h, 4), [0x9a5ae0, 0xffc4f0], [s * (7.0 + rnd() * 1.6), h * 0.42, 1.6 + rnd() * 0.9], [rnd() * 0.5 - 0.25, rnd() * 3, s * (0.15 + rnd() * 0.35)]); }
+  });
+  /* top of the cliff, so nothing shows through above the arch */
+  for (let k = 0; k < 9; k++) { const x = -10 + k * 2.5 + rnd(), r = 2.6 + rnd() * 1.4; b.add(rockGeo(r, rnd, 1.3, 0.9, 1), rk(), [x, CY + R0 + 3.6 + rnd() * 1.6, -1.6 - rnd() * 1.4], [rnd() * 3, rnd() * 3, rnd() * 3]); }
+  /* dark throat: a ring of shadowed rock just inside the opening gives depth */
+  for (let i = 0; i <= 12; i++) { const a = Math.PI * i / 12, r = 0.9 + rnd() * 0.4; b.add(rockGeo(r, rnd, 1, 1, 1.4), DARK, [Math.cos(a) * (R0 + 0.35), CY + Math.sin(a) * (R0 + 0.35), -1.2], [rnd() * 3, rnd() * 3, rnd() * 3]); }
+  /* stalactites hanging from the arch (well above the runner's head) */
+  for (let i = 0; i < 13; i++) {
+    const a = Math.PI * (0.12 + 0.76 * i / 12) + (rnd() - 0.5) * 0.08, rr = R0 - 0.15, h = 0.7 + rnd() * (Math.sin(a) > 0.8 ? 1.7 : 1.0), r = 0.2 + rnd() * 0.22;
+    b.add(cone(r, h, 5), [0x8a7a9e, 0x41364f], [Math.cos(a) * rr, CY + Math.sin(a) * rr - h / 2, 0.2 + rnd() * 0.5], [Math.PI, rnd() * 3, 0]);
+  }
+  /* moss caps on the arch and hanging vines */
+  for (let i = 0; i <= 10; i++) {
+    const a = Math.PI * (0.06 + 0.88 * i / 10), rad = R0 + 2.1;
+    b.add(sph(0.9 + rnd() * 0.6, 7, 5), MOSS, [Math.cos(a) * rad, CY + Math.sin(a) * rad + 0.9, 0.9 + rnd() * 0.4], [0, rnd() * 3, 0], [1.3, 0.45, 1]);
+  }
+  for (let i = 0; i < 9; i++) {
+    const a = Math.PI * (0.18 + 0.64 * rnd()), rad = R0 + 0.4, L = 1.2 + rnd() * 2.6, x = Math.cos(a) * rad, y = CY + Math.sin(a) * rad;
+    b.add(box(0.07, L, 0.07), [0x3f7a34, 0x6abf4e], [x, y - L / 2, 1.05], [0, 0, (rnd() - 0.5) * 0.15]);
+    for (let k = 0; k < 3; k++) b.add(cone(0.12, 0.26, 3), 0x7ad05a, [x + (k % 2 ? 0.1 : -0.1), y - L * (0.25 + k * 0.28), 1.08], [0, 0, k % 2 ? -1.2 : 1.2]);
+  }
+  /* torches */
+  [-1, 1].forEach(s => {
+    const x = s * 7.9, z = 2.0;
+    b.add(cyl(0.11, 0.15, 3.0, 6), [0x4a3020, 0x7a5236], [x, 1.5, z]);
+    b.add(cyl(0.34, 0.18, 0.42, 7), [0x3a2a1e, 0x8a6a3a], [x, 3.18, z]);
+    b.add(tor(0.3, 0.05, 4, 10), 0xc9a24a, [x, 3.36, z], [Math.PI / 2, 0, 0]);
+  });
+  const mesh = b.build('caveMouth');
+  const fm = curvify(new T.MeshBasicMaterial({vertexColors:true}));
+  const fg = new T.MeshBasicMaterial({map:flameGlowTex(), transparent:true, depthWrite:false, blending:T.AdditiveBlending});
+  [-1, 1].forEach(s => {
+    const fk = KB(); fk.add(cone(0.3, 0.95, 7), [0xff6a1a, 0xffc04a], [0, 0.42, 0]); fk.add(cone(0.16, 0.6, 6), [0xffd060, 0xfff4c0], [0, 0.3, 0.04]);
+    const f = fk.build('caveFlame', fm); f.name = 'caveFlame'; f.position.set(s * 7.9, 3.38, 2.0); mesh.add(f);
+    const sp = new T.Sprite(fg); sp.name = 'caveGlow'; sp.userData.k = K; sp.scale.set(3.4, 3.4, 1); sp.position.set(s * 7.9, 3.9, 2.05); mesh.add(sp);
+  });
+  /* the old portal stood turned a quarter round; pre-turn the other way so it ends up facing the runner */
+  mesh.geometry.rotateY(-Math.PI / 2); mesh.children.forEach(c => { const x = c.position.x, z = c.position.z; c.position.set(-z, c.position.y, x); });
+  if (K !== 1) { mesh.geometry.scale(K, K, K); mesh.children.forEach(c => { c.position.multiplyScalar(K); c.scale.multiplyScalar(K); }); }
+  mesh.geometry.computeBoundingSphere();
+  return mesh;
+}
+function caveVeilGeo(k){
+  const R = 6.2 * k, CY = 3.4 * k, sh = new T.Shape();
+  sh.moveTo(-R, 0); sh.lineTo(-R, CY); sh.absarc(0, CY, R, Math.PI, 0, true); sh.lineTo(R, 0); sh.lineTo(-R, 0);
+  return new T.ShapeGeometry(sh, 16);
+}
+function caveFrame(t){
+  const list = []; if (TR.reveal) list.push(TR.reveal); if (TR.J) TR.J.children.forEach(c => { if (c.name === 'caveMouth') list.push(c); });
+  let i = 0;
+  list.forEach(m => m.children.forEach(c => {
+    if (c.name === 'caveFlame') { const k = 1 + 0.14 * Math.sin(t * 13 + i * 2) + 0.08 * Math.sin(t * 23 + i); c.scale.set(1 - 0.06 * Math.sin(t * 17 + i), k, 1 - 0.06 * Math.sin(t * 17 + i)); i++; }
+    else if (c.name === 'caveGlow') { const k = (3.2 + 0.35 * Math.sin(t * 11 + i * 3)) * (c.userData.k || 1); c.scale.set(k, k, 1); c.material.opacity = 0.75 + 0.2 * Math.sin(t * 9 + i); }
+  }));
+}
+
+/* ---- vampire duel: the English word always stays on one line; long answers shrink before they wrap ---- */
+function fitLine(el, minPx, allowWrap){
+  if (!el) return;
+  el.style.fontSize = ''; el.style.whiteSpace = 'nowrap';
+  let fs = parseFloat(getComputedStyle(el).fontSize) || 16;
+  for (let i = 0; i < 6 && el.scrollWidth > el.clientWidth + 1 && fs > minPx; i++) { fs = Math.max(minPx, fs * el.clientWidth / el.scrollWidth * 0.98); el.style.fontSize = fs.toFixed(1) + 'px'; }
+  if (allowWrap && el.scrollWidth > el.clientWidth + 1) { el.style.whiteSpace = 'normal'; el.style.fontSize = '13.5px'; }
+}
+function duelFit(){
+  fitLine($('#duelWord'), 15, false);
+  DIRS.forEach(dir => fitLine($('#duel .dz-' + dir), 12.5, true));
+}
+
+/* ---- sword aura: a soft ribbon that always faces the camera along the blade; the light flows up the blade
+   in wisps and slowly shifts hue, so there are no hard edges anywhere ---- */
+const AURA_VS = [
+  'uniform float uCurve, uW, uY0, uY1; varying vec2 vP;',
+  'void main(){',
+  '  vP = vec2(position.x, (position.y - uY0) / (uY1 - uY0));',
+  '  vec4 c = modelViewMatrix * vec4(0.0, position.y, 0.0, 1.0);',
+  '  vec3 ax = (modelViewMatrix * vec4(0.0, 1.0, 0.0, 0.0)).xyz; float sc = length(ax); ax /= max(sc, 1e-5);',
+  '  vec3 side = cross(ax, normalize(-c.xyz)); float sl = length(side); side = sl > 1e-4 ? side / sl : vec3(1.0, 0.0, 0.0);',
+  '  float w = uW * sc * (0.8 + 0.45 * sin(vP.y * 3.14159));',
+  '  c.xyz += side * position.x * w;',
+  '  c.y -= uCurve * c.z * c.z;',
+  '  gl_Position = projectionMatrix * c;',
+  '}'].join('\n');
+const AURA_FS = [
+  'uniform float uTime, uOp; uniform vec3 uCol, uCol2; varying vec2 vP;',
+  'float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }',
+  'float n(vec2 p){ vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f); return mix(mix(h(i), h(i + vec2(1.0, 0.0)), f.x), mix(h(i + vec2(0.0, 1.0)), h(i + vec2(1.0, 1.0)), f.x), f.y); }',
+  'void main(){',
+  '  float x = vP.x, y = vP.y, t = uTime;',
+  '  float fl = n(vec2(x * 2.2 + 7.0, y * 6.0 - t * 2.4)) * 0.6 + n(vec2(x * 4.6 - 3.0, y * 12.0 - t * 3.9)) * 0.4;',
+  '  float d = abs(x + (fl - 0.5) * 0.45 * (0.3 + y));',
+  '  float body = exp(-d * d * 7.0), core = exp(-d * d * 70.0);',
+  '  float tongue = smoothstep(0.42, 0.95, fl) * exp(-d * d * 3.2);',
+  '  float ends = smoothstep(0.0, 0.16, y) * (1.0 - smoothstep(0.72, 1.0, y));',
+  '  float a = (body * 0.55 + core * 0.35 + tongue * 0.75) * ends * uOp;',
+  '  float k = 0.5 + 0.5 * sin(t * 1.7 + y * 5.5 + fl * 3.0);',
+  '  vec3 col = mix(uCol, uCol2, k) + core * 0.3;',
+  '  a = clamp(a, 0.0, 1.0);',
+  '  gl_FragColor = vec4(col * a, a * 0.5);',
+  '}'].join('\n');
+function swordAura(BL0, BL1){
+  const y0 = BL0 - 0.05, y1 = BL1 + 0.38;
+  const geo = new T.PlaneGeometry(2, 1, 1, 24), p = geo.attributes.position;
+  for (let i = 0; i < p.count; i++) p.setY(i, y0 + (p.getY(i) + 0.5) * (y1 - y0));
+  const mat = new T.ShaderMaterial({uniforms:{uCurve:curveU, uTime:{value:0}, uOp:{value:0.6}, uCol:{value:new T.Color(0x6dff3a)}, uCol2:{value:new T.Color(0x3affd0)}, uW:{value:0.17}, uY0:{value:y0}, uY1:{value:y1}},
+    vertexShader:AURA_VS, fragmentShader:AURA_FS, transparent:true, depthWrite:false, side:T.DoubleSide,
+    blending:T.CustomBlending, blendEquation:T.AddEquation, blendSrc:T.OneFactor, blendDst:T.OneMinusSrcAlphaFactor});  /* light adds up in the dark and still tints bright skies */
+  const m = new T.Mesh(geo, mat); m.frustumCulled = false; m.renderOrder = 3; m.name = 'swordAura';
+  return {m, mat};
+}
+const _auHSL = {h:0, s:0, l:0};
+function swordAuraFrame(sw, t, charged, playing){
+  const U = sw.aura.mat.uniforms; U.uTime.value = t;
+  U.uCol.value.copy(sw.glowM.color); sw.glowM.color.getHSL(_auHSL);
+  U.uCol2.value.setHSL((_auHSL.h + 0.11) % 1, Math.min(1, _auHSL.s), Math.min(0.8, _auHSL.l + 0.06));
+  U.uOp.value = Math.max(sw.glowM.opacity, 0.36) * 2.9 * (charged && playing ? 1.15 : 1);
+  U.uW.value = 0.24 * (charged && playing ? 1.2 + 0.07 * Math.sin(t * 8) : 1);
+}
+
+/* ---- per frame ---- */
+function v20Frame(sdt, dt){
+  forkBossFrame(dt);
+  caveFrame(G.clock || 0);
 }
 
 /* ---- on-device stutter diagnostics: every frame longer than 70 ms is logged with what ran around it ---- */
@@ -9135,7 +9445,7 @@ function endBoot(){
   else buildSceneryProc();
   setPal('dusk', 'day', true); prewarm(); setTimeout(renderMusic, 400); window.__bootDone = true; if (BETA) {} else if (TG.ok) tgCloudInit(); else cloudInit(); if (G.mode === 'home') renderHome(); loadEl.classList.add('out'); setTimeout(() => { loadEl.hidden = true; }, 600);
 }
-if (/debug/.test(location.search)) window.__WR = {FX, fxKind, hitPenalty, lossBadge, sentOn, applyResults, railAway, openChest, mobYaw, airborne, cloudTex18, ISL_DATA, swarmFrame, ICONS, drawIcon, skOpen, SKED, offlineRender, foldLoop, SONGS, MUS_SR, LAYER_MIX, speak, voiceFetch, TR, V, SETS, SKYI, BIOV2:BIOV, get palK(){ return palK; }, get activeSet(){ return activeSet; }, inTunnel, KIT18, TUN, SCN, LOCS, curLoc, advanceLoc, loadKit18, swarmSpawn, vampScare, sceneryGo, VOICE, TRY, BIOV, setBiome, lvProgress, lvAfterRun, chLvl, applyChapterStages, prefetchWorld, startBossLoad, ensureDanceBoss, DW, giveRelic, showRelic, COLL, hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
+if (/debug/.test(location.search)) window.__WR = {FB, buildCaveMouth, duelFit, FX, fxKind, hitPenalty, lossBadge, sentOn, applyResults, railAway, openChest, mobYaw, airborne, cloudTex18, ISL_DATA, swarmFrame, ICONS, drawIcon, skOpen, SKED, offlineRender, foldLoop, SONGS, MUS_SR, LAYER_MIX, speak, voiceFetch, TR, V, SETS, SKYI, BIOV2:BIOV, get palK(){ return palK; }, get activeSet(){ return activeSet; }, inTunnel, KIT18, TUN, SCN, LOCS, curLoc, advanceLoc, loadKit18, swarmSpawn, vampScare, sceneryGo, VOICE, TRY, BIOV, setBiome, lvProgress, lvAfterRun, chLvl, applyChapterStages, prefetchWorld, startBossLoad, ensureDanceBoss, DW, giveRelic, showRelic, COLL, hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
 bindMeta(); bindV12(); bindV17(); bindV18(); bindV19(); goHome();
 requestAnimationFrame(frame);
 if (HAS_GLB) loadAssets(setProg).then(endBoot).catch(e => { console.error('assets', e); A.ok = false; endBoot(); });
