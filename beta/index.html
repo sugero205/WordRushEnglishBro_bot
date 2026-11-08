@@ -7432,7 +7432,7 @@ function scnUpd(name, move, leaving){
       const it = items[k]; it.z += move;
       if (it.z > 16) { sceneryPlace(it, it.z - 246); if (leaving) it.gone = true; else it.hold = false; }
       if (!it.gone) alive++;
-      const hide = it.gone || it.hold || (TR.J && sceneryCut(it)) || (td < 1 && tHash(k) >= td);
+      const hide = it.gone || it.hold || (TR.J && sceneryCut(it)) || (td < 1 && tHash(k) >= td) || (it.center && centerBlocked(it.z));
       it.wx = it.x * tx; it.ws = hide ? 0 : it.s * tsc;
       dummy.position.set(it.wx, 0, it.z); dummy.rotation.set(0, it.ry, it.rz + (ty.wind ? fxWind(it, ty.wind) : 0)); dummy.scale.setScalar(hide ? 0.0001 : it.s * tsc); dummy.updateMatrix();
       for (const im of ty.ims) im.setMatrixAt(k, dummy.matrix);
@@ -9402,6 +9402,12 @@ function swordAuraFrame(sw, t, charged, playing){
   U.uCol2.value.setHSL((_auHSL.h + 0.11) % 1, Math.min(1, _auHSL.s), Math.min(0.8, _auHSL.l + 0.06));
   U.uOp.value = Math.max(sw.glowM.opacity, 0.36) * 2.9 * (charged && playing ? 1.15 : 1);
   U.uW.value = 0.24 * (charged && playing ? 1.2 + 0.07 * Math.sin(t * 8) : 1);
+}
+
+/* arches over the road never stand in front of the fork wall or in the cave mouth */
+function centerBlocked(z){
+  if (TR.reveal && Math.abs(z - TR.reveal.position.z) < 14) return true;
+  const J = TR.J; return !!(J && !J.userData.turned && z > J.position.z - 12 && z < J.position.z + 34);
 }
 
 /* ---- per frame ---- */
