@@ -686,6 +686,34 @@ label.btn{cursor:pointer}
 .sk-ref{display:block;max-width:100%;max-height:120px;border-radius:8px;margin:6px 0}
 .sk-list{display:flex;flex-direction:column;gap:6px}.sk-item{display:grid;grid-template-columns:48px 1fr auto auto;gap:8px;align-items:center}.sk-item img{width:48px;height:64px;border-radius:6px}
 
+/* ---- v19 ---- */
+#lossFx{position:absolute;left:50%;top:33%;z-index:8;pointer-events:none;display:flex;align-items:center;gap:8px;padding:8px 18px 8px 12px;background:#ff3d63;border:3px solid var(--ink);border-radius:999px;box-shadow:0 6px 0 var(--ink),0 0 0 6px rgba(255,61,99,.25),0 14px 34px rgba(255,40,80,.45);transform:translate(-50%,-50%);color:#fff;white-space:nowrap}
+#lossFx[hidden]{display:none}
+#lossFx i{display:block;width:46px;height:27px;filter:drop-shadow(0 2px 0 rgba(30,24,56,.35))}
+#lossFx i svg{width:100%;height:100%;display:block}
+#lossFx b{font:900 38px/1 var(--display);letter-spacing:.01em;-webkit-text-stroke:2px var(--ink);paint-order:stroke fill;text-shadow:0 3px 0 var(--ink)}
+.pill.loss{animation:pillLoss .9s cubic-bezier(.3,.7,.4,1)}
+@keyframes pillLoss{0%{transform:none}10%{transform:scale(1.25) rotate(-6deg);background:#ff3d63;color:#fff}22%{transform:scale(1.1) translateX(-6px) rotate(4deg)}34%{transform:scale(1.1) translateX(6px) rotate(-3deg)}46%{transform:scale(1.05) translateX(-3px)}70%{background:#ffb3c2}100%{transform:none}}
+#scareVig{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;background:radial-gradient(ellipse 70% 60% at 50% 52%,rgba(4,0,10,0) 18%,rgba(4,0,10,.55) 55%,rgba(4,0,10,.97) 100%)}
+/* answer buttons: slide away between questions */
+#rail .slot{transition:transform .2s cubic-bezier(.2,1.4,.4,1),opacity .2s ease,background-color .12s,box-shadow .12s}
+#rail.away .slot{transform:translateY(170%) scale(.9)!important;opacity:0;pointer-events:none;transition:transform .34s cubic-bezier(.55,0,.8,.3),opacity .28s ease .06s}
+#rail.away .slot:nth-child(2){transition-delay:.04s,.1s}#rail.away .slot:nth-child(3){transition-delay:.08s,.14s}
+#rail.in .slot{transition:transform .48s cubic-bezier(.18,1.55,.4,1),opacity .2s ease,background-color .12s,box-shadow .12s}
+#rail.in .slot:nth-child(2){transition-delay:.06s}#rail.in .slot:nth-child(3){transition-delay:.12s}
+/* sentences toggle on the chapter panel */
+.sent-tog{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;align-items:center;column-gap:12px;row-gap:1px;width:100%;text-align:left;padding:9px 12px;border:2.5px solid var(--line);border-radius:14px;background:#fff;box-shadow:0 3px 0 var(--lineS);transition:transform .08s,box-shadow .08s,background-color .15s}
+.sent-tog:active{transform:translateY(3px);box-shadow:0 0 0 var(--lineS)}
+.sent-tog .st-t{font:800 13.5px/1.15 var(--body);color:var(--ink)}
+.sent-tog .st-s{grid-row:2;font:700 11.5px/1.2 var(--body);color:#6f6690}
+.sent-tog .st-sw{grid-row:1/3;grid-column:2;position:relative;width:46px;height:26px;border-radius:99px;background:#d9d3ea;border:2.5px solid var(--line);transition:background-color .18s}
+.sent-tog .st-sw::after{content:"";position:absolute;top:2px;left:2px;width:17px;height:17px;border-radius:50%;background:#fff;border:2px solid var(--line);transition:transform .22s cubic-bezier(.3,1.6,.5,1)}
+.sent-tog.on{background:#fff6d6}
+.sent-tog.on .st-sw{background:#8be59a}
+.sent-tog.on .st-sw::after{transform:translateX(20px)}
+.sent-tog.pop{animation:bump .3s cubic-bezier(.3,1.8,.5,1)}
+@media (prefers-reduced-motion:reduce){#rail .slot,#rail.away .slot,#rail.in .slot{transition:none}}
+
 #perf{position:absolute;left:8px;right:8px;bottom:92px;z-index:9;font:700 10.5px/1.35 ui-monospace,Menlo,monospace;color:#fff;background:rgba(20,10,40,.8);border:2px solid rgba(255,255,255,.25);border-radius:10px;padding:6px 8px;pointer-events:none;white-space:pre-wrap;max-height:30vh;overflow:hidden}
 #perf b{color:#ffc93a}
 @media (prefers-reduced-motion:reduce){#qcard,#toast,.slot.enter,#banner.show .bn-in,.pill.bump,#lines{animation:none}.slot,.btn{transition:none}}
@@ -756,6 +784,7 @@ label.btn{cursor:pointer}
           <div class="stat"><b id="stLong">0</b><span>в долгой памяти</span></div>
           <div class="stat"><b id="stDue">0</b><span>ждут повтора</span></div>
         </div>
+        <button id="btnSent" class="sent-tog" type="button" aria-pressed="false"><span class="st-t">Предложения в забеге</span><span class="st-s">выкл — только перевод слов</span><i class="st-sw"></i></button>
         <button id="btnStart" class="btn"><span id="startTitle">Начать сессию</span><span class="b-sub" id="startSub"></span></button>
         <div class="row2">
           <button id="btnPack" class="btn btn-alt">Рюкзак</button>
@@ -1482,7 +1511,7 @@ let EXAM = null;
 function examReady(){ const L = chList(); return L.length >= 6 && L.every(w => S.words[w.id].seen) && !S.exam[curCh().id]; }
 function openExam(){
   const L = shuffle(chList().slice()); const n = Math.min(12, L.length);
-  const types = ['en2ru', 'ru2en', 'gap', 'pair'];
+  const types = sentOn() ? ['en2ru', 'ru2en', 'gap', 'pair'] : ['en2ru', 'ru2en'];
   const qs = L.slice(0, n).map((w, i) => { let t = types[i % 4]; if (t === 'gap' && !w.ex) t = 'ru2en'; if (t === 'pair' && !pairPrompt(w)) t = 'en2ru'; return buildQ({id:w.id, type:t}); });
   EXAM = {qs, i:0, ok:0, wrong:[], lock:false}; G.mode = 'exam'; showScreen('scrExam'); renderExam();
 }
@@ -3621,22 +3650,22 @@ function updateObstacles(sdt){
     if (!u.hit && u.kind === 'bounce') { if (Math.abs(o.position.z) < 0.85 && Math.abs(LANES[u.lane] - hx) < 1.0 && G.heroY < 0.7) bounceHero(o, u); }
     else if (!u.hit) {
       const z = o.position.z;
-      const hitLog = u.kind === 'log' && Math.abs(z) < 0.6 && G.heroY < 0.55;
-      const hitRock = u.kind === 'rock' && Math.abs(z) < 0.75 && Math.abs(LANES[u.lane] - hx) < 1.0 && G.heroY < 1.0;
-      const hitPump = (u.kind === 'pumpkin' || u.kind === 'yarn') && Math.abs(z) < 0.75 && Math.abs(LANES[u.lane] - hx) < 1.0 && G.heroY < 0.9;
+      const hitLog = u.kind === 'log' && Math.abs(z) < 0.6 && !airborne();
+      const hitRock = u.kind === 'rock' && Math.abs(z) < 0.75 && Math.abs(LANES[u.lane] - hx) < 1.0 && !airborne();
+      const hitPump = (u.kind === 'pumpkin' || u.kind === 'yarn') && Math.abs(z) < 0.75 && Math.abs(LANES[u.lane] - hx) < 1.0 && !airborne();
       const hitMob = u.kind === 'mob' && mobHits(o, u, hx);
       const hitBeast = u.kind === 'beast' && Math.abs(z) < 0.7 && G.slideT <= 0.04;
       if (u.kind === 'beast' && !u.passed && Math.abs(z) < 0.7 && G.slideT > 0.04) { u.passed = true; G.coinsRun += 2; renderCoins(); popText('Nice slide!', hx, 2.2, 0, 'gain'); questEvent('sword'); }
-      const hitBats = u.kind === 'spikes' && Math.abs(z) < 0.7 && Math.abs(LANES[u.lane] - hx) < 1.0 && G.heroY < 1.05 && u.up > 0.5;
+      const hitBats = u.kind === 'spikes' && Math.abs(z) < 0.7 && Math.abs(LANES[u.lane] - hx) < 1.0 && !airborne(0.25) && u.up > 0.5;
       if (hitLog || hitRock || hitPump || hitBats || hitBeast || hitMob) {
         if (G.shadowT > 0) { u.hit = true; }
         else if (G.dashT > 0) smashObstacle(o, 'dash');
         else if (G.shieldT > 0) { G.shieldT = 0; smashObstacle(o, 'shield'); popText('Shield!', hx, 1.6, 0, 'good'); }
         else {
-          u.hit = true; G.combo = 0; renderCombo(); G.coinsRun = Math.max(0, G.coinsRun - 5); renderCoins();
+          u.hit = true; G.combo = 0; renderCombo(); hitPenalty();
           hero.hurt = 0.3; G.freeze = 0.05; shake(0.22); sfx.bump(); hurtFx(); haptic(HAP.bump);
           burst(u.lane != null && u.kind !== 'log' && u.kind !== 'bats' ? LANES[u.lane] : hx, 0.6, z, 0xa79cc4, 10, 5);
-          toast('Препятствие!', 'Комбо сброшено, −5 конфет', 'bad'); o.visible = false;
+          o.visible = false;
         }
       }
     }
@@ -3752,9 +3781,9 @@ function batsHitHero(o, u){
   if (G.shadowT > 0) return;
   if (G.dashT > 0) { batsKill(o, u, 'sword'); return; }
   if (G.shieldT > 0) { G.shieldT = 0; batsKill(o, u, 'sword'); popText('Shield!', hx, 1.6, 0, 'good'); return; }
-  G.combo = 0; renderCombo(); G.coinsRun = Math.max(0, G.coinsRun - 5); renderCoins();
+  G.combo = 0; renderCombo(); hitPenalty('Мыши налетели!');
   hero.hurt = 0.3; G.freeze = 0.05; shake(0.22); sfx.bump(); hurtFx(); haptic(HAP.bump);
-  burst(hx, 1.6, 0, 0xc77dff, 12, 5); toast('Мыши налетели!', 'Комбо сброшено, −5 конфет', 'bad');
+  burst(hx, 1.6, 0, 0xc77dff, 12, 5);
 }
 function updateBats(o, u, sdt){
   const t = G.clock;
@@ -4236,7 +4265,7 @@ function cardHTML(w, withNext){
     (w.col ? '<div class="wc-col">Сочетание: <em>' + esc(w.col) + '</em></div>' : '') + next;
 }
 function renderHome(){
-  const st = chapterStats();
+  renderSentTog(); const st = chapterStats();
   $('#stSeen').textContent = st.seen + '/' + chList().length; $('#stLong').textContent = st.long; $('#stDue').textContent = st.due;
   $('#homeCoins').textContent = S.coins;
   $('#wordmap').innerHTML = chList().map(w => { const s = S.words[w.id]; return '<i class="' + (s.seen ? 't' + s.box : 'un') + (isOverdue(w.id) ? ' od' : '') + '" title="' + (s.seen ? esc(w.en) : '') + '"></i>'; }).join('');
@@ -5931,8 +5960,8 @@ async function loadCustomFile(file){
 function setMediaMeta(){
   try {
     if (!('mediaSession' in navigator) || !window.MediaMetadata) return;
-    const md = navigator.mediaSession.metadata; if (md && md.title === 'Word Rush' && md.album === 'v18') return;
-    navigator.mediaSession.metadata = new MediaMetadata({title:'Word Rush', artist:'English runner · B1–B2', album:'v18', artwork:[{src:'icon-512.png?v=17', sizes:'512x512', type:'image/png'}, {src:'icon.png?v=17', sizes:'256x256', type:'image/png'}]});
+    const md = navigator.mediaSession.metadata; if (md && md.title === 'Word Rush' && md.album === 'v19') return;
+    navigator.mediaSession.metadata = new MediaMetadata({title:'Word Rush', artist:'English runner · B1–B2', album:'v19', artwork:[{src:'icon-512.png?v=17', sizes:'512x512', type:'image/png'}, {src:'icon.png?v=17', sizes:'256x256', type:'image/png'}]});
   } catch(e) {}
 }
 /* ================= v17 UI: short English hints under the question card; speech bubbles stay on screen and above the answers ================= */
@@ -6291,7 +6320,7 @@ function v12Frame(sdt, dt){
   if (G.mode === 'run') updateVdown(); else if (!vdownEl.hidden) vdownEl.hidden = true;
   if (vSlab) vSlab.visible = V.mode === 'road';
   if (V.mode === 'road') updateVampRoad(sdt);
-  musicMood(); v17Frame(sdt, dt); v18Frame(sdt, dt);
+  musicMood(); v17Frame(sdt, dt); v18Frame(sdt, dt); v19Frame(sdt, dt);
 }
 
 G.anims = [];
@@ -6343,7 +6372,7 @@ function resetPlay(){
 }
 function showPlayHud(boss){ showScreen(null); tgPlaying(true); $('#hud').hidden = false; $('#rail').hidden = false; $('#pups').hidden = false; swordBtn.hidden = false; shadowBtn.hidden = !!boss || !opt('shadow'); $('#hardPill').hidden = !S.hard; appEl.classList.toggle('hardrun', !!S.hard); $('#bossBar').hidden = !boss; }
 function startRun(newIds, reviewIds){
-  newIds.forEach(id => { const s = S.words[id]; s.seen = true; s.box = 0; s.due = now(); });
+  newIds.forEach(id => { const s = S.words[id]; s.seen = true; s.box = 0; s.due = now(); }); S.pendNew = newIds.slice();
   save();
   resetPlay(); G.mode = 'run'; G.loc = 0; applyChapterStages(); setArena(false); showSet(locSet()); locWorld();
   G.queue = buildQueue(newIds, reviewIds); G.speedNow = STAGES[0].speed * hardMul(); applyUpgrades(); G.perStage = clamp(Math.floor(G.queue.length / STAGES.length), 2, 4);
@@ -6656,7 +6685,7 @@ function endRun(outcome){
   const kind = G.mode; G.mode = 'results'; G.paused = false; tgPlaying(false);
   let n = 0, ok = 0; for (const id in G.res) { n += G.res[id].n; ok += G.res[id].ok; }
   const acc = n ? ok / n : 0;
-  const changes = applyResults(); G.practiceIds = [];
+  const changes = applyResults(kind, outcome); G.practiceIds = [];
   S.coins += soulOnEnd(kind, outcome) ? 0 : G.coinsRun; S.runs++; S.st.runs++; if (kind === 'run' && outcome === 'done') questEvent('run'); S.bestCombo = Math.max(S.bestCombo, G.bestCombo);
   if (kind === 'run' && n >= 4) S.lastAcc = acc;
   if (kind === 'run') S.sessions++;
@@ -6683,7 +6712,7 @@ function endRun(outcome){
     return '<li class="' + dir + '"><div class="r-w"><b>' + esc(w.en) + '</b><span>' + esc(w.ru) + '</span></div><div class="r-t"><span class="chip t' + c.old + '">' + TIER[c.old] + '</span><span class="arrow">' + arrow + '</span><span class="chip t' + c.nw + '">' + TIER[c.nw] + '</span><span class="r-when">' + when + '</span></div>' + misFor(c.id) + '</li>';
   }).join('') + misExtra(changes) : (misExtra(changes) || '<li class="same"><div class="r-w"><span>В этот раз ни одно слово не дошло до ответа.</span></div></li>');
   const notes = [];
-  if (outcome === 'fail' || outcome === 'quit') notes.push('Прогресс по словам, на которые уже был ответ, сохранён.');
+  if (outcome === 'fail' || outcome === 'quit') notes.push('Забег не засчитан: новые слова не стали изученными, карточки не повысились. Ошибки остались в повторении.');
   if (kind === 'run') notes.push('Уровень ' + lvl + ' из ' + STAGES.length + ' — ' + curLoc().name + (lvlRec && lvl > 1 ? ' · новый рекорд!' : '') + '.');
   if (G.soulNote) notes.unshift(G.soulNote);
   if (G.lvNote) notes.unshift(G.lvNote);
@@ -6727,7 +6756,7 @@ function updateHero(sdt, dt){
   const h = hero, playing = G.mode === 'run' || G.mode === 'boss';
   const tx = playing ? LANES[G.lane] : 0;
   h.g.position.x += (tx - h.g.position.x) * Math.min(1, playing ? sdt * TUNE.run.lane : dt * 13);
-  if (G.heroY > 0 || G.vy > 0) { G.vy -= 34 * sdt; G.heroY += G.vy * sdt; if (G.heroY <= 0) { G.heroY = 0; G.vy = 0; } }
+  if (G.heroY > 0 || G.vy > 0) { G.vy -= 34 * sdt; G.heroY += G.vy * sdt; if (G.heroY <= 0) { G.heroY = 0; G.vy = 0; if (G.jumpBuf > 0 && (G.mode === 'run' || G.mode === 'boss')) { G.jumpBuf = 0; G.vy = TUNE.run.jump; sfx.jump(); } } }
   if (G.wasAir && G.heroY <= 0 && playing) { h.land = 0.24; haptic(HAP.land); burst(h.g.position.x, 0.15, 0.2, 0xf3dcc0, 5, 2.5); }
   G.wasAir = G.heroY > 0;
   if (G.slideT > 0) G.slideT -= sdt;
@@ -6986,7 +7015,7 @@ function mobDef(){
   if (!KIT18.ok) return null;
   const N = KIT18.n;
   if (k === 'jelly') return N.pu_jelly && {k, style:'hop', node:N.pu_jelly, h:1.45};
-  if (k === 'zombie') return N.tw_zombie && {k, style:'walk', node:N.tw_zombie, h:2.75};
+  if (k === 'zombie') return N.tw_zombie && {k, style:'walk', node:N.tw_zombie, h:2.35};
   if (k === 'crown') return N.pu_crown && {k, style:'float', node:N.pu_crown, h:1.25};
   if (k === 'tunnel') { const nm = ['tn_blob1', 'tn_blob2', 'tn_blob4'][ri(3)]; return N[nm] && {k, style:'walk', node:N[nm], h:1.35}; }
   return null;
@@ -6998,11 +7027,11 @@ function buildMob(g, u, lane){
   const body = new T.Group(); let m;
   if (d.k === 'penguin') { m = makePenguin(false).g; }
   else if (d.k === 'ghost') { const e = A.enemy.ghost1; m = e.node.clone(); m.scale.setScalar(e.s); }
-  else { m = d.node.clone(); m.scale.setScalar(d.h * (d.k === 'zombie' ? 0.92 + Math.random() * 0.18 : 1)); }
+  else { m = d.node.clone(); m.scale.setScalar(d.h * (d.k === 'zombie' ? 0.92 + Math.random() * 0.18 : 1)); if (d.k === 'zombie') m.rotation.y += 1.1; }
   body.add(m); g.add(body); addShadow(g, d.k === 'zombie' ? 0.75 : 0.6);
   u.body = body; u.style = d.style; u.mk = d.k; u.dir = Math.random() < 0.5 ? -1 : 1; u.lane0 = lane; u.ph = Math.random() * 6; u.h = d.h;
   if (u.style === 'slide') { u.x = -u.dir * 4.2; } else if (u.style === 'hop') { u.lane = lane; u.x = LANES[lane]; u.hopT = 0.25; } else { u.x = -u.dir * 3.6; }
-  body.rotation.y = u.style === 'hop' ? 0 : u.dir * Math.PI / 2;
+  body.rotation.y = mobYaw(u);
   g.position.x = u.x;
   return true;
 }
@@ -7018,7 +7047,7 @@ function updateMob(o, u, sdt){
       if (u.hk != null && u.hk < 1) { u.hk = Math.min(1, u.hk + sdt / 0.42); u.x = u.from + (LANES[u.lane] - u.from) * u.hk; b.position.y = Math.sin(u.hk * Math.PI) * 1.3; b.scale.set(1 - Math.sin(u.hk * Math.PI) * 0.08, 1 + Math.sin(u.hk * Math.PI) * 0.14, 1); }
       else { const q = Math.max(0, Math.sin(u.age * 14)) * 0.06; b.scale.set(1 + q, 1 - q, 1 + q); }
     }
-    if (u.style !== 'hop' && Math.abs(u.x) > 4.6) { u.dir = -Math.sign(u.x); u.x = Math.sign(u.x) * 4.6; b.rotation.y = u.dir * Math.PI / 2; }
+    if (u.style !== 'hop' && Math.abs(u.x) > 4.6) { u.dir = -Math.sign(u.x); u.x = Math.sign(u.x) * 4.6; b.rotation.y = mobYaw(u); }
   }
   o.position.x = u.x; u.lane = u.style === 'hop' ? u.lane : (u.x < -1.1 ? 0 : u.x > 1.1 ? 2 : 1);
   if (!G.mobHinted && z > -24) { G.mobHinted = true; hint(MOB_HINT[u.mk] || 'Creeps! Dodge or jump', 2400); }
@@ -7080,7 +7109,7 @@ function kitRockList(){
 function makeKitRock(lane){
   const L = KIT18.ok && kitRockList(); if (!L) return null;
   const ok = L.filter(r => KIT18.n[r[0]]); if (!ok.length) return null;
-  const [name, h] = ok[ri(ok.length)], dim = KIT18.dim[name] || {w:1}, sc = Math.min(h, 1.75 / Math.max(0.3, dim.w));
+  const [name, h0] = ok[ri(ok.length)], h = h0 * 0.78, dim = KIT18.dim[name] || {w:1}, sc = Math.min(h, 1.75 / Math.max(0.3, dim.w));
   const g = new T.Group(), m = KIT18.n[name].clone(); m.scale.setScalar(sc); m.rotation.y = (Math.random() - 0.5) * 0.7; g.add(m); addShadow(g, 0.85);
   g.position.x = LANES[lane]; g.userData = {kind:'rock', lane, hit:false, age:0.5, parts:[]};
   return g;
@@ -7399,9 +7428,9 @@ function bioTex(b){ return BIOV.tex[b] || (BIOV.tex[b] = assetTex('bio_' + b + '
    The normal game reads TUNE with Anna's approved values (TUNE_BAKED).
    The beta build (/beta/) adds a "Конструктор" panel: change anything live, then "Экспорт" gives a short code to send back. */
 const TUNE_DEF = {
-  run:{speed:1, qtime:1, obst:1, spawn:50, blend:3.6, jump:10.5, lane:13},
+  run:{speed:1, qtime:1, obst:1, spawn:50, blend:3.6, jump:11.5, lane:13},
   cam:{y:2.55, z:4.5, x:1.2, look:1.45, fov:0, curve:1, follow:3.2},
-  tun:{light:1, swarm:16, bats:0.8, scare:1, len:26},
+  tun:{light:1, swarm:30, bats:0.8, scare:1, len:26},
   fork:{stage:3, len:30, wall:1, decor:1},
   loc:{}, set:{}
 };
@@ -7959,7 +7988,7 @@ function tunnelDecoMatrices(){
   for (let i = 0; i < SEG_N; i++) {
     const s = TR.segs[i], on = s.on, side = i % 2 ? 1 : -1;
     _tq.position.set(side * 4.62, 0, s.z); _tq.rotation.set(0, side > 0 ? Math.PI : 0, 0); _tq.scale.setScalar(on ? 1 : 0.0001); _tq.updateMatrix(); TUN.torchIM.setMatrixAt(i, _tq.matrix);
-    const fl = 0.85 + Math.sin(t * 13 + i * 1.7) * 0.1 + Math.sin(t * 7.3 + i) * 0.08;
+    const fl = (0.85 + Math.sin(t * 13 + i * 1.7) * 0.1 + Math.sin(t * 7.3 + i) * 0.08) * (1 - (TUN.dim || 0) * 0.82) * (1 + (TUN.flare || 0) * 0.45);
     _tq.position.set(side * 4.38, 2.9, s.z); _tq.rotation.set(0, 0, Math.sin(t * 5 + i) * 0.08); _tq.scale.set(on ? fl : 0.0001, on ? fl * (1 + Math.sin(t * 17 + i * 3) * 0.08) : 0.0001, 1); _tq.updateMatrix(); TUN.flameIM.setMatrixAt(i, _tq.matrix);
     const ws = i % 3 === 1 ? 1 : 0, wside = (i * 7) % 4 < 2 ? -1 : 1;
     _tq.position.set(wside * 4.1, 5.0, s.z + 1.2); _tq.rotation.set(0, 0, wside < 0 ? 0 : -Math.PI / 2); _tq.scale.setScalar(on && ws ? 1 : 0.0001); _tq.updateMatrix(); TUN.webIM.setMatrixAt(i, _tq.matrix);
@@ -8002,12 +8031,12 @@ function tunnelFxFrame(move, segs){
     const cand = [];
     for (let i = 0; i < SEG_N; i++) { const s = TR.segs[i]; if (s.on && s.z < 1 && s.z > -18) cand.push({z:s.z, x:(i % 2 ? 1 : -1) * 4.1, i}); }
     cand.sort((a, b) => b.z - a.z);
-    for (; n < 2 && n < cand.length; n++) { const c = cand[n], l = TUN.lights[n]; l.position.set(c.x, 2.9, c.z); l.intensity = (1.35 + Math.sin(G.clock * 11 + c.i) * 0.18 + Math.sin(G.clock * 23 + c.i * 2) * 0.1) * TUNE.tun.light; }
+    for (; n < 2 && n < cand.length; n++) { const c = cand[n], l = TUN.lights[n]; l.position.set(c.x, 2.9, c.z); l.intensity = (1.35 + Math.sin(G.clock * 11 + c.i) * 0.18 + Math.sin(G.clock * 23 + c.i * 2) * 0.1) * TUNE.tun.light * (1 - (TUN.dim || 0) * 0.92) * (1 + (TUN.flare || 0) * 0.6); }
   }
   for (let k = n; k < 2; k++) TUN.lights[k].intensity = Math.max(0, TUN.lights[k].intensity - 0.08);
   /* creatures out of the walls */
   if (TUN.on && inTunnel() && G.mode === 'run' && !(G.branch && G.branch.ending) && KIT18.ok) {
-    TUN.spawnT -= dt; if (TUN.spawnT <= 0) { TUN.spawnT = 0.9 + Math.random() * 0.8; if (TUN.swarm.length < TUNE.tun.swarm) swarmSpawn(); }
+    TUN.spawnT -= dt; if (TUN.spawnT <= 0) { TUN.spawnT = 0.26 + Math.random() * 0.3; if (TUN.swarm.length < TUNE.tun.swarm) swarmSpawn(); }
     if (!TUN.scareDone && G.time > TUN.scareAt && TUNE.tun.scare) vampScare();
   }
   swarmFrame(dt, move);
@@ -8261,6 +8290,351 @@ function musicMood(){
   musicPlay(want);
 }
 
+/* ================= v19: fair jumps, a candy loss you can feel, zombies that look at you, soft mist instead of
+   speckled blobs, one island style over the Candy valley, no chest, words count only after a finished run,
+   sentences off by default (a toggle per chapter), answer buttons that slide away between questions,
+   a slow-burn vampire scare and a small creeping swarm that gathers behind the heroine ================= */
+
+/* ---- canvas textures: iOS dithers canvas gradients per colour channel; on see-through pixels that turns into
+   confetti once the texture is un-premultiplied. Colour of every see-through pixel is averaged by alpha and
+   the pixels go to the GPU as raw data, so nothing gets un-premultiplied again. ---- */
+function canvasTex(w, h, draw){
+  const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d'); draw(x, w, h);
+  try {
+    if (w * h > 512 * 512) throw 0;
+    const im = x.getImageData(0, 0, w, h), d = im.data, W1 = w + 1, I = new Float64Array(W1 * (h + 1) * 4);
+    for (let y = 0; y < h; y++) {
+      let r = 0, g = 0, b = 0, a = 0;
+      for (let xx = 0; xx < w; xx++) {
+        const p = (y * w + xx) * 4, al = d[p + 3]; r += d[p] * al; g += d[p + 1] * al; b += d[p + 2] * al; a += al;
+        const q = ((y + 1) * W1 + xx + 1) * 4, q0 = (y * W1 + xx + 1) * 4; I[q] = I[q0] + r; I[q + 1] = I[q0 + 1] + g; I[q + 2] = I[q0 + 2] + b; I[q + 3] = I[q0 + 3] + a;
+      }
+    }
+    const R = 2, sum = (x0, y0, x1, y1, k) => I[((y1 + 1) * W1 + x1 + 1) * 4 + k] - I[(y0 * W1 + x1 + 1) * 4 + k] - I[((y1 + 1) * W1 + x0) * 4 + k] + I[(y0 * W1 + x0) * 4 + k];
+    for (let y = 0; y < h; y++) for (let xx = 0; xx < w; xx++) {
+      const p = (y * w + xx) * 4; if (d[p + 3] >= 250) continue;
+      const x0 = Math.max(0, xx - R), x1 = Math.min(w - 1, xx + R), y0 = Math.max(0, y - R), y1 = Math.min(h - 1, y + R), A = sum(x0, y0, x1, y1, 3);
+      if (A <= 0) { d[p] = d[p + 1] = d[p + 2] = 255; continue; }
+      d[p] = Math.round(sum(x0, y0, x1, y1, 0) / A); d[p + 1] = Math.round(sum(x0, y0, x1, y1, 1) / A); d[p + 2] = Math.round(sum(x0, y0, x1, y1, 2) / A);
+    }
+    const t = new T.DataTexture(new Uint8Array(d.buffer.slice(0)), w, h, T.RGBAFormat);
+    t.flipY = true; t.magFilter = T.LinearFilter; t.minFilter = T.LinearMipmapLinearFilter; t.generateMipmaps = true; t.needsUpdate = true;
+    return t;
+  } catch(e) { return new T.CanvasTexture(c); }
+}
+
+/* ---- soft wisps of mist (generated pixel by pixel, no gradients) for the islands that dissolve between places ---- */
+function cloudTex18(){
+  if (CLOUD18.tex) return CLOUD18.tex;
+  const w = 256, h = 128, d = new Uint8Array(w * h * 4);
+  const hs = (i, j) => { const s = Math.sin(i * 127.1 + j * 311.7) * 43758.5453; return s - Math.floor(s); };
+  const vn = (x, y) => { const i = Math.floor(x), j = Math.floor(y), fx = x - i, fy = y - j, ux = fx * fx * (3 - 2 * fx), uy = fy * fy * (3 - 2 * fy);
+    return (hs(i, j) * (1 - ux) + hs(i + 1, j) * ux) * (1 - uy) + (hs(i, j + 1) * (1 - ux) + hs(i + 1, j + 1) * ux) * uy; };
+  const fbm = (x, y) => vn(x, y) * 0.5 + vn(x * 2.03, y * 2.03) * 0.27 + vn(x * 4.1, y * 4.1) * 0.15 + vn(x * 8.3, y * 8.3) * 0.08;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const nx = (x - w / 2) / (w / 2), ny = (y - h * 0.56) / (h * 0.42), m = 1 - (nx * nx * 0.85 + ny * ny);
+    const n = fbm(x / 38, y / 19);
+    const a = clamp((m * 0.95 + (n - 0.5) * 1.1 - 0.06) / 0.55, 0, 1), sa = a * a * (3 - 2 * a);
+    const p = (y * w + x) * 4; d[p] = d[p + 1] = d[p + 2] = 255; d[p + 3] = Math.round(sa * 0.82 * 255);
+  }
+  const t = new T.DataTexture(d, w, h, T.RGBAFormat); t.flipY = true; t.magFilter = T.LinearFilter; t.minFilter = T.LinearMipmapLinearFilter; t.generateMipmaps = true; t.needsUpdate = true;
+  return (CLOUD18.tex = t);
+}
+/* Candy valley: only the bright islands (the first sheet), the darker overgrown ones stay out */
+if (ISL_DATA.candy && ISL_DATA.candy.length > 12) ISL_DATA.candy = ISL_DATA.candy.slice(0, 12);
+function updateSkyIslands(move, t){
+  if (!SKYI.list.length) { if (!ISL_DATA.candy) return; buildSkyIslands(); }
+  const dt = clamp(t - (CLOUD18.lt || t), 0, 0.1); CLOUD18.lt = t;
+  const want = ISL_FOR_PAL[palName()] || SKYI.set;
+  if (want !== (SKYI.pend || SKYI.set) && ISL_DATA[want]) { SKYI.pend = want; SKYI.pendAt = t; islMat(want); SKYI.list.forEach(it => { it.st = 'cloud'; }); }
+  if (SKYI.pend && palK >= 0.999 && islMat(SKYI.pend).map.wrOk && SKYI.list.every(it => (it.c || 0) >= 0.99 && it.k <= 0.01)) {
+    SKYI.set = SKYI.pend; SKYI.pend = null; SKYI.list.forEach(it => { islPick(it); it.st = 'grow'; });
+  }
+  /* the new sheet never loaded: give up and let the old islands come back instead of leaving the mist hanging */
+  if (SKYI.pend && t - (SKYI.pendAt || t) > 9) { SKYI.pend = null; SKYI.list.forEach(it => { it.st = 'grow'; }); }
+  const ready = islMat(SKYI.set).map.wrOk, vis = (!inTunnel() || G.mode === 'boss') && TL().isl !== 0;
+  for (const it of SKYI.list) {
+    islCloud(it);
+    it.z += move * 0.06; if (it.z > -76) { it.z -= 128; it.x = (Math.random() < 0.5 ? -1 : 1) * (24 + Math.random() * 44); it.y = 15 + Math.random() * 20; if (!SKYI.pend) { islPick(it); it.k = 0; it.st = 'grow'; } }
+    if (it.st === 'cloud') { it.c = Math.min(1, (it.c || 0) + dt * 1.1); if (it.c > 0.45) it.k = Math.max(0, it.k - dt * 1.3); }
+    else { if (it.k < 1) it.k = Math.min(1, it.k + dt * 0.8); if (it.k > 0.4) it.c = Math.max(0, (it.c || 0) - dt * 0.9); }
+    const sc = it.s * Math.max(0.001, it.k), bob = Math.sin(t * 0.45 + it.ph) * 0.7;
+    it.m.visible = vis && ready && it.k > 0.01 && !inTunnel();
+    it.m.position.set(it.x, it.y + bob, it.z); it.m.quaternion.copy(camera.quaternion);
+    it.m.scale.set(sc * it.a * (it.flip ? -1 : 1), sc, 1);
+    it.m.material.color.copy(scene.fog.color).lerp(_isw.setRGB(1, 1, 1), 0.78);
+    const cm = it.cm, cs = it.s * (0.8 + 0.3 * it.c);
+    cm.visible = vis && it.c > 0.01 && !inTunnel(); cm.material.opacity = Math.min(1, it.c * 1.1) * 0.6;
+    if (cm.visible) { cm.position.set(it.x, it.y + bob - it.s * 0.05, it.z + 0.5); cm.quaternion.copy(camera.quaternion); cm.scale.set(cs * 2.1, cs * 0.9, 1); cm.material.color.copy(scene.fog.color).lerp(_isw.setRGB(1, 1, 1), 0.5); }
+  }
+}
+
+/* ---- jumping clears an obstacle: any real jump counts, and a tap just before landing jumps again ---- */
+function airborne(top){ return G.heroY > 0.32 + (top || 0) || (G.vy > 0 && G.heroY > 0.02); }
+function jump(){
+  if (G.slideT > 0) G.slideT = 0;
+  if (G.heroY <= 0.001 && G.vy <= 0) { G.vy = TUNE.run.jump; sfx.jump(); haptic(HAP.tap); }
+  else if (G.vy < 0 && G.heroY < 0.9) G.jumpBuf = 0.2;
+}
+function mobHits(o, u, hx){ const z = o.position.z, top = (u.body ? u.body.position.y : 0); return Math.abs(z) < 0.7 && Math.abs(o.position.x - hx) < 0.95 && !airborne(top * 0.5) && top < 1.0; }
+/* walkers turn to look at the heroine as they cross the road (a little lean into their walk); penguins still slide on their bellies */
+function mobYaw(u, o){
+  if (u.style === 'hop') return 0; if (u.style === 'slide') return u.dir * Math.PI / 2;
+  if (!o || !hero) return u.dir * 0.4;
+  return Math.atan2(hero.g.position.x - o.position.x, 3 - o.position.z) * 0.85 + u.dir * 0.22;
+}
+function mobFace(sdt){
+  for (const o of obstacles) {
+    const u = o.userData; if (u.kind !== 'mob' || !u.body || u.hit || (u.style !== 'walk' && u.style !== 'float')) continue;
+    const tgt = mobYaw(u, o); u.body.rotation.y += (tgt - u.body.rotation.y) * Math.min(1, sdt * 6);
+  }
+}
+
+/* ---- hitting an obstacle costs a real handful of candies, and you see it ---- */
+const CANDY_SVG = '<svg viewBox="0 0 32 18" aria-hidden="true"><path d="M8 9 1.5 2.5v13zM24 9l6.5-6.5v13z" fill="#ffb3d6" stroke="#1e1838" stroke-width="2" stroke-linejoin="round"/><ellipse cx="16" cy="9" rx="8.6" ry="7.2" fill="#ff5fa8" stroke="#1e1838" stroke-width="2"/><path d="M12.5 4.6c2.2 2.4 2.2 6.4 0 8.8M17.2 3.4c2.4 3 2.4 8.2 0 11.2" stroke="#fff" stroke-width="1.7" fill="none" opacity=".75"/></svg>';
+function hitLoss(){ const have = G.coinsRun; return Math.min(have, Math.max(12, Math.round(have * 0.3))); }
+function hitPenalty(title){
+  title = title || 'Удар!';
+  const hx = hero.g.position.x, n = hitLoss();
+  G.coinsRun -= n; renderCoins(); G.lostHits = (G.lostHits || 0) + n;
+  if (n) spillCandies(hx, 1.1, 0, Math.min(14, 5 + (n / 5 | 0)));
+  lossBadge(n);
+  coinPill.classList.remove('loss'); void coinPill.offsetWidth; coinPill.classList.add('loss');
+  toast(n ? title + ' −' + n + ' конфет' : title, 'Комбо сброшено', 'bad');
+  tone(320, 70, 0.42, 'square', 0.05); tone(160, 60, 0.3, 'sawtooth', 0.04, 0.05);
+}
+/* candies burst out of the heroine and rain down off the screen */
+function spillCandies(x, y, z, n){
+  if (!canAnim) return;
+  const [sx, sy] = screenOf(x, y, z);
+  for (let i = 0; i < n; i++) {
+    const el = flyEl('fly-coin'), a = -Math.PI / 2 + (Math.random() - 0.5) * 2.4, sp = 70 + Math.random() * 110, dx = Math.cos(a) * sp, dy = Math.sin(a) * sp, r = (Math.random() - 0.5) * 720;
+    const an = el.animate([
+      {transform:'translate(' + sx + 'px,' + sy + 'px) scale(.5) rotate(0deg)', opacity:1},
+      {transform:'translate(' + (sx + dx) + 'px,' + (sy + dy) + 'px) scale(1.25) rotate(' + r * 0.4 + 'deg)', opacity:1, offset:0.35},
+      {transform:'translate(' + (sx + dx * 1.5) + 'px,' + (sy + dy + 260) + 'px) scale(.9) rotate(' + r + 'deg)', opacity:0}
+    ], {duration:820 + Math.random() * 300, easing:'cubic-bezier(.25,.7,.5,1)'});
+    an.onfinish = () => freeEl(el);
+  }
+}
+function lossBadge(n){
+  const el = $('#lossFx'); if (!el) return;
+  el.innerHTML = n ? '<i>' + CANDY_SVG + '</i><b>−' + n + '</b>' : '<b>Ой!</b>';
+  el.hidden = false; if (!canAnim) { clearTimeout(lossBadge.t); lossBadge.t = setTimeout(() => { el.hidden = true; }, 1200); return; }
+  if (lossBadge.a) lossBadge.a.cancel();
+  const pr = coinPill.getBoundingClientRect(), er = el.getBoundingClientRect(), tx = pr.left + pr.width / 2 - (er.left + er.width / 2), ty = pr.top + pr.height / 2 - (er.top + er.height / 2);
+  lossBadge.a = el.animate([
+    {transform:'translate(-50%,-50%) scale(.2) rotate(-14deg)', opacity:0},
+    {transform:'translate(-50%,-50%) scale(1.28) rotate(4deg)', opacity:1, offset:0.14},
+    {transform:'translate(calc(-50% - 9px),-50%) scale(1) rotate(-3deg)', offset:0.22},
+    {transform:'translate(calc(-50% + 8px),-50%) scale(1) rotate(3deg)', offset:0.30},
+    {transform:'translate(calc(-50% - 5px),-50%) scale(1) rotate(-2deg)', offset:0.38},
+    {transform:'translate(-50%,-50%) scale(1) rotate(-3deg)', opacity:1, offset:0.72},
+    {transform:'translate(calc(-50% + ' + tx + 'px),calc(-50% + ' + ty + 'px)) scale(.35) rotate(0deg)', opacity:0}
+  ], {duration:1500, easing:'cubic-bezier(.3,.7,.4,1)'});
+  lossBadge.a.onfinish = () => { el.hidden = true; lossBadge.a = null; };
+}
+
+/* ---- the mystery arch pays out as a burst of candies (no chest box any more) ---- */
+function openChest(){
+  const x = hero.g.position.x;
+  burst(x, 1.7, -1.2, 0xffe27a, 26, 8); burst(x, 1.7, -1.2, 0xfff6c8, 14, 5);
+  sfx.win(); haptic(HAP.good); G.coinsRun += 40; renderCoins();
+  popText('Arch bonus! +40', x, 2.9, -1.2, 'gain'); flyCoins(x, 1.7, -1.2, 8);
+}
+
+/* ---- a run counts only when it is finished: new words stay new and nothing levels up after a lost or quit run ---- */
+function revertNewWords(){ (S.pendNew || []).forEach(id => { const s = S.words[id]; if (s && !s.reps) Object.assign(s, blankWord()); }); S.pendNew = []; }
+function applyResults(kind, outcome){
+  const won = outcome === 'done' || outcome === 'win', out = [];
+  if (won) S.pendNew = []; else revertNewWords();
+  for (const id in G.res) {
+    const r = G.res[id], s = S.words[id]; if (!s || !s.seen) continue;
+    const practice = G.practiceIds && G.practiceIds.indexOf(id) >= 0;
+    if (!won) {
+      if (r.wrong && !practice) { const old = s.box; s.box = old === 0 ? 0 : 1; s.lapses++; s.due = now() + INTERVAL_DAYS[s.box] * DAY; out.push({id, old, nw:s.box, wrong:true}); }
+      continue;
+    }
+    if (!r.wrong && r.ok > 0) s.okRuns = (s.okRuns || 0) + 1;
+    if (!r.wrong && practice) continue;
+    const old = s.box;
+    if (r.wrong) { s.box = old === 0 ? 0 : 1; s.lapses++; }
+    else if (r.firstFast) s.box = Math.min(5, old + 1);
+    s.due = now() + INTERVAL_DAYS[s.box] * DAY; s.reps++;
+    out.push({id, old, nw:s.box, wrong:r.wrong});
+  }
+  return out;
+}
+
+/* ---- sentences (fill the gap) and word pairs are off in chapter runs unless switched on for that chapter; the boss keeps them ---- */
+function sentOn(){ if (G.mode === 'boss') return true; S.sent = S.sent || {}; return !!S.sent[curCh().id]; }
+function specialType(box, w){
+  const sen = sentOn();
+  const opts = (box <= 1 ? ['pair', 'gap'] : box === 2 ? ['gap', 'pair', 'build'] : ['spell', 'build', 'pair', 'gap']).filter(t => sen || (t !== 'gap' && t !== 'pair'));
+  const ok = opts.filter(t => (t !== 'gap' || (w.ex && w.ex.indexOf('___') >= 0)) && (t !== 'pair' || pairPrompt(w)) && (t !== 'build' || canBuild(w)));
+  return ok.length ? ok[ri(ok.length)] : null;
+}
+function renderSentTog(){
+  const b = $('#btnSent'); if (!b) return; const on = sentOn();
+  b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  b.querySelector('.st-s').textContent = on ? 'вкл — слова, предложения и пары слов' : 'выкл — только перевод слов';
+}
+
+/* ---- answer buttons slide down out of the way when there is nothing to choose and pop back up with the next words ---- */
+function railAway(on){
+  const r = $('#rail'); if (!r || on === r.classList.contains('away')) return;
+  r.classList.toggle('away', on);
+  if (!on) { r.classList.add('in'); clearTimeout(railAway.t); railAway.t = setTimeout(() => r.classList.remove('in'), 650); }
+}
+function railClear(){ slots.forEach(s => { s.classList.remove('good', 'bad'); s.classList.add('idle', 'small'); s.querySelector('span').textContent = ''; }); railActive(); railAway(true); }
+function openQ(q){
+  const card = $('#qcard'); clearTimeout(qHideTimer); if (qAnim) { qAnim.cancel(); qAnim = null; }
+  card.hidden = false;
+  if (canAnim) qAnim = card.animate([{transform:'translateY(-34px) scale(.88) rotate(-2deg)', opacity:0}, {opacity:1, offset:0.55}, {transform:'none', opacity:1}], {duration:460, easing:'cubic-bezier(.2,1.45,.35,1)'});
+  const wasAway = $('#rail').classList.contains('away');
+  slots.forEach((s, i) => {
+    s.classList.remove('idle', 'good', 'bad'); s.classList.toggle('small', q.options[i].length > 14); s.firstChild.textContent = q.options[i];
+    if (canAnim && !wasAway) s.animate([{transform:'translateY(30px) scale(.8)', opacity:0}, {opacity:1, offset:0.5}, {transform:'none', opacity:1}], {duration:420, delay:i * 60, easing:'cubic-bezier(.2,1.6,.4,1)', fill:'backwards', composite:'add'});
+  });
+  railAway(false); railActive();
+}
+
+/* ---- tunnel swarm: small, many, out of the walls, down from the ceiling and up from behind the camera;
+   they gather behind the heroine and creep closer the longer the tunnel goes on ---- */
+function swarmSpawn(){
+  const name = SWARM_NODES[ri(SWARM_NODES.length)], node = KIT18.n[name]; if (!node) return;
+  const g = new T.Group(), body = new T.Group(), m = node.clone(), h = name === 'tn_blob3' ? 0.55 : 0.34 + Math.random() * 0.26;
+  m.scale.setScalar(h * 1.15); body.add(m); g.add(body); addShadow(g, 0.3 * h + 0.12);
+  const r = Math.random(); let c;
+  if (r < 0.45) { const x = (Math.random() * 2 - 1) * 4.1; c = {mode:'rear', x, z:7 + Math.random() * 4, y:0, side:x < 0 ? -1 : 1}; }
+  else if (r < 0.82) { const side = Math.random() < 0.5 ? -1 : 1; c = {mode:'wall', side, x:side * 5.6, wx:side * (3.5 + Math.random() * 0.8), z:-9 - Math.random() * 18, y:0}; }
+  else { const x = (Math.random() * 2 - 1) * 3.6; c = {mode:'drop', x, z:-7 - Math.random() * 14, y:5.4, vy:0, side:x < 0 ? -1 : 1}; }
+  Object.assign(c, {g, body, t:0, ph:Math.random() * 6.28, h, ox:0, oz:0, sp:0.7 + Math.random() * 0.6});
+  g.position.set(c.x, c.y, c.z); scene.add(g); TUN.swarm.push(c);
+}
+function swarmJoin(c){
+  c.mode = 'chase'; c.t = 0;
+  const wide = Math.random() < 0.3;
+  c.ox = wide ? (c.x < 0 ? -1 : 1) * (2.6 + Math.random() * 1.6) : clamp(c.x * 0.6 + (Math.random() - 0.5) * 2.4, -4.2, 4.2);
+  c.oz = wide ? -1.2 + Math.random() * 2.2 : 0.7 + Math.random() * 2.7;
+  if (!TUN.hinted && TUN.swarm.filter(q => q.mode === 'chase').length >= 5) { TUN.hinted = true; hint('Shadow creeps behind you! Keep running', 2400); }
+}
+function swarmFrame(dt, move){
+  if (!TUN.swarm.length) return;
+  if (G.mode !== 'run') { swarmClear(); return; }
+  if (TUN.lunge > 0) TUN.lunge = Math.max(0, TUN.lunge - dt);
+  const hx = hero.g.position.x, lz = TUN.lunge > 0 ? -1.0 * Math.sin(Math.min(1, TUN.lunge / 1.3) * Math.PI) : 0;
+  for (let i = TUN.swarm.length - 1; i >= 0; i--) {
+    const c = TUN.swarm[i]; c.t += dt; const b = c.body;
+    if (c.mode === 'wall') {
+      c.z += move; const k = Math.min(1, c.t / 0.7), e = k * k * (3 - 2 * k); c.x = c.side * 5.6 + (c.wx - c.side * 5.6) * e;
+      b.rotation.y = -c.side * 0.9; b.position.y = Math.abs(Math.sin(c.t * 8 + c.ph)) * 0.08; b.rotation.z = Math.sin(c.t * 4 + c.ph) * 0.12;
+      if (c.z > -1.5) swarmJoin(c);
+    } else if (c.mode === 'drop') {
+      c.z += move; if (c.y > 0) { c.vy -= 22 * dt; c.y = Math.max(0, c.y + c.vy * dt); b.rotation.x = Math.sin(c.t * 10) * 0.3; if (c.y === 0) { b.scale.set(1.3, 0.6, 1.3); b.rotation.x = 0; } }
+      else { b.scale.x += (1 - b.scale.x) * Math.min(1, dt * 10); b.scale.y += (1 - b.scale.y) * Math.min(1, dt * 10); b.scale.z = b.scale.x; b.position.y = Math.abs(Math.sin(c.t * 8 + c.ph)) * 0.08; }
+      if (c.z > -1.5 && c.y === 0) swarmJoin(c);
+    } else if (c.mode === 'rear') {
+      c.z -= (2.2 + c.sp) * dt; b.rotation.y = Math.PI + Math.sin(c.t * 2 + c.ph) * 0.3;
+      const hop = Math.abs(Math.sin(c.t * 10 + c.ph)); b.position.y = hop * 0.2;
+      if (c.z < 3.6) swarmJoin(c);
+    } else if (c.mode === 'chase') {
+      let ax = 0, cnt = 0;
+      for (const o of TUN.swarm) { if (o === c || o.mode !== 'chase') continue; const dx = o.x - c.x, dz = o.z - c.z, d = Math.hypot(dx, dz); if (d < 0.42 && d > 0) { c.ox -= dx / d * dt * 1.4; c.oz -= dz / d * dt * 0.9; } else if (d < 2.2) { ax += o.x; cnt++; } }
+      if (cnt) c.ox += (ax / cnt - c.x) * dt * 0.18;
+      const side = Math.abs(c.ox) > 2.4;
+      c.oz -= dt * 0.05;
+      c.ox = clamp(c.ox, -4.25, 4.25); c.oz = clamp(c.oz, side ? -1.6 : 0.55, 3.6);
+      const tx = hx * 0.3 + c.ox, tz = c.oz + lz;
+      c.x += (tx - c.x) * Math.min(1, dt * 3); c.z += (tz - c.z) * Math.min(1, dt * (TUN.lunge > 0 ? 6 : 2.2));
+      const hop = Math.abs(Math.sin(c.t * 10 + c.ph)); b.position.y = hop * 0.18; b.scale.set(1 + (1 - hop) * 0.1, 1 - (1 - hop) * 0.12 + hop * 0.05, 1);
+      /* once they have caught up they turn round and stare at you */
+      const face = clamp(-(c.x - camPos.x) * 0.12, -0.6, 0.6) + Math.sin(c.t * 1.3 + c.ph) * 0.18;
+      b.rotation.y += (face - b.rotation.y) * Math.min(1, dt * 5); b.rotation.z = Math.sin(c.t * 10 + c.ph) * 0.14;
+    } else if (c.mode === 'flee') {
+      c.z += (G.ws * 0.55 + 4) * dt; c.x += Math.sign(c.x || 1) * dt * 2.4; const s = Math.max(0.001, 1 - c.t * 0.9); b.scale.setScalar(s); b.rotation.y = 0;
+      if (c.t > 1.2 || c.z > 9) { scene.remove(c.g); TUN.swarm.splice(i, 1); continue; }
+    }
+    if (c.z > 14) { scene.remove(c.g); TUN.swarm.splice(i, 1); continue; }
+    c.g.position.set(c.x, c.y || 0, c.z);
+  }
+}
+
+/* ---- the vampire scare, slow burn: the torches choke, a heartbeat, he takes shape in the dark ahead,
+   glides closer laughing, then lunges at the camera — flash — and is gone in a cloud of bats ---- */
+function vampScare(){
+  TUN.scareDone = true;
+  if (!A.ok || !V.g || V.mode !== 'off' || !opt('vamp')) return;
+  V.mode = 'scare'; V.sc = {t:0, boo:false, x0:(Math.random() < 0.5 ? -1 : 1) * 0.5, laugh:false};
+  V.g.visible = false; V.g.position.set(V.sc.x0, 0, -20); V.g.rotation.set(0, 0, 0); V.g.scale.setScalar(1);
+  V.inner.position.y = 0; V.inner.rotation.y = Math.PI / 2; V.inner.scale.setScalar(2.4); V.shadow.visible = false; V.glow.visible = false;
+  scene.add(V.g); vampAnim('Cast', 0, false, 0.5);
+  tone(55, 46, 3.0, 'sawtooth', 0.022); tone(82, 70, 3.0, 'sine', 0.035);
+  [0.35, 0.95, 1.5, 1.95, 2.3, 2.62, 2.9].forEach((d, i) => { tone(62, 38, 0.16, 'sine', 0.12 + i * 0.012, d); tone(58, 36, 0.12, 'sine', 0.07 + i * 0.01, d + 0.17); });
+  tone(300, 1500, 0.5, 'sawtooth', 0.03, 2.62);
+}
+function vampScareFrame(sdt){
+  const vig = $('#scareVig');
+  if (V.mode !== 'scare') {
+    if (V.g && !V.g.visible && V.mode === 'off') V.g.visible = true;
+    if (TUN.dim > 0) TUN.dim = Math.max(0, TUN.dim - sdt * 1.6);
+    if (TUN.flare > 0) TUN.flare = Math.max(0, TUN.flare - sdt * 1.4);
+    if (TUN.vig > 0) { TUN.vig = Math.max(0, TUN.vig - sdt * 1.8); if (vig) vig.style.opacity = TUN.vig.toFixed(3); }
+    return;
+  }
+  const s = V.sc; s.t += sdt; const g = V.g, t = s.t, BOO = 3.25;
+  if (t < BOO) { TUN.dim = clamp(t / 1.1, 0, 1); TUN.vig = clamp(t / 1.4, 0, 1) * 0.86; }
+  else { TUN.dim = Math.max(0, 1 - (t - BOO) * 2.4); TUN.vig = Math.max(0, 0.86 - (t - BOO) * 1.9); }
+  if (vig) vig.style.opacity = TUN.vig.toFixed(3);
+  if (t < 1.2) return;
+  if (!s.boo) g.visible = true;
+  if (!s.laugh && t > 1.45) { s.laugh = true; sfx.vampLaugh(); }
+  if (t < 2.6) {
+    /* takes shape in the dark ahead and drifts closer, swaying */
+    const k = clamp((t - 1.2) / 1.4, 0, 1), e = k * k * (3 - 2 * k);
+    g.position.set(s.x0 + Math.sin(t * 1.7) * 0.25, 0.15 + Math.sin(t * 2.3) * 0.12, -20 + 11 * e);
+    g.rotation.y = Math.sin(t * 1.3) * 0.12;
+  } else if (t < BOO) {
+    /* lunge: fast start, brakes right in front of the lens, hangs there for a heartbeat */
+    if (!s.lunge) { s.lunge = true; s.p0 = g.position.clone(); vampAnim('Catch', 0.06, true, 1.5); shake(0.1); }
+    const k = Math.min(1, (t - 2.6) / 0.4), e = 1 - Math.pow(1 - k, 3), tx = camPos.x - 0.55, ty = 1.25, tz = camPos.z - 2.15;
+    g.position.set(s.p0.x + (tx - s.p0.x) * e, s.p0.y + (ty - s.p0.y) * e, s.p0.z + (tz - s.p0.z) * e); g.rotation.y = 0.15 * e;
+    if (k >= 1) g.position.z += Math.sin(t * 60) * 0.03;
+    G.shake = Math.max(G.shake, 0.04 + e * 0.14);
+  } else if (!s.boo) {
+    s.boo = true; g.visible = false; TUN.flare = 1;
+    const p = g.position; burst(p.x, 2.0, p.z - 0.8, 0x1a0f24, 26, 9); burst(p.x, 2.0, p.z - 0.8, 0x9a3aff, 12, 7);
+    flashFx('rgba(255,60,90,.65)'); shake(0.45); haptic(HAP.boss);
+    tone(233, 170, 0.7, 'sawtooth', 0.07); tone(247, 180, 0.7, 'square', 0.045); tone(370, 260, 0.55, 'sawtooth', 0.05); sfx.vamp();
+  } else if (t > BOO + 0.65) { vampOff(); g.visible = true; }
+}
+/* a cold key light rides in front of him while the torches are choked, so he reads in the dark */
+const _scareCol = new T.Color(0xc4a2ff), _torchCol = new T.Color(0xff9a48);
+function scareLight(){
+  const l = TUN.lights && TUN.lights[0]; if (!l) return;
+  if (V.mode === 'scare' && V.sc && V.sc.t > 1.15 && !V.sc.boo) {
+    const p = V.g.position, close = V.sc.t > 2.6;
+    l.position.set(p.x + 0.5, close ? 2.6 : 3.4, p.z + (close ? 1.4 : 2.8)); l.color.copy(_scareCol); l.distance = close ? 5 : 9;
+    l.intensity = (close ? 2.2 : 2.8) * (0.9 + Math.sin(G.clock * 37) * 0.06 + Math.sin(G.clock * 13) * 0.05) * clamp((V.sc.t - 1.15) / 0.5, 0, 1);
+    TUN.keyOn = true;
+  } else if (TUN.keyOn) { TUN.keyOn = false; l.color.copy(_torchCol); l.distance = 12; }
+}
+
+/* ---- per-frame and boot hooks ---- */
+function v19Frame(sdt, dt){
+  if (G.jumpBuf > 0) G.jumpBuf = Math.max(0, G.jumpBuf - sdt);
+  scareLight(); if (G.mode === 'run') mobFace(sdt);
+}
+function bindV19(){
+  const app = $('#app');
+  if (!$('#lossFx')) { const e = document.createElement('div'); e.id = 'lossFx'; e.hidden = true; app.appendChild(e); }
+  if (!$('#scareVig')) { const e = document.createElement('div'); e.id = 'scareVig'; app.appendChild(e); }
+  const sb = $('#btnSent');
+  if (sb) sb.addEventListener('click', () => { S.sent = S.sent || {}; const id = curCh().id; S.sent[id] = !S.sent[id]; save(); renderSentTog(); haptic(HAP.tap); sfx.coin && sfx.coin(3); bumpEl(sb, 'pop'); });
+  if (S.pendNew && S.pendNew.length && G.mode !== 'run') { revertNewWords(); save(); }
+  renderSentTog();
+}
+
 /* ---- on-device stutter diagnostics: every frame longer than 70 ms is logged with what ran around it ---- */
 const perfEl = $('#perf'), PM = [], PL = []; let pfPrevStart = 0, pfFrames = 0, pfSince = performance.now(), pfFps = 0, pfShownAt = 0;
 function mark(name, dur){ PM.push({n:name, d:dur, at:performance.now()}); if (PM.length > 80) PM.splice(0, PM.length - 80); }
@@ -8296,8 +8670,8 @@ function endBoot(){
   else buildSceneryProc();
   setPal('dusk', 'day', true); prewarm(); setTimeout(renderMusic, 400); window.__bootDone = true; if (BETA) {} else if (TG.ok) tgCloudInit(); else cloudInit(); if (G.mode === 'home') renderHome(); loadEl.classList.add('out'); setTimeout(() => { loadEl.hidden = true; }, 600);
 }
-if (/debug/.test(location.search)) window.__WR = {ICONS, drawIcon, skOpen, SKED, offlineRender, foldLoop, SONGS, MUS_SR, LAYER_MIX, speak, voiceFetch, TR, V, SETS, SKYI, BIOV2:BIOV, get palK(){ return palK; }, get activeSet(){ return activeSet; }, inTunnel, KIT18, TUN, SCN, LOCS, curLoc, advanceLoc, loadKit18, swarmSpawn, vampScare, sceneryGo, VOICE, TRY, BIOV, setBiome, lvProgress, lvAfterRun, chLvl, applyChapterStages, prefetchWorld, startBossLoad, ensureDanceBoss, DW, giveRelic, showRelic, COLL, hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
-bindMeta(); bindV12(); bindV17(); bindV18(); goHome();
+if (/debug/.test(location.search)) window.__WR = {hitPenalty, lossBadge, sentOn, applyResults, railAway, openChest, mobYaw, airborne, cloudTex18, ISL_DATA, swarmFrame, ICONS, drawIcon, skOpen, SKED, offlineRender, foldLoop, SONGS, MUS_SR, LAYER_MIX, speak, voiceFetch, TR, V, SETS, SKYI, BIOV2:BIOV, get palK(){ return palK; }, get activeSet(){ return activeSet; }, inTunnel, KIT18, TUN, SCN, LOCS, curLoc, advanceLoc, loadKit18, swarmSpawn, vampScare, sceneryGo, VOICE, TRY, BIOV, setBiome, lvProgress, lvAfterRun, chLvl, applyChapterStages, prefetchWorld, startBossLoad, ensureDanceBoss, DW, giveRelic, showRelic, COLL, hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
+bindMeta(); bindV12(); bindV17(); bindV18(); bindV19(); goHome();
 requestAnimationFrame(frame);
 if (HAS_GLB) loadAssets(setProg).then(endBoot).catch(e => { console.error('assets', e); A.ok = false; endBoot(); });
 else endBoot();

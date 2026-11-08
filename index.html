@@ -628,7 +628,7 @@ label.btn{cursor:pointer}
 @keyframes guardPulse{50%{box-shadow:0 3px 0 var(--lineS),0 0 0 7px rgba(95,214,255,.35)}}
 #btnShadow.ready::after{content:'TAP';background:none;width:auto;height:auto;top:-24px;font:900 12px/1 var(--display);color:#fff;-webkit-text-stroke:3px #1e1838;paint-order:stroke fill;letter-spacing:.06em}
 /* v18 beta: tuning panel */
-#tuneFab{position:absolute;left:max(10px,env(safe-area-inset-left,0px));top:46%;z-index:40;width:42px;height:42px;border-radius:50%;border:2px solid #1e1838;background:#ffd23a;font:900 20px/1 var(--body);box-shadow:0 3px 0 #1e1838;pointer-events:auto}
+#tuneFab{position:absolute;left:max(10px,env(safe-area-inset-left,0px));top:31%;z-index:40;width:42px;height:42px;border-radius:50%;border:2px solid #1e1838;background:#ffd23a;font:900 20px/1 var(--body);box-shadow:0 3px 0 #1e1838;pointer-events:auto}
 #betaTag{position:absolute;right:8px;bottom:6px;z-index:40;font:900 10px/1 var(--body);color:#fff;background:#ff5a6a;padding:3px 6px;border-radius:6px;pointer-events:none;opacity:.85}
 #tunePanel{position:absolute;left:0;right:0;bottom:0;z-index:41;max-height:62%;display:flex;flex-direction:column;background:rgba(24,18,44,.96);color:#fff;font:600 13px/1.3 var(--body);border-radius:16px 16px 0 0;box-shadow:0 -6px 24px rgba(0,0,0,.4);pointer-events:auto;touch-action:pan-y}
 #tunePanel[hidden]{display:none}
@@ -655,6 +655,63 @@ label.btn{cursor:pointer}
 .tp-out{padding:8px 10px 12px}
 .tp-out textarea{width:100%;border-radius:8px;font:12px/1.3 monospace;padding:6px}
 .tp-tn small{font:600 10px var(--body);color:#8a80b0}
+/* v18 beta: skin editor */
+#skEd{position:absolute;inset:0;z-index:42;display:flex;flex-direction:column;pointer-events:none;color:#fff;font:600 13px/1.3 var(--body)}
+#skEd[hidden]{display:none}
+#skEd button,#skEd .sk-a{font:800 12px/1 var(--body);border:0;border-radius:9px;padding:8px 10px;background:#3a2e66;color:#fff;text-decoration:none;display:inline-block}
+#skEd button.on{background:#ffd23a;color:#1e1838}
+#skEd button.bad{background:#7a2440}
+.sk-top{pointer-events:auto;display:flex;gap:6px;align-items:center;padding:calc(env(safe-area-inset-top,0px) + 8px) 10px 8px;background:linear-gradient(rgba(20,14,40,.85),rgba(20,14,40,0))}
+.sk-name{flex:1;min-width:0;border-radius:9px;border:0;padding:8px;font:800 13px var(--body)}
+.sk-stage{flex:1;pointer-events:auto;touch-action:none}
+.sk-panel{pointer-events:auto;max-height:56%;display:flex;flex-direction:column;background:rgba(24,18,44,.97);border-radius:16px 16px 0 0;box-shadow:0 -6px 24px rgba(0,0,0,.4)}
+.sk-tabs{display:flex;gap:6px;overflow-x:auto;padding:8px 10px 6px;border-bottom:1px solid rgba(255,255,255,.12)}
+.sk-body{overflow-y:auto;padding:8px 12px 18px;-webkit-overflow-scrolling:touch}
+.sk-h{color:#cfc6ef;font-size:12px;margin:6px 0}
+.sk-zone{display:grid;grid-template-columns:1fr 54px 92px;gap:8px;align-items:center;margin:6px 0}
+.sk-zone input[type=color],.sk-row input[type=color]{width:54px;height:34px;border:0;border-radius:8px;padding:0;background:none}
+.sk-zone select{padding:6px;border-radius:8px;font:700 12px var(--body)}
+.sk-row{display:block;margin:8px 0}.sk-row span{display:block;margin-bottom:3px;color:#e6e0ff}
+.sk-row input[type=range]{width:100%;accent-color:#ffd23a;height:26px}.sk-row input[type=text]{width:100%;padding:8px;border-radius:8px;border:0;font:800 14px var(--body)}
+.sk-chk{display:flex;gap:8px;align-items:center;margin:10px 0}.sk-chk input{width:20px;height:20px;accent-color:#ffd23a}
+.sk-chips,.sk-pats,.sk-btns,.sk-seg,.sk-sw{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.sk-chips button i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-2px;border:1px solid rgba(255,255,255,.5)}
+.sk-prev{display:block;width:62%;max-width:240px;margin:6px auto;border-radius:10px;touch-action:none;background:#2a2244}
+.sk-icons{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:6px;margin:6px 0}
+#skEd .sk-icons button{padding:2px;background:#2e2452}.sk-icons canvas{width:44px;height:44px;display:block;margin:auto}
+.sk-sel{border-top:1px solid rgba(255,255,255,.12);margin-top:6px;padding-top:4px}
+.sk-sw button{width:42px;height:42px;border-radius:50%!important;border:2px solid rgba(255,255,255,.4)!important}
+.sk-sw button.on{outline:3px solid #ffd23a}
+.sk-ref{display:block;max-width:100%;max-height:120px;border-radius:8px;margin:6px 0}
+.sk-list{display:flex;flex-direction:column;gap:6px}.sk-item{display:grid;grid-template-columns:48px 1fr auto auto;gap:8px;align-items:center}.sk-item img{width:48px;height:64px;border-radius:6px}
+
+/* ---- v19 ---- */
+#lossFx{position:absolute;left:50%;top:33%;z-index:8;pointer-events:none;display:flex;align-items:center;gap:8px;padding:8px 18px 8px 12px;background:#ff3d63;border:3px solid var(--ink);border-radius:999px;box-shadow:0 6px 0 var(--ink),0 0 0 6px rgba(255,61,99,.25),0 14px 34px rgba(255,40,80,.45);transform:translate(-50%,-50%);color:#fff;white-space:nowrap}
+#lossFx[hidden]{display:none}
+#lossFx i{display:block;width:46px;height:27px;filter:drop-shadow(0 2px 0 rgba(30,24,56,.35))}
+#lossFx i svg{width:100%;height:100%;display:block}
+#lossFx b{font:900 38px/1 var(--display);letter-spacing:.01em;-webkit-text-stroke:2px var(--ink);paint-order:stroke fill;text-shadow:0 3px 0 var(--ink)}
+.pill.loss{animation:pillLoss .9s cubic-bezier(.3,.7,.4,1)}
+@keyframes pillLoss{0%{transform:none}10%{transform:scale(1.25) rotate(-6deg);background:#ff3d63;color:#fff}22%{transform:scale(1.1) translateX(-6px) rotate(4deg)}34%{transform:scale(1.1) translateX(6px) rotate(-3deg)}46%{transform:scale(1.05) translateX(-3px)}70%{background:#ffb3c2}100%{transform:none}}
+#scareVig{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;background:radial-gradient(ellipse 70% 60% at 50% 52%,rgba(4,0,10,0) 18%,rgba(4,0,10,.55) 55%,rgba(4,0,10,.97) 100%)}
+/* answer buttons: slide away between questions */
+#rail .slot{transition:transform .2s cubic-bezier(.2,1.4,.4,1),opacity .2s ease,background-color .12s,box-shadow .12s}
+#rail.away .slot{transform:translateY(170%) scale(.9)!important;opacity:0;pointer-events:none;transition:transform .34s cubic-bezier(.55,0,.8,.3),opacity .28s ease .06s}
+#rail.away .slot:nth-child(2){transition-delay:.04s,.1s}#rail.away .slot:nth-child(3){transition-delay:.08s,.14s}
+#rail.in .slot{transition:transform .48s cubic-bezier(.18,1.55,.4,1),opacity .2s ease,background-color .12s,box-shadow .12s}
+#rail.in .slot:nth-child(2){transition-delay:.06s}#rail.in .slot:nth-child(3){transition-delay:.12s}
+/* sentences toggle on the chapter panel */
+.sent-tog{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;align-items:center;column-gap:12px;row-gap:1px;width:100%;text-align:left;padding:9px 12px;border:2.5px solid var(--line);border-radius:14px;background:#fff;box-shadow:0 3px 0 var(--lineS);transition:transform .08s,box-shadow .08s,background-color .15s}
+.sent-tog:active{transform:translateY(3px);box-shadow:0 0 0 var(--lineS)}
+.sent-tog .st-t{font:800 13.5px/1.15 var(--body);color:var(--ink)}
+.sent-tog .st-s{grid-row:2;font:700 11.5px/1.2 var(--body);color:#6f6690}
+.sent-tog .st-sw{grid-row:1/3;grid-column:2;position:relative;width:46px;height:26px;border-radius:99px;background:#d9d3ea;border:2.5px solid var(--line);transition:background-color .18s}
+.sent-tog .st-sw::after{content:"";position:absolute;top:2px;left:2px;width:17px;height:17px;border-radius:50%;background:#fff;border:2px solid var(--line);transition:transform .22s cubic-bezier(.3,1.6,.5,1)}
+.sent-tog.on{background:#fff6d6}
+.sent-tog.on .st-sw{background:#8be59a}
+.sent-tog.on .st-sw::after{transform:translateX(20px)}
+.sent-tog.pop{animation:bump .3s cubic-bezier(.3,1.8,.5,1)}
+@media (prefers-reduced-motion:reduce){#rail .slot,#rail.away .slot,#rail.in .slot{transition:none}}
 
 #perf{position:absolute;left:8px;right:8px;bottom:92px;z-index:9;font:700 10.5px/1.35 ui-monospace,Menlo,monospace;color:#fff;background:rgba(20,10,40,.8);border:2px solid rgba(255,255,255,.25);border-radius:10px;padding:6px 8px;pointer-events:none;white-space:pre-wrap;max-height:30vh;overflow:hidden}
 #perf b{color:#ffc93a}
@@ -726,6 +783,7 @@ label.btn{cursor:pointer}
           <div class="stat"><b id="stLong">0</b><span>в долгой памяти</span></div>
           <div class="stat"><b id="stDue">0</b><span>ждут повтора</span></div>
         </div>
+        <button id="btnSent" class="sent-tog" type="button" aria-pressed="false"><span class="st-t">Предложения в забеге</span><span class="st-s">выкл — только перевод слов</span><i class="st-sw"></i></button>
         <button id="btnStart" class="btn"><span id="startTitle">Начать сессию</span><span class="b-sub" id="startSub"></span></button>
         <div class="row2">
           <button id="btnPack" class="btn btn-alt">Рюкзак</button>
@@ -1452,7 +1510,7 @@ let EXAM = null;
 function examReady(){ const L = chList(); return L.length >= 6 && L.every(w => S.words[w.id].seen) && !S.exam[curCh().id]; }
 function openExam(){
   const L = shuffle(chList().slice()); const n = Math.min(12, L.length);
-  const types = ['en2ru', 'ru2en', 'gap', 'pair'];
+  const types = sentOn() ? ['en2ru', 'ru2en', 'gap', 'pair'] : ['en2ru', 'ru2en'];
   const qs = L.slice(0, n).map((w, i) => { let t = types[i % 4]; if (t === 'gap' && !w.ex) t = 'ru2en'; if (t === 'pair' && !pairPrompt(w)) t = 'en2ru'; return buildQ({id:w.id, type:t}); });
   EXAM = {qs, i:0, ok:0, wrong:[], lock:false}; G.mode = 'exam'; showScreen('scrExam'); renderExam();
 }
@@ -3591,22 +3649,22 @@ function updateObstacles(sdt){
     if (!u.hit && u.kind === 'bounce') { if (Math.abs(o.position.z) < 0.85 && Math.abs(LANES[u.lane] - hx) < 1.0 && G.heroY < 0.7) bounceHero(o, u); }
     else if (!u.hit) {
       const z = o.position.z;
-      const hitLog = u.kind === 'log' && Math.abs(z) < 0.6 && G.heroY < 0.55;
-      const hitRock = u.kind === 'rock' && Math.abs(z) < 0.75 && Math.abs(LANES[u.lane] - hx) < 1.0 && G.heroY < 1.0;
-      const hitPump = (u.kind === 'pumpkin' || u.kind === 'yarn') && Math.abs(z) < 0.75 && Math.abs(LANES[u.lane] - hx) < 1.0 && G.heroY < 0.9;
+      const hitLog = u.kind === 'log' && Math.abs(z) < 0.6 && !airborne();
+      const hitRock = u.kind === 'rock' && Math.abs(z) < 0.75 && Math.abs(LANES[u.lane] - hx) < 1.0 && !airborne();
+      const hitPump = (u.kind === 'pumpkin' || u.kind === 'yarn') && Math.abs(z) < 0.75 && Math.abs(LANES[u.lane] - hx) < 1.0 && !airborne();
       const hitMob = u.kind === 'mob' && mobHits(o, u, hx);
       const hitBeast = u.kind === 'beast' && Math.abs(z) < 0.7 && G.slideT <= 0.04;
       if (u.kind === 'beast' && !u.passed && Math.abs(z) < 0.7 && G.slideT > 0.04) { u.passed = true; G.coinsRun += 2; renderCoins(); popText('Nice slide!', hx, 2.2, 0, 'gain'); questEvent('sword'); }
-      const hitBats = u.kind === 'spikes' && Math.abs(z) < 0.7 && Math.abs(LANES[u.lane] - hx) < 1.0 && G.heroY < 1.05 && u.up > 0.5;
+      const hitBats = u.kind === 'spikes' && Math.abs(z) < 0.7 && Math.abs(LANES[u.lane] - hx) < 1.0 && !airborne(0.25) && u.up > 0.5;
       if (hitLog || hitRock || hitPump || hitBats || hitBeast || hitMob) {
         if (G.shadowT > 0) { u.hit = true; }
         else if (G.dashT > 0) smashObstacle(o, 'dash');
         else if (G.shieldT > 0) { G.shieldT = 0; smashObstacle(o, 'shield'); popText('Shield!', hx, 1.6, 0, 'good'); }
         else {
-          u.hit = true; G.combo = 0; renderCombo(); G.coinsRun = Math.max(0, G.coinsRun - 5); renderCoins();
+          u.hit = true; G.combo = 0; renderCombo(); hitPenalty();
           hero.hurt = 0.3; G.freeze = 0.05; shake(0.22); sfx.bump(); hurtFx(); haptic(HAP.bump);
           burst(u.lane != null && u.kind !== 'log' && u.kind !== 'bats' ? LANES[u.lane] : hx, 0.6, z, 0xa79cc4, 10, 5);
-          toast('Препятствие!', 'Комбо сброшено, −5 конфет', 'bad'); o.visible = false;
+          o.visible = false;
         }
       }
     }
@@ -3722,9 +3780,9 @@ function batsHitHero(o, u){
   if (G.shadowT > 0) return;
   if (G.dashT > 0) { batsKill(o, u, 'sword'); return; }
   if (G.shieldT > 0) { G.shieldT = 0; batsKill(o, u, 'sword'); popText('Shield!', hx, 1.6, 0, 'good'); return; }
-  G.combo = 0; renderCombo(); G.coinsRun = Math.max(0, G.coinsRun - 5); renderCoins();
+  G.combo = 0; renderCombo(); hitPenalty('Мыши налетели!');
   hero.hurt = 0.3; G.freeze = 0.05; shake(0.22); sfx.bump(); hurtFx(); haptic(HAP.bump);
-  burst(hx, 1.6, 0, 0xc77dff, 12, 5); toast('Мыши налетели!', 'Комбо сброшено, −5 конфет', 'bad');
+  burst(hx, 1.6, 0, 0xc77dff, 12, 5);
 }
 function updateBats(o, u, sdt){
   const t = G.clock;
@@ -4206,7 +4264,7 @@ function cardHTML(w, withNext){
     (w.col ? '<div class="wc-col">Сочетание: <em>' + esc(w.col) + '</em></div>' : '') + next;
 }
 function renderHome(){
-  const st = chapterStats();
+  renderSentTog(); const st = chapterStats();
   $('#stSeen').textContent = st.seen + '/' + chList().length; $('#stLong').textContent = st.long; $('#stDue').textContent = st.due;
   $('#homeCoins').textContent = S.coins;
   $('#wordmap').innerHTML = chList().map(w => { const s = S.words[w.id]; return '<i class="' + (s.seen ? 't' + s.box : 'un') + (isOverdue(w.id) ? ' od' : '') + '" title="' + (s.seen ? esc(w.en) : '') + '"></i>'; }).join('');
@@ -5901,8 +5959,8 @@ async function loadCustomFile(file){
 function setMediaMeta(){
   try {
     if (!('mediaSession' in navigator) || !window.MediaMetadata) return;
-    const md = navigator.mediaSession.metadata; if (md && md.title === 'Word Rush' && md.album === 'v18') return;
-    navigator.mediaSession.metadata = new MediaMetadata({title:'Word Rush', artist:'English runner · B1–B2', album:'v18', artwork:[{src:'icon-512.png?v=17', sizes:'512x512', type:'image/png'}, {src:'icon.png?v=17', sizes:'256x256', type:'image/png'}]});
+    const md = navigator.mediaSession.metadata; if (md && md.title === 'Word Rush' && md.album === 'v19') return;
+    navigator.mediaSession.metadata = new MediaMetadata({title:'Word Rush', artist:'English runner · B1–B2', album:'v19', artwork:[{src:'icon-512.png?v=17', sizes:'512x512', type:'image/png'}, {src:'icon.png?v=17', sizes:'256x256', type:'image/png'}]});
   } catch(e) {}
 }
 /* ================= v17 UI: short English hints under the question card; speech bubbles stay on screen and above the answers ================= */
@@ -6261,7 +6319,7 @@ function v12Frame(sdt, dt){
   if (G.mode === 'run') updateVdown(); else if (!vdownEl.hidden) vdownEl.hidden = true;
   if (vSlab) vSlab.visible = V.mode === 'road';
   if (V.mode === 'road') updateVampRoad(sdt);
-  musicMood(); v17Frame(sdt, dt); v18Frame(sdt, dt);
+  musicMood(); v17Frame(sdt, dt); v18Frame(sdt, dt); v19Frame(sdt, dt);
 }
 
 G.anims = [];
@@ -6313,7 +6371,7 @@ function resetPlay(){
 }
 function showPlayHud(boss){ showScreen(null); tgPlaying(true); $('#hud').hidden = false; $('#rail').hidden = false; $('#pups').hidden = false; swordBtn.hidden = false; shadowBtn.hidden = !!boss || !opt('shadow'); $('#hardPill').hidden = !S.hard; appEl.classList.toggle('hardrun', !!S.hard); $('#bossBar').hidden = !boss; }
 function startRun(newIds, reviewIds){
-  newIds.forEach(id => { const s = S.words[id]; s.seen = true; s.box = 0; s.due = now(); });
+  newIds.forEach(id => { const s = S.words[id]; s.seen = true; s.box = 0; s.due = now(); }); S.pendNew = newIds.slice();
   save();
   resetPlay(); G.mode = 'run'; G.loc = 0; applyChapterStages(); setArena(false); showSet(locSet()); locWorld();
   G.queue = buildQueue(newIds, reviewIds); G.speedNow = STAGES[0].speed * hardMul(); applyUpgrades(); G.perStage = clamp(Math.floor(G.queue.length / STAGES.length), 2, 4);
@@ -6626,7 +6684,7 @@ function endRun(outcome){
   const kind = G.mode; G.mode = 'results'; G.paused = false; tgPlaying(false);
   let n = 0, ok = 0; for (const id in G.res) { n += G.res[id].n; ok += G.res[id].ok; }
   const acc = n ? ok / n : 0;
-  const changes = applyResults(); G.practiceIds = [];
+  const changes = applyResults(kind, outcome); G.practiceIds = [];
   S.coins += soulOnEnd(kind, outcome) ? 0 : G.coinsRun; S.runs++; S.st.runs++; if (kind === 'run' && outcome === 'done') questEvent('run'); S.bestCombo = Math.max(S.bestCombo, G.bestCombo);
   if (kind === 'run' && n >= 4) S.lastAcc = acc;
   if (kind === 'run') S.sessions++;
@@ -6653,7 +6711,7 @@ function endRun(outcome){
     return '<li class="' + dir + '"><div class="r-w"><b>' + esc(w.en) + '</b><span>' + esc(w.ru) + '</span></div><div class="r-t"><span class="chip t' + c.old + '">' + TIER[c.old] + '</span><span class="arrow">' + arrow + '</span><span class="chip t' + c.nw + '">' + TIER[c.nw] + '</span><span class="r-when">' + when + '</span></div>' + misFor(c.id) + '</li>';
   }).join('') + misExtra(changes) : (misExtra(changes) || '<li class="same"><div class="r-w"><span>В этот раз ни одно слово не дошло до ответа.</span></div></li>');
   const notes = [];
-  if (outcome === 'fail' || outcome === 'quit') notes.push('Прогресс по словам, на которые уже был ответ, сохранён.');
+  if (outcome === 'fail' || outcome === 'quit') notes.push('Забег не засчитан: новые слова не стали изученными, карточки не повысились. Ошибки остались в повторении.');
   if (kind === 'run') notes.push('Уровень ' + lvl + ' из ' + STAGES.length + ' — ' + curLoc().name + (lvlRec && lvl > 1 ? ' · новый рекорд!' : '') + '.');
   if (G.soulNote) notes.unshift(G.soulNote);
   if (G.lvNote) notes.unshift(G.lvNote);
@@ -6680,6 +6738,7 @@ function updateCamera(dt){
   let tp, tl; const hx = hero.g.position.x * Math.cos(scene.rotation.y) + hero.g.position.z * Math.sin(scene.rotation.y);
   if (G.mode === 'run') { const C = TUNE.cam; tp = [hx + C.x, C.y, C.z]; tl = [hx * 0.85 + 0.15, C.look, -10]; }
   else if (G.mode === 'boss') { const hz = hero.g.position.z, up = clamp(-hz / 8, 0, 1); tp = [hx * 0.9 + 1.1 - up * 0.6, 2.55 + up * 0.9, 4.6 + hz]; tl = [hx * 0.6 + 0.2, 3.0 + up * 0.9, -12 + hz * 0.6]; }
+  else if (G.mode === 'skined') { tp = [0, 1.1, 5.8]; tl = [0, -0.15, 1.6]; }
   else { tp = [0, 1.5, 8]; tl = [0, menuLookY(), -1]; }
   const k = Math.min(1, dt * (G.mode === 'run' ? TUNE.cam.follow : 3.2));
   camPos.x += (tp[0] - camPos.x) * k; camPos.y += (tp[1] - camPos.y) * k; camPos.z += (tp[2] - camPos.z) * k;
@@ -6696,7 +6755,7 @@ function updateHero(sdt, dt){
   const h = hero, playing = G.mode === 'run' || G.mode === 'boss';
   const tx = playing ? LANES[G.lane] : 0;
   h.g.position.x += (tx - h.g.position.x) * Math.min(1, playing ? sdt * TUNE.run.lane : dt * 13);
-  if (G.heroY > 0 || G.vy > 0) { G.vy -= 34 * sdt; G.heroY += G.vy * sdt; if (G.heroY <= 0) { G.heroY = 0; G.vy = 0; } }
+  if (G.heroY > 0 || G.vy > 0) { G.vy -= 34 * sdt; G.heroY += G.vy * sdt; if (G.heroY <= 0) { G.heroY = 0; G.vy = 0; if (G.jumpBuf > 0 && (G.mode === 'run' || G.mode === 'boss')) { G.jumpBuf = 0; G.vy = TUNE.run.jump; sfx.jump(); } } }
   if (G.wasAir && G.heroY <= 0 && playing) { h.land = 0.24; haptic(HAP.land); burst(h.g.position.x, 0.15, 0.2, 0xf3dcc0, 5, 2.5); }
   G.wasAir = G.heroY > 0;
   if (G.slideT > 0) G.slideT -= sdt;
@@ -6732,7 +6791,7 @@ function updateHero(sdt, dt){
   else if (!h.flashing) h.packMat.emissive.setRGB(glow, glow * .7, 0);
   h.g.position.y = G.heroY + bob;
   if (G.mode === 'home' && h.mixer) { h.g.rotation.y = Math.PI + HK.rot; h.g.position.y += HK.y; }
-  if (h.sword && h.sword.g) h.sword.g.visible = G.mode !== 'home';
+  if (h.sword && h.sword.g) h.sword.g.visible = G.mode !== 'home' && G.mode !== 'skined';
   const tzz = G.mode === 'home' ? HK.z : G.mode === 'boss' ? (G.heroZT || 0) : 0;
   h.zRun = (G.mode === 'boss' && Math.abs(tzz - h.g.position.z) > 0.6) || G.phase === 'turn';
   if (G.phase === 'turn' && TR.turn) h.g.rotation.y = TR.turn.heroRot;
@@ -6955,7 +7014,7 @@ function mobDef(){
   if (!KIT18.ok) return null;
   const N = KIT18.n;
   if (k === 'jelly') return N.pu_jelly && {k, style:'hop', node:N.pu_jelly, h:1.45};
-  if (k === 'zombie') return N.tw_zombie && {k, style:'walk', node:N.tw_zombie, h:2.75};
+  if (k === 'zombie') return N.tw_zombie && {k, style:'walk', node:N.tw_zombie, h:2.35};
   if (k === 'crown') return N.pu_crown && {k, style:'float', node:N.pu_crown, h:1.25};
   if (k === 'tunnel') { const nm = ['tn_blob1', 'tn_blob2', 'tn_blob4'][ri(3)]; return N[nm] && {k, style:'walk', node:N[nm], h:1.35}; }
   return null;
@@ -6967,11 +7026,11 @@ function buildMob(g, u, lane){
   const body = new T.Group(); let m;
   if (d.k === 'penguin') { m = makePenguin(false).g; }
   else if (d.k === 'ghost') { const e = A.enemy.ghost1; m = e.node.clone(); m.scale.setScalar(e.s); }
-  else { m = d.node.clone(); m.scale.setScalar(d.h * (d.k === 'zombie' ? 0.92 + Math.random() * 0.18 : 1)); }
+  else { m = d.node.clone(); m.scale.setScalar(d.h * (d.k === 'zombie' ? 0.92 + Math.random() * 0.18 : 1)); if (d.k === 'zombie') m.rotation.y += 1.1; }
   body.add(m); g.add(body); addShadow(g, d.k === 'zombie' ? 0.75 : 0.6);
   u.body = body; u.style = d.style; u.mk = d.k; u.dir = Math.random() < 0.5 ? -1 : 1; u.lane0 = lane; u.ph = Math.random() * 6; u.h = d.h;
   if (u.style === 'slide') { u.x = -u.dir * 4.2; } else if (u.style === 'hop') { u.lane = lane; u.x = LANES[lane]; u.hopT = 0.25; } else { u.x = -u.dir * 3.6; }
-  body.rotation.y = u.style === 'hop' ? 0 : u.dir * Math.PI / 2;
+  body.rotation.y = mobYaw(u);
   g.position.x = u.x;
   return true;
 }
@@ -6987,7 +7046,7 @@ function updateMob(o, u, sdt){
       if (u.hk != null && u.hk < 1) { u.hk = Math.min(1, u.hk + sdt / 0.42); u.x = u.from + (LANES[u.lane] - u.from) * u.hk; b.position.y = Math.sin(u.hk * Math.PI) * 1.3; b.scale.set(1 - Math.sin(u.hk * Math.PI) * 0.08, 1 + Math.sin(u.hk * Math.PI) * 0.14, 1); }
       else { const q = Math.max(0, Math.sin(u.age * 14)) * 0.06; b.scale.set(1 + q, 1 - q, 1 + q); }
     }
-    if (u.style !== 'hop' && Math.abs(u.x) > 4.6) { u.dir = -Math.sign(u.x); u.x = Math.sign(u.x) * 4.6; b.rotation.y = u.dir * Math.PI / 2; }
+    if (u.style !== 'hop' && Math.abs(u.x) > 4.6) { u.dir = -Math.sign(u.x); u.x = Math.sign(u.x) * 4.6; b.rotation.y = mobYaw(u); }
   }
   o.position.x = u.x; u.lane = u.style === 'hop' ? u.lane : (u.x < -1.1 ? 0 : u.x > 1.1 ? 2 : 1);
   if (!G.mobHinted && z > -24) { G.mobHinted = true; hint(MOB_HINT[u.mk] || 'Creeps! Dodge or jump', 2400); }
@@ -7049,7 +7108,7 @@ function kitRockList(){
 function makeKitRock(lane){
   const L = KIT18.ok && kitRockList(); if (!L) return null;
   const ok = L.filter(r => KIT18.n[r[0]]); if (!ok.length) return null;
-  const [name, h] = ok[ri(ok.length)], dim = KIT18.dim[name] || {w:1}, sc = Math.min(h, 1.75 / Math.max(0.3, dim.w));
+  const [name, h0] = ok[ri(ok.length)], h = h0 * 0.78, dim = KIT18.dim[name] || {w:1}, sc = Math.min(h, 1.75 / Math.max(0.3, dim.w));
   const g = new T.Group(), m = KIT18.n[name].clone(); m.scale.setScalar(sc); m.rotation.y = (Math.random() - 0.5) * 0.7; g.add(m); addShadow(g, 0.85);
   g.position.x = LANES[lane]; g.userData = {kind:'rock', lane, hit:false, age:0.5, parts:[]};
   return g;
@@ -7368,9 +7427,9 @@ function bioTex(b){ return BIOV.tex[b] || (BIOV.tex[b] = assetTex('bio_' + b + '
    The normal game reads TUNE with Anna's approved values (TUNE_BAKED).
    The beta build (/beta/) adds a "Конструктор" panel: change anything live, then "Экспорт" gives a short code to send back. */
 const TUNE_DEF = {
-  run:{speed:1, qtime:1, obst:1, spawn:50, blend:3.6, jump:10.5, lane:13},
+  run:{speed:1, qtime:1, obst:1, spawn:50, blend:3.6, jump:11.5, lane:13},
   cam:{y:2.55, z:4.5, x:1.2, look:1.45, fov:0, curve:1, follow:3.2},
-  tun:{light:1, swarm:16, bats:0.8, scare:1, len:26},
+  tun:{light:1, swarm:30, bats:0.8, scare:1, len:26},
   fork:{stage:3, len:30, wall:1, decor:1},
   loc:{}, set:{}
 };
@@ -7444,7 +7503,7 @@ function tpRender(){
   else if (tab === 'decor') h = tpDecorRows();
   else if (tab === 'tun') { TP_TUN.forEach(r => { h += tpSlider('tun.' + r[0], r[1], r[2], r[3], r[4], TUNE.tun[r[0]], TUNE_DEF.tun[r[0]]); }); h += tpCheck('tun.scare', 'Вампир выскакивает из темноты', TUNE.tun.scare); h += '<div class="tp-h">Темнота туннеля — вкладка «Место», когда ты внутри туннеля</div>'; }
   else if (tab === 'fork') { TP_FORK.forEach(r => { h += tpSlider('fork.' + r[0], r[1], r[2], r[3], r[4], TUNE.fork[r[0]], TUNE_DEF.fork[r[0]]); }); h += tpCheck('fork.wall', 'Граффити-стена', TUNE.fork.wall); h += tpCheck('fork.decor', 'Предметы вдоль дорог развилки', TUNE.fork.decor); }
-  else if (tab === 'skin') h = '<div class="tp-h">Примерить на героине (без покупки, только в бете)</div><div class="tp-skins">' + SKINS.map(s => '<button data-skin18="' + s.id + '"' + (S.equip.skin === s.id ? ' class="on"' : '') + '>' + esc(s.name) + '</button>').join('') + '</div>';
+  else if (tab === 'skin') h = '<button data-a="sked" class="on" style="margin:8px 0">Открыть редактор скинов</button><div class="tp-h">Примерить на героине (без покупки, только в бете)</div><div class="tp-skins">' + SKINS.map(s => '<button data-skin18="' + s.id + '"' + (S.equip.skin === s.id ? ' class="on"' : '') + '>' + esc(s.name) + '</button>').join('') + '</div>';
   TP.el.querySelector('.tp-body').innerHTML = h;
   TP.el.querySelectorAll('.tp-tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
   TP.el.querySelector('[data-a="pause"]').textContent = G.paused ? '▶ Пуск' : '⏸ Пауза';
@@ -7494,6 +7553,7 @@ function buildTunePanel(){
     else if (b.dataset.skin18) { S.equip.skin = b.dataset.skin18; try { applySkins(); } catch(err) {} tpRender(); }
     else if (b.dataset.a === 'pause') { if (G.mode === 'run' || G.mode === 'boss') { G.paused = !G.paused; if (!G.paused) showScreen(null); } tpRender(); }
     else if (b.dataset.a === 'close') { TP.open = false; el.hidden = true; }
+    else if (b.dataset.a === 'sked') skOpen();
     else if (b.dataset.a === 'export') tpExport();
     else if (b.dataset.a === 'import') { const box = el.querySelector('.tp-out'); box.hidden = false; box.querySelector('textarea').value = ''; box.querySelector('textarea').focus(); }
     else if (b.dataset.a === 'copy') { const t = el.querySelector('.tp-out textarea'); t.select(); try { document.execCommand('copy'); } catch(err) {} try { navigator.clipboard.writeText(t.value).catch(() => {}); } catch(err) {} toast('Скопировано', '', 'good'); }
@@ -7503,6 +7563,377 @@ function buildTunePanel(){
   /* the Место / Декор tabs follow the place you are in */
   setInterval(() => { if (TP.open && (TP.tab === 'place' || TP.tab === 'decor')) { const key = locKey() + '|' + activeSet; if (key !== TP.lastKey) { TP.lastKey = key; tpRender(); } } }, 700);
   const tag = document.createElement('div'); tag.id = 'betaTag'; tag.textContent = 'БЕТА'; document.getElementById('app').appendChild(tag);
+}
+/* ================= v18 PRINT ICONS: a small motion-design icon set (flat geometric shapes, 100×100 box) =================
+   Each icon draws paths and calls F(rule) to fill (or outline in "line" style) and S(w) for stroke-only parts. */
+const ICONS = {
+  sparkle:{n:'Искра', d:(c, F) => { c.beginPath(); c.moveTo(50, 2); c.quadraticCurveTo(56, 44, 98, 50); c.quadraticCurveTo(56, 56, 50, 98); c.quadraticCurveTo(44, 56, 2, 50); c.quadraticCurveTo(44, 44, 50, 2); c.closePath(); F(); }},
+  star:{n:'Звезда', d:(c, F) => { c.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, r = i % 2 ? 19 : 47; c.lineTo(50 + Math.cos(a) * r, 54 + Math.sin(a) * r); } c.closePath(); F(); }},
+  moon:{n:'Луна', d:(c, F) => { c.beginPath(); c.moveTo(60, 6); c.bezierCurveTo(30, 8, 8, 30, 8, 54); c.bezierCurveTo(8, 78, 30, 96, 56, 96); c.bezierCurveTo(74, 96, 88, 88, 96, 74); c.bezierCurveTo(66, 78, 40, 60, 40, 36); c.bezierCurveTo(40, 24, 48, 12, 60, 6); c.closePath(); F(); }},
+  bolt:{n:'Молния', d:(c, F) => { c.beginPath(); [[60, 2], [18, 58], [46, 58], [36, 98], [84, 38], [56, 38], [70, 2]].forEach(p => c.lineTo(p[0], p[1])); c.closePath(); F(); }},
+  flame:{n:'Пламя', d:(c, F) => { c.beginPath(); c.moveTo(50, 2); c.bezierCurveTo(64, 26, 84, 38, 84, 62); c.bezierCurveTo(84, 84, 68, 98, 50, 98); c.bezierCurveTo(32, 98, 16, 84, 16, 62); c.bezierCurveTo(16, 46, 26, 36, 34, 26); c.bezierCurveTo(36, 40, 42, 48, 50, 52); c.bezierCurveTo(44, 36, 46, 18, 50, 2); c.closePath();
+    c.moveTo(50, 64); c.bezierCurveTo(58, 72, 62, 78, 62, 84); c.bezierCurveTo(62, 90, 56, 94, 50, 94); c.bezierCurveTo(44, 94, 38, 90, 38, 84); c.bezierCurveTo(38, 78, 44, 72, 50, 64); c.closePath(); F('evenodd'); }},
+  skull:{n:'Череп', d:(c, F) => { c.beginPath(); c.moveTo(50, 6); c.bezierCurveTo(26, 6, 12, 22, 12, 44); c.bezierCurveTo(12, 58, 20, 66, 28, 70); c.lineTo(28, 86); c.bezierCurveTo(28, 92, 32, 96, 38, 96); c.lineTo(62, 96); c.bezierCurveTo(68, 96, 72, 92, 72, 86); c.lineTo(72, 70); c.bezierCurveTo(80, 66, 88, 58, 88, 44); c.bezierCurveTo(88, 22, 74, 6, 50, 6); c.closePath();
+    c.moveTo(47, 46); c.ellipse(36, 46, 11, 12, 0, 0, Math.PI * 2); c.moveTo(75, 46); c.ellipse(64, 46, 11, 12, 0, 0, Math.PI * 2); c.moveTo(50, 58); c.lineTo(56, 70); c.lineTo(44, 70); c.closePath();
+    [40, 50, 60].forEach(x => { c.moveTo(x - 3, 82); c.rect(x - 3, 82, 6, 10); }); F('evenodd'); }},
+  eye:{n:'Глаз', d:(c, F) => { c.beginPath(); c.moveTo(2, 50); c.bezierCurveTo(24, 18, 76, 18, 98, 50); c.bezierCurveTo(76, 82, 24, 82, 2, 50); c.closePath(); c.moveTo(70, 50); c.arc(50, 50, 20, 0, Math.PI * 2); c.moveTo(59, 50); c.arc(50, 50, 9, 0, Math.PI * 2); F('evenodd'); }},
+  heart:{n:'Сердце', d:(c, F) => { c.beginPath(); c.moveTo(50, 92); c.bezierCurveTo(20, 70, 6, 52, 6, 34); c.bezierCurveTo(6, 18, 18, 8, 32, 8); c.bezierCurveTo(41, 8, 47, 13, 50, 20); c.bezierCurveTo(53, 13, 59, 8, 68, 8); c.bezierCurveTo(82, 8, 94, 18, 94, 34); c.bezierCurveTo(94, 52, 80, 70, 50, 92); c.closePath(); F(); }},
+  web:{n:'Паутина', d:(c, F, S) => { c.beginPath(); for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4; c.moveTo(50, 50); c.lineTo(50 + Math.cos(a) * 48, 50 + Math.sin(a) * 48); } [14, 26, 38].forEach(r => { for (let i = 0; i <= 8; i++) { const a = i * Math.PI / 4, b = (i - 0.5) * Math.PI / 4, p = [50 + Math.cos(a) * r, 50 + Math.sin(a) * r]; if (!i) c.moveTo(p[0], p[1]); else c.quadraticCurveTo(50 + Math.cos(b) * r * 0.82, 50 + Math.sin(b) * r * 0.82, p[0], p[1]); } }); S(4); }},
+  spider:{n:'Паук', d:(c, F, S) => { c.beginPath(); [-1, 1].forEach(s => [[30, 26, 8, 6], [34, 44, 2, 30], [34, 58, 4, 70], [30, 66, 14, 94]].forEach(([a, b, x, y]) => { c.moveTo(50 + s * 8, 52); c.quadraticCurveTo(50 + s * a, b, 50 + s * (50 - x), y); })); S(5); c.beginPath(); c.ellipse(50, 60, 15, 19, 0, 0, Math.PI * 2); c.moveTo(60, 36); c.arc(50, 36, 10, 0, Math.PI * 2); F(); }},
+  bat:{n:'Летучая мышь', d:(c, F) => { c.beginPath(); c.moveTo(50, 34); c.lineTo(57, 24); c.lineTo(61, 35); c.bezierCurveTo(72, 28, 87, 29, 98, 38); c.bezierCurveTo(89, 41, 85, 49, 85, 58); c.bezierCurveTo(77, 51, 68, 53, 64, 61); c.bezierCurveTo(59, 57, 54, 61, 50, 70); c.bezierCurveTo(46, 61, 41, 57, 36, 61); c.bezierCurveTo(32, 53, 23, 51, 15, 58); c.bezierCurveTo(15, 49, 11, 41, 2, 38); c.bezierCurveTo(13, 29, 28, 28, 39, 35); c.lineTo(43, 24); c.closePath(); F(); }},
+  crown:{n:'Корона', d:(c, F) => { c.beginPath(); [[10, 74], [6, 26], [30, 48], [50, 14], [70, 48], [94, 26], [90, 74]].forEach(p => c.lineTo(p[0], p[1])); c.closePath(); c.rect(10, 80, 80, 12); F(); }},
+  snow:{n:'Снежинка', d:(c, F, S) => { c.beginPath(); for (let i = 0; i < 6; i++) { const a = i * Math.PI / 3, co = Math.cos(a), si = Math.sin(a); c.moveTo(50, 50); c.lineTo(50 + co * 46, 50 + si * 46); [24, 36].forEach(r => { const px = 50 + co * r, py = 50 + si * r; [-1, 1].forEach(s => { const b = a + s * 0.7; c.moveTo(px, py); c.lineTo(px + Math.cos(b) * 12, py + Math.sin(b) * 12); }); }); } S(6); }},
+  cat:{n:'Кот', d:(c, F) => { c.beginPath(); c.moveTo(16, 94); c.lineTo(12, 30); c.lineTo(34, 44); c.bezierCurveTo(44, 40, 56, 40, 66, 44); c.lineTo(88, 30); c.lineTo(84, 94); c.closePath();
+    [[36, 1], [64, -1]].forEach(([x]) => { c.moveTo(x - 10, 66); c.quadraticCurveTo(x, 54, x + 10, 66); c.quadraticCurveTo(x, 74, x - 10, 66); c.closePath(); }); c.moveTo(46, 78); c.lineTo(54, 78); c.lineTo(50, 84); c.closePath(); F('evenodd'); }},
+  mush:{n:'Гриб', d:(c, F) => { c.beginPath(); c.moveTo(6, 56); c.bezierCurveTo(6, 26, 28, 8, 50, 8); c.bezierCurveTo(72, 8, 94, 26, 94, 56); c.closePath(); [[30, 34, 7], [56, 24, 6], [72, 42, 6], [46, 46, 5]].forEach(([x, y, r]) => { c.moveTo(x + r, y); c.arc(x, y, r, 0, Math.PI * 2); }); c.moveTo(36, 60); c.lineTo(64, 60); c.lineTo(66, 90); c.bezierCurveTo(66, 96, 34, 96, 34, 90); c.closePath(); F('evenodd'); }},
+  candy:{n:'Леденец', d:(c, F) => { c.beginPath(); c.arc(50, 38, 32, 0, Math.PI * 2); c.moveTo(74, 38); c.arc(50, 38, 24, 0, Math.PI * 2); c.moveTo(66, 38); c.arc(50, 38, 16, 0, Math.PI * 2); c.moveTo(58, 38); c.arc(50, 38, 8, 0, Math.PI * 2); c.rect(46, 70, 8, 28); F('evenodd'); }},
+  wolf:{n:'Волк', d:(c, F) => { c.beginPath(); [[50, 96], [30, 66], [12, 68], [22, 44], [14, 4], [38, 26], [50, 22], [62, 26], [86, 4], [78, 44], [88, 68], [70, 66]].forEach(p => c.lineTo(p[0], p[1])); c.closePath(); c.moveTo(30, 48); c.lineTo(44, 52); c.lineTo(34, 56); c.closePath(); c.moveTo(70, 48); c.lineTo(56, 52); c.lineTo(66, 56); c.closePath(); c.moveTo(44, 78); c.lineTo(56, 78); c.lineTo(50, 86); c.closePath(); F('evenodd'); }},
+  flower:{n:'Цветок', d:(c, F) => { c.beginPath(); for (let i = 0; i < 6; i++) { const a = i * Math.PI / 3, x = 50 + Math.cos(a) * 30, y = 50 + Math.sin(a) * 30; c.moveTo(x + 18, y); c.arc(x, y, 18, 0, Math.PI * 2); } c.moveTo(58, 50); c.arc(50, 50, 8, 0, Math.PI * 2); F(); }},
+  dagger:{n:'Кинжал', d:(c, F) => { c.beginPath(); c.moveTo(50, 2); c.lineTo(58, 18); c.lineTo(56, 62); c.lineTo(44, 62); c.lineTo(42, 18); c.closePath(); c.rect(28, 62, 44, 8); c.rect(45, 70, 10, 18); c.moveTo(56, 92); c.arc(50, 92, 6, 0, Math.PI * 2); F(); }},
+  crystal:{n:'Кристалл', d:(c, F) => { c.beginPath(); [[50, 2], [82, 30], [66, 98], [34, 98], [18, 30]].forEach(p => c.lineTo(p[0], p[1])); c.closePath(); c.moveTo(50, 12); c.lineTo(36, 32); c.lineTo(44, 88); c.lineTo(50, 88); c.closePath(); F('evenodd'); }},
+  wings:{n:'Крылья', d:(c, F) => { c.beginPath(); [-1, 1].forEach(s => { const X = x => 50 + s * (50 - x); c.moveTo(X(48), 40); c.bezierCurveTo(X(30), 18, X(10), 18, X(2), 28); c.bezierCurveTo(X(12), 30, X(16), 34, X(16), 38); c.bezierCurveTo(X(8), 38, X(4), 44, X(4), 50); c.bezierCurveTo(X(12), 48, X(18), 50, X(20), 54); c.bezierCurveTo(X(14), 56, X(12), 62, X(14), 68); c.bezierCurveTo(X(28), 62, X(40), 56, X(48), 52); c.closePath(); }); F(); }},
+  planet:{n:'Планета', d:(c, F, S) => { c.beginPath(); c.arc(50, 50, 24, 0, Math.PI * 2); F(); c.beginPath(); c.ellipse(50, 50, 46, 13, -0.35, 0, Math.PI * 2); S(6); }},
+  smile:{n:'Смайл', d:(c, F) => { c.beginPath(); c.arc(50, 50, 46, 0, Math.PI * 2); c.moveTo(42, 38); c.ellipse(36, 38, 6, 10, 0, 0, Math.PI * 2); c.moveTo(70, 38); c.ellipse(64, 38, 6, 10, 0, 0, Math.PI * 2); c.moveTo(24, 58); c.quadraticCurveTo(50, 90, 76, 58); c.quadraticCurveTo(50, 76, 24, 58); c.closePath(); F('evenodd'); }},
+  sun:{n:'Солнце', d:(c, F) => { c.beginPath(); c.arc(50, 50, 20, 0, Math.PI * 2); for (let i = 0; i < 12; i++) { const a = i * Math.PI / 6, b = 0.13; c.moveTo(50 + Math.cos(a - b) * 27, 50 + Math.sin(a - b) * 27); c.lineTo(50 + Math.cos(a) * 48, 50 + Math.sin(a) * 48); c.lineTo(50 + Math.cos(a + b) * 27, 50 + Math.sin(a + b) * 27); c.closePath(); } F(); }},
+  wave:{n:'Волна', d:(c, F, S) => { c.beginPath(); [32, 52, 72].forEach(y => { c.moveTo(4, y); for (let x = 4; x <= 96; x += 2) c.lineTo(x, y + Math.sin((x - 4) / 92 * Math.PI * 2) * 8); }); S(6); }},
+  chevron:{n:'Шевроны', d:(c, F, S) => { c.beginPath(); [20, 44, 68].forEach(y => { c.moveTo(10, y + 18); c.lineTo(50, y); c.lineTo(90, y + 18); }); S(9); }},
+  plus:{n:'Крест', d:(c, F) => { c.beginPath(); [[38, 4], [62, 4], [62, 38], [96, 38], [96, 62], [62, 62], [62, 96], [38, 96], [38, 62], [4, 62], [4, 38], [38, 38]].forEach(p => c.lineTo(p[0], p[1])); c.closePath(); F(); }},
+  drip:{n:'Подтёки', d:(c, F) => { c.beginPath(); c.moveTo(2, 10); c.lineTo(98, 10); c.lineTo(98, 34); [[86, 62, 6], [70, 44, 5], [52, 80, 7], [34, 52, 5], [16, 70, 6]].forEach(([x, len, r]) => { c.lineTo(x + r, 34); c.lineTo(x + r, len); c.arc(x, len, r, 0, Math.PI); c.lineTo(x - r, 34); }); c.lineTo(2, 34); c.closePath(); F(); }},
+  triangle:{n:'Треугольник-глаз', d:(c, F) => { c.beginPath(); c.moveTo(50, 4); c.lineTo(97, 90); c.lineTo(3, 90); c.closePath(); c.moveTo(28, 62); c.quadraticCurveTo(50, 40, 72, 62); c.quadraticCurveTo(50, 80, 28, 62); c.closePath(); c.moveTo(56, 62); c.arc(50, 62, 6, 0, Math.PI * 2); F('evenodd'); }}
+};
+/* draw an icon into ctx at (x, y) with size sz; style: fill | line | duo */
+function drawIcon(ctx, key, x, y, sz, rot, col, style, col2){
+  const I = ICONS[key]; if (!I) return;
+  const pass = (c, dx, dy, fillCol, mode) => {
+    c.save(); c.translate(x + dx, y + dy); c.rotate(rot || 0); c.scale(sz / 100, sz / 100); c.translate(-50, -50);
+    c.fillStyle = fillCol; c.strokeStyle = fillCol; c.lineJoin = 'round'; c.lineCap = 'round';
+    const F = rule => { if (mode === 'line') { c.lineWidth = 5; c.stroke(); } else c.fill(rule || 'nonzero'); };
+    const S = w => { c.lineWidth = mode === 'line' ? Math.max(3, w * 0.6) : w; c.stroke(); };
+    I.d(c, F, S); c.restore();
+  };
+  if (style === 'duo') pass(ctx, sz * 0.07, sz * 0.07, col2 || '#000', 'fill');
+  pass(ctx, 0, 0, col, style === 'line' ? 'line' : 'fill');
+}
+/* ================= v18 SKIN EDITOR (beta): colours, patterns and prints on the heroine's own clothes =================
+   The cut of the clothes never changes. Everything is drawn on a FRONT|BACK template (768×512, same layout as the
+   skin sheets); a per-texel map (a/skinmap.png) copies it onto the 3D model, face and hands stay from the base texture. */
+const SKZ = [[2, 'hat', 'Шапка'], [3, 'neck', 'Горловина'], [4, 'sweater', 'Свитер'], [5, 'sleeve', 'Рукава'], [6, 'rib', 'Манжеты и низ'], [7, 'pants', 'Штаны'], [8, 'shoes', 'Кроссовки']];
+const SK_PATS = [['none', 'Нет'], ['stripes', 'Полоски'], ['checks', 'Клетка'], ['dots', 'Горох'], ['argyle', 'Ромбы'], ['zigzag', 'Зигзаг'], ['gradient', 'Градиент'], ['camo', 'Пятна'], ['sparkle', 'Искры'], ['star', 'Звёзды'], ['snow', 'Снежинки'], ['heart', 'Сердца'], ['skull', 'Черепа'], ['flame', 'Пламя'], ['web', 'Паутина'], ['bolt', 'Молнии']];
+const SK_FAB = [['knit', 'Вязка'], ['smooth', 'Гладко'], ['denim', 'Деним'], ['fleece', 'Флис']];
+const SKED = {ready:false, loading:null, W:768, H:512, idx:null, zone:null, base32:null, masks:{}, panel:null, pctx:null, tmp:null, tctx:null, texC:null, tctxT:null, tex:null,
+  design:null, list:[], imgs:{}, cur:null, sel:-1, side:'f', zone:'sweater', tab:'colors', dirty:true, t:0, drag:null, swatch:null, palette:[], el:null, wornId:null};
+function skNewDesign(){
+  return {name:'Мой скин', zones:{hat:{c:'#f4f1ec', p:'none', pc:'#e0d8cc', ps:1, pa:0, f:'knit'}, neck:{c:'#1d1a24', p:'none', pc:'#3a3448', ps:1, pa:0, f:'knit'}, sweater:{c:'#1d1a24', p:'none', pc:'#ff5a6a', ps:1, pa:0, f:'knit'},
+    sleeve:{c:'#1d1a24', p:'none', pc:'#ff5a6a', ps:1, pa:0, f:'knit'}, rib:{c:'#2a2632', p:'none', pc:'#ffffff', ps:1, pa:0, f:'knit'}, pants:{c:'#1e1c2a', p:'none', pc:'#5a4a7a', ps:1, pa:0, f:'smooth'}, shoes:{c:'#ece6da', p:'none', pc:'#c8c0b0', ps:1, pa:0, f:'smooth'}},
+    layers:[], tpl:null, tplZones:false, imgs:{}};
+}
+function skImg(src){ return new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; }); }
+function skPixels(img, w, h){ const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d'); x.drawImage(img, 0, 0, w, h); return x.getImageData(0, 0, w, h).data; }
+async function skLoad(){
+  if (SKED.ready) return true; if (SKED.loading) return SKED.loading;
+  SKED.loading = (async () => {
+    const [map, zon, tpl] = await Promise.all([skImg('a/skinmap.png'), skImg('a/skinzones.png'), skImg('a/skin_tpl.png')]);
+    const N = 1024 * 1024, m = skPixels(map, 1024, 1024), idx = new Int32Array(N), zone = new Uint8Array(N);
+    for (let t = 0; t < N; t++) { const r = m[t * 4], g = m[t * 4 + 1], b = m[t * 4 + 2]; const sx = r | ((b & 1) << 8), sy = g | (((b >> 1) & 1) << 8), bk = (b >> 2) & 1; idx[t] = Math.min(511, sy) * 768 + Math.min(383, sx) + bk * 384; zone[t] = b >> 3; }
+    SKED.idx = idx; SKED.zmap = zone;
+    const zp = skPixels(zon, 768, 512);
+    SKZ.forEach(([id, key]) => { const c = document.createElement('canvas'); c.width = 768; c.height = 512; const x = c.getContext('2d'), d = x.createImageData(768, 512); for (let i = 0; i < 768 * 512; i++) { if (zp[i * 4] === id) { d.data[i * 4 + 3] = 255; } } x.putImageData(d, 0, 0); SKED.masks[key] = c; });
+    const sil = document.createElement('canvas'); sil.width = 768; sil.height = 512; { const x = sil.getContext('2d'), d = x.createImageData(768, 512); for (let i = 0; i < 768 * 512; i++) if (zp[i * 4] > 0) d.data[i * 4 + 3] = 255; x.putImageData(d, 0, 0); } SKED.sil = sil;
+    { const fc = document.createElement('canvas'); fc.width = 768; fc.height = 512; const x = fc.getContext('2d'); x.drawImage(tpl, 0, 0, 768, 512); const d = x.getImageData(0, 0, 768, 512); for (let i = 0; i < 768 * 512; i++) if (zp[i * 4] !== 1) d.data[i * 4 + 3] = 0; x.putImageData(d, 0, 0); SKED.faceC = fc; }
+    const L = bodyMats(), bimg = SKIN.base && SKIN.base.image; if (!bimg) throw new Error('no base texture');
+    SKED.base32 = new Uint32Array(skPixels(bimg, 1024, 1024).buffer.slice(0));
+    SKED.panel = document.createElement('canvas'); SKED.panel.width = 768; SKED.panel.height = 512; SKED.pctx = SKED.panel.getContext('2d');
+    SKED.tmp = document.createElement('canvas'); SKED.tmp.width = 768; SKED.tmp.height = 512; SKED.tctx = SKED.tmp.getContext('2d');
+    SKED.texC = document.createElement('canvas'); SKED.texC.width = 1024; SKED.texC.height = 1024; SKED.tctxT = SKED.texC.getContext('2d');
+    SKED.out = SKED.tctxT.createImageData(1024, 1024); SKED.out32 = new Uint32Array(SKED.out.data.buffer);
+    SKED.tex = new T.CanvasTexture(SKED.texC); SKED.tex.flipY = false; if (SKIN.base) { SKED.tex.encoding = SKIN.base.encoding; SKED.tex.anisotropy = SKIN.base.anisotropy || 1; }
+    try { const st = await idbGet('sked'); if (st && st.list) SKED.list = st.list; } catch(e) {}
+    SKED.ready = true; return true;
+  })();
+  try { return await SKED.loading; } catch(e) { console.error('skin editor', e); SKED.loading = null; toast('Редактор не загрузился', 'Попробуй ещё раз', 'bad'); return false; }
+}
+/* ---------- drawing ---------- */
+let _skSeed = 1; const skRnd = () => { _skSeed = (_skSeed * 16807) % 2147483647; return _skSeed / 2147483647; };
+function skPattern(c, z, W, H){
+  const p = z.p, s = 30 * (z.ps || 1), col = z.pc, a = (z.pa || 0) * Math.PI / 180;
+  if (p === 'none') return;
+  c.save(); c.fillStyle = col; c.strokeStyle = col;
+  if (p === 'gradient') { const g = c.createLinearGradient(W / 2 - Math.sin(a) * H / 2, 0, W / 2 + Math.sin(a) * H / 2, H); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, col); c.fillStyle = g; c.fillRect(0, 0, W, H); c.restore(); return; }
+  c.translate(W / 2, H / 2); c.rotate(a); c.translate(-W, -H);
+  const W2 = W * 2, H2 = H * 2;
+  if (p === 'stripes') { for (let y = 0; y < H2; y += s) c.fillRect(0, y, W2, s * 0.45); }
+  else if (p === 'checks') { c.globalAlpha = 0.55; for (let y = 0; y < H2; y += s * 1.6) c.fillRect(0, y, W2, s * 0.6); for (let x = 0; x < W2; x += s * 1.6) c.fillRect(x, 0, s * 0.6, H2); c.globalAlpha = 1; c.lineWidth = 1.5; for (let y = s * 0.3; y < H2; y += s * 1.6) { c.beginPath(); c.moveTo(0, y); c.lineTo(W2, y); c.stroke(); } }
+  else if (p === 'dots') { for (let y = 0, r = 0; y < H2; y += s, r++) for (let x = (r % 2) * s / 2; x < W2; x += s) { c.beginPath(); c.arc(x, y, s * 0.18, 0, Math.PI * 2); c.fill(); } }
+  else if (p === 'argyle') { c.globalAlpha = 0.85; for (let y = 0, r = 0; y < H2; y += s, r++) for (let x = (r % 2) * s; x < W2; x += s * 2) { c.beginPath(); c.moveTo(x, y - s); c.lineTo(x + s, y); c.lineTo(x, y + s); c.lineTo(x - s, y); c.closePath(); c.fill(); } c.globalAlpha = 1; }
+  else if (p === 'zigzag') { c.lineWidth = s * 0.22; c.lineJoin = 'miter'; for (let y = 0; y < H2; y += s) { c.beginPath(); for (let x = 0, k = 0; x < W2; x += s / 2, k++) c.lineTo(x, y + (k % 2 ? s * 0.35 : 0)); c.stroke(); } }
+  else if (p === 'camo') { _skSeed = 7; for (let i = 0; i < 260; i++) { const x = skRnd() * W2, y = skRnd() * H2, r = s * (0.4 + skRnd() * 0.9); c.beginPath(); c.ellipse(x, y, r, r * (0.5 + skRnd() * 0.5), skRnd() * 3, 0, Math.PI * 2); c.fill(); } }
+  else if (ICONS[p]) { const step = s * 1.7; for (let y = 0, r = 0; y < H2; y += step, r++) for (let x = (r % 2) * step / 2; x < W2; x += step) drawIcon(c, p, x, y, s * 0.9, 0, col, 'fill'); }
+  c.restore();
+}
+function skFabric(c, f, W, H){
+  if (f === 'smooth' || !f) return;
+  c.save();
+  if (f === 'knit') { c.globalAlpha = 0.16; c.strokeStyle = '#000'; c.lineWidth = 1; for (let x = 0; x < W; x += 5) { c.beginPath(); for (let y = 0; y < H; y += 4) { c.moveTo(x, y); c.lineTo(x + 2.5, y + 3); c.lineTo(x + 5, y); } c.stroke(); } }
+  else if (f === 'denim') { c.globalAlpha = 0.13; c.strokeStyle = '#fff'; c.lineWidth = 1; for (let k = -H; k < W; k += 3) { c.beginPath(); c.moveTo(k, 0); c.lineTo(k + H, H); c.stroke(); } }
+  else if (f === 'fleece') { _skSeed = 3; c.globalAlpha = 0.12; c.fillStyle = '#fff'; for (let i = 0; i < 9000; i++) c.fillRect(skRnd() * W, skRnd() * H, 1.5, 1.5); }
+  c.restore();
+}
+function skDrawLayer(c, L, ox){
+  const x = L.x + ox, y = L.y, rot = (L.r || 0) * Math.PI / 180;
+  c.save(); c.globalAlpha = L.o == null ? 1 : L.o;
+  if (L.k === 'icon') drawIcon(c, L.src, x, y, L.s, rot, L.c, L.st, L.c2);
+  else if (L.k === 'text') {
+    c.translate(x, y); c.rotate(rot); c.font = '900 ' + Math.round(L.s * 0.42) + 'px Unbounded, "Arial Black", sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle';
+    if (L.st === 'duo') { c.fillStyle = L.c2 || '#000'; c.fillText(L.txt, L.s * 0.05, L.s * 0.05); }
+    if (L.st === 'line') { c.lineWidth = Math.max(2, L.s * 0.03); c.strokeStyle = L.c; c.strokeText(L.txt, 0, 0); } else { c.fillStyle = L.c; c.fillText(L.txt, 0, 0); }
+  } else if (L.k === 'img') {
+    const im = SKED.imgs[L.src]; if (im) { c.translate(x, y); c.rotate(rot); const w = L.s, h = L.s * im.height / im.width; c.drawImage(im, -w / 2, -h / 2, w, h); }
+  }
+  c.restore();
+}
+function skRenderPanel(){
+  const d = SKED.design, c = SKED.pctx, t = SKED.tctx, W = 768, H = 512;
+  c.globalCompositeOperation = 'source-over'; c.clearRect(0, 0, W, H); c.fillStyle = '#777'; c.fillRect(0, 0, W, H);
+  const tplImg = d.tpl && SKED.imgs[d.tpl];
+  if (tplImg) c.drawImage(tplImg, 0, 0, W, H);
+  if (!tplImg || d.tplZones) SKZ.forEach(([id, key]) => {
+    const z = d.zones[key]; t.globalCompositeOperation = 'source-over'; t.clearRect(0, 0, W, H);
+    t.fillStyle = z.c; t.fillRect(0, 0, W, H); skPattern(t, z, W, H); skFabric(t, z.f, W, H);
+    t.globalCompositeOperation = 'destination-in'; t.drawImage(SKED.masks[key], 0, 0);
+    c.globalAlpha = tplImg ? 0.85 : 1; c.drawImage(SKED.tmp, 0, 0); c.globalAlpha = 1;
+  });
+  d.layers.forEach(L => { skDrawLayer(c, L, L.side === 'b' ? 384 : 0); if (L.both) skDrawLayer(c, L, L.side === 'b' ? 0 : 384); });
+}
+function skBake(){
+  skRenderPanel();
+  const pd = new Uint32Array(SKED.pctx.getImageData(0, 0, 768, 512).data.buffer), out = SKED.out32, idx = SKED.idx, zone = SKED.zmap, base = SKED.base32;
+  for (let t = 0, n = out.length; t < n; t++) out[t] = zone[t] === 1 ? base[t] : (pd[idx[t]] | 0xff000000);
+  SKED.tctxT.putImageData(SKED.out, 0, 0); SKED.tex.needsUpdate = true;
+}
+function skWearTex(tex){ const L = bodyMats(); L.forEach(m => { m.map = tex; m.needsUpdate = true; }); }
+/* ---------- UI ---------- */
+function skOpen(){
+  if (!BETA) return;
+  if (!SKED.el) skBuildUI();
+  SKED.el.hidden = false; SKED.prevMode = G.mode; showScreen(null); $('#hud').hidden = true; $('#rail').hidden = true; swordBtn.hidden = true; shadowBtn.hidden = true;
+  G.mode = 'skined'; TRY.rot = 0; SKED.face = 0; if (TP.el) { TP.open = false; TP.el.hidden = true; } const fab = $('#tuneFab'); if (fab) fab.hidden = true;
+  SKED.el.querySelector('.sk-body').innerHTML = '<div class="sk-h">Загружаю редактор…</div>';
+  skLoad().then(ok => { if (!ok) return; if (!SKED.design) SKED.design = skNewDesign(); skWearTex(SKED.tex); SKED.dirty = true; skRenderTab(); });
+}
+function skClose(){ const fab = $('#tuneFab'); if (fab) fab.hidden = false; SKED.el.hidden = true; G.mode = 'home'; goHome(); wearSkin(S.equip.skin); }
+function skFrame(){
+  if (G.mode !== 'skined' || !SKED.ready) return;
+  const now = performance.now();
+  if (SKED.dirty && now - SKED.t > 90) { SKED.dirty = false; SKED.t = now; skBake(); skDrawPreview(); }
+}
+function tryFrame(dt){
+  if ((G.mode !== 'tryon' && G.mode !== 'skined') || !hero) return;
+  const hold = G.mode === 'skined' && SKED.face != null;
+  if (!TRY.drag && !hold) TRY.rot += dt * (G.mode === 'skined' ? 0.35 : TRY.spin);
+  if (hold && !TRY.drag) { const tgt = SKED.face + Math.round((TRY.rot - SKED.face) / (Math.PI * 2)) * Math.PI * 2; TRY.rot += (tgt - TRY.rot) * Math.min(1, dt * 6); }
+  hero.g.rotation.y = Math.PI + TRY.rot; hero.g.position.z += ((G.mode === 'skined' ? 1.6 : 3.7) - hero.g.position.z) * Math.min(1, dt * 4);
+}
+const skMark = () => { SKED.dirty = true; };
+function skZoneChips(){ return '<div class="sk-chips">' + SKZ.map(([, k, n]) => '<button data-zone="' + k + '" class="' + (SKED.zone === k ? 'on' : '') + '"><i style="background:' + SKED.design.zones[k].c + '"></i>' + n + '</button>').join('') + '</div>'; }
+function skRow(label, html){ return '<label class="sk-row"><span>' + label + '</span>' + html + '</label>'; }
+function skRange(path, v, mn, mx, st){ return '<input type="range" min="' + mn + '" max="' + mx + '" step="' + st + '" value="' + v + '" data-k="' + path + '">'; }
+function skLayerEditor(){
+  const L = SKED.design.layers[SKED.sel]; if (!L) return '<div class="sk-h">Нажми на принт на картинке ниже, чтобы выбрать и двигать его пальцем.</div>';
+  const st = ['fill', 'line', 'duo'].map((s, i) => '<button data-lst="' + s + '" class="' + (L.st === s || (!L.st && !i) ? 'on' : '') + '">' + ['Заливка', 'Контур', 'С тенью'][i] + '</button>').join('');
+  return '<div class="sk-sel">' + (L.k !== 'img' ? '<div class="sk-seg">' + st + '</div>' + skRow('Цвет', '<input type="color" value="' + L.c + '" data-k="L.c">') + (L.st === 'duo' ? skRow('Цвет тени', '<input type="color" value="' + (L.c2 || '#000000') + '" data-k="L.c2">') : '') : '') +
+    (L.k === 'text' ? skRow('Текст', '<input type="text" maxlength="14" value="' + esc(L.txt) + '" data-k="L.txt">') : '') +
+    skRow('Размер', skRange('L.s', L.s, 12, 300, 1)) + skRow('Поворот', skRange('L.r', L.r || 0, -180, 180, 1)) + skRow('Прозрачность', skRange('L.o', L.o == null ? 1 : L.o, 0.1, 1, 0.05)) +
+    '<label class="sk-chk"><input type="checkbox" data-k="L.both"' + (L.both ? ' checked' : '') + '> Повторить и на ' + (L.side === 'b' ? 'передней' : 'задней') + ' стороне</label>' +
+    '<div class="sk-btns"><button data-la="up">Выше слоем</button><button data-la="down">Ниже</button><button data-la="dup">Копия</button><button data-la="del" class="bad">Удалить</button></div></div>';
+}
+function skRenderTab(){
+  const b = SKED.el.querySelector('.sk-body'), d = SKED.design, tab = SKED.tab;
+  SKED.el.querySelectorAll('.sk-tabs button').forEach(x => x.classList.toggle('on', x.dataset.tab === tab));
+  SKED.el.querySelector('.sk-name').value = d.name;
+  let h = '';
+  if (tab === 'colors') {
+    h = '<div class="sk-h">Цвет каждой части одежды. Фактура — как выглядит ткань.</div>' + SKZ.map(([, k, n]) => { const z = d.zones[k]; return '<div class="sk-zone"><b>' + n + '</b><input type="color" value="' + z.c + '" data-k="Z.' + k + '.c"><select data-k="Z.' + k + '.f">' + SK_FAB.map(f => '<option value="' + f[0] + '"' + (z.f === f[0] ? ' selected' : '') + '>' + f[1] + '</option>').join('') + '</select></div>'; }).join('');
+  } else if (tab === 'pats') {
+    const z = d.zones[SKED.zone];
+    h = skZoneChips() + '<div class="sk-pats">' + SK_PATS.map(p => '<button data-pat="' + p[0] + '" class="' + (z.p === p[0] ? 'on' : '') + '">' + p[1] + '</button>').join('') + '</div>' +
+      (z.p !== 'none' ? skRow('Цвет узора', '<input type="color" value="' + z.pc + '" data-k="Z.' + SKED.zone + '.pc">') + skRow('Размер', skRange('Z.' + SKED.zone + '.ps', z.ps, 0.3, 3, 0.05)) + skRow('Наклон', skRange('Z.' + SKED.zone + '.pa', z.pa, -90, 90, 1)) : '');
+  } else if (tab === 'prints') {
+    h = '<div class="sk-btns"><button data-add="icon">+ Значок</button><button data-add="img">+ Своя картинка</button><button data-add="text">+ Надпись</button></div>' +
+      '<div class="sk-seg sk-side"><button data-side="f" class="' + (SKED.side === 'f' ? 'on' : '') + '">Перед</button><button data-side="b" class="' + (SKED.side === 'b' ? 'on' : '') + '">Спина</button></div>' +
+      '<canvas class="sk-prev" width="384" height="512"></canvas>' + (SKED.iconPick ? '<div class="sk-icons">' + Object.keys(ICONS).map(k => '<button data-icon="' + k + '" title="' + ICONS[k].n + '"><canvas width="56" height="56" data-ic="' + k + '"></canvas></button>').join('') + '</div>' : '') + skLayerEditor();
+  } else if (tab === 'palette') {
+    h = '<div class="sk-h">Загрузи референс — картинку, фото, кадр. Я возьму из него главные цвета.</div><div class="sk-btns"><button data-up="ref">Загрузить референс</button>' + (SKED.palette.length ? '<button data-pal="auto">Разложить по одежде</button>' : '') + '</div>' +
+      (SKED.refImg ? '<img class="sk-ref" src="' + SKED.refImg + '" alt="">' : '') +
+      (SKED.palette.length ? '<div class="sk-h">Нажми цвет, потом часть одежды:</div><div class="sk-sw">' + SKED.palette.map((c, i) => '<button data-sw="' + i + '" class="' + (SKED.swatch === i ? 'on' : '') + '" style="background:' + c + '"></button>').join('') + '</div>' + skZoneChips() : '');
+  } else if (tab === 'tpl') {
+    h = '<div class="sk-h">Шаблон — героиня спереди и сзади точно в позе модели. Рисуй поверх в любом приложении или используй как основу для генерации по референсу, потом загрузи сюда: рисунок сразу ляжет на 3D-героиню.</div>' +
+      '<div class="sk-btns"><a class="sk-a" href="a/skin_tpl.png" download="wordrush_skin_template.png" target="_blank">Скачать шаблон</a><a class="sk-a" href="a/skin_tpl_lines.png" download="wordrush_skin_lines.png" target="_blank">Шаблон — только контуры</a></div>' +
+      '<div class="sk-btns"><button data-up="tpl">Загрузить свой рисунок</button>' + (d.tpl ? '<button data-tpl="off" class="bad">Убрать рисунок</button>' : '') + '</div>' +
+      (d.tpl ? '<label class="sk-chk"><input type="checkbox" data-k="D.tplZones"' + (d.tplZones ? ' checked' : '') + '> Цвета и узоры из вкладок поверх рисунка</label>' : '') +
+      '<div class="sk-h">Рисунок: 768×512 (или любой размер с тем же соотношением 3:2). Левая половина — перед, правая — спина. Лицо и руки всегда остаются от героини.</div>';
+  } else if (tab === 'mine') {
+    h = '<div class="sk-btns"><button data-mine="save">Сохранить</button><button data-mine="new">Новый скин</button><button data-mine="wear">Надеть в бете</button><button data-mine="send">Отправить Claude</button></div>' +
+      '<div class="sk-h">«Отправить Claude» сохранит 3 файла: текстуру, превью и описание скина. Пришли их мне в чат — скин появится в магазине.</div>' +
+      '<div class="sk-list">' + (SKED.list.length ? SKED.list.map(it => '<div class="sk-item"><img src="' + it.thumb + '" alt=""><b>' + esc(it.name) + '</b><button data-open="' + it.id + '">Открыть</button><button data-delm="' + it.id + '" class="bad">✕</button></div>').join('') : '<div class="sk-h">Пока нет сохранённых скинов.</div>') + '</div>';
+  }
+  b.innerHTML = h;
+  b.querySelectorAll('canvas[data-ic]').forEach(cv => { const c = cv.getContext('2d'); drawIcon(c, cv.dataset.ic, 28, 28, 46, 0, '#ffd23a', 'fill'); });
+  skDrawPreview();
+}
+function skDrawPreview(){
+  const cv = SKED.el && SKED.el.querySelector('.sk-prev'); if (!cv || !SKED.panel) return;
+  const c = cv.getContext('2d'), ox = SKED.side === 'b' ? 384 : 0; c.clearRect(0, 0, 384, 512); c.drawImage(SKED.panel, ox, 0, 384, 512, 0, 0, 384, 512);
+  c.save(); c.globalCompositeOperation = 'destination-in'; c.drawImage(SKED.sil, ox, 0, 384, 512, 0, 0, 384, 512); c.restore();
+  c.drawImage(SKED.faceC, ox, 0, 384, 512, 0, 0, 384, 512);
+  c.save(); c.globalCompositeOperation = 'destination-over'; c.fillStyle = '#2a2244'; c.fillRect(0, 0, 384, 512); c.restore();
+  const L = SKED.design.layers[SKED.sel];
+  if (L && L.side === SKED.side) { c.strokeStyle = '#ffd23a'; c.setLineDash([6, 5]); c.lineWidth = 2; c.strokeRect(L.x - L.s / 2 - 4, L.y - L.s / 2 - 4, L.s + 8, L.s + 8); }
+}
+function skSetPath(path, v){
+  const d = SKED.design;
+  if (path.startsWith('Z.')) { const [, z, k] = path.split('.'); d.zones[z][k] = /^(ps|pa)$/.test(k) ? parseFloat(v) : v; }
+  else if (path.startsWith('L.')) { const L = d.layers[SKED.sel]; if (!L) return; const k = path.slice(2); L[k] = /^(s|r|o)$/.test(k) ? parseFloat(v) : v; }
+  else if (path.startsWith('D.')) d[path.slice(2)] = v;
+  skMark();
+}
+function skAddLayer(L){ const d = SKED.design; L.side = SKED.side; L.x = L.x || 192; L.y = L.y || 175; L.r = 0; L.o = 1; d.layers.push(L); SKED.sel = d.layers.length - 1; SKED.iconPick = false; skMark(); skRenderTab(); }
+function skUpload(kind){
+  const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*';
+  inp.onchange = async () => {
+    const f = inp.files && inp.files[0]; if (!f) return;
+    const url = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(f); });
+    const im = await skImg(url).catch(() => null); if (!im) { toast('Не получилось открыть картинку', '', 'bad'); return; }
+    const max = kind === 'tpl' ? 1536 : 768, sc = Math.min(1, max / Math.max(im.width, im.height)), c = document.createElement('canvas'); c.width = Math.round(im.width * sc); c.height = Math.round(im.height * sc);
+    const x = c.getContext('2d'); x.drawImage(im, 0, 0, c.width, c.height);
+    if (kind === 'img') { const dd = x.getImageData(0, 0, c.width, c.height), p = dd.data; let white = 0; for (let i = 0; i < p.length; i += 4) if (p[i] > 238 && p[i + 1] > 238 && p[i + 2] > 238 && p[i + 3] > 200) white++;
+      if (white > p.length / 4 * 0.2) { for (let i = 0; i < p.length; i += 4) { const mn = Math.min(p[i], p[i + 1], p[i + 2]); if (mn > 232) p[i + 3] = 0; else if (mn > 210) p[i + 3] = Math.round(p[i + 3] * (232 - mn) / 22); } x.putImageData(dd, 0, 0); toast('Белый фон убран', 'Картинка добавлена как принт', 'good'); } }
+    const data = c.toDataURL(kind === 'ref' ? 'image/jpeg' : 'image/png', 0.9), id = kind + Date.now().toString(36);
+    if (kind === 'ref') { SKED.refImg = data; SKED.palette = skPalette(x, c.width, c.height); SKED.swatch = null; skRenderTab(); return; }
+    SKED.design.imgs[id] = data; SKED.imgs[id] = await skImg(data);
+    if (kind === 'tpl') { SKED.design.tpl = id; skMark(); skRenderTab(); toast('Рисунок наложен', 'Покрути героиню и проверь спину', 'good'); }
+    else skAddLayer({k:'img', src:id, s:140});
+  };
+  inp.click();
+}
+/* main colours of a reference picture (k-means on a small copy) */
+function skPalette(x, w, h){
+  const c = document.createElement('canvas'); c.width = 64; c.height = 64; const cx = c.getContext('2d'); cx.drawImage(x.canvas, 0, 0, 64, 64);
+  const p = cx.getImageData(0, 0, 64, 64).data, pts = [], at = (x, y) => { const i = (y * 64 + x) * 4; return [p[i], p[i + 1], p[i + 2], p[i + 3]]; };
+  /* the picture's background (corner colour) is not part of the palette */
+  const cs = [at(0, 0), at(63, 0), at(0, 63), at(63, 63)].filter(q => q[3] > 128), bg = cs.length >= 3 ? [0, 1, 2].map(k => cs.reduce((s, q) => s + q[k], 0) / cs.length) : null;
+  for (let i = 0; i < p.length; i += 4) { if (p[i + 3] <= 128) continue; if (bg && Math.abs(p[i] - bg[0]) + Math.abs(p[i + 1] - bg[1]) + Math.abs(p[i + 2] - bg[2]) < 45) continue; pts.push([p[i], p[i + 1], p[i + 2]]); }
+  if (pts.length < 12) for (let i = 0; i < p.length; i += 4) if (p[i + 3] > 128) pts.push([p[i], p[i + 1], p[i + 2]]);
+  const K = 6; let cen = []; for (let k = 0; k < K; k++) cen.push(pts[Math.floor((k + 0.5) / K * pts.length)].slice());
+  let lab = new Array(pts.length).fill(0);
+  for (let it = 0; it < 10; it++) {
+    pts.forEach((q, i) => { let b = 0, bd = 1e9; cen.forEach((m, k) => { const dd = (q[0] - m[0]) ** 2 + (q[1] - m[1]) ** 2 + (q[2] - m[2]) ** 2; if (dd < bd) { bd = dd; b = k; } }); lab[i] = b; });
+    cen = cen.map((m, k) => { const s = [0, 0, 0]; let n = 0; pts.forEach((q, i) => { if (lab[i] === k) { s[0] += q[0]; s[1] += q[1]; s[2] += q[2]; n++; } }); return n ? s.map(v => v / n) : m; });
+  }
+  const cnt = cen.map((_, k) => lab.filter(l => l === k).length);
+  return cen.map((m, k) => ({m, n:cnt[k]})).filter(o => o.n > 0).sort((a, b) => b.n - a.n).map(o => '#' + o.m.map(v => Math.round(v).toString(16).padStart(2, '0')).join(''));
+}
+function skAutoPalette(){
+  const P = SKED.palette; if (!P.length) return; const d = SKED.design.zones;
+  const lum = h => { const n = parseInt(h.slice(1), 16); return ((n >> 16) & 255) * 0.3 + ((n >> 8) & 255) * 0.59 + (n & 255) * 0.11; };
+  const byL = P.slice().sort((a, b) => lum(a) - lum(b)), main = P[0], second = P[1] || P[0], accent = P[2] || second;
+  d.sweater.c = main; d.sleeve.c = main; d.neck.c = byL[0]; d.rib.c = accent; d.pants.c = second === main ? byL[0] : second; d.hat.c = byL[byL.length - 1]; d.shoes.c = byL[byL.length - 1];
+  d.sweater.pc = accent; d.sleeve.pc = accent; skMark(); skRenderTab();
+}
+async function skSaveList(){ try { await idbSet('sked', {list:SKED.list}); } catch(e) { console.error(e); } }
+function skThumb(){ const c = document.createElement('canvas'); c.width = 96; c.height = 128; const x = c.getContext('2d'); x.fillStyle = '#2a2244'; x.fillRect(0, 0, 96, 128); x.drawImage(SKED.panel, 0, 0, 384, 512, 0, 0, 96, 128); return c.toDataURL('image/png'); }
+async function skSave(){
+  const d = SKED.design; skBake(); const id = SKED.cur || ('sk' + Date.now().toString(36)); SKED.cur = id;
+  const it = {id, name:d.name || 'Мой скин', d:JSON.parse(JSON.stringify(d)), thumb:skThumb()}, i = SKED.list.findIndex(x => x.id === id);
+  if (i >= 0) SKED.list[i] = it; else SKED.list.unshift(it); await skSaveList(); toast('Скин сохранён', it.name, 'good'); if (SKED.tab === 'mine') skRenderTab();
+}
+async function skOpenSaved(id){
+  const it = SKED.list.find(x => x.id === id); if (!it) return;
+  SKED.design = JSON.parse(JSON.stringify(it.d)); SKED.cur = id; SKED.sel = -1;
+  for (const k in SKED.design.imgs) SKED.imgs[k] = await skImg(SKED.design.imgs[k]);
+  skMark(); SKED.tab = 'colors'; skRenderTab();
+}
+async function skWear(){
+  await skSave(); S.equip.skin = 'ed'; S.edSkin = SKED.cur; save();
+  const c = document.createElement('canvas'); c.width = c.height = 1024; c.getContext('2d').drawImage(SKED.texC, 0, 0);
+  SKED.wornTex = new T.CanvasTexture(c); SKED.wornTex.flipY = false; if (SKIN.base) SKED.wornTex.encoding = SKIN.base.encoding;
+  toast('Надето в бете', 'Скин будет на героине в забегах беты', 'good');
+}
+function wearSkin(id){
+  if (id === 'ed') { if (SKED.wornTex) { skWearTex(SKED.wornTex); return; } skRestoreWorn(); return; }
+  const sk = SKINS.find(s => s.id === id) || SKINS[0], L = bodyMats(); if (!L.length) return;
+  SKIN.want = sk.id;
+  skinTex(sk.k, tex => { if (!tex || SKIN.want !== sk.id) return; L.forEach(m => { m.map = tex; m.needsUpdate = true; }); });
+}
+async function skRestoreWorn(){
+  if (!BETA || SKED.restoring) return; SKED.restoring = true;
+  if (!(await skLoad())) return; const it = SKED.list.find(x => x.id === S.edSkin); if (!it) { S.equip.skin = 'base'; wearSkin('base'); return; }
+  const keep = SKED.design; SKED.design = JSON.parse(JSON.stringify(it.d)); for (const k in SKED.design.imgs) SKED.imgs[k] = await skImg(SKED.design.imgs[k]);
+  skBake(); const c = document.createElement('canvas'); c.width = c.height = 1024; c.getContext('2d').drawImage(SKED.texC, 0, 0);
+  SKED.wornTex = new T.CanvasTexture(c); SKED.wornTex.flipY = false; if (SKIN.base) SKED.wornTex.encoding = SKIN.base.encoding; SKED.design = keep;
+  if (S.equip.skin === 'ed' && G.mode !== 'skined') skWearTex(SKED.wornTex);
+}
+async function skSend(){
+  const d = SKED.design; skBake(); const slug = (d.name || 'skin').replace(/[^a-zа-яё0-9]+/gi, '_').slice(0, 24);
+  const blob = (cv, type) => new Promise(r => cv.toBlob(r, type || 'image/png'));
+  const prev = document.createElement('canvas'); prev.width = 768; prev.height = 512; const px = prev.getContext('2d'); px.drawImage(SKED.panel, 0, 0); px.globalCompositeOperation = 'destination-in'; px.drawImage(SKED.sil, 0, 0); px.globalCompositeOperation = 'destination-over'; px.fillStyle = '#ffffff'; px.fillRect(0, 0, 768, 512); px.globalCompositeOperation = 'source-over'; px.drawImage(SKED.faceC, 0, 0);
+  const files = [new File([await blob(SKED.texC)], 'skin_' + slug + '_texture.png', {type:'image/png'}), new File([await blob(prev)], 'skin_' + slug + '_sheet.png', {type:'image/png'}), new File([JSON.stringify(d)], 'skin_' + slug + '.json', {type:'application/json'})];
+  try { if (navigator.canShare && navigator.canShare({files})) { await navigator.share({files, title:'Скин ' + d.name}); return; } } catch(e) { if (e && e.name === 'AbortError') return; }
+  files.forEach(f => { const a = document.createElement('a'); a.href = URL.createObjectURL(f); a.download = f.name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000); });
+  toast('Файлы сохранены', 'Пришли их Claude в чат', 'good');
+}
+function skBuildUI(){
+  const el = document.createElement('div'); el.id = 'skEd'; el.hidden = true;
+  el.innerHTML = '<div class="sk-top"><button data-a="close">← Назад</button><input class="sk-name" maxlength="24" placeholder="Название скина"><button data-a="front">Перед</button><button data-a="back">Спина</button><button data-a="spin">⟳</button></div>' +
+    '<div class="sk-stage"></div><div class="sk-panel"><div class="sk-tabs">' + [['colors', 'Цвета'], ['pats', 'Узоры'], ['prints', 'Принты'], ['palette', 'Палитра'], ['tpl', 'Шаблон'], ['mine', 'Мои скины']].map(t => '<button data-tab="' + t[0] + '">' + t[1] + '</button>').join('') + '</div><div class="sk-body"></div></div>';
+  document.getElementById('app').appendChild(el); SKED.el = el;
+  ['pointerdown', 'pointerup', 'touchstart', 'click', 'keydown'].forEach(ev => el.addEventListener(ev, e => e.stopPropagation()));
+  const stg = el.querySelector('.sk-stage');
+  stg.addEventListener('pointerdown', e => { SKED.face = null; TRY.drag = {x:e.clientX, r:TRY.rot}; });
+  el.addEventListener('pointermove', e => { if (TRY.drag && G.mode === 'skined') TRY.rot = TRY.drag.r + (e.clientX - TRY.drag.x) * 0.012; if (SKED.drag) skDragMove(e); });
+  el.addEventListener('pointerup', () => { TRY.drag = null; SKED.drag = null; });
+  el.querySelector('.sk-name').addEventListener('input', e => { SKED.design.name = e.target.value; });
+  el.addEventListener('input', e => { const k = e.target.dataset.k; if (!k || e.target.type === 'checkbox') return; skSetPath(k, e.target.value); });
+  el.addEventListener('change', e => { const k = e.target.dataset.k; if (!k) return; if (e.target.type === 'checkbox') { skSetPath(k, e.target.checked); } else skSetPath(k, e.target.value); if (/^(L\.st|Z\..*\.p$|D\.)/.test(k) || e.target.tagName === 'SELECT' || e.target.type === 'checkbox') skRenderTab(); else if (k.startsWith('Z.') && k.endsWith('.c')) { const ch = el.querySelector('[data-zone="' + k.split('.')[1] + '"] i'); if (ch) ch.style.background = e.target.value; } });
+  el.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return; const d = SKED.design;
+    if (b.dataset.a === 'close') skClose();
+    else if (b.dataset.a === 'front') SKED.face = 0;
+    else if (b.dataset.a === 'back') SKED.face = Math.PI;
+    else if (b.dataset.a === 'spin') SKED.face = null;
+    else if (b.dataset.tab) { SKED.tab = b.dataset.tab; skRenderTab(); }
+    else if (b.dataset.zone) { if (SKED.tab === 'palette' && SKED.swatch != null) { d.zones[b.dataset.zone].c = SKED.palette[SKED.swatch]; skMark(); } SKED.zone = b.dataset.zone; skRenderTab(); }
+    else if (b.dataset.pat) { d.zones[SKED.zone].p = b.dataset.pat; skMark(); skRenderTab(); }
+    else if (b.dataset.add === 'icon') { SKED.iconPick = !SKED.iconPick; skRenderTab(); }
+    else if (b.dataset.add === 'img') skUpload('img');
+    else if (b.dataset.add === 'text') skAddLayer({k:'text', txt:'WORD RUSH', s:150, c:'#ffffff', st:'fill', c2:'#000000'});
+    else if (b.dataset.icon) skAddLayer({k:'icon', src:b.dataset.icon, s:110, c:'#ffd23a', st:'fill', c2:'#000000'});
+    else if (b.dataset.side) { SKED.side = b.dataset.side; SKED.face = SKED.side === 'b' ? Math.PI : 0; SKED.sel = -1; skRenderTab(); }
+    else if (b.dataset.lst) { const L = d.layers[SKED.sel]; if (L) { L.st = b.dataset.lst; skMark(); skRenderTab(); } }
+    else if (b.dataset.la) { const i = SKED.sel, L = d.layers[i]; if (!L) return; if (b.dataset.la === 'del') { d.layers.splice(i, 1); SKED.sel = -1; } else if (b.dataset.la === 'dup') { const c = JSON.parse(JSON.stringify(L)); c.x += 20; c.y += 20; d.layers.push(c); SKED.sel = d.layers.length - 1; } else if (b.dataset.la === 'up' && i < d.layers.length - 1) { d.layers.splice(i, 1); d.layers.splice(i + 1, 0, L); SKED.sel = i + 1; } else if (b.dataset.la === 'down' && i > 0) { d.layers.splice(i, 1); d.layers.splice(i - 1, 0, L); SKED.sel = i - 1; } skMark(); skRenderTab(); }
+    else if (b.dataset.up) skUpload(b.dataset.up);
+    else if (b.dataset.pal === 'auto') skAutoPalette();
+    else if (b.dataset.sw != null) { SKED.swatch = +b.dataset.sw; skRenderTab(); }
+    else if (b.dataset.tpl === 'off') { d.tpl = null; skMark(); skRenderTab(); }
+    else if (b.dataset.mine === 'save') skSave();
+    else if (b.dataset.mine === 'new') { SKED.design = skNewDesign(); SKED.cur = null; SKED.sel = -1; skMark(); SKED.tab = 'colors'; skRenderTab(); }
+    else if (b.dataset.mine === 'wear') skWear();
+    else if (b.dataset.mine === 'send') skSend();
+    else if (b.dataset.open) skOpenSaved(b.dataset.open);
+    else if (b.dataset.delm) { SKED.list = SKED.list.filter(x => x.id !== b.dataset.delm); skSaveList(); skRenderTab(); }
+  });
+  /* prints: tap to select, drag to move */
+  el.addEventListener('pointerdown', e => {
+    const cv = e.target.closest('.sk-prev'); if (!cv) return; e.preventDefault();
+    const r = cv.getBoundingClientRect(), x = (e.clientX - r.left) / r.width * 384, y = (e.clientY - r.top) / r.height * 512, d = SKED.design;
+    let hit = -1; for (let i = d.layers.length - 1; i >= 0; i--) { const L = d.layers[i]; if (L.side === SKED.side && Math.abs(x - L.x) < L.s / 2 + 8 && Math.abs(y - L.y) < L.s / 2 + 8) { hit = i; break; } }
+    if (hit !== SKED.sel) { SKED.sel = hit; skRenderTab(); }
+    if (hit >= 0) SKED.drag = {cv, dx:x - d.layers[hit].x, dy:y - d.layers[hit].y};
+  });
+}
+function skDragMove(e){
+  const g = SKED.drag, L = SKED.design.layers[SKED.sel]; if (!g || !L) return;
+  const cv = SKED.el.querySelector('.sk-prev') || g.cv, r = cv.getBoundingClientRect();
+  L.x = clamp((e.clientX - r.left) / r.width * 384 - g.dx, 0, 384); L.y = clamp((e.clientY - r.top) / r.height * 512 - g.dy, 0, 512); skMark(); skDrawPreview();
 }
 /* ================= v18 TUNNEL: darker, torch-lit, cobwebs and cave props, bats all the way,
    a vampire that swoops out of the dark once, and black blob creatures that crawl out of the walls
@@ -7556,7 +7987,7 @@ function tunnelDecoMatrices(){
   for (let i = 0; i < SEG_N; i++) {
     const s = TR.segs[i], on = s.on, side = i % 2 ? 1 : -1;
     _tq.position.set(side * 4.62, 0, s.z); _tq.rotation.set(0, side > 0 ? Math.PI : 0, 0); _tq.scale.setScalar(on ? 1 : 0.0001); _tq.updateMatrix(); TUN.torchIM.setMatrixAt(i, _tq.matrix);
-    const fl = 0.85 + Math.sin(t * 13 + i * 1.7) * 0.1 + Math.sin(t * 7.3 + i) * 0.08;
+    const fl = (0.85 + Math.sin(t * 13 + i * 1.7) * 0.1 + Math.sin(t * 7.3 + i) * 0.08) * (1 - (TUN.dim || 0) * 0.82) * (1 + (TUN.flare || 0) * 0.45);
     _tq.position.set(side * 4.38, 2.9, s.z); _tq.rotation.set(0, 0, Math.sin(t * 5 + i) * 0.08); _tq.scale.set(on ? fl : 0.0001, on ? fl * (1 + Math.sin(t * 17 + i * 3) * 0.08) : 0.0001, 1); _tq.updateMatrix(); TUN.flameIM.setMatrixAt(i, _tq.matrix);
     const ws = i % 3 === 1 ? 1 : 0, wside = (i * 7) % 4 < 2 ? -1 : 1;
     _tq.position.set(wside * 4.1, 5.0, s.z + 1.2); _tq.rotation.set(0, 0, wside < 0 ? 0 : -Math.PI / 2); _tq.scale.setScalar(on && ws ? 1 : 0.0001); _tq.updateMatrix(); TUN.webIM.setMatrixAt(i, _tq.matrix);
@@ -7599,12 +8030,12 @@ function tunnelFxFrame(move, segs){
     const cand = [];
     for (let i = 0; i < SEG_N; i++) { const s = TR.segs[i]; if (s.on && s.z < 1 && s.z > -18) cand.push({z:s.z, x:(i % 2 ? 1 : -1) * 4.1, i}); }
     cand.sort((a, b) => b.z - a.z);
-    for (; n < 2 && n < cand.length; n++) { const c = cand[n], l = TUN.lights[n]; l.position.set(c.x, 2.9, c.z); l.intensity = (1.35 + Math.sin(G.clock * 11 + c.i) * 0.18 + Math.sin(G.clock * 23 + c.i * 2) * 0.1) * TUNE.tun.light; }
+    for (; n < 2 && n < cand.length; n++) { const c = cand[n], l = TUN.lights[n]; l.position.set(c.x, 2.9, c.z); l.intensity = (1.35 + Math.sin(G.clock * 11 + c.i) * 0.18 + Math.sin(G.clock * 23 + c.i * 2) * 0.1) * TUNE.tun.light * (1 - (TUN.dim || 0) * 0.92) * (1 + (TUN.flare || 0) * 0.6); }
   }
   for (let k = n; k < 2; k++) TUN.lights[k].intensity = Math.max(0, TUN.lights[k].intensity - 0.08);
   /* creatures out of the walls */
   if (TUN.on && inTunnel() && G.mode === 'run' && !(G.branch && G.branch.ending) && KIT18.ok) {
-    TUN.spawnT -= dt; if (TUN.spawnT <= 0) { TUN.spawnT = 0.9 + Math.random() * 0.8; if (TUN.swarm.length < TUNE.tun.swarm) swarmSpawn(); }
+    TUN.spawnT -= dt; if (TUN.spawnT <= 0) { TUN.spawnT = 0.26 + Math.random() * 0.3; if (TUN.swarm.length < TUNE.tun.swarm) swarmSpawn(); }
     if (!TUN.scareDone && G.time > TUN.scareAt && TUNE.tun.scare) vampScare();
   }
   swarmFrame(dt, move);
@@ -7777,7 +8208,7 @@ function spawnObstacle(kind, lane, z){
 
 /* ---- per-frame hook ---- */
 function v18Frame(sdt, dt){
-  vampScareFrame(sdt);
+  vampScareFrame(sdt); skFrame();
   if (G.mode !== 'run' && TUN.swarm.length) swarmClear();
   if (G.mode !== 'run' && !TUN.on) TUN.lights.forEach(l => { if (l.intensity > 0) l.intensity = Math.max(0, l.intensity - dt * 3); });
 }
@@ -7858,6 +8289,351 @@ function musicMood(){
   musicPlay(want);
 }
 
+/* ================= v19: fair jumps, a candy loss you can feel, zombies that look at you, soft mist instead of
+   speckled blobs, one island style over the Candy valley, no chest, words count only after a finished run,
+   sentences off by default (a toggle per chapter), answer buttons that slide away between questions,
+   a slow-burn vampire scare and a small creeping swarm that gathers behind the heroine ================= */
+
+/* ---- canvas textures: iOS dithers canvas gradients per colour channel; on see-through pixels that turns into
+   confetti once the texture is un-premultiplied. Colour of every see-through pixel is averaged by alpha and
+   the pixels go to the GPU as raw data, so nothing gets un-premultiplied again. ---- */
+function canvasTex(w, h, draw){
+  const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d'); draw(x, w, h);
+  try {
+    if (w * h > 512 * 512) throw 0;
+    const im = x.getImageData(0, 0, w, h), d = im.data, W1 = w + 1, I = new Float64Array(W1 * (h + 1) * 4);
+    for (let y = 0; y < h; y++) {
+      let r = 0, g = 0, b = 0, a = 0;
+      for (let xx = 0; xx < w; xx++) {
+        const p = (y * w + xx) * 4, al = d[p + 3]; r += d[p] * al; g += d[p + 1] * al; b += d[p + 2] * al; a += al;
+        const q = ((y + 1) * W1 + xx + 1) * 4, q0 = (y * W1 + xx + 1) * 4; I[q] = I[q0] + r; I[q + 1] = I[q0 + 1] + g; I[q + 2] = I[q0 + 2] + b; I[q + 3] = I[q0 + 3] + a;
+      }
+    }
+    const R = 2, sum = (x0, y0, x1, y1, k) => I[((y1 + 1) * W1 + x1 + 1) * 4 + k] - I[(y0 * W1 + x1 + 1) * 4 + k] - I[((y1 + 1) * W1 + x0) * 4 + k] + I[(y0 * W1 + x0) * 4 + k];
+    for (let y = 0; y < h; y++) for (let xx = 0; xx < w; xx++) {
+      const p = (y * w + xx) * 4; if (d[p + 3] >= 250) continue;
+      const x0 = Math.max(0, xx - R), x1 = Math.min(w - 1, xx + R), y0 = Math.max(0, y - R), y1 = Math.min(h - 1, y + R), A = sum(x0, y0, x1, y1, 3);
+      if (A <= 0) { d[p] = d[p + 1] = d[p + 2] = 255; continue; }
+      d[p] = Math.round(sum(x0, y0, x1, y1, 0) / A); d[p + 1] = Math.round(sum(x0, y0, x1, y1, 1) / A); d[p + 2] = Math.round(sum(x0, y0, x1, y1, 2) / A);
+    }
+    const t = new T.DataTexture(new Uint8Array(d.buffer.slice(0)), w, h, T.RGBAFormat);
+    t.flipY = true; t.magFilter = T.LinearFilter; t.minFilter = T.LinearMipmapLinearFilter; t.generateMipmaps = true; t.needsUpdate = true;
+    return t;
+  } catch(e) { return new T.CanvasTexture(c); }
+}
+
+/* ---- soft wisps of mist (generated pixel by pixel, no gradients) for the islands that dissolve between places ---- */
+function cloudTex18(){
+  if (CLOUD18.tex) return CLOUD18.tex;
+  const w = 256, h = 128, d = new Uint8Array(w * h * 4);
+  const hs = (i, j) => { const s = Math.sin(i * 127.1 + j * 311.7) * 43758.5453; return s - Math.floor(s); };
+  const vn = (x, y) => { const i = Math.floor(x), j = Math.floor(y), fx = x - i, fy = y - j, ux = fx * fx * (3 - 2 * fx), uy = fy * fy * (3 - 2 * fy);
+    return (hs(i, j) * (1 - ux) + hs(i + 1, j) * ux) * (1 - uy) + (hs(i, j + 1) * (1 - ux) + hs(i + 1, j + 1) * ux) * uy; };
+  const fbm = (x, y) => vn(x, y) * 0.5 + vn(x * 2.03, y * 2.03) * 0.27 + vn(x * 4.1, y * 4.1) * 0.15 + vn(x * 8.3, y * 8.3) * 0.08;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const nx = (x - w / 2) / (w / 2), ny = (y - h * 0.56) / (h * 0.42), m = 1 - (nx * nx * 0.85 + ny * ny);
+    const n = fbm(x / 38, y / 19);
+    const a = clamp((m * 0.95 + (n - 0.5) * 1.1 - 0.06) / 0.55, 0, 1), sa = a * a * (3 - 2 * a);
+    const p = (y * w + x) * 4; d[p] = d[p + 1] = d[p + 2] = 255; d[p + 3] = Math.round(sa * 0.82 * 255);
+  }
+  const t = new T.DataTexture(d, w, h, T.RGBAFormat); t.flipY = true; t.magFilter = T.LinearFilter; t.minFilter = T.LinearMipmapLinearFilter; t.generateMipmaps = true; t.needsUpdate = true;
+  return (CLOUD18.tex = t);
+}
+/* Candy valley: only the bright islands (the first sheet), the darker overgrown ones stay out */
+if (ISL_DATA.candy && ISL_DATA.candy.length > 12) ISL_DATA.candy = ISL_DATA.candy.slice(0, 12);
+function updateSkyIslands(move, t){
+  if (!SKYI.list.length) { if (!ISL_DATA.candy) return; buildSkyIslands(); }
+  const dt = clamp(t - (CLOUD18.lt || t), 0, 0.1); CLOUD18.lt = t;
+  const want = ISL_FOR_PAL[palName()] || SKYI.set;
+  if (want !== (SKYI.pend || SKYI.set) && ISL_DATA[want]) { SKYI.pend = want; SKYI.pendAt = t; islMat(want); SKYI.list.forEach(it => { it.st = 'cloud'; }); }
+  if (SKYI.pend && palK >= 0.999 && islMat(SKYI.pend).map.wrOk && SKYI.list.every(it => (it.c || 0) >= 0.99 && it.k <= 0.01)) {
+    SKYI.set = SKYI.pend; SKYI.pend = null; SKYI.list.forEach(it => { islPick(it); it.st = 'grow'; });
+  }
+  /* the new sheet never loaded: give up and let the old islands come back instead of leaving the mist hanging */
+  if (SKYI.pend && t - (SKYI.pendAt || t) > 9) { SKYI.pend = null; SKYI.list.forEach(it => { it.st = 'grow'; }); }
+  const ready = islMat(SKYI.set).map.wrOk, vis = (!inTunnel() || G.mode === 'boss') && TL().isl !== 0;
+  for (const it of SKYI.list) {
+    islCloud(it);
+    it.z += move * 0.06; if (it.z > -76) { it.z -= 128; it.x = (Math.random() < 0.5 ? -1 : 1) * (24 + Math.random() * 44); it.y = 15 + Math.random() * 20; if (!SKYI.pend) { islPick(it); it.k = 0; it.st = 'grow'; } }
+    if (it.st === 'cloud') { it.c = Math.min(1, (it.c || 0) + dt * 1.1); if (it.c > 0.45) it.k = Math.max(0, it.k - dt * 1.3); }
+    else { if (it.k < 1) it.k = Math.min(1, it.k + dt * 0.8); if (it.k > 0.4) it.c = Math.max(0, (it.c || 0) - dt * 0.9); }
+    const sc = it.s * Math.max(0.001, it.k), bob = Math.sin(t * 0.45 + it.ph) * 0.7;
+    it.m.visible = vis && ready && it.k > 0.01 && !inTunnel();
+    it.m.position.set(it.x, it.y + bob, it.z); it.m.quaternion.copy(camera.quaternion);
+    it.m.scale.set(sc * it.a * (it.flip ? -1 : 1), sc, 1);
+    it.m.material.color.copy(scene.fog.color).lerp(_isw.setRGB(1, 1, 1), 0.78);
+    const cm = it.cm, cs = it.s * (0.8 + 0.3 * it.c);
+    cm.visible = vis && it.c > 0.01 && !inTunnel(); cm.material.opacity = Math.min(1, it.c * 1.1) * 0.6;
+    if (cm.visible) { cm.position.set(it.x, it.y + bob - it.s * 0.05, it.z + 0.5); cm.quaternion.copy(camera.quaternion); cm.scale.set(cs * 2.1, cs * 0.9, 1); cm.material.color.copy(scene.fog.color).lerp(_isw.setRGB(1, 1, 1), 0.5); }
+  }
+}
+
+/* ---- jumping clears an obstacle: any real jump counts, and a tap just before landing jumps again ---- */
+function airborne(top){ return G.heroY > 0.32 + (top || 0) || (G.vy > 0 && G.heroY > 0.02); }
+function jump(){
+  if (G.slideT > 0) G.slideT = 0;
+  if (G.heroY <= 0.001 && G.vy <= 0) { G.vy = TUNE.run.jump; sfx.jump(); haptic(HAP.tap); }
+  else if (G.vy < 0 && G.heroY < 0.9) G.jumpBuf = 0.2;
+}
+function mobHits(o, u, hx){ const z = o.position.z, top = (u.body ? u.body.position.y : 0); return Math.abs(z) < 0.7 && Math.abs(o.position.x - hx) < 0.95 && !airborne(top * 0.5) && top < 1.0; }
+/* walkers turn to look at the heroine as they cross the road (a little lean into their walk); penguins still slide on their bellies */
+function mobYaw(u, o){
+  if (u.style === 'hop') return 0; if (u.style === 'slide') return u.dir * Math.PI / 2;
+  if (!o || !hero) return u.dir * 0.4;
+  return Math.atan2(hero.g.position.x - o.position.x, 3 - o.position.z) * 0.85 + u.dir * 0.22;
+}
+function mobFace(sdt){
+  for (const o of obstacles) {
+    const u = o.userData; if (u.kind !== 'mob' || !u.body || u.hit || (u.style !== 'walk' && u.style !== 'float')) continue;
+    const tgt = mobYaw(u, o); u.body.rotation.y += (tgt - u.body.rotation.y) * Math.min(1, sdt * 6);
+  }
+}
+
+/* ---- hitting an obstacle costs a real handful of candies, and you see it ---- */
+const CANDY_SVG = '<svg viewBox="0 0 32 18" aria-hidden="true"><path d="M8 9 1.5 2.5v13zM24 9l6.5-6.5v13z" fill="#ffb3d6" stroke="#1e1838" stroke-width="2" stroke-linejoin="round"/><ellipse cx="16" cy="9" rx="8.6" ry="7.2" fill="#ff5fa8" stroke="#1e1838" stroke-width="2"/><path d="M12.5 4.6c2.2 2.4 2.2 6.4 0 8.8M17.2 3.4c2.4 3 2.4 8.2 0 11.2" stroke="#fff" stroke-width="1.7" fill="none" opacity=".75"/></svg>';
+function hitLoss(){ const have = G.coinsRun; return Math.min(have, Math.max(12, Math.round(have * 0.3))); }
+function hitPenalty(title){
+  title = title || 'Удар!';
+  const hx = hero.g.position.x, n = hitLoss();
+  G.coinsRun -= n; renderCoins(); G.lostHits = (G.lostHits || 0) + n;
+  if (n) spillCandies(hx, 1.1, 0, Math.min(14, 5 + (n / 5 | 0)));
+  lossBadge(n);
+  coinPill.classList.remove('loss'); void coinPill.offsetWidth; coinPill.classList.add('loss');
+  toast(n ? title + ' −' + n + ' конфет' : title, 'Комбо сброшено', 'bad');
+  tone(320, 70, 0.42, 'square', 0.05); tone(160, 60, 0.3, 'sawtooth', 0.04, 0.05);
+}
+/* candies burst out of the heroine and rain down off the screen */
+function spillCandies(x, y, z, n){
+  if (!canAnim) return;
+  const [sx, sy] = screenOf(x, y, z);
+  for (let i = 0; i < n; i++) {
+    const el = flyEl('fly-coin'), a = -Math.PI / 2 + (Math.random() - 0.5) * 2.4, sp = 70 + Math.random() * 110, dx = Math.cos(a) * sp, dy = Math.sin(a) * sp, r = (Math.random() - 0.5) * 720;
+    const an = el.animate([
+      {transform:'translate(' + sx + 'px,' + sy + 'px) scale(.5) rotate(0deg)', opacity:1},
+      {transform:'translate(' + (sx + dx) + 'px,' + (sy + dy) + 'px) scale(1.25) rotate(' + r * 0.4 + 'deg)', opacity:1, offset:0.35},
+      {transform:'translate(' + (sx + dx * 1.5) + 'px,' + (sy + dy + 260) + 'px) scale(.9) rotate(' + r + 'deg)', opacity:0}
+    ], {duration:820 + Math.random() * 300, easing:'cubic-bezier(.25,.7,.5,1)'});
+    an.onfinish = () => freeEl(el);
+  }
+}
+function lossBadge(n){
+  const el = $('#lossFx'); if (!el) return;
+  el.innerHTML = n ? '<i>' + CANDY_SVG + '</i><b>−' + n + '</b>' : '<b>Ой!</b>';
+  el.hidden = false; if (!canAnim) { clearTimeout(lossBadge.t); lossBadge.t = setTimeout(() => { el.hidden = true; }, 1200); return; }
+  if (lossBadge.a) lossBadge.a.cancel();
+  const pr = coinPill.getBoundingClientRect(), er = el.getBoundingClientRect(), tx = pr.left + pr.width / 2 - (er.left + er.width / 2), ty = pr.top + pr.height / 2 - (er.top + er.height / 2);
+  lossBadge.a = el.animate([
+    {transform:'translate(-50%,-50%) scale(.2) rotate(-14deg)', opacity:0},
+    {transform:'translate(-50%,-50%) scale(1.28) rotate(4deg)', opacity:1, offset:0.14},
+    {transform:'translate(calc(-50% - 9px),-50%) scale(1) rotate(-3deg)', offset:0.22},
+    {transform:'translate(calc(-50% + 8px),-50%) scale(1) rotate(3deg)', offset:0.30},
+    {transform:'translate(calc(-50% - 5px),-50%) scale(1) rotate(-2deg)', offset:0.38},
+    {transform:'translate(-50%,-50%) scale(1) rotate(-3deg)', opacity:1, offset:0.72},
+    {transform:'translate(calc(-50% + ' + tx + 'px),calc(-50% + ' + ty + 'px)) scale(.35) rotate(0deg)', opacity:0}
+  ], {duration:1500, easing:'cubic-bezier(.3,.7,.4,1)'});
+  lossBadge.a.onfinish = () => { el.hidden = true; lossBadge.a = null; };
+}
+
+/* ---- the mystery arch pays out as a burst of candies (no chest box any more) ---- */
+function openChest(){
+  const x = hero.g.position.x;
+  burst(x, 1.7, -1.2, 0xffe27a, 26, 8); burst(x, 1.7, -1.2, 0xfff6c8, 14, 5);
+  sfx.win(); haptic(HAP.good); G.coinsRun += 40; renderCoins();
+  popText('Arch bonus! +40', x, 2.9, -1.2, 'gain'); flyCoins(x, 1.7, -1.2, 8);
+}
+
+/* ---- a run counts only when it is finished: new words stay new and nothing levels up after a lost or quit run ---- */
+function revertNewWords(){ (S.pendNew || []).forEach(id => { const s = S.words[id]; if (s && !s.reps) Object.assign(s, blankWord()); }); S.pendNew = []; }
+function applyResults(kind, outcome){
+  const won = outcome === 'done' || outcome === 'win', out = [];
+  if (won) S.pendNew = []; else revertNewWords();
+  for (const id in G.res) {
+    const r = G.res[id], s = S.words[id]; if (!s || !s.seen) continue;
+    const practice = G.practiceIds && G.practiceIds.indexOf(id) >= 0;
+    if (!won) {
+      if (r.wrong && !practice) { const old = s.box; s.box = old === 0 ? 0 : 1; s.lapses++; s.due = now() + INTERVAL_DAYS[s.box] * DAY; out.push({id, old, nw:s.box, wrong:true}); }
+      continue;
+    }
+    if (!r.wrong && r.ok > 0) s.okRuns = (s.okRuns || 0) + 1;
+    if (!r.wrong && practice) continue;
+    const old = s.box;
+    if (r.wrong) { s.box = old === 0 ? 0 : 1; s.lapses++; }
+    else if (r.firstFast) s.box = Math.min(5, old + 1);
+    s.due = now() + INTERVAL_DAYS[s.box] * DAY; s.reps++;
+    out.push({id, old, nw:s.box, wrong:r.wrong});
+  }
+  return out;
+}
+
+/* ---- sentences (fill the gap) and word pairs are off in chapter runs unless switched on for that chapter; the boss keeps them ---- */
+function sentOn(){ if (G.mode === 'boss') return true; S.sent = S.sent || {}; return !!S.sent[curCh().id]; }
+function specialType(box, w){
+  const sen = sentOn();
+  const opts = (box <= 1 ? ['pair', 'gap'] : box === 2 ? ['gap', 'pair', 'build'] : ['spell', 'build', 'pair', 'gap']).filter(t => sen || (t !== 'gap' && t !== 'pair'));
+  const ok = opts.filter(t => (t !== 'gap' || (w.ex && w.ex.indexOf('___') >= 0)) && (t !== 'pair' || pairPrompt(w)) && (t !== 'build' || canBuild(w)));
+  return ok.length ? ok[ri(ok.length)] : null;
+}
+function renderSentTog(){
+  const b = $('#btnSent'); if (!b) return; const on = sentOn();
+  b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  b.querySelector('.st-s').textContent = on ? 'вкл — слова, предложения и пары слов' : 'выкл — только перевод слов';
+}
+
+/* ---- answer buttons slide down out of the way when there is nothing to choose and pop back up with the next words ---- */
+function railAway(on){
+  const r = $('#rail'); if (!r || on === r.classList.contains('away')) return;
+  r.classList.toggle('away', on);
+  if (!on) { r.classList.add('in'); clearTimeout(railAway.t); railAway.t = setTimeout(() => r.classList.remove('in'), 650); }
+}
+function railClear(){ slots.forEach(s => { s.classList.remove('good', 'bad'); s.classList.add('idle', 'small'); s.querySelector('span').textContent = ''; }); railActive(); railAway(true); }
+function openQ(q){
+  const card = $('#qcard'); clearTimeout(qHideTimer); if (qAnim) { qAnim.cancel(); qAnim = null; }
+  card.hidden = false;
+  if (canAnim) qAnim = card.animate([{transform:'translateY(-34px) scale(.88) rotate(-2deg)', opacity:0}, {opacity:1, offset:0.55}, {transform:'none', opacity:1}], {duration:460, easing:'cubic-bezier(.2,1.45,.35,1)'});
+  const wasAway = $('#rail').classList.contains('away');
+  slots.forEach((s, i) => {
+    s.classList.remove('idle', 'good', 'bad'); s.classList.toggle('small', q.options[i].length > 14); s.firstChild.textContent = q.options[i];
+    if (canAnim && !wasAway) s.animate([{transform:'translateY(30px) scale(.8)', opacity:0}, {opacity:1, offset:0.5}, {transform:'none', opacity:1}], {duration:420, delay:i * 60, easing:'cubic-bezier(.2,1.6,.4,1)', fill:'backwards', composite:'add'});
+  });
+  railAway(false); railActive();
+}
+
+/* ---- tunnel swarm: small, many, out of the walls, down from the ceiling and up from behind the camera;
+   they gather behind the heroine and creep closer the longer the tunnel goes on ---- */
+function swarmSpawn(){
+  const name = SWARM_NODES[ri(SWARM_NODES.length)], node = KIT18.n[name]; if (!node) return;
+  const g = new T.Group(), body = new T.Group(), m = node.clone(), h = name === 'tn_blob3' ? 0.55 : 0.34 + Math.random() * 0.26;
+  m.scale.setScalar(h * 1.15); body.add(m); g.add(body); addShadow(g, 0.3 * h + 0.12);
+  const r = Math.random(); let c;
+  if (r < 0.45) { const x = (Math.random() * 2 - 1) * 4.1; c = {mode:'rear', x, z:7 + Math.random() * 4, y:0, side:x < 0 ? -1 : 1}; }
+  else if (r < 0.82) { const side = Math.random() < 0.5 ? -1 : 1; c = {mode:'wall', side, x:side * 5.6, wx:side * (3.5 + Math.random() * 0.8), z:-9 - Math.random() * 18, y:0}; }
+  else { const x = (Math.random() * 2 - 1) * 3.6; c = {mode:'drop', x, z:-7 - Math.random() * 14, y:5.4, vy:0, side:x < 0 ? -1 : 1}; }
+  Object.assign(c, {g, body, t:0, ph:Math.random() * 6.28, h, ox:0, oz:0, sp:0.7 + Math.random() * 0.6});
+  g.position.set(c.x, c.y, c.z); scene.add(g); TUN.swarm.push(c);
+}
+function swarmJoin(c){
+  c.mode = 'chase'; c.t = 0;
+  const wide = Math.random() < 0.3;
+  c.ox = wide ? (c.x < 0 ? -1 : 1) * (2.6 + Math.random() * 1.6) : clamp(c.x * 0.6 + (Math.random() - 0.5) * 2.4, -4.2, 4.2);
+  c.oz = wide ? -1.2 + Math.random() * 2.2 : 0.7 + Math.random() * 2.7;
+  if (!TUN.hinted && TUN.swarm.filter(q => q.mode === 'chase').length >= 5) { TUN.hinted = true; hint('Shadow creeps behind you! Keep running', 2400); }
+}
+function swarmFrame(dt, move){
+  if (!TUN.swarm.length) return;
+  if (G.mode !== 'run') { swarmClear(); return; }
+  if (TUN.lunge > 0) TUN.lunge = Math.max(0, TUN.lunge - dt);
+  const hx = hero.g.position.x, lz = TUN.lunge > 0 ? -1.0 * Math.sin(Math.min(1, TUN.lunge / 1.3) * Math.PI) : 0;
+  for (let i = TUN.swarm.length - 1; i >= 0; i--) {
+    const c = TUN.swarm[i]; c.t += dt; const b = c.body;
+    if (c.mode === 'wall') {
+      c.z += move; const k = Math.min(1, c.t / 0.7), e = k * k * (3 - 2 * k); c.x = c.side * 5.6 + (c.wx - c.side * 5.6) * e;
+      b.rotation.y = -c.side * 0.9; b.position.y = Math.abs(Math.sin(c.t * 8 + c.ph)) * 0.08; b.rotation.z = Math.sin(c.t * 4 + c.ph) * 0.12;
+      if (c.z > -1.5) swarmJoin(c);
+    } else if (c.mode === 'drop') {
+      c.z += move; if (c.y > 0) { c.vy -= 22 * dt; c.y = Math.max(0, c.y + c.vy * dt); b.rotation.x = Math.sin(c.t * 10) * 0.3; if (c.y === 0) { b.scale.set(1.3, 0.6, 1.3); b.rotation.x = 0; } }
+      else { b.scale.x += (1 - b.scale.x) * Math.min(1, dt * 10); b.scale.y += (1 - b.scale.y) * Math.min(1, dt * 10); b.scale.z = b.scale.x; b.position.y = Math.abs(Math.sin(c.t * 8 + c.ph)) * 0.08; }
+      if (c.z > -1.5 && c.y === 0) swarmJoin(c);
+    } else if (c.mode === 'rear') {
+      c.z -= (2.2 + c.sp) * dt; b.rotation.y = Math.PI + Math.sin(c.t * 2 + c.ph) * 0.3;
+      const hop = Math.abs(Math.sin(c.t * 10 + c.ph)); b.position.y = hop * 0.2;
+      if (c.z < 3.6) swarmJoin(c);
+    } else if (c.mode === 'chase') {
+      let ax = 0, cnt = 0;
+      for (const o of TUN.swarm) { if (o === c || o.mode !== 'chase') continue; const dx = o.x - c.x, dz = o.z - c.z, d = Math.hypot(dx, dz); if (d < 0.42 && d > 0) { c.ox -= dx / d * dt * 1.4; c.oz -= dz / d * dt * 0.9; } else if (d < 2.2) { ax += o.x; cnt++; } }
+      if (cnt) c.ox += (ax / cnt - c.x) * dt * 0.18;
+      const side = Math.abs(c.ox) > 2.4;
+      c.oz -= dt * 0.05;
+      c.ox = clamp(c.ox, -4.25, 4.25); c.oz = clamp(c.oz, side ? -1.6 : 0.55, 3.6);
+      const tx = hx * 0.3 + c.ox, tz = c.oz + lz;
+      c.x += (tx - c.x) * Math.min(1, dt * 3); c.z += (tz - c.z) * Math.min(1, dt * (TUN.lunge > 0 ? 6 : 2.2));
+      const hop = Math.abs(Math.sin(c.t * 10 + c.ph)); b.position.y = hop * 0.18; b.scale.set(1 + (1 - hop) * 0.1, 1 - (1 - hop) * 0.12 + hop * 0.05, 1);
+      /* once they have caught up they turn round and stare at you */
+      const face = clamp(-(c.x - camPos.x) * 0.12, -0.6, 0.6) + Math.sin(c.t * 1.3 + c.ph) * 0.18;
+      b.rotation.y += (face - b.rotation.y) * Math.min(1, dt * 5); b.rotation.z = Math.sin(c.t * 10 + c.ph) * 0.14;
+    } else if (c.mode === 'flee') {
+      c.z += (G.ws * 0.55 + 4) * dt; c.x += Math.sign(c.x || 1) * dt * 2.4; const s = Math.max(0.001, 1 - c.t * 0.9); b.scale.setScalar(s); b.rotation.y = 0;
+      if (c.t > 1.2 || c.z > 9) { scene.remove(c.g); TUN.swarm.splice(i, 1); continue; }
+    }
+    if (c.z > 14) { scene.remove(c.g); TUN.swarm.splice(i, 1); continue; }
+    c.g.position.set(c.x, c.y || 0, c.z);
+  }
+}
+
+/* ---- the vampire scare, slow burn: the torches choke, a heartbeat, he takes shape in the dark ahead,
+   glides closer laughing, then lunges at the camera — flash — and is gone in a cloud of bats ---- */
+function vampScare(){
+  TUN.scareDone = true;
+  if (!A.ok || !V.g || V.mode !== 'off' || !opt('vamp')) return;
+  V.mode = 'scare'; V.sc = {t:0, boo:false, x0:(Math.random() < 0.5 ? -1 : 1) * 0.5, laugh:false};
+  V.g.visible = false; V.g.position.set(V.sc.x0, 0, -20); V.g.rotation.set(0, 0, 0); V.g.scale.setScalar(1);
+  V.inner.position.y = 0; V.inner.rotation.y = Math.PI / 2; V.inner.scale.setScalar(2.4); V.shadow.visible = false; V.glow.visible = false;
+  scene.add(V.g); vampAnim('Cast', 0, false, 0.5);
+  tone(55, 46, 3.0, 'sawtooth', 0.022); tone(82, 70, 3.0, 'sine', 0.035);
+  [0.35, 0.95, 1.5, 1.95, 2.3, 2.62, 2.9].forEach((d, i) => { tone(62, 38, 0.16, 'sine', 0.12 + i * 0.012, d); tone(58, 36, 0.12, 'sine', 0.07 + i * 0.01, d + 0.17); });
+  tone(300, 1500, 0.5, 'sawtooth', 0.03, 2.62);
+}
+function vampScareFrame(sdt){
+  const vig = $('#scareVig');
+  if (V.mode !== 'scare') {
+    if (V.g && !V.g.visible && V.mode === 'off') V.g.visible = true;
+    if (TUN.dim > 0) TUN.dim = Math.max(0, TUN.dim - sdt * 1.6);
+    if (TUN.flare > 0) TUN.flare = Math.max(0, TUN.flare - sdt * 1.4);
+    if (TUN.vig > 0) { TUN.vig = Math.max(0, TUN.vig - sdt * 1.8); if (vig) vig.style.opacity = TUN.vig.toFixed(3); }
+    return;
+  }
+  const s = V.sc; s.t += sdt; const g = V.g, t = s.t, BOO = 3.25;
+  if (t < BOO) { TUN.dim = clamp(t / 1.1, 0, 1); TUN.vig = clamp(t / 1.4, 0, 1) * 0.86; }
+  else { TUN.dim = Math.max(0, 1 - (t - BOO) * 2.4); TUN.vig = Math.max(0, 0.86 - (t - BOO) * 1.9); }
+  if (vig) vig.style.opacity = TUN.vig.toFixed(3);
+  if (t < 1.2) return;
+  if (!s.boo) g.visible = true;
+  if (!s.laugh && t > 1.45) { s.laugh = true; sfx.vampLaugh(); }
+  if (t < 2.6) {
+    /* takes shape in the dark ahead and drifts closer, swaying */
+    const k = clamp((t - 1.2) / 1.4, 0, 1), e = k * k * (3 - 2 * k);
+    g.position.set(s.x0 + Math.sin(t * 1.7) * 0.25, 0.15 + Math.sin(t * 2.3) * 0.12, -20 + 11 * e);
+    g.rotation.y = Math.sin(t * 1.3) * 0.12;
+  } else if (t < BOO) {
+    /* lunge: fast start, brakes right in front of the lens, hangs there for a heartbeat */
+    if (!s.lunge) { s.lunge = true; s.p0 = g.position.clone(); vampAnim('Catch', 0.06, true, 1.5); shake(0.1); }
+    const k = Math.min(1, (t - 2.6) / 0.4), e = 1 - Math.pow(1 - k, 3), tx = camPos.x - 0.55, ty = 1.25, tz = camPos.z - 2.15;
+    g.position.set(s.p0.x + (tx - s.p0.x) * e, s.p0.y + (ty - s.p0.y) * e, s.p0.z + (tz - s.p0.z) * e); g.rotation.y = 0.15 * e;
+    if (k >= 1) g.position.z += Math.sin(t * 60) * 0.03;
+    G.shake = Math.max(G.shake, 0.04 + e * 0.14);
+  } else if (!s.boo) {
+    s.boo = true; g.visible = false; TUN.flare = 1;
+    const p = g.position; burst(p.x, 2.0, p.z - 0.8, 0x1a0f24, 26, 9); burst(p.x, 2.0, p.z - 0.8, 0x9a3aff, 12, 7);
+    flashFx('rgba(255,60,90,.65)'); shake(0.45); haptic(HAP.boss);
+    tone(233, 170, 0.7, 'sawtooth', 0.07); tone(247, 180, 0.7, 'square', 0.045); tone(370, 260, 0.55, 'sawtooth', 0.05); sfx.vamp();
+  } else if (t > BOO + 0.65) { vampOff(); g.visible = true; }
+}
+/* a cold key light rides in front of him while the torches are choked, so he reads in the dark */
+const _scareCol = new T.Color(0xc4a2ff), _torchCol = new T.Color(0xff9a48);
+function scareLight(){
+  const l = TUN.lights && TUN.lights[0]; if (!l) return;
+  if (V.mode === 'scare' && V.sc && V.sc.t > 1.15 && !V.sc.boo) {
+    const p = V.g.position, close = V.sc.t > 2.6;
+    l.position.set(p.x + 0.5, close ? 2.6 : 3.4, p.z + (close ? 1.4 : 2.8)); l.color.copy(_scareCol); l.distance = close ? 5 : 9;
+    l.intensity = (close ? 2.2 : 2.8) * (0.9 + Math.sin(G.clock * 37) * 0.06 + Math.sin(G.clock * 13) * 0.05) * clamp((V.sc.t - 1.15) / 0.5, 0, 1);
+    TUN.keyOn = true;
+  } else if (TUN.keyOn) { TUN.keyOn = false; l.color.copy(_torchCol); l.distance = 12; }
+}
+
+/* ---- per-frame and boot hooks ---- */
+function v19Frame(sdt, dt){
+  if (G.jumpBuf > 0) G.jumpBuf = Math.max(0, G.jumpBuf - sdt);
+  scareLight(); if (G.mode === 'run') mobFace(sdt);
+}
+function bindV19(){
+  const app = $('#app');
+  if (!$('#lossFx')) { const e = document.createElement('div'); e.id = 'lossFx'; e.hidden = true; app.appendChild(e); }
+  if (!$('#scareVig')) { const e = document.createElement('div'); e.id = 'scareVig'; app.appendChild(e); }
+  const sb = $('#btnSent');
+  if (sb) sb.addEventListener('click', () => { S.sent = S.sent || {}; const id = curCh().id; S.sent[id] = !S.sent[id]; save(); renderSentTog(); haptic(HAP.tap); sfx.coin && sfx.coin(3); bumpEl(sb, 'pop'); });
+  if (S.pendNew && S.pendNew.length && G.mode !== 'run') { revertNewWords(); save(); }
+  renderSentTog();
+}
+
 /* ---- on-device stutter diagnostics: every frame longer than 70 ms is logged with what ran around it ---- */
 const perfEl = $('#perf'), PM = [], PL = []; let pfPrevStart = 0, pfFrames = 0, pfSince = performance.now(), pfFps = 0, pfShownAt = 0;
 function mark(name, dur){ PM.push({n:name, d:dur, at:performance.now()}); if (PM.length > 80) PM.splice(0, PM.length - 80); }
@@ -7893,8 +8669,8 @@ function endBoot(){
   else buildSceneryProc();
   setPal('dusk', 'day', true); prewarm(); setTimeout(renderMusic, 400); window.__bootDone = true; if (BETA) {} else if (TG.ok) tgCloudInit(); else cloudInit(); if (G.mode === 'home') renderHome(); loadEl.classList.add('out'); setTimeout(() => { loadEl.hidden = true; }, 600);
 }
-if (/debug/.test(location.search)) window.__WR = {offlineRender, foldLoop, SONGS, MUS_SR, LAYER_MIX, speak, voiceFetch, TR, V, SETS, SKYI, BIOV2:BIOV, get palK(){ return palK; }, get activeSet(){ return activeSet; }, inTunnel, KIT18, TUN, SCN, LOCS, curLoc, advanceLoc, loadKit18, swarmSpawn, vampScare, sceneryGo, VOICE, TRY, BIOV, setBiome, lvProgress, lvAfterRun, chLvl, applyChapterStages, prefetchWorld, startBossLoad, ensureDanceBoss, DW, giveRelic, showRelic, COLL, hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
-bindMeta(); bindV12(); bindV17(); bindV18(); goHome();
+if (/debug/.test(location.search)) window.__WR = {hitPenalty, lossBadge, sentOn, applyResults, railAway, openChest, mobYaw, airborne, cloudTex18, ISL_DATA, swarmFrame, ICONS, drawIcon, skOpen, SKED, offlineRender, foldLoop, SONGS, MUS_SR, LAYER_MIX, speak, voiceFetch, TR, V, SETS, SKYI, BIOV2:BIOV, get palK(){ return palK; }, get activeSet(){ return activeSet; }, inTunnel, KIT18, TUN, SCN, LOCS, curLoc, advanceLoc, loadKit18, swarmSpawn, vampScare, sceneryGo, VOICE, TRY, BIOV, setBiome, lvProgress, lvAfterRun, chLvl, applyChapterStages, prefetchWorld, startBossLoad, ensureDanceBoss, DW, giveRelic, showRelic, COLL, hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
+bindMeta(); bindV12(); bindV17(); bindV18(); bindV19(); goHome();
 requestAnimationFrame(frame);
 if (HAS_GLB) loadAssets(setProg).then(endBoot).catch(e => { console.error('assets', e); A.ok = false; endBoot(); });
 else endBoot();
