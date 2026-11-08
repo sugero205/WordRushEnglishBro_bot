@@ -713,6 +713,7 @@ label.btn{cursor:pointer}
 .sent-tog.pop{animation:bump .3s cubic-bezier(.3,1.8,.5,1)}
 @media (prefers-reduced-motion:reduce){#rail .slot,#rail.away .slot,#rail.in .slot{transition:none}}
 
+.fx-grade{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1.6s ease}
 #perf{position:absolute;left:8px;right:8px;bottom:92px;z-index:9;font:700 10.5px/1.35 ui-monospace,Menlo,monospace;color:#fff;background:rgba(20,10,40,.8);border:2px solid rgba(255,255,255,.25);border-radius:10px;padding:6px 8px;pointer-events:none;white-space:pre-wrap;max-height:30vh;overflow:hidden}
 #perf b{color:#ffc93a}
 @media (prefers-reduced-motion:reduce){#qcard,#toast,.slot.enter,#banner.show .bn-in,.pill.bump,#lines{animation:none}.slot,.btn{transition:none}}
@@ -2556,7 +2557,7 @@ function makeSet(defs){
       const it = {minX:d[2], maxX:d[3], s0:d[4], s1:d[5], face:!!fl.face, lean:!!fl.lean, center:!!fl.center, row:fl.row || 0, gaps:fl.gaps, side:k % 2 ? 1 : -1};
       sceneryPlace(it, fl.row ? -230 + 246 * Math.floor(k / 2) / Math.ceil(n / 2) : -230 + 246 * (k + Math.random()) / n); items.push(it);
     }
-    set.types.push({ims, items, name:node.name || (node.userData && node.userData.srcName) || ''});
+    set.types.push(fxType({ims, items, name:node.name || (node.userData && node.userData.srcName) || ''}, node));
   });
   return set;
 }
@@ -6828,7 +6829,7 @@ function update(dt){
   grassTex.offset.y += move / GRASS_TILE; pathTex.offset.y += move / PATH_TILE;
   if (G.mode === 'run') updateJunction(sdt, move);
   if (A.ok) { updateScenery(move); bioUpdate(move); } else for (const o of scenery) { o.position.z += move; if (o.position.z > 16) sceneryPlaceP(o, o.position.z - 246); }
-  updateClouds(dt); updateEmbers(move, dt, G.clock); updateIslands(move, G.clock); updateBalloons(move, G.clock);
+  updateClouds(dt); updateEmbers(move, dt, G.clock); fxFrame(move, dt, G.clock); updateIslands(move, G.clock); updateBalloons(move, G.clock);
   if (palK < 1) { palK = Math.min(1, palK + dt / (G.mode === 'run' ? TUNE.run.blend : 1.6)); applyPal(); }
   if (A.ok && setTo !== activeSet && (G.mode === 'run' || palK >= 0.5)) sceneryGo(setTo, SCN.front); SCN.front = null;
   if (!G.paused) {
@@ -7182,7 +7183,7 @@ function sceneryGo(name, front){
 }
 function scnUpd(name, move, leaving){
   const set = SETS[name]; if (!set) return true;
-  if (move === 0 && !set.dirty) return false; set.dirty = false; let alive = 0;
+  if (move === 0 && !set.dirty && !(TUNE.fx.wind > 0)) return false; set.dirty = false; let alive = 0;
   for (const ty of set.types) {
     const items = ty.items, tt = TS(name, ty.name), td = tt && tt.d != null ? tt.d : 1, tsc = tt && tt.s || 1, tx = tt && tt.x || 1;
     for (let k = 0; k < items.length; k++) {
@@ -7190,7 +7191,8 @@ function scnUpd(name, move, leaving){
       if (it.z > 16) { sceneryPlace(it, it.z - 246); if (leaving) it.gone = true; else it.hold = false; }
       if (!it.gone) alive++;
       const hide = it.gone || it.hold || (TR.J && sceneryCut(it)) || (td < 1 && tHash(k) >= td);
-      dummy.position.set(it.x * tx, 0, it.z); dummy.rotation.set(0, it.ry, it.rz); dummy.scale.setScalar(hide ? 0.0001 : it.s * tsc); dummy.updateMatrix();
+      it.wx = it.x * tx; it.ws = hide ? 0 : it.s * tsc;
+      dummy.position.set(it.wx, 0, it.z); dummy.rotation.set(0, it.ry, it.rz + (ty.wind ? fxWind(it, ty.wind) : 0)); dummy.scale.setScalar(hide ? 0.0001 : it.s * tsc); dummy.updateMatrix();
       for (const im of ty.ims) im.setMatrixAt(k, dummy.matrix);
     }
     for (const im of ty.ims) im.instanceMatrix.needsUpdate = true;
@@ -7429,7 +7431,7 @@ function bioTex(b){ return BIOV.tex[b] || (BIOV.tex[b] = assetTex('bio_' + b + '
 const TUNE_DEF = {
   run:{speed:1, qtime:1, obst:1, spawn:50, blend:3.6, jump:11.5, lane:13},
   cam:{y:2.55, z:4.5, x:1.2, look:1.45, fov:0, curve:1, follow:3.2},
-  tun:{light:1, swarm:30, bats:0.8, scare:1, len:26},
+  tun:{light:1, swarm:30, bats:0.8, scare:1, len:26}, fx:{parts:1, bokeh:1, rays:1, wind:1, glow:1, vig:1},
   fork:{stage:3, len:30, wall:1, decor:1},
   loc:{}, set:{}
 };
@@ -7480,7 +7482,7 @@ function tpPlaceRows(){
   let h = '<div class="tp-h">Место сейчас: <b>' + esc(k === 'tunnel' ? 'Туннель' : L.name) + '</b></div>';
   h += '<label class="tp-row"><span>Палитра (небо, туман, свет)</span><select data-s="loc.' + k + '.pal"><option value="">— как задумано —</option>' + pals.map(p => '<option' + (t.pal === p ? ' selected' : '') + '>' + p + '</option>').join('') + '</select></label>';
   [['fogN', 'Туман начинается (ближе ↔ дальше)', 0.3, 2.5, 0.05], ['fogF', 'Туман полностью (ближе ↔ дальше)', 0.4, 2.5, 0.05], ['bright', 'Яркость света', 0.3, 2, 0.05], ['bioD', 'Рисованный фон: сколько', 0, 1, 0.05], ['bioX', 'Рисованный фон: насколько далеко', 0.5, 2, 0.05]].forEach(([p, n, a, b, s]) => { h += tpSlider('loc.' + k + '.' + p, n, a, b, s, t[p] == null ? def[p] : t[p], def[p]); });
-  h += tpCheck('loc.' + k + '.isl', 'Парящие острова в небе', t.isl == null ? 1 : t.isl);
+  h += tpCheck('loc.' + k + '.isl', 'Парящие острова в небе', t.isl == null ? 1 : t.isl); h += fxTuneRows();
   return h;
 }
 function tpDecorRows(){
@@ -8632,6 +8634,208 @@ function bindV19(){
   if (sb) sb.addEventListener('click', () => { S.sent = S.sent || {}; const id = curCh().id; S.sent[id] = !S.sent[id]; save(); renderSentTog(); haptic(HAP.tap); sfx.coin && sfx.coin(3); bumpEl(sb, 'pop'); });
   if (S.pendNew && S.pendNew.length && G.mode !== 'run') { revertNewWords(); save(); }
   renderSentTog();
+  try { fxInit(); } catch(e) { console.warn('fx', e); }
+}
+
+/* ================= v19.1 atmosphere: particles per place, soft glow and bokeh, sunset rays, wind in the decor,
+   flickering lamps and glowing crystals, a colour grade with a soft vignette. All sprites and points, no post-processing. ================= */
+const FX = {kind:null, next:null, fade:0, q:1, soft:null, flake:null, bokeh:[], rays:[], rayG:null, halos:[], grade:null, gi:0, ready:false};
+const FX_SOFT = {
+  candy:   {c:[1, 0.86, 0.94], c2:[1, 0.95, 0.72], size:0.23, vy:0.22, wob:0.35, blink:0, n:1},
+  twilight:{c:[0.86, 1, 0.42], c2:[0.62, 1, 0.82], size:0.34, vy:0.04, wob:0.9, blink:1, n:0.65},
+  swamp:   {c:[0.7, 1, 0.58], c2:[0.92, 1, 0.78], size:0.2, vy:0.32, wob:0.4, blink:0.4, n:0.9},
+  ice:     {c:[0.78, 0.96, 1], c2:[1, 1, 1], size:0.15, vy:0.04, wob:0.3, blink:0.7, n:0.5},
+  night:   {c:[0.62, 0.8, 1], c2:[0.86, 0.94, 1], size:0.3, vy:0.04, wob:0.9, blink:1, n:0.6},
+  tunnel:  {c:[1, 0.74, 0.44], c2:[1, 0.9, 0.7], size:0.11, vy:0.07, wob:0.22, blink:0.25, n:0.9, near:true},
+  arena:   {c:[1, 0.5, 0.3], c2:[1, 0.76, 0.4], size:0.2, vy:0.9, wob:0.4, blink:0.4, n:0.8}
+};
+const FX_FLAKE = {candy:{tex:'petal', size:0.34, vy:-0.55, drift:0.9, n:0.75}, ice:{tex:'snow', size:0.24, vy:-1.35, drift:0.5, n:1}};
+const FX_BOKEH = {candy:[0xffb0d8, 0xffe0a0, 0xffffff, 0xff8fc6], twilight:[0xc9a2ff, 0x9affd8, 0xe8ff8a], swamp:[0xb8ff9a, 0xf0ffb0, 0x9affd8], ice:[0xb0f0ff, 0xffffff, 0xd8c8ff], night:[0x9fc8ff, 0xffffff], arena:[0xff8060, 0xffb070], tunnel:[]};
+const FX_GRADE = {
+  candy:   'radial-gradient(ellipse 80% 70% at 50% 42%,rgba(60,10,80,0) 52%,rgba(60,10,80,.34) 100%),linear-gradient(180deg,rgba(255,186,120,.10) 0%,rgba(255,140,200,.05) 55%,rgba(80,30,140,.14) 100%)',
+  twilight:'radial-gradient(ellipse 78% 68% at 50% 42%,rgba(16,8,48,0) 48%,rgba(16,8,48,.48) 100%),linear-gradient(180deg,rgba(110,80,255,.10) 0%,rgba(40,200,170,.05) 60%,rgba(16,8,60,.18) 100%)',
+  swamp:   'radial-gradient(ellipse 78% 68% at 50% 42%,rgba(6,24,14,0) 48%,rgba(6,24,14,.5) 100%),linear-gradient(180deg,rgba(150,255,120,.07) 0%,rgba(20,60,30,.16) 100%)',
+  ice:     'radial-gradient(ellipse 80% 70% at 50% 42%,rgba(14,30,80,0) 52%,rgba(14,30,80,.36) 100%),linear-gradient(180deg,rgba(170,225,255,.12) 0%,rgba(200,180,255,.05) 60%,rgba(20,40,110,.12) 100%)',
+  night:   'radial-gradient(ellipse 78% 68% at 50% 42%,rgba(4,8,30,0) 46%,rgba(4,8,30,.55) 100%),linear-gradient(180deg,rgba(120,160,255,.08) 0%,rgba(4,8,40,.18) 100%)',
+  tunnel:  'radial-gradient(ellipse 72% 62% at 50% 46%,rgba(10,4,0,0) 40%,rgba(10,4,0,.62) 100%),linear-gradient(180deg,rgba(255,150,60,.08) 0%,rgba(30,10,0,.16) 100%)',
+  arena:   'radial-gradient(ellipse 78% 68% at 50% 42%,rgba(30,0,10,0) 46%,rgba(30,0,10,.55) 100%),linear-gradient(180deg,rgba(255,90,70,.08) 0%,rgba(40,0,20,.18) 100%)'
+};
+function fxKind(){
+  if (G.mode === 'boss') return 'arena';
+  if (inTunnel()) return 'tunnel';
+  const p = palName() || 'candy';
+  return ({candy:'candy', dusk:'candy', twilight:'twilight', witch:'twilight', astral:'twilight', swamp:'swamp', bog:'swamp', ice:'ice', icenight:'ice', night:'night', arena:'arena', tunnel:'tunnel', shadow:'night'})[p] || 'candy';
+}
+
+/* decor: which kinds sway in the wind, which ones glow (called for every decor type when a set is built) */
+function fxType(ty, node){
+  const n = ty.name || '';
+  let h0 = 1; try { const b = new T.Box3().setFromObject(node); if (isFinite(b.max.y - b.min.y)) h0 = Math.max(0.1, b.max.y - b.min.y); } catch(e) {}
+  ty.h0 = h0;
+  if (/fence|sign|gate|lamp|rock|stone|ruin|cage|banner|pot|arch|crystal|grave|stump|log|house|igloo|chest|barrel|crate|tower|obelisk|spire|skull|eye|bone|coffin|cauldron|candle|jack|broom|bucket|pond|snowman|horns|hand|spikes|pump|critter|gumdrop|donut/i.test(n)) ty.wind = 0;
+  else if (/tree|pine|spruce|palm/i.test(n)) ty.wind = 0.022;
+  else if (/mush/i.test(n)) ty.wind = 0.018;
+  else if (/grass|tuft|flower|rose|vine|sprout|reed|weed|fern|bush|berry/i.test(n)) ty.wind = 0.065;
+  else if (/tentacle|stalk|curl|spiral|lolli|cane/i.test(n)) ty.wind = 0.035;
+  else ty.wind = 0;
+  let g = null;
+  if (/lamp|lantern/i.test(n)) g = {y:0.9, r:2.6, c:0xffd27a, fl:1};
+  else if (/candle/i.test(n)) g = {y:0.95, r:1.2, c:0xffc070, fl:1};
+  else if (/jack/i.test(n)) g = {y:0.45, r:1.7, c:0xff9a40, fl:1};
+  else if (/firePit|torch/i.test(n)) g = {y:0.6, r:2.2, c:0xff9a40, fl:1};
+  else if (/crystal|spire/i.test(n)) g = {y:0.55, r:1.9, c:/ice|spire/i.test(n) ? 0x9fe8ff : /pink/i.test(n) ? 0xff8fd0 : /^pu_/.test(n) ? 0xc08cff : 0xd2b0ff, fl:0};
+  else if (/house|igloo/i.test(n)) g = {y:0.3, r:1.4, c:0xffc46b, fl:0.5, eve:true};
+  ty.glow = g;
+  return ty;
+}
+function fxWind(it, amp){
+  const t = G.clock;
+  return amp * TUNE.fx.wind * (Math.sin(t * 1.5 + it.z * 0.13 + it.x * 0.31) * 0.65 + Math.sin(t * 2.6 + it.z * 0.37) * 0.35) * (0.7 + 0.3 * Math.sin(t * 0.35 + it.z * 0.02));
+}
+
+function fxTexSoft(){ return canvasTex(64, 64, x => { const g = x.createRadialGradient(32, 32, 0, 32, 32, 32); g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(0.3, 'rgba(255,255,255,.6)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, 64, 64); }); }
+function fxTexPetal(){ return canvasTex(64, 64, x => { x.translate(32, 32); x.rotate(-0.6); const g = x.createRadialGradient(-4, -3, 1, 0, 0, 22); g.addColorStop(0, '#fff2f8'); g.addColorStop(0.55, '#ffb3d6'); g.addColorStop(1, '#ff7ab8'); x.fillStyle = g; x.beginPath(); x.ellipse(0, 0, 22, 12, 0, 0, Math.PI * 2); x.fill(); x.fillStyle = 'rgba(255,255,255,.55)'; x.beginPath(); x.ellipse(-6, -3, 8, 3, 0, 0, Math.PI * 2); x.fill(); }); }
+function fxTexSnow(){ return canvasTex(64, 64, x => { const g = x.createRadialGradient(32, 32, 0, 32, 32, 30); g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(0.45, 'rgba(255,255,255,.95)'); g.addColorStop(0.6, 'rgba(255,255,255,.35)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, 64, 64); }); }
+function fxTexBokeh(){ return canvasTex(128, 128, x => { const g = x.createRadialGradient(64, 64, 0, 64, 64, 62); g.addColorStop(0, 'rgba(255,255,255,.32)'); g.addColorStop(0.68, 'rgba(255,255,255,.42)'); g.addColorStop(0.84, 'rgba(255,255,255,.62)'); g.addColorStop(0.92, 'rgba(255,255,255,.25)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, 128, 128); }); }
+function fxTexRay(){ return canvasTex(64, 256, x => {
+  const g = x.createLinearGradient(0, 256, 0, 0); g.addColorStop(0, 'rgba(255,255,255,.95)'); g.addColorStop(0.3, 'rgba(255,255,255,.4)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, 64, 256);
+  const h = x.createLinearGradient(0, 0, 64, 0); h.addColorStop(0, 'rgba(0,0,0,1)'); h.addColorStop(0.5, 'rgba(0,0,0,0)'); h.addColorStop(1, 'rgba(0,0,0,1)'); x.globalCompositeOperation = 'destination-out'; x.fillStyle = h; x.fillRect(0, 0, 64, 256);
+}); }
+function fxPoints(n, tex, blending){
+  const pos = new Float32Array(n * 3), col = new Float32Array(n * 3), base = new Float32Array(n * 3), ph = new Float32Array(n);
+  const geo = new T.BufferGeometry(); geo.setAttribute('position', new T.BufferAttribute(pos, 3)); geo.setAttribute('color', new T.BufferAttribute(col, 3));
+  const m = curvify(new T.PointsMaterial({size:0.2, map:tex, vertexColors:true, transparent:true, depthWrite:false, blending, opacity:0}));
+  const p = new T.Points(geo, m); p.frustumCulled = false; p.visible = false; scene.add(p);
+  return {p, geo, pos, col, base, ph, n, m, cfg:null};
+}
+function fxInit(){
+  if (FX.ready) return; FX.ready = true;
+  FX.tex = {soft:fxTexSoft(), petal:fxTexPetal(), snow:fxTexSnow(), bokeh:fxTexBokeh(), ray:fxTexRay()};
+  FX.soft = fxPoints(170, FX.tex.soft, T.AdditiveBlending);
+  FX.flake = fxPoints(90, FX.tex.petal, T.NormalBlending);
+  for (let i = 0; i < 14; i++) {
+    const m = new T.SpriteMaterial({map:FX.tex.bokeh, transparent:true, depthWrite:false, blending:T.AdditiveBlending, fog:false, opacity:0});
+    const s = new T.Sprite(m); s.renderOrder = -1; s.visible = false; scene.add(s);
+    FX.bokeh.push({s, ox:(Math.random() * 2 - 1) * 34, oy:-1 + Math.random() * 9, oz:-44 - Math.random() * 30, r:1.8 + Math.random() * 3.6, ph:Math.random() * 6.28, sp:0.2 + Math.random() * 0.4});
+  }
+  FX.rayG = new T.Group(); scene.add(FX.rayG);
+  const rg = new T.PlaneGeometry(1, 1); rg.translate(0, 0.5, 0);
+  const angs = [2.05, 2.4, 2.75, 3.05, 3.35, 3.7, 4.05, 4.4, 0.35, -0.4];
+  angs.forEach((a, i) => {
+    const m = new T.MeshBasicMaterial({map:FX.tex.ray, color:0xffe2b8, transparent:true, depthWrite:false, fog:false, blending:T.AdditiveBlending, opacity:0});
+    const r = new T.Mesh(rg, m); r.rotation.z = a; r.renderOrder = -1; r.userData = {L:4.2 + Math.random() * 3.2, w:0.28 + Math.random() * 0.34, ph:Math.random() * 6.28, up:i >= 8};
+    FX.rayG.add(r); FX.rays.push(r);
+  });
+  FX.rayG.visible = false;
+  for (let i = 0; i < 28; i++) {
+    const m = new T.SpriteMaterial({map:FX.tex.soft, transparent:true, depthWrite:false, blending:T.AdditiveBlending, opacity:0});
+    const s = new T.Sprite(m); s.visible = false; scene.add(s); FX.halos.push(s);
+  }
+  const st = $('#stage');
+  if (st) { FX.grade = [0, 1].map(() => { const d = document.createElement('div'); d.className = 'fx-grade'; st.appendChild(d); return d; }); }
+  try { embers.visible = false; } catch(e) {}
+}
+function fxConfigure(k){
+  const S = FX_SOFT[k] || FX_SOFT.candy, sp = FX.soft; sp.cfg = S; sp.m.size = S.size;
+  for (let i = 0; i < sp.n; i++) fxSpawnSoft(i, true);
+  const F = FX_FLAKE[k] || null, fp = FX.flake; fp.cfg = F;
+  if (F) { fp.m.map = FX.tex[F.tex]; fp.m.size = F.size; fp.m.needsUpdate = true; for (let i = 0; i < fp.n; i++) fxSpawnFlake(i, true); }
+  const cols = FX_BOKEH[k] || [];
+  FX.bokeh.forEach((b, i) => { if (cols.length) b.s.material.color.setHex(cols[i % cols.length]); });
+  if (FX.grade) {
+    FX.gi = 1 - FX.gi; const a = FX.grade[FX.gi], o = FX.grade[1 - FX.gi];
+    a.style.background = FX_GRADE[k] || FX_GRADE.candy; a.style.opacity = String(Math.min(1, TUNE.fx.vig)); o.style.opacity = '0';
+  }
+}
+function fxSpawnSoft(i, anywhere){
+  const sp = FX.soft, S = sp.cfg, j = i * 3, near = S && S.near;
+  let x = near ? (Math.random() * 2 - 1) * 4.2 : (Math.random() * 2 - 1) * 14, z = anywhere ? -55 + Math.random() * 62 : -55 - Math.random() * 6;
+  if (!near && Math.abs(x) < 2.2 && z > -8) x = Math.sign(x || 1) * (2.2 + Math.random() * 3);
+  sp.pos[j] = x; sp.pos[j + 1] = near ? 0.4 + Math.random() * 3.6 : 0.3 + Math.random() * 7; sp.pos[j + 2] = z;
+  const c = Math.random() < 0.5 ? S.c : S.c2; sp.base[j] = c[0]; sp.base[j + 1] = c[1]; sp.base[j + 2] = c[2]; sp.ph[i] = Math.random() * 6.28;
+}
+function fxSpawnFlake(i, anywhere){
+  const fp = FX.flake, j = i * 3;
+  fp.pos[j] = (Math.random() * 2 - 1) * 13; fp.pos[j + 1] = anywhere ? Math.random() * 10 : 9 + Math.random(); fp.pos[j + 2] = -50 + Math.random() * 58;
+  fp.col[j] = fp.col[j + 1] = fp.col[j + 2] = 1; fp.ph[i] = Math.random() * 6.28;
+}
+function fxFrame(move, dt, t){
+  if (!FX.ready) return;
+  dt = Math.min(0.05, dt || 0);
+  FX.q = prNow < 1.2 ? 0.6 : 1;
+  const want = fxKind();
+  if (FX.kind === null) { FX.kind = want; fxConfigure(want); FX.fade = 0; }
+  if (want !== FX.kind) { FX.next = want; FX.fade = Math.max(0, FX.fade - dt * 1.4); if (FX.fade === 0) { FX.kind = want; FX.next = null; fxConfigure(want); } }
+  else FX.fade = Math.min(1, FX.fade + dt * 0.9);
+  const f = FX.fade, k = FX.kind;
+  if (FX.grade && FX.vigV !== TUNE.fx.vig) { FX.vigV = TUNE.fx.vig; FX.grade[FX.gi].style.opacity = String(Math.min(1, TUNE.fx.vig)); }
+  /* drifting particles */
+  const sp = FX.soft, S = sp.cfg;
+  if (S) {
+    const cnt = Math.round(sp.n * S.n * TUNE.fx.parts * FX.q); sp.geo.setDrawRange(0, cnt); sp.p.visible = cnt > 0 && f > 0.01;
+    sp.m.opacity = f;
+    for (let i = 0; i < cnt; i++) {
+      const j = i * 3, ph = sp.ph[i];
+      sp.pos[j + 2] += move * (S.near ? 1 : 0.9);
+      sp.pos[j + 1] += (S.vy + Math.sin(t * 0.9 + ph) * S.wob * 0.5) * dt;
+      sp.pos[j] += Math.cos(t * 0.6 + ph * 1.7) * S.wob * dt;
+      if (sp.pos[j + 2] > 9 || sp.pos[j + 1] > 8.5 || sp.pos[j + 1] < 0.1) fxSpawnSoft(i, false);
+      const b = S.blink ? (1 - S.blink) * 0.7 + S.blink * (0.12 + 0.88 * Math.pow(Math.max(0, Math.sin(t * 1.6 + ph * 3)), 2)) : 0.75 + 0.25 * Math.sin(t * 2 + ph);
+      sp.col[j] = sp.base[j] * b; sp.col[j + 1] = sp.base[j + 1] * b; sp.col[j + 2] = sp.base[j + 2] * b;
+    }
+    sp.geo.attributes.position.needsUpdate = true; sp.geo.attributes.color.needsUpdate = true;
+  }
+  const fp = FX.flake, F = fp.cfg;
+  if (F) {
+    const cnt = Math.round(fp.n * F.n * TUNE.fx.parts * FX.q); fp.geo.setDrawRange(0, cnt); fp.p.visible = cnt > 0 && f > 0.01; fp.m.opacity = f * 0.95;
+    for (let i = 0; i < cnt; i++) {
+      const j = i * 3, ph = fp.ph[i];
+      fp.pos[j + 2] += move * 0.95; fp.pos[j + 1] += F.vy * dt * (0.8 + 0.4 * Math.sin(ph)); fp.pos[j] += Math.sin(t * F.drift + ph) * dt * 0.7;
+      if (fp.pos[j + 1] < 0 || fp.pos[j + 2] > 9) fxSpawnFlake(i, false);
+    }
+    fp.geo.attributes.position.needsUpdate = true;
+  } else fp.p.visible = false;
+  /* bokeh: soft out-of-focus lights far behind the scenery */
+  const cols = FX_BOKEH[k] || [], bk = (cols.length ? 1 : 0) * TUNE.fx.bokeh * f;
+  FX.bokeh.forEach(b => {
+    b.s.visible = bk > 0.01;
+    if (!b.s.visible) return;
+    b.s.position.set(camera.position.x + b.ox + Math.sin(t * b.sp * 0.3 + b.ph) * 1.5, camera.position.y + b.oy + Math.sin(t * b.sp * 0.5 + b.ph) * 0.6, camera.position.z + b.oz);
+    b.s.scale.setScalar(b.r * (1 + 0.06 * Math.sin(t * b.sp + b.ph)));
+    b.s.material.opacity = 0.2 * (0.6 + 0.4 * Math.sin(t * b.sp + b.ph)) * bk;
+  });
+  /* sunset rays from the sun disc, Candy valley only */
+  const ray = (k === 'candy' ? 1 : 0) * TUNE.fx.rays * f;
+  FX.rayG.visible = ray > 0.01 && orb.visible !== false;
+  if (FX.rayG.visible) {
+    FX.rayG.position.copy(orb.position); FX.rayG.position.z += 1; FX.rayG.rotation.z = Math.sin(t * 0.05) * 0.08;
+    const s = orb.scale.x;
+    FX.rays.forEach(r => { const u = r.userData; r.scale.set(s * u.w, s * u.L, 1); r.material.opacity = (u.up ? 0.045 : 0.1) * (0.65 + 0.35 * Math.sin(t * 0.45 + u.ph)) * ray; });
+  }
+  /* glowing lamps, candles, crystals and windows */
+  let hi = 0;
+  const set = SETS[activeSet], gl = TUNE.fx.glow * f, cz = camera.position.z, cu = curveU.value;
+  if (set && gl > 0.01) {
+    for (const ty of set.types) {
+      const g = ty.glow; if (!g) continue;
+      for (let i2 = 0; i2 < ty.items.length && hi < FX.halos.length; i2++) {
+        const it = ty.items[i2]; if (!it.ws || it.z < -72 || it.z > 10) continue;
+        const s = FX.halos[hi++], H = ty.h0 * it.ws, seed = i2 * 1.37 + (it.x || 0);
+        const fl = g.fl ? (0.82 + 0.1 * Math.sin(t * 11 + seed) + 0.08 * Math.sin(t * 27 + seed * 2)) * (Math.sin(t * 0.7 + seed * 5) > 0.985 ? 0.45 : 1) : 0.78 + 0.22 * Math.sin(t * 1.3 + seed);
+        const dz = it.z - cz;
+        s.position.set(it.wx, H * g.y - cu * dz * dz, it.z);
+        s.scale.setScalar(g.r * clamp(H / 3, 0.45, 1.7) * (g.fl ? 0.9 + 0.1 * fl : fl) * Math.min(1.5, 0.6 + gl * 0.4));
+        s.material.color.setHex(g.c); s.material.opacity = (g.eve ? (k === 'candy' ? 0.5 : 0.85) : 0.85) * fl * Math.min(1.2, gl);
+        s.visible = true;
+      }
+    }
+  }
+  for (; hi < FX.halos.length; hi++) FX.halos[hi].visible = false;
+}
+function fxTuneRows(){
+  const d = TUNE_DEF.fx, v = TUNE.fx;
+  return '<div class="tp-h">Атмосфера</div>' + [['parts', 'Частицы: пыльца, светлячки, снег', 0, 2, 0.05], ['bokeh', 'Боке — мягкие огни вдали', 0, 2, 0.05], ['rays', 'Солнечные лучи', 0, 2, 0.05], ['wind', 'Ветер', 0, 2.5, 0.05], ['glow', 'Свечение фонарей и кристаллов', 0, 2, 0.05], ['vig', 'Виньетка и цвет', 0, 1.5, 0.05]]
+    .map(r => tpSlider('fx.' + r[0], r[1], r[2], r[3], r[4], v[r[0]], d[r[0]])).join('');
 }
 
 /* ---- on-device stutter diagnostics: every frame longer than 70 ms is logged with what ran around it ---- */
@@ -8669,7 +8873,7 @@ function endBoot(){
   else buildSceneryProc();
   setPal('dusk', 'day', true); prewarm(); setTimeout(renderMusic, 400); window.__bootDone = true; if (BETA) {} else if (TG.ok) tgCloudInit(); else cloudInit(); if (G.mode === 'home') renderHome(); loadEl.classList.add('out'); setTimeout(() => { loadEl.hidden = true; }, 600);
 }
-if (/debug/.test(location.search)) window.__WR = {hitPenalty, lossBadge, sentOn, applyResults, railAway, openChest, mobYaw, airborne, cloudTex18, ISL_DATA, swarmFrame, ICONS, drawIcon, skOpen, SKED, offlineRender, foldLoop, SONGS, MUS_SR, LAYER_MIX, speak, voiceFetch, TR, V, SETS, SKYI, BIOV2:BIOV, get palK(){ return palK; }, get activeSet(){ return activeSet; }, inTunnel, KIT18, TUN, SCN, LOCS, curLoc, advanceLoc, loadKit18, swarmSpawn, vampScare, sceneryGo, VOICE, TRY, BIOV, setBiome, lvProgress, lvAfterRun, chLvl, applyChapterStages, prefetchWorld, startBossLoad, ensureDanceBoss, DW, giveRelic, showRelic, COLL, hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
+if (/debug/.test(location.search)) window.__WR = {FX, fxKind, hitPenalty, lossBadge, sentOn, applyResults, railAway, openChest, mobYaw, airborne, cloudTex18, ISL_DATA, swarmFrame, ICONS, drawIcon, skOpen, SKED, offlineRender, foldLoop, SONGS, MUS_SR, LAYER_MIX, speak, voiceFetch, TR, V, SETS, SKYI, BIOV2:BIOV, get palK(){ return palK; }, get activeSet(){ return activeSet; }, inTunnel, KIT18, TUN, SCN, LOCS, curLoc, advanceLoc, loadKit18, swarmSpawn, vampScare, sceneryGo, VOICE, TRY, BIOV, setBiome, lvProgress, lvAfterRun, chLvl, applyChapterStages, prefetchWorld, startBossLoad, ensureDanceBoss, DW, giveRelic, showRelic, COLL, hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
 bindMeta(); bindV12(); bindV17(); bindV18(); bindV19(); goHome();
 requestAnimationFrame(frame);
 if (HAS_GLB) loadAssets(setProg).then(endBoot).catch(e => { console.error('assets', e); A.ok = false; endBoot(); });
