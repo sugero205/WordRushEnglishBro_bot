@@ -943,6 +943,56 @@ label.btn{cursor:pointer}
 #duel.live .dz-right::after{animation:dzNudge 1.1s ease-in-out infinite;--nx:3px;--ny:0px}
 @keyframes dzNudge{0%,100%{translate:0 0}50%{translate:var(--nx) var(--ny)}}
 @media (prefers-reduced-motion:reduce){#duel.live .dz::after{animation:none}}
+/* ---- v20.2 opened collection card: a pack sealed in glossy film ---- */
+#cardView{padding:0;align-items:stretch;justify-content:center;background:radial-gradient(ellipse 85% 55% at 50% 42%,rgba(61,35,128,.94) 0%,rgba(27,16,64,.95) 62%,rgba(15,8,38,.97) 100%);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}
+#cardView .cv2{width:min(100%,430px);display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 16px) 16px calc(env(safe-area-inset-bottom,0px) + 18px);box-sizing:border-box;color:#fff6e3;font-family:var(--body)}
+.cv2-top{display:flex;align-items:center;gap:12px}
+.cv2-badge{width:62px;height:62px;flex:none;border:3px solid #1a1233;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff6e3,#ffc93a 60%,#e08a1a);box-shadow:0 4px 0 #07041a,0 0 18px rgba(255,201,58,.55);display:flex;align-items:center;justify-content:center}
+.cv2-badge .rl-ico{width:52px;height:52px}
+.cv2-tt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.cv2-game{font:900 11px/1.2 'Unbounded',var(--display);letter-spacing:.12em;text-transform:uppercase;color:#ff8fd0}
+.cv2-name{font:400 23px/1.05 'Dela Gothic One',var(--display);color:#fff6e3;-webkit-text-stroke:3px #1a1233;paint-order:stroke fill}
+.cv2-x{width:46px;height:46px;flex:none;padding:0;border:3px solid #1a1233;border-radius:50%;background:linear-gradient(180deg,#fff,#ffe9c2);box-shadow:0 4px 0 #07041a;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.cv2-x svg{width:18px;height:18px;fill:none;stroke:#1a1233;stroke-width:3.6;stroke-linecap:round}
+.cv2-x:active{transform:translateY(3px);box-shadow:0 1px 0 #07041a}
+.cv2-stage{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;touch-action:none;padding:30px 0}
+.cv2-glow{position:absolute;left:50%;top:58%;width:300px;height:200px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(255,110,200,.55),rgba(255,110,200,0));filter:blur(6px);pointer-events:none}
+.cv2-enter{position:relative}
+#cardView.show .cv2-enter{animation:cvIn .7s cubic-bezier(.2,1.35,.4,1) both}
+@keyframes cvIn{0%{transform:translateY(40px) scale(.55) rotate(-8deg);opacity:0}60%{opacity:1}100%{transform:none;opacity:1}}
+.cv2-pack{position:relative;width:min(322px,calc(100vw - 68px));transform-style:preserve-3d;will-change:transform}
+.cv2-pack.float{animation:cvFloat 6.5s ease-in-out infinite}
+.cv2-pack.live{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .09s linear}
+@keyframes cvFloat{0%,100%{transform:perspective(900px) rotateX(5deg) rotateY(-7deg)}50%{transform:perspective(900px) rotateX(-4deg) rotateY(7deg)}}
+.cv2-sleeve,.cv2-film{position:absolute;left:-9px;right:-9px;top:-24px;bottom:-24px;border-radius:14px;pointer-events:none}
+.cv2-sleeve{background:linear-gradient(160deg,rgba(255,255,255,.34),rgba(214,196,255,.16) 45%,rgba(255,255,255,.28));box-shadow:0 22px 34px -10px rgba(5,2,20,.85),inset 0 0 0 1.5px rgba(255,255,255,.55),inset 0 0 18px rgba(255,255,255,.18)}
+.cv2-seal{position:absolute;left:-9px;right:-9px;height:20px;pointer-events:none;background:repeating-linear-gradient(90deg,rgba(255,255,255,.7) 0 2px,rgba(255,255,255,.22) 2px 5px),linear-gradient(180deg,rgba(255,255,255,.65),rgba(230,214,255,.35))}
+.cv2-seal.t{top:-24px;border-radius:0 0 4px 4px}
+.cv2-seal.b{bottom:-24px;border-radius:4px 4px 0 0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.7) 0 2px,rgba(255,255,255,.22) 2px 5px),linear-gradient(0deg,rgba(255,255,255,.65),rgba(230,214,255,.35))}
+.cv2-card{position:relative;box-sizing:border-box;padding:7px;border:3px solid #1a1233;border-radius:16px;background:linear-gradient(135deg,#fff3b0,#ffc93a 38%,#ff8fd0 62%,#ffe066);box-shadow:0 6px 0 #07041a}
+.cv2-card img{display:block;width:100%;height:auto;aspect-ratio:287/244;object-fit:cover;border:2.5px solid #1a1233;border-radius:10px;box-sizing:border-box;background:#2a1f3a}
+.cv2-new{position:absolute;right:-12px;top:-14px;padding:4px 9px;border:2.5px solid #1a1233;border-radius:8px;background:#ff3d63;color:#fff;font:900 10px 'Unbounded',var(--display);transform:rotate(9deg);box-shadow:0 3px 0 #07041a}
+.cv2-no{position:absolute;left:14px;top:14px;padding:3px 8px;border:2px solid #1a1233;border-radius:99px;background:rgba(255,246,227,.92);color:#1a1233;font:900 10px 'Unbounded',var(--display)}
+.cv2-film{overflow:hidden}
+.cv2-film>*{position:absolute}
+.cv2-film .holo{inset:-20%;background:linear-gradient(115deg,#ff7ad9 0%,#7af0ff 18%,#fff47a 36%,#b07aff 54%,#7affc4 72%,#ff9a7a 88%,#ff7ad9 100%);background-size:300% 300%;mix-blend-mode:color-dodge;opacity:.2;transform:translate(var(--hx,0px),var(--hy,0px));animation:cvHolo 9s ease-in-out infinite alternate}
+@keyframes cvHolo{0%{background-position:0% 40%}100%{background-position:100% 60%}}
+.cv2-film .glare{inset:0;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,var(--ga,.22)),rgba(255,255,255,0) 42%);mix-blend-mode:screen}
+.cv2-film .gloss{inset:0;background:linear-gradient(180deg,rgba(255,255,255,.32) 0%,rgba(255,255,255,0) 22%),radial-gradient(ellipse 60% 22% at 22% 6%,rgba(255,255,255,.6),rgba(255,255,255,0))}
+.cv2-film .sweep{top:-10%;bottom:-10%;left:0;width:46%;background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.08) 30%,rgba(255,255,255,.55) 50%,rgba(255,255,255,.08) 70%,rgba(255,255,255,0) 100%);animation:cvSweep 5.6s cubic-bezier(.45,0,.35,1) infinite}
+.cv2-film .sweep.s2{width:12%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.4),rgba(255,255,255,0));animation-delay:.55s}
+@keyframes cvSweep{0%{transform:translateX(-120%) skewX(-20deg);opacity:0}10%{opacity:1}52%{transform:translateX(205%) skewX(-20deg);opacity:1}60%,100%{transform:translateX(205%) skewX(-20deg);opacity:0}}
+.cv2-film svg{inset:0;width:100%;height:100%;filter:blur(1.2px);transform:translate(var(--wx,0px),var(--wy,0px))}
+.cv2-film .rim{inset:0;border-radius:14px;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.6),inset 3px 3px 0 rgba(255,255,255,.25)}
+.cv2-spark{position:absolute;fill:#fff6e3;animation:cvSpark 2.8s ease-in-out infinite;pointer-events:none}
+.cv2-spark.a{left:-16px;top:30%;width:22px;height:22px}
+.cv2-spark.b{right:-20px;bottom:16%;width:16px;height:16px;fill:#ffe066;animation-delay:1.3s}
+@keyframes cvSpark{0%,100%{opacity:0;transform:scale(.4) rotate(0deg)}45%,55%{opacity:1;transform:scale(1) rotate(45deg)}}
+.cv2-bot{display:flex;flex-direction:column;align-items:center;gap:14px}
+.cv2-pk{max-width:100%;box-sizing:border-box;padding:6px 12px;border:2.5px solid #4d3a8e;border-radius:999px;background:#1e1442;font:800 12px/1.25 var(--body);color:#e6defa;text-align:center}
+#cardView .cv2-wear{width:100%;padding:16px 18px;font:400 16px/1.15 'Dela Gothic One',var(--display);letter-spacing:.02em;color:#1a1233;-webkit-text-stroke:0;text-shadow:0 1px 0 rgba(255,255,255,.5);text-transform:none}
+.cv2-hint{font:800 12px var(--body);color:#b9acdf;text-align:center}
+@media (prefers-reduced-motion:reduce){.cv2-pack.float,.cv2-film .sweep,.cv2-film .holo,.cv2-spark,#cardView.show .cv2-enter{animation:none}}
 
 #rlGrid{display:block}
 #perf{position:absolute;left:8px;right:8px;bottom:92px;z-index:9;font:700 10.5px/1.35 ui-monospace,Menlo,monospace;color:#fff;background:rgba(20,10,40,.8);border:2px solid rgba(255,255,255,.25);border-radius:10px;padding:6px 8px;pointer-events:none;white-space:pre-wrap;max-height:30vh;overflow:hidden}
@@ -9463,6 +9513,59 @@ function centerBlocked(z){
 function v20Frame(sdt, dt){
   forkBossFrame(dt);
   caveFrame(G.clock || 0);
+}
+
+/* ---- v20.2 collection: an opened card is sealed in glossy film — crimped seams, a slow sheen that fades out
+   instead of cutting off, an oily rainbow shimmer, soft creases; it floats, and tilts under the finger with the glare
+   following it. Pictures are 3× sharpened copies (a/cards/hq), shown over the small ones while they load ---- */
+const CV_SEAL = (() => {
+  const mk = top => { const n = 26, d = 7, p = top ? ['0% 100%', '0% ' + d + 'px'] : ['0% 0%', '0% calc(100% - ' + d + 'px)'];
+    for (let i = 0; i < n; i++) p.push(((i + 0.5) / n * 100).toFixed(2) + (top ? '% 0px' : '% 100%'), ((i + 1) / n * 100).toFixed(2) + (top ? '% ' + d + 'px' : '% calc(100% - ' + d + 'px)'));
+    p.push(top ? '100% 100%' : '100% 0%'); return 'polygon(' + p.join(',') + ')'; };
+  return {t:mk(true), b:mk(false)};
+})();
+const CV_SPARK = '<path d="M12 1 14 10 23 12 14 14 12 23 10 14 1 12 10 10z"/>';
+function openCard(id){
+  const c = COLL_ID[id]; if (!c) return;
+  if (S.relics.indexOf(id) < 0) { toast('Реликвия ещё не найдена', 'Их дают за победу над боссом и иногда — над вампиром', 'bad'); return; }
+  const isNew = !!(S.relNew && S.relNew.indexOf(id) >= 0);
+  if (S.relNew) { S.relNew = S.relNew.filter(x => x !== id); save(); renderRelicBadge(); }
+  const n2 = String(c.i).padStart(2, '0'), v = $('#cardView');
+  v.innerHTML = '<div class="cv2">' +
+    '<div class="cv2-top"><span class="cv2-badge">' + relicIco(c.relic) + '</span><div class="cv2-tt"><span class="cv2-game">' + esc(c.game) + '</span><b class="cv2-name">' + esc(c.name) + '</b></div>' +
+      '<button class="cv2-x" data-cv="close" aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg></button></div>' +
+    '<div class="cv2-stage"><span class="cv2-glow" aria-hidden="true"></span><div class="cv2-enter"><div class="cv2-pack float">' +
+      '<span class="cv2-sleeve" aria-hidden="true"></span><span class="cv2-seal t" aria-hidden="true" style="clip-path:' + CV_SEAL.t + '"></span><span class="cv2-seal b" aria-hidden="true" style="clip-path:' + CV_SEAL.b + '"></span>' +
+      '<div class="cv2-card"><img src="a/cards/c' + n2 + '.webp" alt="Карточка-факт: ' + esc(c.game) + '" decoding="async">' + (isNew ? '<span class="cv2-new">НОВОЕ</span>' : '') + '<span class="cv2-no">№' + (c.i + 1) + '</span></div>' +
+      '<div class="cv2-film" aria-hidden="true"><span class="holo"></span><span class="glare"></span><span class="gloss"></span><span class="sweep"></span><span class="sweep s2"></span>' +
+        '<svg viewBox="0 0 340 420" preserveAspectRatio="none"><g fill="none" stroke="#fff" stroke-linecap="round"><path d="M18 86C90 70 150 104 236 80S318 70 330 92" stroke-width="2.2" opacity=".28"/><path d="M30 302C110 290 170 322 250 300" stroke-width="1.6" opacity=".22"/><path d="M268 150C290 210 282 262 300 330" stroke-width="2" opacity=".2"/><path d="M44 160C52 200 40 236 58 270" stroke-width="1.4" opacity=".18"/></g></svg><span class="rim"></span></div>' +
+      '<svg class="cv2-spark a" viewBox="0 0 24 24" aria-hidden="true">' + CV_SPARK + '</svg><svg class="cv2-spark b" viewBox="0 0 24 24" aria-hidden="true">' + CV_SPARK + '</svg>' +
+    '</div></div></div>' +
+    '<div class="cv2-bot"><span class="cv2-pk">Пак ' + (c.pack + 1) + ' · ' + esc(PACKS[c.pack] || '') + '</span>' +
+      '<button class="btn cv2-wear" data-cv="wear">' + (S.charm === id ? 'Снять брелок' : 'Повесить брелоком на героиню') + '</button>' +
+      '<span class="cv2-hint">Наклоняй карточку пальцем — плёнка ловит блики</span></div></div>';
+  /* the sharp copy replaces the small picture as soon as it has loaded */
+  const img = v.querySelector('.cv2-card img'), hq = new Image();
+  hq.onload = () => { if (img.isConnected) img.src = hq.src; }; hq.src = 'a/cards/hq/c' + n2 + '.webp';
+  /* tilt under the finger */
+  const stage = v.querySelector('.cv2-stage'), pack = v.querySelector('.cv2-pack');
+  const tilt = e => {
+    const r = pack.getBoundingClientRect(), px = clamp((e.clientX - r.left) / r.width, 0, 1), py = clamp((e.clientY - r.top) / r.height, 0, 1);
+    const rx = (0.5 - py) * 16, ry = (px - 0.5) * 20, st = pack.style;
+    pack.classList.remove('float'); pack.classList.add('live');
+    st.setProperty('--rx', rx.toFixed(2) + 'deg'); st.setProperty('--ry', ry.toFixed(2) + 'deg');
+    st.setProperty('--gx', (px * 100).toFixed(1) + '%'); st.setProperty('--gy', (py * 100).toFixed(1) + '%'); st.setProperty('--ga', '.5');
+    st.setProperty('--hx', (ry * 2).toFixed(1) + 'px'); st.setProperty('--hy', (-rx * 2).toFixed(1) + 'px');
+    st.setProperty('--wx', (ry * 0.4).toFixed(1) + 'px'); st.setProperty('--wy', (-rx * 0.4).toFixed(1) + 'px');
+  };
+  const rest = () => { pack.classList.remove('live'); pack.classList.add('float'); ['--rx', '--ry', '--gx', '--gy', '--ga', '--hx', '--hy', '--wx', '--wy'].forEach(k => pack.style.removeProperty(k)); };
+  stage.onpointermove = tilt; stage.onpointerdown = tilt; stage.onpointerleave = rest; stage.onpointerup = rest; stage.onpointercancel = rest;
+  v.hidden = false; v.classList.remove('show'); void v.offsetWidth; v.classList.add('show'); sfx.pup(); haptic(HAP.pup);
+  v.onclick = e => {
+    const b = e.target.closest('[data-cv]');
+    if (e.target === v || e.target.classList.contains('cv2') || (b && b.dataset.cv === 'close')) { v.hidden = true; v.innerHTML = ''; renderRelics(); return; }
+    if (b && b.dataset.cv === 'wear') { charmSet(S.charm === id ? null : id); haptic(HAP.good); v.hidden = true; v.innerHTML = ''; renderRelics(); toast(S.charm ? 'Брелок надет' : 'Брелок снят', S.charm ? c.name : '', 'good'); }
+  };
 }
 
 /* ---- on-device stutter diagnostics: every frame longer than 70 ms is logged with what ran around it ---- */
