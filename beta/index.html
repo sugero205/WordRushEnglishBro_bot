@@ -9568,6 +9568,90 @@ function openCard(id){
   };
 }
 
+/* ---- v20.3 charm, as on the developer's reference «На поясе»: the relic figure hangs from a silver lobster clasp
+   hooked into a belt loop at the back of the waistband, a little right of the spine. Short drop, real swing (a Verlet
+   pendulum driven by the hips bone): steps bounce it, lane changes swing it, a jump flicks it up. The figure is a thick
+   cut-out (stacked darker layers behind the face), so it reads as a chunky toy when it turns ---- */
+const CH2 = {g:null, id:null, P:null, Pp:null, hero:null, bone:null, fig:null, loop:null, clasp:null, swivel:null, ring:null, t:0};
+const _cv1 = new T.Vector3(), _cv2 = new T.Vector3(), _cv3 = new T.Vector3(), _cq2 = new T.Quaternion(), _cm4 = new T.Matrix4();
+const _cUp = new T.Vector3(), _cF = new T.Vector3(), _cR = new T.Vector3();
+const CH_AT = [0.12, -0.05, 0.24], CH_L = 0.075, CH_FIG = 0.48;   /* belt loop in hero space (right, up, back), drop length, figure size */
+function relicCellCanvas(relic){
+  const img = assetTex('relics.webp').image, S0 = 192, cv = document.createElement('canvas'); cv.width = cv.height = S0;
+  const sw = img.width / 10, sh = img.height / 6; cv.getContext('2d').drawImage(img, (relic % 10) * sw, Math.floor(relic / 10) * sh, sw, sh, 0, 0, S0, S0);
+  return cv;
+}
+function figTop(cv){
+  const d = cv.getContext('2d').getImageData(0, 0, cv.width, cv.height).data, W = cv.width;
+  for (let y = 0; y < W; y++) for (let x = W * 0.3 | 0; x < W * 0.7; x++) if (d[(y * W + x) * 4 + 3] > 80) return y / W;
+  return 0.05;
+}
+function steelMat(){ return curvify(new T.MeshPhongMaterial({color:0xd6d8e4, specular:0xffffff, shininess:90, emissive:0x1a1a24})); }
+function placeAlong(m, a, b, spin){
+  _cUp.subVectors(b, a); const len = _cUp.length() || 1e-4; _cUp.divideScalar(len);
+  _cF.set(0, 0, 1).applyQuaternion(camera.quaternion); _cR.crossVectors(_cUp, _cF).normalize(); _cF.crossVectors(_cR, _cUp);
+  _cm4.makeBasis(_cR, _cUp, _cF); m.quaternion.setFromRotationMatrix(_cm4);
+  if (spin) m.rotateY(spin);
+}
+function buildCharm(){
+  if (CH2.g && CH2.g.parent) CH2.g.parent.remove(CH2.g);
+  CH2.g = null; CH2.id = null; CH2.P = null; CHARM.g = null;
+  const c = S.charm && COLL_ID[S.charm]; if (!c || !hero || !hero.g) return;
+  const base = assetTex('relics.webp'); if (!base.wrOk || !base.image) { CHARM.wait = true; return; } CHARM.wait = false;
+  const g = new T.Group(), steel = steelMat();
+  /* belt loop: a dark fabric tab on the waistband */
+  const loop = new T.Mesh(new T.BoxGeometry(0.045, 0.085, 0.022), curvify(new T.MeshLambertMaterial({color:0x2a2030}))); g.add(loop);
+  /* lobster clasp, swivel and split ring */
+  const clasp = new T.Group();
+  const body = new T.Mesh(new T.TorusGeometry(0.018, 0.0055, 8, 18), steel); body.scale.set(0.72, 1.35, 1); body.position.y = -0.026; clasp.add(body);
+  const trig = new T.Mesh(new T.BoxGeometry(0.006, 0.014, 0.006), steel); trig.position.set(0.011, -0.03, 0); clasp.add(trig);
+  const sw = new T.Mesh(new T.CylinderGeometry(0.0055, 0.0055, 0.018, 8), steel); sw.position.y = -0.06; clasp.add(sw);
+  const eye = new T.Mesh(new T.TorusGeometry(0.008, 0.0028, 6, 12), steel); eye.position.y = -0.073; clasp.add(eye);
+  g.add(clasp);
+  const ring = new T.Mesh(new T.TorusGeometry(0.014, 0.0035, 6, 16), steel); g.add(ring);
+  /* the figure: face + darker layers behind it for thickness; its origin is the hanging point at the top of the head */
+  const cv = relicCellCanvas(c.relic), top = figTop(cv), tex = new T.CanvasTexture(cv); tex.anisotropy = 4;
+  const fig = new T.Group(), geo = new T.PlaneGeometry(CH_FIG, CH_FIG); geo.translate(0, -(0.5 - top) * CH_FIG - 0.006, 0);
+  for (let k = 6; k >= 0; k--) {
+    const shade = k ? 0.42 + 0.06 * (6 - k) : 1, m = curvify(new T.MeshBasicMaterial({map:tex, transparent:true, alphaTest:0.45, side:T.DoubleSide, color:new T.Color(shade, shade * 0.95, shade * 0.92)}));
+    const l = new T.Mesh(geo, m); l.position.z = -k * 0.0055; fig.add(l);
+  }
+  g.add(fig);
+  g.traverse(o => { o.frustumCulled = false; });
+  scene.add(g); Object.assign(CH2, {g, fig, loop, clasp, ring, id:c.id, hero:null}); CHARM.g = g; CHARM.id = c.id;
+}
+function updateCharm(dt){
+  if (CHARM.wait && S.charm) buildCharm();
+  const g = CH2.g; if (!g) return;
+  const h = hero, t = (CH2.t += dt);
+  g.visible = !!(h && h.g && h.g.visible && h.g.parent) && !(G.shadowT > 0);
+  if (!g.visible) return;
+  if (CH2.hero !== h) { CH2.hero = h; CH2.bone = h.model && h.model.getObjectByName('mixamorigHips'); }
+  h.g.getWorldQuaternion(_cq2);
+  if (CH2.bone) CH2.bone.getWorldPosition(_cv3); else h.g.localToWorld(_cv3.set(0, 1.0, 0));
+  const L0 = _cv1.set(CH_AT[0], CH_AT[1], CH_AT[2]).applyQuaternion(_cq2).add(_cv3).clone();
+  /* the belt loop and the clasp follow the waist */
+  CH2.loop.position.copy(L0); CH2.loop.quaternion.copy(_cq2);
+  const A = L0.clone().add(_cv2.set(0, -0.085, 0.004).applyQuaternion(_cq2));
+  const run = (G.mode === 'run' || G.mode === 'boss') && G.ws > 0.5;
+  if (!CH2.P || CH2.P.distanceTo(A) > 0.6) { CH2.P = A.clone(); CH2.P.y -= CH_L; CH2.Pp = CH2.P.clone(); }
+  const steps = 3, h2 = Math.min(dt, 1 / 20) / steps, wind = run ? 3.6 * Math.min(1, G.ws / 14) : 0;
+  for (let i = 0; i < steps; i++) {
+    const P = CH2.P, Pp = CH2.Pp, vx = (P.x - Pp.x) * 0.93, vy = (P.y - Pp.y) * 0.93, vz = (P.z - Pp.z) * 0.93;
+    Pp.copy(P); P.x += vx + (run ? Math.sin(t * 9.5) * 0.5 : 0) * h2 * h2; P.y += vy - 9.8 * h2 * h2; P.z += vz + wind * h2 * h2;
+    _cv2.subVectors(P, A); let d = _cv2.length() || 1; P.copy(A).addScaledVector(_cv2, CH_L / d);
+    /* never swings over the top: at most ~45° from hanging straight down */
+    const lim = A.y - CH_L * 0.7;
+    if (P.y > lim) { P.y = lim; _cv2.subVectors(P, A); d = _cv2.length() || 1; P.copy(A).addScaledVector(_cv2, CH_L / d); }
+  }
+  const P = CH2.P, A0 = L0.clone().add(_cv2.set(0, -0.01, 0.004).applyQuaternion(_cq2));
+  /* clasp hangs from the loop toward the swing, the split ring sits at the figure's head */
+  CH2.clasp.position.copy(A0); placeAlong(CH2.clasp, P, A0);
+  CH2.ring.position.copy(P); placeAlong(CH2.ring, P, A, Math.PI / 2);
+  /* the figure turns to the camera, leans with the swing and wobbles a little so its thickness shows */
+  CH2.fig.position.copy(P); placeAlong(CH2.fig, P, A, Math.sin(t * 1.6) * 0.32 + (run ? Math.sin(t * 9.5 + 1) * 0.12 : 0));
+}
+
 /* ---- on-device stutter diagnostics: every frame longer than 70 ms is logged with what ran around it ---- */
 const perfEl = $('#perf'), PM = [], PL = []; let pfPrevStart = 0, pfFrames = 0, pfSince = performance.now(), pfFps = 0, pfShownAt = 0;
 function mark(name, dur){ PM.push({n:name, d:dur, at:performance.now()}); if (PM.length > 80) PM.splice(0, PM.length - 80); }
@@ -9603,7 +9687,7 @@ function endBoot(){
   else buildSceneryProc();
   setPal('dusk', 'day', true); prewarm(); setTimeout(renderMusic, 400); window.__bootDone = true; if (BETA) {} else if (TG.ok) tgCloudInit(); else cloudInit(); if (G.mode === 'home') renderHome(); loadEl.classList.add('out'); setTimeout(() => { loadEl.hidden = true; }, 600);
 }
-if (/debug/.test(location.search)) window.__WR = {FB, buildCaveMouth, duelFit, FX, fxKind, hitPenalty, lossBadge, sentOn, applyResults, railAway, openChest, mobYaw, airborne, cloudTex18, ISL_DATA, swarmFrame, ICONS, drawIcon, skOpen, SKED, offlineRender, foldLoop, SONGS, MUS_SR, LAYER_MIX, speak, voiceFetch, TR, V, SETS, SKYI, BIOV2:BIOV, get palK(){ return palK; }, get activeSet(){ return activeSet; }, inTunnel, KIT18, TUN, SCN, LOCS, curLoc, advanceLoc, loadKit18, swarmSpawn, vampScare, sceneryGo, VOICE, TRY, BIOV, setBiome, lvProgress, lvAfterRun, chLvl, applyChapterStages, prefetchWorld, startBossLoad, ensureDanceBoss, DW, giveRelic, showRelic, COLL, hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
+if (/debug/.test(location.search)) window.__WR = {get TUNE(){ return TUNE; }, buildCharm, CH2, FB, buildCaveMouth, duelFit, FX, fxKind, hitPenalty, lossBadge, sentOn, applyResults, railAway, openChest, mobYaw, airborne, cloudTex18, ISL_DATA, swarmFrame, ICONS, drawIcon, skOpen, SKED, offlineRender, foldLoop, SONGS, MUS_SR, LAYER_MIX, speak, voiceFetch, TR, V, SETS, SKYI, BIOV2:BIOV, get palK(){ return palK; }, get activeSet(){ return activeSet; }, inTunnel, KIT18, TUN, SCN, LOCS, curLoc, advanceLoc, loadKit18, swarmSpawn, vampScare, sceneryGo, VOICE, TRY, BIOV, setBiome, lvProgress, lvAfterRun, chLvl, applyChapterStages, prefetchWorld, startBossLoad, ensureDanceBoss, DW, giveRelic, showRelic, COLL, hint, BITE, catBiteStart, catBiteEnd, laneSwap, spawnSoul, loadCustomFile, idbGet, G, S, scene, camera, renderer, A, get hero(){ return hero; }, startRun, startBoss, setLane, jump, WORDS, plan, goHome, endRun, setArena, resolveRun, slide, stageUp, startDash, spawnObstacle, spawnPickup, coinPattern, activatePup, banner, obstacles, step:(n, d) => { for (let i = 0; i < n; i++) update(d || 1/30); }, get palK(){ return palK; }, get keep(){ return keepAlive ? (keepAlive.paused ? 'paused' : 'playing ' + keepAlive.currentTime.toFixed(2)) : 'none'; }, STAGES, useSword, V, CAT, vampRoadSpawn, catJump, tapT, tapScreen, MUS, renderMusic, musicPlay, slashFx, batsKill, SETS, kitNode, update, chargeSword, screenOf, startDuel, duelInput, spawnFork, spawnSecretArch, catSpitEvent, addSplat, shadowOn, GH, CLOUD, importWords, addCustomWord, openExam, buy, questEvent, CHAPTERS, curCh, chList, buildTap, renderStats, renderShop, renderQuests, renderMap, renderRelics, renderWords, giveRelic, showRelic, openChest, splats, get S2(){ return S; }, get EXAM(){ return EXAM; }, HK, KATA, vampStrikeTry, vampTarget, bossTap, bossHit, startStun, openTut, songPreview, selectSong, SONGS, heroGhostly, shadowGesture, TWO, PT, opt, plan, get vSlab(){ return vSlab; }, musicStop, snapCharacters, SNAP, TUT2, musicMood, get coins(){ return coins; }, pickups, TR, spawnJunction, startTurn, get activeSet(){ return activeSet; }, TG, tgRef, get CLOUD2(){ return CLOUD; }};
 bindMeta(); bindV12(); bindV17(); bindV18(); bindV19(); goHome();
 requestAnimationFrame(frame);
 if (HAS_GLB) loadAssets(setProg).then(endBoot).catch(e => { console.error('assets', e); A.ok = false; endBoot(); });
