@@ -991,6 +991,7 @@ label.btn{cursor:pointer}
 .cv2-bot{display:flex;flex-direction:column;align-items:center;gap:14px}
 .cv2-pk{max-width:100%;box-sizing:border-box;padding:6px 12px;border:2.5px solid #4d3a8e;border-radius:999px;background:#1e1442;font:800 12px/1.25 var(--body);color:#e6defa;text-align:center}
 #cardView .cv2-wear{width:100%;padding:16px 18px;font:400 16px/1.15 'Dela Gothic One',var(--display);letter-spacing:.02em;color:#1a1233;-webkit-text-stroke:0;text-shadow:0 1px 0 rgba(255,255,255,.5);text-transform:none}
+.cv2-cl{display:block;margin-top:3px;font:900 11px/1.2 var(--body);letter-spacing:.04em;color:#ffc93a}
 .cv2-hint{font:800 12px var(--body);color:#b9acdf;text-align:center}
 @media (prefers-reduced-motion:reduce){.cv2-pack.float,.cv2-film .sweep,.cv2-film .holo,.cv2-spark,#cardView.show .cv2-enter{animation:none}}
 
@@ -7723,7 +7724,7 @@ function bioTex(b){ return BIOV.tex[b] || (BIOV.tex[b] = assetTex('bio_' + b + '
 const TUNE_DEF = {
   run:{speed:1, qtime:1, obst:1, spawn:50, blend:3.6, jump:11.5, lane:13},
   cam:{y:2.55, z:4.5, x:1.2, look:1.45, fov:0, curve:1, follow:3.2},
-  tun:{light:1, swarm:30, bats:0.8, scare:1, len:26, cave:1}, fx:{parts:1, bokeh:1, rays:1, wind:1, glow:1, vig:1},
+  tun:{light:1, swarm:30, bats:0.8, scare:1, len:26, cave:1}, charm:{mount:2, anim:2, metal:0}, fx:{parts:1, bokeh:1, rays:1, wind:1, glow:1, vig:1},
   fork:{stage:3, len:30, wall:1, decor:1, boss:1},
   loc:{}, set:{}
 };
@@ -9541,7 +9542,7 @@ function openCard(id){
         '<svg viewBox="0 0 340 420" preserveAspectRatio="none"><g fill="none" stroke="#fff" stroke-linecap="round"><path d="M18 86C90 70 150 104 236 80S318 70 330 92" stroke-width="2.2" opacity=".28"/><path d="M30 302C110 290 170 322 250 300" stroke-width="1.6" opacity=".22"/><path d="M268 150C290 210 282 262 300 330" stroke-width="2" opacity=".2"/><path d="M44 160C52 200 40 236 58 270" stroke-width="1.4" opacity=".18"/></g></svg><span class="rim"></span></div>' +
       '<svg class="cv2-spark a" viewBox="0 0 24 24" aria-hidden="true">' + CV_SPARK + '</svg><svg class="cv2-spark b" viewBox="0 0 24 24" aria-hidden="true">' + CV_SPARK + '</svg>' +
     '</div></div></div>' +
-    '<div class="cv2-bot"><span class="cv2-pk">Пак ' + (c.pack + 1) + ' · ' + esc(PACKS[c.pack] || '') + '</span>' +
+    '<div class="cv2-bot"><span class="cv2-pk">Пак ' + (c.pack + 1) + ' · ' + esc(PACKS[c.pack] || '') + '<span class="cv2-cl">Застёжка брелка: ' + CH_STYLE_NAME[charmStyleOf(id)] + '</span></span>' +
       '<button class="btn cv2-wear" data-cv="wear">' + (S.charm === id ? 'Снять брелок' : 'Повесить брелоком на героиню') + '</button>' +
       '<span class="cv2-hint">Наклоняй карточку пальцем — плёнка ловит блики</span></div></div>';
   /* the sharp copy replaces the small picture as soon as it has loaded */
@@ -9568,14 +9569,119 @@ function openCard(id){
   };
 }
 
-/* ---- v20.3 charm, as on the developer's reference «На поясе»: the relic figure hangs from a silver lobster clasp
-   hooked into a belt loop at the back of the waistband, a little right of the spine. Short drop, real swing (a Verlet
-   pendulum driven by the hips bone): steps bounce it, lane changes swing it, a jump flicks it up. The figure is a thick
-   cut-out (stacked darker layers behind the face), so it reads as a chunky toy when it turns ---- */
-const CH2 = {g:null, id:null, P:null, Pp:null, hero:null, bone:null, fig:null, loop:null, clasp:null, swivel:null, ring:null, t:0};
-const _cv1 = new T.Vector3(), _cv2 = new T.Vector3(), _cv3 = new T.Vector3(), _cq2 = new T.Quaternion(), _cm4 = new T.Matrix4();
+/* ---- v20.4 charm: a small relic figure on the belt (developer's reference «На поясе»), never sinking into the leg.
+   TUNE.charm.mount: 1 on a silver clasp at the back belt loop · 2 clipped straight onto the belt at the side, no chain.
+   TUNE.charm.anim: 1 soft sway · 2 springy bounce · 3 playful wiggle. Motion = a damped angular spring around the pivot,
+   driven by how the pivot itself accelerates (steps, lane changes, jumps); the right thigh is a capsule the figure slides off ---- */
+const CH2 = {g:null, id:null, hero:null, bones:null, fig:null, figIn:null, loop:null, clasp:null, ring:null, clip:null, t:0,
+  ax:0, az:0, vx:0, vz:0, sb:0, vb:0, Ap:null, Vp:null, acc:null, push:null};
+const _cv1 = new T.Vector3(), _cv2 = new T.Vector3(), _cv3 = new T.Vector3(), _cv4 = new T.Vector3(), _cq2 = new T.Quaternion(), _cqi = new T.Quaternion(), _cm4 = new T.Matrix4();
 const _cUp = new T.Vector3(), _cF = new T.Vector3(), _cR = new T.Vector3();
-const CH_AT = [0.12, -0.05, 0.24], CH_L = 0.075, CH_FIG = 0.48;   /* belt loop in hero space (right, up, back), drop length, figure size */
+const CH_FIG = 0.17, CH_HW = 0.85;
+const CH_MOUNT = {
+  1: {at:[0.12, -0.05, 0.24], drop:0.07, chain:true},
+  2: {at:[0.22, -0.042, 0.1], ang:0.45, R:0.19, lever:0.14, pushMax:0.05, drop:0.09, chain:false, hw:true, stiff:2.4, yaw0:0.3}
+};
+const CH_ANIM = {
+  1: {L:0.34, damp:4.6, max:0.5, yaw:0.12, yawF:1.3},
+  2: {L:0.26, damp:3.2, max:0.55, bobK:170, bobC:7, bobG:0.03, squash:2.6, yaw:0.08, yawF:1.6},
+  3: {L:0.2, damp:2.6, max:0.65, bobK:120, bobC:5, bobG:0.02, squash:1.4, yaw:0.42, step:true}
+};
+/* each relic has its own fastener, in turn through the collection: 1 techwear, 2 chrome, 3 holo, 4 grunge (TUNE.charm.metal > 0 forces one) */
+const CH_STYLE_NAME = {1:'Техвир', 2:'Хром', 3:'Голограмма', 4:'Гранж'};
+function charmStyleOf(id){ const k = id && COLL_ID[id]; return k ? 1 + (k.i % 4) : 1; }
+function charmCfg(){ const c = TUNE.charm || {}, metal = (c.metal | 0) || charmStyleOf(S.charm);
+  return {m:Object.assign({}, CH_MOUNT[c.mount] || CH_MOUNT[1], c.m || {}), a:CH_ANIM[c.anim] || CH_ANIM[1], metal, key:(c.mount | 0) + '/' + (c.anim | 0) + '/' + metal + (c.m ? JSON.stringify(c.m) : '')}; }
+/* belt hardware (v20.5). A strap sits flat on the side of the waist — it is placed on the real cloth surface, found from the
+   skinned mesh itself, so it never floats — and the rest hangs from its bottom bar. metal (style):
+   1 techwear: matte black carabiner, neon gate in the sword's green, black webbing with a stitch line
+   2 chrome: mirror chrome carabiner on two chunky curb links
+   3 holo: oil-slick iridescent chrome on a short ball chain
+   4 grunge: studded black leather strap, gunmetal carabiner, a heavy link */
+const CHROME_VS = ['uniform float uCurve; varying vec3 vN; varying vec3 vV;',
+  'void main(){ vec4 mv = modelViewMatrix * vec4(position, 1.0); vN = normalize(normalMatrix * normal); vV = normalize(-mv.xyz);',
+  ' mv.y -= uCurve * mv.z * mv.z; gl_Position = projectionMatrix * mv; }'].join('\n');
+const CHROME_FS = ['uniform float uHolo, uT; uniform vec3 uTint; varying vec3 vN; varying vec3 vV;',
+  'vec3 hsv(float h){ return clamp(abs(mod(h * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0); }',
+  'void main(){ vec3 n = normalize(vN); vec3 r = reflect(-vV, n); float y = r.y;',
+  ' vec3 sky = mix(vec3(0.72, 0.74, 0.86), vec3(1.0), smoothstep(0.1, 0.8, y)); vec3 gnd = mix(vec3(0.16, 0.14, 0.22), vec3(0.42, 0.38, 0.5), smoothstep(-0.9, -0.05, y));',
+  ' vec3 c = y > 0.02 ? sky : gnd; c = mix(c, vec3(1.0), smoothstep(0.0, 0.03, y) * (1.0 - smoothstep(0.03, 0.12, y)) * 0.8);',
+  ' float sp = pow(max(dot(n, normalize(vec3(-0.4, 0.7, 0.6))), 0.0), 60.0); c += sp;',
+  ' if (uHolo > 0.5) { vec3 ir = hsv(fract(r.x * 0.6 + r.y * 0.9 + n.z * 0.4 + uT * 0.05)); c = mix(c, c * (0.45 + ir * 0.9), 0.75); }',
+  ' c *= uTint; float rim = 1.0 - abs(dot(n, vV)); c = mix(c, vec3(0.1, 0.08, 0.16), smoothstep(0.75, 1.0, rim) * 0.6);',
+  ' gl_FragColor = vec4(c, 1.0); }'].join('\n');
+const CH_CHROME = [];
+function chromeMat(holo, tint){ const m = new T.ShaderMaterial({uniforms:{uCurve:curveU, uHolo:{value:holo ? 1 : 0}, uT:{value:0}, uTint:{value:new T.Color(tint || 0xffffff)}}, vertexShader:CHROME_VS, fragmentShader:CHROME_FS}); CH_CHROME.push(m); return m; }
+/* depth nudged toward the camera: what hangs never looks sunk into the baggy trousers, yet scenery in front still covers it */
+function chBiasChunk(b, mv){ return '{ vec4 mvB = ' + mv + '; mvB.z += ' + b.toFixed(3) + '; vec4 pB = projectionMatrix * mvB; gl_Position.z = pB.z / pB.w * gl_Position.w; }'; }
+function chBiased(root, b){
+  const done = new Map();
+  root.traverse(o => { if (!o.isMesh) return; const m0 = o.material; let m = done.get(m0);
+    if (!m) {
+      if (m0.isShaderMaterial) m = new T.ShaderMaterial({uniforms:m0.uniforms, fragmentShader:m0.fragmentShader,
+        vertexShader:m0.vertexShader.replace('gl_Position = projectionMatrix * mv;', 'gl_Position = projectionMatrix * mv; ' + chBiasChunk(b, 'mv'))});
+      else { m = m0.clone(); m.onBeforeCompile = sh => { curveHook(sh); sh.vertexShader = sh.vertexShader.replace('gl_Position = projectionMatrix * mvPosition;', 'gl_Position = projectionMatrix * mvPosition; ' + chBiasChunk(b, 'mvPosition')); }; }
+      m.customProgramCacheKey = () => 'chBias' + b + (m0.isShaderMaterial ? 'S' : m0.type); done.set(m0, m);
+    }
+    o.material = m; });
+}
+function charmHardware(style){
+  const ink = curvify(new T.MeshBasicMaterial({color:0x1a1233, side:T.BackSide}));
+  const ph = (c, sp, sh, em) => curvify(new T.MeshPhongMaterial({color:c, specular:sp, shininess:sh, emissive:em || 0}));
+  let M, gate, strap, stud = null, chain = 'none';
+  if (style === 2) { M = chromeMat(false); gate = chromeMat(false, 0xc8ccd8); strap = ph(0x1c1a24, 0x444455, 12); chain = 'curb'; }
+  else if (style === 3) { M = chromeMat(true); gate = chromeMat(true, 0xe8e0ff); strap = ph(0x1c1a24, 0x444455, 12); chain = 'ball'; }
+  else if (style === 4) { M = ph(0x5a5d68, 0xd8dce8, 60, 0x101014); gate = ph(0x2a2c34, 0x888899, 40); strap = ph(0x1e1418, 0x3a2a30, 18); stud = chromeMat(false); chain = 'heavy'; }
+  else { M = ph(0x30333d, 0xb0b8cc, 48, 0x08080c); gate = curvify(new T.MeshBasicMaterial({color:0x9dff3a})); strap = ph(0x15151c, 0x2a2a33, 8); }
+  const tab = new T.Group(), hang = new T.Group();
+  const add = (grp, geo, m, x, y, z, rx, ry, rz, sx, sy, out) => { const o = new T.Mesh(geo, m); o.position.set(x, y, z); o.rotation.set(rx || 0, ry || 0, rz || 0); o.scale.set(sx || 1, sy || 1, 1); grp.add(o);
+    if (out) { const h = new T.Mesh(geo, ink); h.position.copy(o.position); h.rotation.copy(o.rotation); h.scale.set((sx || 1) * out, (sy || 1) * out, out); grp.add(h); } return o; };
+  /* the strap: flat on the hip (its +z points out of the body), top tucked under the jacket hem */
+  add(tab, new T.BoxGeometry(0.03, 0.07, 0.012), strap, 0, 0, 0, 0, 0, 0, 1, 1, 1.1);
+  if (style === 1) add(tab, new T.BoxGeometry(0.0035, 0.06, 0.002), curvify(new T.MeshBasicMaterial({color:0x9dff3a})), 0, 0, 0.0068);
+  if (style === 4) [0.012, -0.004, -0.02].forEach(y => add(tab, new T.ConeGeometry(0.0055, 0.011, 8), stud, 0, y, 0.0105, Math.PI / 2, 0, 0, 1, 1, 1.25));
+  else add(tab, new T.CylinderGeometry(0.0055, 0.0055, 0.003, 12), style === 1 ? M : chromeMat(style === 3), 0, -0.02, 0.0075, Math.PI / 2, 0, 0, 1, 1, 1.3);
+  add(tab, new T.CylinderGeometry(0.0042, 0.0042, 0.032, 10), M, 0, -0.035, 0.004, 0, 0, Math.PI / 2, 1, 1, 1.3);   /* bottom bar */
+  /* what hangs from the bar: chain, carabiner, ring */
+  let y = -0.004;
+  if (chain === 'curb' || chain === 'heavy') {
+    const n = chain === 'curb' ? 2 : 1, R = chain === 'curb' ? 0.0085 : 0.011, tb = chain === 'curb' ? 0.0042 : 0.005;
+    for (let i = 0; i < n; i++) { add(hang, new T.TorusGeometry(R, tb, 8, 16), M, 0, y - R * 1.1, 0, 0, i % 2 ? Math.PI / 2 : 0, 0, 0.85, 1.3, 1.18); y -= R * 2.1; }
+  } else if (chain === 'ball') {
+    for (let i = 0; i < 4; i++) { add(hang, new T.SphereGeometry(0.0042, 10, 8), M, 0, y - 0.004, 0); y -= 0.0078; }
+  }
+  const cy = y - 0.024;
+  add(hang, new T.TorusGeometry(0.0185, 0.0072, 10, 24), M, 0, cy, 0, 0, 0, 0, 0.7, 1.3, 1.15);
+  add(hang, new T.CylinderGeometry(0.0046, 0.0046, 0.03, 8), gate, 0.0125, cy, 0, 0, 0, 0, 1, 1, 1.3);
+  const ry = cy - 0.031;
+  add(hang, new T.TorusGeometry(0.0108, 0.0048, 8, 18), M, 0, ry, 0, 0, Math.PI / 2, 0, 1, 1, 1.2);
+  chBiased(hang, 0.05);
+  return {tab, hang, drop:-(ry - 0.011), tabH:0.035};
+}
+/* the outermost cloth points on the right side of the waist, picked once from the skinned mesh in hero space;
+   each frame they are re-skinned so the strap follows the jacket exactly */
+function charmSurfacePick(h, rel, ang){
+  /* measured in the pelvis' own frame (right = toward the right hip joint, up = toward the spine), so the same patch of cloth
+     is found whatever the pose is at that moment: mid-stride, twisted, leaning or standing at home */
+  const out = []; if (!h || !h.model) return out;
+  const hips = h.model.getObjectByName('mixamorigHips'), rul = h.model.getObjectByName('mixamorigRightUpLeg'), sp = h.model.getObjectByName('mixamorigSpine');
+  if (!hips) return out; h.g.updateMatrixWorld(true);
+  const hp = hips.getWorldPosition(new T.Vector3()), qh = hips.getWorldQuaternion(new T.Quaternion());
+  let Rw, Uw;
+  if (rul && sp) { const U0 = sp.position.clone().normalize(), R0 = rul.position.clone(); R0.addScaledVector(U0, -R0.dot(U0)).normalize(); Uw = U0.applyQuaternion(qh); Rw = R0.applyQuaternion(qh); }
+  else { const q = h.g.getWorldQuaternion(new T.Quaternion()); Uw = new T.Vector3(0, 1, 0).applyQuaternion(q); Rw = new T.Vector3(1, 0, 0).applyQuaternion(q); }
+  const Bw = new T.Vector3().crossVectors(Rw, Uw).normalize();
+  h.model.traverse(o => { if (!o.isSkinnedMesh) return; const pos = o.geometry.attributes.position, v = new T.Vector3();
+    for (let i = 0; i < pos.count; i++) { v.fromBufferAttribute(pos, i); o.boneTransform(i, v); v.applyMatrix4(o.matrixWorld).sub(hp);
+      const dx = v.dot(Rw), dy = v.dot(Uw) - rel[1], dz = v.dot(Bw), r = Math.hypot(dx, dz), da = Math.atan2(dz, dx) - ang;
+      if (Math.abs(dy) < 0.016 && r > 0.1 && Math.abs(da) < 0.22) out.push({o, i, x:r * Math.cos(da)}); } });
+  out.sort((a, b) => b.x - a.x); return out.slice(0, 6);
+}
+function charmSurface(list, out){
+  const v = new T.Vector3(); out.set(0, 0, 0); let n = 0;
+  list.forEach(e => { v.fromBufferAttribute(e.o.geometry.attributes.position, e.i); e.o.boneTransform(e.i, v); v.applyMatrix4(e.o.matrixWorld); out.add(v); n++; });
+  return n ? out.divideScalar(n) : null;
+}
 function relicCellCanvas(relic){
   const img = assetTex('relics.webp').image, S0 = 192, cv = document.createElement('canvas'); cv.width = cv.height = S0;
   const sw = img.width / 10, sh = img.height / 6; cv.getContext('2d').drawImage(img, (relic % 10) * sw, Math.floor(relic / 10) * sh, sw, sh, 0, 0, S0, S0);
@@ -9595,61 +9701,107 @@ function placeAlong(m, a, b, spin){
 }
 function buildCharm(){
   if (CH2.g && CH2.g.parent) CH2.g.parent.remove(CH2.g);
-  CH2.g = null; CH2.id = null; CH2.P = null; CHARM.g = null;
+  CH2.g = null; CH2.id = null; CHARM.g = null;
   const c = S.charm && COLL_ID[S.charm]; if (!c || !hero || !hero.g) return;
   const base = assetTex('relics.webp'); if (!base.wrOk || !base.image) { CHARM.wait = true; return; } CHARM.wait = false;
-  const g = new T.Group(), steel = steelMat();
-  /* belt loop: a dark fabric tab on the waistband */
-  const loop = new T.Mesh(new T.BoxGeometry(0.045, 0.085, 0.022), curvify(new T.MeshLambertMaterial({color:0x2a2030}))); g.add(loop);
-  /* lobster clasp, swivel and split ring */
-  const clasp = new T.Group();
-  const body = new T.Mesh(new T.TorusGeometry(0.018, 0.0055, 8, 18), steel); body.scale.set(0.72, 1.35, 1); body.position.y = -0.026; clasp.add(body);
-  const trig = new T.Mesh(new T.BoxGeometry(0.006, 0.014, 0.006), steel); trig.position.set(0.011, -0.03, 0); clasp.add(trig);
-  const sw = new T.Mesh(new T.CylinderGeometry(0.0055, 0.0055, 0.018, 8), steel); sw.position.y = -0.06; clasp.add(sw);
-  const eye = new T.Mesh(new T.TorusGeometry(0.008, 0.0028, 6, 12), steel); eye.position.y = -0.073; clasp.add(eye);
-  g.add(clasp);
-  const ring = new T.Mesh(new T.TorusGeometry(0.014, 0.0035, 6, 16), steel); g.add(ring);
-  /* the figure: face + darker layers behind it for thickness; its origin is the hanging point at the top of the head */
+  const cfg = charmCfg(), g = new T.Group(), steel = steelMat();
+  CH2.loop = CH2.clasp = CH2.ring = CH2.clip = null;
+  if (cfg.m.chain) {
+    const ks = cfg.m.short ? 0.55 : 1;
+    CH2.loop = new T.Mesh(new T.BoxGeometry(0.04, cfg.m.short ? 0.05 : 0.075, 0.02), curvify(new T.MeshLambertMaterial({color:0x2a2030}))); g.add(CH2.loop);
+    const clasp = new T.Group(); clasp.scale.setScalar(ks);
+    const body = new T.Mesh(new T.TorusGeometry(0.014, 0.0045, 8, 18), steel); body.scale.set(0.72, 1.35, 1); body.position.y = -0.02; clasp.add(body);
+    const sw = new T.Mesh(new T.CylinderGeometry(0.0045, 0.0045, 0.014, 8), steel); sw.position.y = -0.047; clasp.add(sw);
+    const eye = new T.Mesh(new T.TorusGeometry(0.0065, 0.0024, 6, 12), steel); eye.position.y = -0.058; clasp.add(eye);
+    g.add(clasp); CH2.clasp = clasp;
+    CH2.ring = new T.Mesh(new T.TorusGeometry(0.011, 0.003, 6, 16), steel); g.add(CH2.ring);
+  } else { const H = charmHardware(cfg.metal); H.tab.scale.setScalar(CH_HW); H.hang.scale.setScalar(CH_HW); g.add(H.tab); g.add(H.hang); CH2.clip = H; CH2.surf = null; }
   const cv = relicCellCanvas(c.relic), top = figTop(cv), tex = new T.CanvasTexture(cv); tex.anisotropy = 4;
-  const fig = new T.Group(), geo = new T.PlaneGeometry(CH_FIG, CH_FIG); geo.translate(0, -(0.5 - top) * CH_FIG - 0.006, 0);
-  for (let k = 6; k >= 0; k--) {
-    const shade = k ? 0.42 + 0.06 * (6 - k) : 1, m = curvify(new T.MeshBasicMaterial({map:tex, transparent:true, alphaTest:0.45, side:T.DoubleSide, color:new T.Color(shade, shade * 0.95, shade * 0.92)}));
-    const l = new T.Mesh(geo, m); l.position.z = -k * 0.0055; fig.add(l);
+  const fig = new T.Group(), inner = new T.Group(), geo = new T.PlaneGeometry(CH_FIG, CH_FIG); geo.translate(0, -(0.5 - top) * CH_FIG - 0.004, 0);
+  for (let k = 5; k >= 0; k--) {
+    const shade = k ? 0.42 + 0.07 * (5 - k) : 1, m = curvify(new T.MeshBasicMaterial({map:tex, transparent:true, alphaTest:0.45, side:T.DoubleSide, color:new T.Color(shade, shade * 0.95, shade * 0.92)}));
+    const l = new T.Mesh(geo, m); l.position.z = -k * 0.004; inner.add(l);
   }
-  g.add(fig);
+  if (CH2.clip || cfg.m.hw) chBiased(inner, 0.12);
+  fig.add(inner); g.add(fig);
   g.traverse(o => { o.frustumCulled = false; });
-  scene.add(g); Object.assign(CH2, {g, fig, loop, clasp, ring, id:c.id, hero:null}); CHARM.g = g; CHARM.id = c.id;
+  scene.add(g); Object.assign(CH2, {g, fig, figIn:inner, id:c.id, hero:null, key:cfg.key, ax:0, az:0, vx:0, vz:0, sb:0, vb:0, Ap:null, Vp:null, acc:new T.Vector3(), push:new T.Vector3()});
+  CHARM.g = g; CHARM.id = c.id;
 }
+function segDist(p, a, b, out){ _cv4.subVectors(b, a); const t = clamp(_cv2.subVectors(p, a).dot(_cv4) / (_cv4.lengthSq() || 1), 0, 1); out.copy(a).addScaledVector(_cv4, t); return p.distanceTo(out); }
 function updateCharm(dt){
   if (CHARM.wait && S.charm) buildCharm();
   const g = CH2.g; if (!g) return;
-  const h = hero, t = (CH2.t += dt);
+  const cfg = charmCfg(); if (cfg.key !== CH2.key) { buildCharm(); if (!CH2.g) return; }
+  const h = hero, t = (CH2.t += dt), M = cfg.m, An = cfg.a;
   g.visible = !!(h && h.g && h.g.visible && h.g.parent) && !(G.shadowT > 0);
-  if (!g.visible) return;
-  if (CH2.hero !== h) { CH2.hero = h; CH2.bone = h.model && h.model.getObjectByName('mixamorigHips'); }
-  h.g.getWorldQuaternion(_cq2);
-  if (CH2.bone) CH2.bone.getWorldPosition(_cv3); else h.g.localToWorld(_cv3.set(0, 1.0, 0));
-  const L0 = _cv1.set(CH_AT[0], CH_AT[1], CH_AT[2]).applyQuaternion(_cq2).add(_cv3).clone();
-  /* the belt loop and the clasp follow the waist */
-  CH2.loop.position.copy(L0); CH2.loop.quaternion.copy(_cq2);
-  const A = L0.clone().add(_cv2.set(0, -0.085, 0.004).applyQuaternion(_cq2));
-  const run = (G.mode === 'run' || G.mode === 'boss') && G.ws > 0.5;
-  if (!CH2.P || CH2.P.distanceTo(A) > 0.6) { CH2.P = A.clone(); CH2.P.y -= CH_L; CH2.Pp = CH2.P.clone(); }
-  const steps = 3, h2 = Math.min(dt, 1 / 20) / steps, wind = run ? 3.6 * Math.min(1, G.ws / 14) : 0;
+  if (!g.visible || dt <= 0) return;
+  if (CH2.hero !== h) { CH2.hero = h; const o = n => h.model && h.model.getObjectByName(n); CH2.bones = {hips:o('mixamorigHips'), up:o('mixamorigRightUpLeg'), knee:o('mixamorigRightLeg')}; }
+  const B = CH2.bones; h.g.getWorldQuaternion(_cq2); _cqi.copy(_cq2).invert();
+  if (B.hips) B.hips.getWorldPosition(_cv3); else h.g.localToWorld(_cv3.set(0, 1.0, 0));
+  const L0 = _cv1.set(M.at[0], M.at[1], M.at[2]).applyQuaternion(_cq2).add(_cv3).clone();
+  let A;
+  if (CH2.clip) {
+    const H = CH2.clip, ang = M.ang || 0, heroUp = new T.Vector3(0, 1, 0).applyQuaternion(_cq2), outN = new T.Vector3(Math.cos(ang), 0, Math.sin(ang)).applyQuaternion(_cq2);
+    /* the strap lies flat on the cloth: on the surface point, facing out of the body (bones posed this frame, not last) */
+    h.g.updateMatrixWorld(true);
+    if (!CH2.surf || CH2.surfHero !== h) { CH2.surf = [charmSurfacePick(h, [0, M.at[1] + 0.024, 0], ang), charmSurfacePick(h, [0, M.at[1] - 0.026, 0], ang)]; CH2.surfHero = h; }
+    const sa = CH2.surf[0].length ? charmSurface(CH2.surf[0], new T.Vector3()) : null, sb = CH2.surf[1].length ? charmSurface(CH2.surf[1], new T.Vector3()) : null;
+    let tUp = heroUp, tOut = outN, base = L0.clone().addScaledVector(heroUp, -0.006);
+    if (sa && sb) { tUp = sa.clone().sub(sb).normalize(); if (tUp.dot(heroUp) < 0.6) tUp.lerp(heroUp, 0.6).normalize();
+      base = sa.add(sb).multiplyScalar(0.5);
+      /* out of the body = from the pelvis centre through the strap point, so it follows the hip twist while running */
+      const rad = base.clone().sub(_cv3); rad.addScaledVector(tUp, -rad.dot(tUp)); if (rad.lengthSq() > 1e-6) outN.copy(rad.normalize());
+      tOut = outN.clone().addScaledVector(tUp, -outN.dot(tUp)).normalize(); }
+    H.tab.position.copy(base).addScaledVector(tOut, 0.0065);
+    _cm4.makeBasis(_cv4.crossVectors(tUp, tOut).normalize(), tUp, tOut); H.tab.quaternion.setFromRotationMatrix(_cm4); H.tab.updateMatrixWorld(true);
+    /* the hanging part leans with the swing and turns partly toward the camera so it is readable from behind */
+    const top = H.tab.localToWorld(new T.Vector3(0, -H.tabH, 0.004));
+    const up = heroUp.clone().lerp((CH2.down || new T.Vector3(0, -1, 0)).clone().negate(), 0.55).normalize();
+    H.hang.position.copy(top); placeAlong(H.hang, top.clone().sub(up), top, 0); H.hang.updateMatrixWorld(true);
+    A = H.hang.localToWorld(new T.Vector3(0, -H.drop, 0));
+    CH_CHROME.forEach(m => { m.uniforms.uT.value = t; });
+  } else A = L0.clone().add(_cv2.set(0, -M.drop, 0).applyQuaternion(_cq2));
+  /* how the pivot accelerates, in hero space */
+  if (!CH2.Ap) { CH2.Ap = A.clone(); CH2.Vp = new T.Vector3(); }
+  const V = _cv4.subVectors(A, CH2.Ap).divideScalar(dt).clone(); const acc = V.clone().sub(CH2.Vp).divideScalar(dt); CH2.Ap.copy(A); CH2.Vp.copy(V);
+  if (acc.length() > 80) acc.setLength(80); CH2.acc.lerp(acc.applyQuaternion(_cqi), 0.5);
+  const run = (G.mode === 'run' || G.mode === 'boss') && G.ws > 0.5, wind = run ? 2.2 * Math.min(1, G.ws / 14) : 0;
+  const stiff = M.stiff || 1, L = An.L / stiff, max = An.max / Math.sqrt(stiff), a = CH2.acc;
+  const steps = 3, h3 = Math.min(dt, 1 / 20) / steps;
   for (let i = 0; i < steps; i++) {
-    const P = CH2.P, Pp = CH2.Pp, vx = (P.x - Pp.x) * 0.93, vy = (P.y - Pp.y) * 0.93, vz = (P.z - Pp.z) * 0.93;
-    Pp.copy(P); P.x += vx + (run ? Math.sin(t * 9.5) * 0.5 : 0) * h2 * h2; P.y += vy - 9.8 * h2 * h2; P.z += vz + wind * h2 * h2;
-    _cv2.subVectors(P, A); let d = _cv2.length() || 1; P.copy(A).addScaledVector(_cv2, CH_L / d);
-    /* never swings over the top: at most ~45° from hanging straight down */
-    const lim = A.y - CH_L * 0.7;
-    if (P.y > lim) { P.y = lim; _cv2.subVectors(P, A); d = _cv2.length() || 1; P.copy(A).addScaledVector(_cv2, CH_L / d); }
+    const fx = -(9.8 / L) * Math.sin(CH2.ax) - (a.x / L) * Math.cos(CH2.ax) - An.damp * CH2.vx;
+    const fz = -(9.8 / L) * Math.sin(CH2.az) - ((a.z - wind) / L) * Math.cos(CH2.az) - An.damp * CH2.vz;
+    CH2.vx += fx * h3; CH2.vz += fz * h3; CH2.ax += CH2.vx * h3; CH2.az += CH2.vz * h3;
+    if (Math.abs(CH2.ax) > max) { CH2.ax = Math.sign(CH2.ax) * max; CH2.vx *= -0.3; }
+    if (Math.abs(CH2.az) > max) { CH2.az = Math.sign(CH2.az) * max; CH2.vz *= -0.3; }
+    if (An.bobK) { const fb = -An.bobK * CH2.sb - An.bobC * CH2.vb - a.y * An.bobG * 9; CH2.vb += fb * h3; CH2.sb = clamp(CH2.sb + CH2.vb * h3, -0.06, 0.06); }
   }
-  const P = CH2.P, A0 = L0.clone().add(_cv2.set(0, -0.01, 0.004).applyQuaternion(_cq2));
-  /* clasp hangs from the loop toward the swing, the split ring sits at the figure's head */
-  CH2.clasp.position.copy(A0); placeAlong(CH2.clasp, P, A0);
-  CH2.ring.position.copy(P); placeAlong(CH2.ring, P, A, Math.PI / 2);
-  /* the figure turns to the camera, leans with the swing and wobbles a little so its thickness shows */
-  CH2.fig.position.copy(P); placeAlong(CH2.fig, P, A, Math.sin(t * 1.6) * 0.32 + (run ? Math.sin(t * 9.5 + 1) * 0.12 : 0));
+  /* hanging direction in world space */
+  const down = _cv2.set(Math.sin(CH2.ax), -Math.cos(CH2.ax) * Math.cos(CH2.az), Math.sin(CH2.az)).applyQuaternion(_cq2).normalize().clone();
+  const pivot = A.clone();
+  /* slide off the right thigh instead of going through it (pants are baggy: generous radius) */
+  if (B.up && B.knee) {
+    const hip = B.up.getWorldPosition(new T.Vector3()), knee = B.knee.getWorldPosition(new T.Vector3());
+    const C = pivot.clone().addScaledVector(down, CH_FIG * 0.42), q = new T.Vector3(), d = segDist(C, hip, knee, q), R = M.R || (M.hw ? 0.2 : 0.235);
+    const want = new T.Vector3(); if (d < R) want.subVectors(C, q).setLength(Math.min(R - d, M.pushMax || 1));
+    CH2.push.lerp(want, Math.min(1, dt * 18));
+  }
+  /* the leg pushes the figure aside by turning it on its ring, so it never leaves the clasp */
+  if (CH2.push.lengthSq() > 1e-8) { down.multiplyScalar(M.lever || CH_FIG * 0.42).add(CH2.push).normalize(); }
+  if (CH2.loop) { CH2.loop.position.copy(L0); CH2.loop.quaternion.copy(_cq2); }
+  if (CH2.clasp) { const top = L0.clone().add(_cv3.set(0, M.short ? -0.006 : -0.012, 0).applyQuaternion(_cq2)); CH2.clasp.position.copy(top); placeAlong(CH2.clasp, pivot, top); }
+  if (CH2.ring) { CH2.ring.position.copy(pivot); placeAlong(CH2.ring, pivot, pivot.clone().sub(down), Math.PI / 2); }
+  CH2.down = down;
+  /* the figure: faces the camera, leans with the swing, and per style wobbles, squashes or wiggles */
+  CH2.fig.position.copy(pivot);
+  let spin = Math.sin(t * (An.yawF || 1.3)) * An.yaw;
+  if (An.step && run) spin = Math.sin(t * 9.5) * An.yaw;
+  spin += M.yaw0 || 0;
+  placeAlong(CH2.fig, pivot, pivot.clone().sub(down), spin);
+  const sq = An.bobK ? clamp(CH2.sb * An.squash * 10, -0.22, 0.22) : 0;
+  CH2.figIn.scale.set(1 - sq * 0.5, 1 + sq, 1);
+  CH2.figIn.rotation.z = An.step && run ? Math.sin(t * 19) * 0.08 : 0;
 }
 
 /* ---- on-device stutter diagnostics: every frame longer than 70 ms is logged with what ran around it ---- */
